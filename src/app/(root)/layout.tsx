@@ -1,11 +1,10 @@
 'use client'
 
 import Image from "next/image";
-import laguageArrowDown from '@/public/arrow_drop_down.svg'
-import menu from '@/public/menu.svg'
 import { menuLinks } from "@/constants";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 
 export default function RootLayout({
     children,
@@ -28,15 +27,7 @@ export default function RootLayout({
               </p>
             </div>
 
-            <div className="flex justify-between gap-1 items-center">
-              <h2 className="text-color-30 text-sm">English </h2>
-              <Image 
-                src={laguageArrowDown}
-                alt="language"
-                width={30}
-                height={30}
-              />
-            </div>
+            <LanguageSwitcher />
           </div>
 
           <div className="flex justify-between items-center">
@@ -62,13 +53,7 @@ export default function RootLayout({
             <div className="flex justify-between items-center gap-3">
 
               <div className="md:flex justify-between gap-1 items-center hidden">
-                <h2 className="text-color-30 text-base">English </h2>
-                <Image 
-                  src={laguageArrowDown}
-                  alt="language"
-                  width={30}
-                  height={30}
-                />
+                <LanguageSwitcher />
               </div>
 
               <div className="loginbtn">Login</div>
@@ -77,7 +62,7 @@ export default function RootLayout({
               <div className="md:hidden">
                 <Image
                   className="cursor-pointer"
-                  src={menu}
+                  src='/menu.svg'
                   alt="mobile nav icon"
                   width={40}
                   height={40}

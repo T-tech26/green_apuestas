@@ -7,8 +7,22 @@
   margin: 0%;
   box-sizing: border-box;
 }
+
 body {
   margin: auto;
+  top: 0% !important;
+}
+
+.custom-select {
+  background: url('/arrow_drop_down.svg') no-repeat right center;
+  background-size: 30px;
+  padding-right: 20px;
+  position: relative;
+}
+
+/* hiding the google translate widget */
+.skiptranslate iframe {
+  display: none !important;
 }
 
 @layer utilities {
@@ -30,5 +44,13 @@ body {
 
   .menu {
     @apply text-color-30 text-base px-5 py-2
+  }
+
+  .custom-select {
+    @apply appearance-none w-auto px-2 bg-transparent focus:outline-none focus:border-none cursor-pointer text-color-30 tracking-wide font-medium text-sm;
+  }
+
+  .custom-select option {
+    @apply text-color-60
   }
 }
