@@ -5,12 +5,6 @@ export interface LanguageDescriptor {
   code: string,
 }
 
-// export interface GoogleTranslationConfig {
-//   languages: Array<{ title: string, code: string, src: string }>;
-//   defaultLanguage: string;
-// }
-
-
 export interface GoogleTranslationConfig {
   languages: LanguageDescriptor[];
   defaultLanguage: string;
