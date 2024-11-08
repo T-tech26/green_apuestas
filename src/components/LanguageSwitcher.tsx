@@ -2,7 +2,6 @@
 import { useEffect, useState } from 'react';
 import { parseCookies, setCookie } from 'nookies';
 import { GoogleTranslationConfig } from '@/types/globals';
-import Image from 'next/image';
 
 // The following cookie name is important because it's Google-predefined for the translation engine purpose
 const COOKIE_NAME = 'googtrans';
@@ -11,10 +10,6 @@ const LanguageSwitcher = () => {
 
   const [currentLanguage, setCurrentLanguage] = useState<string>();
   const [languageConfig, setLanguageConfig] = useState<GoogleTranslationConfig | null>(null);
-
-  const languageList = languageConfig?.languages?.filter(
-    (ld) => ld.code !== languageConfig.defaultLanguage
-  ) || [];
 
   // Initialize translation engine
   useEffect(() => {
