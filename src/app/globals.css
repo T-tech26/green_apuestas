@@ -39,11 +39,15 @@ body {
   }
 
   .activeMenu {
-    @apply text-color-30 text-base px-5 py-2 border-b-color-10 border-b-4
+    @apply text-color-30 text-base px-5 py-2 border-b-color-10 border-b-4 rounded-full;
   }
 
   .menu {
-    @apply text-color-30 text-base px-5 py-2
+    @apply text-color-30 text-base px-5 py-2;
+  }
+
+  .mobileNav {
+    @apply text-color-30 text-base py-5 px-28 hover:bg-color-10 rounded-full transition duration-700
   }
 
   .custom-select {
@@ -52,5 +56,11 @@ body {
 
   .custom-select option {
     @apply text-color-60
+  }
+}
+
+@layer base {
+  :root {
+    --radius: 0.5rem;
   }
 }

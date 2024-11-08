@@ -1,10 +1,10 @@
 'use client'
 
-import Image from "next/image";
 import { menuLinks } from "@/constants";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import MobileNav from "@/components/MobileNav";
 
 export default function RootLayout({
     children,
@@ -59,15 +59,7 @@ export default function RootLayout({
               <div className="loginbtn">Login</div>
               <div className="registerbtn">Register</div>
 
-              <div className="md:hidden">
-                <Image
-                  className="cursor-pointer"
-                  src='/menu.svg'
-                  alt="mobile nav icon"
-                  width={40}
-                  height={40}
-                />
-              </div>
+              <MobileNav />
             </div>
           </div>
           
