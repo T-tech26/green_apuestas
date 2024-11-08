@@ -14,7 +14,7 @@ export interface GoogleTranslationConfig {
 declare global {
   interface Window {
     __GOOGLE_TRANSLATION_CONFIG__: GoogleTranslationConfig;
-    google: any;  // You can narrow this type down further if needed
+    google: unknown;  // You can narrow this type down further if needed
   }
 }
 
