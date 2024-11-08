@@ -55,7 +55,12 @@ body {
   }
 
   .custom-select option {
-    @apply text-color-60
+    @apply text-color-60;
+  }
+
+  /* subcription page */
+  .subscription-btn {
+    @apply text-color-60 text-base md:text-lg font-semibold bg-color-30 px-7 py-2 rounded-full text-shadow-text-drop drop-shadow-drop-box flex justify-between gap-3;
   }
 }
 
