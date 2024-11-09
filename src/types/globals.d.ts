@@ -17,5 +17,9 @@ declare global {
   }
 }
 
+export interface FormButtonProps {
+  loading: boolean,
+  text: string
+}
 
 export {};

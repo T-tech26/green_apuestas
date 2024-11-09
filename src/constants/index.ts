@@ -16,3 +16,23 @@ export const menuLinks = [
         label: "Contact"
     }
 ]
+
+
+export const ApiLinks = [
+    {
+        route: "/football",
+        label: "Football"
+    },
+    {
+        route: "/live-matches",
+        label: "Live matches"
+    },
+    {
+        route: "/today-matches",
+        label: "Today matches"
+    },
+    {
+        route: "/tomorrow-matches",
+        label: "Tomorrow matches"
+    }
+]

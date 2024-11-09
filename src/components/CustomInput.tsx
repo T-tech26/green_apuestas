@@ -21,7 +21,7 @@ const CustomInput = ({ control, name, label, placeholder }: CustomInput) => {
         render={({ field }) => (
             <>
             <FormLabel
-                className='text-color-30 text-xl font-normal mb-2'
+                className='text-color-30 text-xl font-normal'
             >
                 {label}
             </FormLabel>

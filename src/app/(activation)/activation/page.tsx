@@ -5,12 +5,11 @@ import { LanguageSwitcher } from '@/components/LanguageSwitcher'
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import { Button } from "@/components/ui/button"
 import { Form } from "@/components/ui/form"
 import CustomInput from '@/components/CustomInput'
-import { Loader2 } from 'lucide-react'
 import LiveChat from '@/components/LiveChat'
 import { authFormSchema } from '@/lib/utils'
+import FormButton from '@/components/FormButton'
 
 
 const Activation = () => {
@@ -49,11 +48,11 @@ const Activation = () => {
           Green Apuestas activation pin
         </h1>
 
-        <div className="flex flex-col justify-between item-center p-5 gap-10">
+        <div className="flex flex-col justify-between item-center gap-10 w-4/5 md:w-[500px]">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
               
-              <div className=" w-72 md:w-96 h-auto flex flex-col justify-center item-center gap-3">
+              <div className="h-auto flex flex-col justify-center item-center gap-3">
 
                 <CustomInput 
                   control={form.control}
@@ -62,17 +61,7 @@ const Activation = () => {
                   placeholder='Enter your pin'
                 />
 
-                <Button type='submit' 
-                  disabled={isLoading}
-                  className='bg-light-gradient-135deg text-lg text-color-30 rounded-full'
-                >
-                  {isLoading ? (
-                    <>
-                      <Loader2 size={20} className='animate-spin'/> &nbsp; 
-                      Loading...
-                    </>
-                  ): 'Submit'}
-                </Button>
+                <FormButton loading={isLoading} text='Submit' />
 
               </div>
             </form>
@@ -87,7 +76,7 @@ const Activation = () => {
               >here</span>
             </p>
 
-            <p className='text-color-30 w-72 md:w-96'>
+            <p className='text-color-30'>
                 {showHelpMessage &&
                   'Contact our live chat to get instructions on how to get your Subscription pin.'
                 }
