@@ -68,8 +68,7 @@ const Activation = () => {
                 >
                   {isLoading ? (
                     <>
-                      <Loader2 size={20} className='animate-spin'/> &nbsp;
-                      Loading...
+                      <Loader2 size={20} className='animate-spin'/> Loading...
                     </>
                   ): 'Submit'}
                 </Button>
