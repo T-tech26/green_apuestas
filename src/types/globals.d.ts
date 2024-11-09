@@ -1,5 +1,4 @@
-// globals.d.ts or src/types/globals.d.ts
-
+// Google language configuration
 export interface LanguageDescriptor {
   title: string,
   code: string,
@@ -18,5 +17,5 @@ declare global {
   }
 }
 
-// Ensure the file is treated as a module
+
 export {};

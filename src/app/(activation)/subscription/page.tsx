@@ -9,13 +9,13 @@ const Subscritpion = () => {
       <div
         className='bg-color-60 bg-opacity-30 w-full h-full flex flex-col'
       >
-        <div className="w-full h-auto px-[15px] md:px-20 pt-7 flex justify-between item-center">
+        <header className="w-full h-auto px-[15px] md:px-20 pt-7 flex justify-between item-center">
           <h1 className='text-color-30 text-xl'>LOGO</h1>
 
           <LanguageSwitcher />
-        </div>
+        </header>
 
-        <div className="flex-1 flex flex-col items-center justify-center gap-5">
+        <main className="flex-1 flex flex-col items-center justify-center gap-5">
           <Link
             href='/activation'
             className='subscription-btn'
@@ -43,7 +43,7 @@ const Subscritpion = () => {
               height={24}
             />
           </Link>
-        </div>
+        </main>
       </div>
     </section>
   )
