@@ -26,7 +26,7 @@ const Footer = () => {
                     // href='https://mail.google.com/mail/?view=cm&fs=1&to=me@gmail.com' 
                     href='/' 
                     // target='_blank'
-                    className='text-color-30 text-nowrap text-sm flex gap-1 items-center mb-3'
+                    className='text-color-30 text-nowrap text-sm flex gap-1 items-center mb-3 hover:text-color-10'
                 >
                     <Image 
                         src='/mail-icon.svg' 
@@ -39,7 +39,8 @@ const Footer = () => {
                 <h3 className='text-color-30 text-nowrap text-base font-medium'>Chat us</h3>
                 <Link 
                     href='https://wa.me/34651024934' 
-                    className='text-color-30 text-nowrap text-sm flex gap-1 items-center'
+                    className='text-color-30 text-nowrap text-sm flex gap-1 items-center hover:text-color-10'
+                    target='_blank'
                 >
                     <Image 
                         src='/whatsapp-icon-nofill.svg' 
@@ -57,7 +58,7 @@ const Footer = () => {
 
                 {ApiLinks.map((link) => {
                     return (
-                        <Link href={link.route} key={link.label} className='text-color-30 text-nowrap text-sm'>
+                        <Link href={link.route} key={link.label} className='text-color-30 text-nowrap text-sm hover:text-color-10'>
                             {link.label}
                         </Link>
                     )
@@ -71,7 +72,7 @@ const Footer = () => {
 
                 {menuLinks.map((link) => {
                     return (
-                        <Link href={link.route} key={link.label} className='text-color-30 text-nowrap text-sm'>
+                        <Link href={link.route} key={link.label} className='text-color-30 text-nowrap text-sm hover:text-color-10'>
                             {link.label}
                         </Link>
                     )
