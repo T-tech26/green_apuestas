@@ -68,7 +68,8 @@ const Activation = () => {
                 >
                   {isLoading ? (
                     <>
-                      <Loader2 size={20} className='animate-spin'/> Loading...
+                      <Loader2 size={20} className='animate-spin'/> &nbsp; 
+                      Loading...
                     </>
                   ): 'Submit'}
                 </Button>
@@ -79,7 +80,7 @@ const Activation = () => {
 
           <div className='flex flex-col gap-4'>
             <p className='text-color-30'>
-              Don't know what to do click &nbsp; 
+              Don&apos;t know what to do click &nbsp; 
               <span 
                 className='text-color-10 underline cursor-pointer'
                 onClick={() => showHelpMessage ? setShowHelpMessage(false) : setShowHelpMessage(true)} 
