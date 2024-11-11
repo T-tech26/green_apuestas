@@ -14,11 +14,14 @@ import { z } from 'zod'
 
 const Signin = () => {
 
+  const type = 'signin';
+  const formSchema = authFormSchema(type);
+
   const [isLoading, setIsLoading] = useState(false);
 
   // 1. Define your form.
-  const form = useForm<z.infer<typeof authFormSchema>>({
-    resolver: zodResolver(authFormSchema),
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
     defaultValues: {
       username: '',
       password: ''
@@ -26,7 +29,7 @@ const Signin = () => {
   })
  
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof authFormSchema>) {
+  function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     setIsLoading(true)
@@ -68,17 +71,15 @@ const Signin = () => {
             </form>
           </Form>
 
-          <div className='flex flex-col gap-4'>
-            <p className='text-color-30 text-center'>
-              Don&apos;t have an account? &nbsp; 
-              <Link 
-                href='/register'
-                className='text-color-10 underline'
-              >
-                Register Now
-              </Link>
-            </p>
-          </div>
+          <p className='text-color-30 text-center text-sm'>
+            Don&apos;t have an account? &nbsp; 
+            <Link 
+              href='/register'
+              className='text-color-10 underline'
+            >
+              Register Now
+            </Link>
+          </p>
         </div>
       </main>
 

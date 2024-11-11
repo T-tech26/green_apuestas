@@ -5,37 +5,39 @@ import { FormControl, FormField, FormLabel, FormMessage } from './ui/form'
 import { Input } from './ui/input'
 import { authFormSchema } from '@/lib/utils'
 
+const formSchema = authFormSchema('register');
 
 interface CustomInput {
-    control: Control<z.infer<typeof authFormSchema>>,
-    name: FieldPath<z.infer<typeof authFormSchema>>,
+    control: Control<z.infer<typeof formSchema>>,
+    name: FieldPath<z.infer<typeof formSchema>>,
     label: string,
     placeholder: string
 }
 
 const CustomInput = ({ control, name, label, placeholder }: CustomInput) => {
+
   return (
     <FormField
         control={control}
         name={name}
         render={({ field }) => (
-            <>
-            <FormLabel
-                className='text-color-30 text-xl font-normal'
-            >
-                {label}
-            </FormLabel>
+            <div className='flex flex-col gap-2 w-full'>
+                <FormLabel
+                    className='text-color-30 text-base lg:text-base font-normal'
+                >
+                    {label}
+                </FormLabel>
 
-            <FormControl>
-                <Input
-                placeholder={placeholder}
-                type={name === 'password' ? 'password' : 'text'}
-                {...field}
-                className='input'
-                />
-            </FormControl>
-            <FormMessage />
-            </>
+                <FormControl>
+                    <Input
+                    placeholder={placeholder}
+                    type={name === 'password' ? 'password' : 'text'}
+                    {...field}
+                    className='input'
+                    />
+                </FormControl>
+                <FormMessage />
+            </div>
         )}
     />
   )

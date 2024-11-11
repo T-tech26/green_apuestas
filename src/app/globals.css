@@ -60,11 +60,11 @@ body {
 
   /* subcription page */
   .subscription-btn {
-    @apply text-color-60 text-base md:text-lg font-semibold bg-color-30 px-7 py-2 rounded-full text-shadow-text-drop drop-shadow-drop-box flex justify-between gap-3;
+    @apply text-color-60 text-base md:text-lg font-semibold bg-color-30 px-7 py-1 rounded-full text-shadow-text-drop drop-shadow-drop-box flex justify-between gap-3;
   }
 
   .input {
-    @apply bg-color-30 border-b-4 border-b-color-10 focus:outline-none px-4 py-[10px] rounded-tr-2xl rounded-bl-2xl placeholder:text-color-60 text-color-60 mb-2
+    @apply bg-color-30 border-b-4 border-b-color-10 focus:outline-none px-4 py-2 lg:py-[10px] rounded-tr-2xl rounded-bl-2xl placeholder:text-color-60 placeholder:text-sm lg:placeholder:text-base text-color-60 mb-2
   }
 }
 

@@ -7,10 +7,21 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 
-export const authFormSchema = z.object({
-  activation_pin: z.string().min(6).max(6, {
-    message: 'Pin must be 6 digits'
-  }),
-  username: z.string().min(4).max(6),
-  password: z.string().min(8),
+export const authFormSchema = (type: string) => z.object({
+  // activation
+  activation_pin: type === 'signin' ? z.string().optional() : type === 'register' ? z.string().optional() : z.string().min(6).max(6),
+
+  // for both sigin and register
+  username: type === 'activation' ? z.string().optional() : z.string().min(4).max(6),
+  password: type === 'activation' ? z.string().optional() : z.string().min(8),
+
+  // for register only
+  firstname: type === 'activation' ? z.string().optional() : type === 'signin' ? z.string().optional() : z.string().min(3).max(18),
+  lastname: type === 'activation' ? z.string().optional() : type === 'signin' ? z.string().optional() : z.string().min(3).max(18),
+  email: type === 'activation' ? z.string().optional() : type === 'signin' ? z.string().optional() : z.string().email(),
+  dateOfBirth: type === 'activation' ? z.string().optional() : type === 'signin' ? z.string().optional() : z.string().min(8).max(8),
+  country: type === 'activation' ? z.string().optional() : type === 'signin' ? z.string().optional() : z.string().max(12),
+  phone: type === 'activation' ? z.string().optional() : type === 'signin' ? z.string().optional() : z.string().min(10).max(13),
+  state: type === 'activation' ? z.string().optional() : type === 'signin' ? z.string().optional() : z.string().max(10),
+  city: type === 'activation' ? z.string().optional() : type === 'signin' ? z.string().optional() : z.string().max(15),
 })
