@@ -5,16 +5,17 @@ import { FormControl, FormField, FormLabel, FormMessage } from './ui/form'
 import { Input } from './ui/input'
 import { authFormSchema } from '@/lib/utils'
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const formSchema = authFormSchema('register');
-type schema = z.infer<typeof formSchema>;
 
 interface CustomInput {
-    control: Control<schema>,
-    name: FieldPath<schema>,
+    control: Control<z.infer<typeof formSchema>>,
+    name: FieldPath<z.infer<typeof formSchema>>,
     label: string,
     placeholder: string
 }
 
+/* eslint-enable @typescript-eslint/no-unused-vars */
 const CustomInput = ({ control, name, label, placeholder }: CustomInput) => {
 
   return (
