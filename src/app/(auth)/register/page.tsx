@@ -64,8 +64,10 @@ const Register = () => {
  
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     if(step === 3) {
+      setIsLoading(true);
       console.log('Form Submitted:', values);
       form.reset()
+      setIsLoading(false);
     }
   };
 

@@ -6,10 +6,11 @@ import { Input } from './ui/input'
 import { authFormSchema } from '@/lib/utils'
 
 const formSchema = authFormSchema('register');
+type schema = z.infer<typeof formSchema>;
 
 interface CustomInput {
-    control: Control<z.infer<typeof formSchema>>,
-    name: FieldPath<z.infer<typeof formSchema>>,
+    control: Control<schema>,
+    name: FieldPath<schema>,
     label: string,
     placeholder: string
 }
