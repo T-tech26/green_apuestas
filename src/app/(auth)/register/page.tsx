@@ -84,7 +84,7 @@ const Register = () => {
             <form onSubmit={form.handleSubmit(onSubmit)}>
               
               <div 
-                className="h-auto flex flex-col justify-center item-center gap-2"
+                className="flex flex-col justify-center item-center gap-2"
               >
 
               {step === 1 && (
@@ -130,12 +130,12 @@ const Register = () => {
                     </Button>
 
                     <p className='text-color-30 text-sm text-center lg:w-1/2'>
-                      Don&apos;t have an account? &nbsp; 
+                      Already have an account? &nbsp; 
                       <Link 
-                        href='/register'
+                        href='/signin'
                         className='text-color-10 underline'
                       >
-                        Register Now
+                        Log in
                       </Link>
                     </p>
                   </div>
