@@ -18,7 +18,9 @@ const MobileLeagues = ({ selectedLink, setSelectedLink }: MobileLeaguesProps) =>
     >
         {Leagues.map((item) => {
             return (
-                <div>
+                <div
+                    key={item.league}
+                >
                     <Image
                         src='/close.svg'
                         width={25}
@@ -28,7 +30,6 @@ const MobileLeagues = ({ selectedLink, setSelectedLink }: MobileLeaguesProps) =>
                         onClick={() => setSelectedLink('Home')}
                     />
                     <p
-                        key={item.league}
                         className='flex gap-2 items-center py-2 px-3 text-color-30 hover:border-color-60 hover:border-b-2 cursor-pointer'
                         onClick={() => setSelectedLink('Home')}
                     >

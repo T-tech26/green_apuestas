@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Form, FormControl, FormField, FormLabel, FormMessage } from './ui/form';
+import { Form, FormControl, FormField, FormMessage } from './ui/form';
 import FormButton from './FormButton';
 import { Input } from './ui/input';
 
@@ -74,12 +74,6 @@ const MobileBets = ({ selectedLink, setSelectedLink, type }: BetsProps) => {
                                 name='betId'
                                 render={({ field }) => (
                                     <div className='flex flex-col gap-2 w-full'>
-                                        <FormLabel
-                                            className='text-color-30 text-base lg:text-base font-normal'
-                                        >
-                                            ''
-                                        </FormLabel>
-        
                                         <FormControl>
                                             <Input
                                             placeholder='234187'
