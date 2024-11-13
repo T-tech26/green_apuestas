@@ -57,3 +57,93 @@ export const RateDetails = [
         rates: 4
     },
 ]
+
+export const MobileHomeMenuLinks = [
+    {
+        route: '/',
+        name: 'Home',
+        icon: '/home-icon.svg'
+    },
+    {
+        route: '/',
+        name: 'Leagues',
+        icon: '/trophy-icon.svg'
+    },
+    {
+        route: '/',
+        name: 'Bets',
+        icon: '0'
+    },
+    {
+        route: '/',
+        name: 'Betslips',
+        icon: '/betslip-icon.svg'
+    },
+]
+
+export const Leagues = [
+    {
+        icon: '/football.svg',
+        league: 'UEFA Champions League'
+    },
+    {
+        icon: '/football.svg',
+        league: 'UEFA Champions League'
+    },
+    {
+        icon: '/football.svg',
+        league: 'UEFA Champions League'
+    },
+    {
+        icon: '/football.svg',
+        league: 'UEFA Champions League'
+    },
+    {
+        icon: '/football.svg',
+        league: 'UEFA Champions League'
+    },
+    {
+        icon: '/football.svg',
+        league: 'UEFA Champions League'
+    },
+    {
+        icon: '/football.svg',
+        league: 'UEFA Champions League'
+    },
+    {
+        icon: '/football.svg',
+        league: 'UEFA Champions League'
+    },
+    {
+        icon: '/football.svg',
+        league: 'UEFA Champions League'
+    },
+    {
+        icon: '/football.svg',
+        league: 'UEFA Champions League'
+    },
+    {
+        icon: '/football.svg',
+        league: 'UEFA Champions League'
+    },
+    {
+        icon: '/football.svg',
+        league: 'UEFA Champions League'
+    },
+    {
+        icon: '/football.svg',
+        league: 'UEFA Champions League'
+    },
+    {
+        icon: '/football.svg',
+        league: 'UEFA Champions League'
+    },
+    {
+        icon: '/football.svg',
+        league: 'UEFA Champions League'
+    },
+    {
+        icon: '/football.svg',
+        league: 'UEFA Champions League'
+    },
+]
