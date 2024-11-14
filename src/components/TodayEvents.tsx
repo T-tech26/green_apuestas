@@ -18,6 +18,7 @@ const TodayEvents = () => {
             {TodayMatches.map((data) => {
                 return (
                     <div
+                        key={data.time}
                         className='px-3 py-1 bg-color-30 border-b-2 border-color-60 flex justify-evenly items-center gap-3'
                     >
                         <span className='score'>{data.time}</span>
