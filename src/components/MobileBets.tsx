@@ -17,7 +17,7 @@ interface BetsProps {
 
 const MobileBets = ({ selectedLink, setSelectedLink, type }: BetsProps) => {
 
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const formSchema = z.object({
         betId: z.string().min(6, {
@@ -48,7 +48,7 @@ const MobileBets = ({ selectedLink, setSelectedLink, type }: BetsProps) => {
         <>
             {type === 'Betslip' && (
                 <div
-                    className={`absolute top-0 bottom-0 w-full h-auto flex-col justify-center items-center bg-light-gradient-135deg pt-5 cursor-pointer md:hidden ${
+                    className={`bets ${
                         selectedLink === 'Betslips' ? 'flex' : 'hidden'
                     }`}
                 >
@@ -97,7 +97,7 @@ const MobileBets = ({ selectedLink, setSelectedLink, type }: BetsProps) => {
 
             {type === 'Bets' && (
                 <div
-                    className={`absolute top-0 bottom-0 w-full h-auto flex-col justify-center items-center bg-light-gradient-135deg pt-5 cursor-pointer md:hidden ${
+                    className={`bets ${
                         selectedLink === 'Bets' ? 'flex' : 'hidden'
                     }`}
                     onClick={() => setSelectedLink('Home')}

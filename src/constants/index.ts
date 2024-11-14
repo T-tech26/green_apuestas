@@ -81,7 +81,7 @@ export const MobileHomeMenuLinks = [
     },
 ]
 
-export const Leagues = [
+export const LeaguesDetails = [
     {
         icon: '/football.svg',
         league: 'UEFA Champions League'

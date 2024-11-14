@@ -66,6 +66,14 @@ body {
   .input {
     @apply bg-color-30 border-b-4 border-b-color-10 focus:outline-none px-4 py-2 lg:py-[10px] rounded-tr-2xl rounded-bl-2xl placeholder:text-color-60 placeholder:text-sm lg:placeholder:text-base text-color-60 mb-2
   }
+
+  .mobile-league {
+    @apply absolute top-0 bottom-0 w-full h-auto flex-wrap justify-center items-center bg-light-gradient-135deg pt-5 cursor-pointer lg:hidden overflow-y-scroll pb-5 pl-5
+  }
+
+  .bets {
+    @apply absolute top-0 bottom-0 w-full h-auto flex-col justify-center items-center bg-light-gradient-135deg pt-5 cursor-pointer lg:hidden
+  }
 }
 
 @layer base {

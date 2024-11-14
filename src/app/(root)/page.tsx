@@ -1,5 +1,7 @@
 'use client'
 
+import Bets from '@/components/Bets';
+import Leagues from '@/components/Leagues';
 import MobileBets from '@/components/MobileBets';
 import MobileHomeMenu from '@/components/MobileHomeMenu'
 import MobileLeagues from '@/components/MobileLeagues';
@@ -12,13 +14,11 @@ const Home = () => {
 
   return (
     <main
-      className='flex-1 flex gap-5 bg-dark-gradient-180deg-reverse'
+      className='flex-1 flex justify-between gap-5 bg-dark-gradient-180deg-reverse'
     >
-        <aside
-          className='bg-light-gradient-180deg-reverse px-[29px] py-10 hidden md:block'
-        >
+        <Leagues />
 
-        </aside>
+        <Bets />
 
         <MobileHomeMenu 
           selectedLink={selectedLink}

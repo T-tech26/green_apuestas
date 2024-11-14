@@ -12,7 +12,7 @@ const MobileHomeMenu = ({selectedLink, setSelectedLink}: MobileMenuProps) => {
 
   return (
     <nav
-        className='w-full flex justify-evenly fixed bottom-0 left-0 bg-dark-gradient-180deg md:hidden'        
+        className='w-full flex justify-evenly fixed bottom-0 left-0 bg-dark-gradient-180deg lg:hidden'        
     >
         {MobileHomeMenuLinks.map((link) => {
             return (
