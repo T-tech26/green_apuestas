@@ -74,6 +74,26 @@ body {
   .bets {
     @apply absolute top-0 bottom-0 w-full h-auto flex-col justify-center items-center bg-light-gradient-135deg pt-5 cursor-pointer lg:hidden
   }
+
+  .score {
+    @apply text-xs md:text-sm text-color-score font-semibold
+  }
+
+  .scores-container {
+    @apply flex flex-col md:flex-row md:gap-3 lg:flex-col lg:gap-0 xl:flex-row xl:gap-3
+  }
+
+  .team {
+    @apply text-sm text-color-60 font-medium   
+  }
+
+  .team-container {
+    @apply flex flex-col md:flex-row lg:flex-col md:gap-4 lg:gap-0 xl:gap-4 xl:flex-row flex-1
+  }
+
+  .odds-btn {
+    @apply w-14 md:w-16 text-sm text-color-30 rounded-none bg-dark-gradient-135deg hover:bg-light-gradient-135deg
+  }
 }
 
 @layer base {

@@ -26,7 +26,8 @@ const config: Config = {
   			foreground: 'var(--foreground)',
   			'color-60': '#281A3A',
   			'color-30': '#F6F4F1',
-  			'color-10': '#1089FF'
+  			'color-10': '#1089FF',
+			'color-score': '#FFCD03'
   		},
   		borderRadius: {
   			lg: 'var(--radius)',
