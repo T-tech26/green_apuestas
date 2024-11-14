@@ -14,7 +14,7 @@ const EventMenu = () => {
             return (
                 <Button
                     key={link.name}
-                    className={`text-color-30 w-1/5 md:w-28 bg-dark-gradient-135deg rounded-none border-r-2 border-color-10 ${
+                    className={`text-color-30 w-1/5 md:w-28 bg-dark-gradient-135deg rounded-none border-r-2 border-color-10 hover:bg-light-gradient-135deg ${
                         selectedEvent === link.name ? 'bg-light-gradient-135deg' : ''
                     } ${
                         link.name === 'Tomorrow' && 'border-none'
