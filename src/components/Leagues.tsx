@@ -61,6 +61,7 @@ const Leagues = () => {
       {LeaguesDetails.map((item) => {
         return (
           <p
+            key={item.league}
             className='flex gap-2 items-center py-2 text-color-30 text-sm hover:border-color-60 hover:border-b-2 cursor-pointer'
           >
             <Image 
