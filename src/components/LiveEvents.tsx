@@ -28,7 +28,7 @@ const LiveEvents = ({ selectedEvent }: LiveEventProps) => {
                     {lives.length ? (
                         <div>
                             {selectedEvent === 'Live' ? 
-                                (lives.map((data) => {
+                                lives.map((data) => {
                                 return (
                                     <div
                                         key={data.id}
@@ -51,7 +51,7 @@ const LiveEvents = ({ selectedEvent }: LiveEventProps) => {
                                         </div>
                                     </div>
                                 )
-                            })) : (
+                            }) : (
                                 lives.slice(0,10).map(data => {
                                     return (
                                         <div

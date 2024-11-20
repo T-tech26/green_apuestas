@@ -133,8 +133,8 @@ export interface LiveMatch {
   statusId: number;
   tournamentStage: string;
   status: Status;
-  timeTS: number; // Timestamp for the match
-}[]
+  timeTS?: number; // Timestamp for the match
+}
 
 
 
