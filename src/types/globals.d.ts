@@ -59,7 +59,7 @@ export interface Match {
   away?: Team;
   displayTournament?: boolean;
   notStarted?: boolean;
-  tournament?: {};
+  tournament?: object;
   status?: Status;
 }
 

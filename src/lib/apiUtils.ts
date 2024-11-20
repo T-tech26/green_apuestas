@@ -121,7 +121,7 @@ export const filterDatesInCurrentMonth = (
     endDate.setDate(currentDate.getDate() + 30); // 30 days from now
 
     // This will hold the filtered leagues with the relevant matches
-    let filteredLeagues: { matches: Match[] } = { matches: [] };
+    const filteredLeagues: { matches: Match[] } = { matches: [] };
 
     
     // Filter the matches for the current league
