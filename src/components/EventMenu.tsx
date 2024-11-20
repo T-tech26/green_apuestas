@@ -1,10 +1,13 @@
 import { EventMenuLinks } from '@/constants'
-import React, { useState } from 'react'
+import React from 'react'
 import { Button } from './ui/button'
 
-const EventMenu = () => {
+interface EventMenuProps {
+    selectedEvent: string;
+    setSelectedEvent: (link: string) => void;
+}
 
-    const [selectedEvent, setSelectedEvent] = useState<string | null>('All');
+const EventMenu = ({ selectedEvent, setSelectedEvent }: EventMenuProps) => {
 
   return (
     <nav

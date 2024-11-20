@@ -68,7 +68,7 @@ body {
   }
 
   .mobile-league {
-    @apply absolute top-0 bottom-0 w-full h-auto flex-wrap justify-center items-center bg-light-gradient-135deg pt-5 cursor-pointer lg:hidden overflow-y-scroll pb-5 pl-5
+    @apply fixed top-0 bottom-0 left-0 right-0 w-full h-auto flex-col items-center bg-light-gradient-135deg cursor-pointer lg:hidden overflow-y-scroll py-8
   }
 
   .bets {
@@ -76,19 +76,19 @@ body {
   }
 
   .score {
-    @apply text-xs md:text-sm text-color-score font-semibold
+    @apply text-xs md:text-sm text-color-score font-semibold text-center
   }
 
   .scores-container {
-    @apply flex flex-col md:flex-row md:gap-3 lg:flex-col lg:gap-0 xl:flex-row xl:gap-3
+    @apply flex justify-between
   }
 
   .team {
-    @apply text-sm text-color-60 font-medium   
+    @apply text-sm text-color-60 font-medium w-2/5 text-center 
   }
 
   .team-container {
-    @apply flex flex-col md:flex-row lg:flex-col md:gap-4 lg:gap-0 xl:gap-4 xl:flex-row flex-1
+    @apply flex w-4/5 flex-col
   }
 
   .odds-btn {

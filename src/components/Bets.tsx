@@ -41,7 +41,7 @@ const Bets = () => {
 
   return (
     <aside
-      className='lg:flex justify-center items-center bg-light-gradient-180deg-reverse px-[29px] py-8 hidden h-[550px]'
+      className='w-[281px] lg:flex justify-center items-center bg-light-gradient-180deg-reverse px-[29px] py-8 hidden h-[550px]'
     >
       <div
         className='bg-color-30 rounded-t-lg h-full'

@@ -22,4 +22,120 @@ export interface FormButtonProps {
   text: string
 }
 
+interface Opponent {
+  id?: string;
+  name?: string;
+  score?: number;
+}
+
+interface Team {
+  id?: string;
+  name?: string;
+  score?: number;
+}
+
+interface StatusReason {
+  short?: string;
+  shortKey?: string;
+  long?: string;
+  longKey?: string;
+}
+
+interface Status {
+  utcTime: string | number | Date;
+  finished?: boolean;
+  started?: boolean;
+  cancelled?: boolean;
+  awarded?: boolean;
+  scoreStr?: string;
+  reason?: StatusReason;
+}
+
+export interface Match {
+  id?: string;
+  pageUrl?: string;
+  opponent?: Opponent;
+  home?: Team;
+  away?: Team;
+  displayTournament?: boolean;
+  notStarted?: boolean;
+  tournament?: {};
+  status?: Status;
+}
+
+export type Popular = {
+  id: number;
+  name: string;
+  localizedName: string;
+  logo: string;
+};
+
+
+export interface LeagueType {
+  leagueID: number | undefined;
+  setLeagueID: (leagueID: number | undefined) => void;
+
+  leagues: Popular[];
+  setLeagues: React.Dispatch<React.SetStateAction<Popular[]>>;
+
+  todayMatches: { matches: Match[] };
+  setTodayMatches: React.Dispatch<React.SetStateAction<{ matches: Match[] }>>;
+
+  tomorrowMatches: { matches: Match[] };
+  setTomorrowMatches: React.Dispatch<React.SetStateAction<{ matches: Match[] }>>;
+  
+  otherDayMatches: { matches: Match[] };
+  setOtherDayMatches: React.Dispatch<React.SetStateAction<{ matches: Match[] }>>;
+}
+
+
+// Type for the home and away teams
+interface Team {
+  id: number;
+  score: number;
+  name: string;
+  longName: string;
+}
+
+// Type for the live match status
+interface LiveTime {
+  short: string;
+  shortKey: string;
+  long: string;
+  longKey: string;
+  maxTime: number;
+  addedTime: number;
+}
+
+interface HalfStatus {
+  firstHalfStarted: string;
+}
+
+interface Status {
+  utcTime: string;
+  halfs: HalfStatus;
+  finished: boolean;
+  started: boolean;
+  cancelled: boolean;
+  ongoing: boolean;
+  scoreStr: string;
+  liveTime: LiveTime;
+}
+
+// Main interface for each live match
+export interface LiveMatch {
+  id: number;
+  leagueId: number;
+  time: string; // Match time as a string
+  home: Team;
+  away: Team;
+  eliminatedTeamId: number | null;
+  statusId: number;
+  tournamentStage: string;
+  status: Status;
+  timeTS: number; // Timestamp for the match
+}[]
+
+
+
 export {};
