@@ -5,20 +5,68 @@ import Footer from '@/components/Footer';
 import FormButton from '@/components/FormButton';
 import LiveChat from '@/components/LiveChat';
 import { Button } from '@/components/ui/button';
+import { getLoggedInUser, register } from '@/lib/actions/userActions';
 import { authFormSchema } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form';
 import { z } from 'zod';
+import { redirect } from 'next/navigation';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import { FormControl, FormField, FormLabel, FormMessage } from '@/components/ui/form';
+import { countries } from '@/lib/countries';
+import { useUser } from '@/contexts/child_context/userContext';
+import { useToast } from '@/hooks/use-toast';
+
 
 const Register = () => {
 
-  const type = 'register';
-  const formSchema = authFormSchema(type);
+  const formSchema = authFormSchema;
 
   const [isLoading, setIsLoading] = useState(false);
   const [step, setStep] = useState<number>(1);
+
+  const { user, setUser } = useUser();
+  const { toast } = useToast();
+
+
+  
+  useEffect(() => {
+    const loggIn = async () => {
+        const response = await getLoggedInUser();
+
+        if(typeof response === 'string') {
+          toast({
+            description: response
+          })
+        }
+
+        if(typeof response === 'object') setUser((response as any));
+    }
+
+    loggIn()
+  }, [])
+
+
+
+  if(user) {
+    if((user as any)?.doucuments[0].subscription === false) {
+      redirect('/subscription');
+    } 
+
+    if((user as any)?.doucuments[0].subscription === true) {
+      redirect('/');
+    } 
+  }
+  
+
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
@@ -38,10 +86,11 @@ const Register = () => {
   })
 
 
+
   const handleNextStep = () => {
 
     const firstForm: ("username" | "password" | "firstname" | "lastname")[] = ['username', 'password', 'firstname', 'lastname'];
-  const secondForm: ("phone" | "email" | "dateOfBirth")[] = ['phone', 'email', 'dateOfBirth'];
+    const secondForm: ("phone" | "email" | "dateOfBirth")[] = ['phone', 'email', 'dateOfBirth'];
 
     if (step === 1) {
       form.trigger(firstForm).then((isValid) => {
@@ -60,16 +109,45 @@ const Register = () => {
     }
   };
 
+
+
   const handlePrevStep = () => setStep(step - 1);
  
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
+
+
+  const onSubmit = async (data: z.infer<typeof formSchema>) => {
+
+    const { username, password, firstname, lastname, phone, email, dateOfBirth, country, state, city } = data;
+
     if(step === 3) {
       setIsLoading(true);
-      console.log('Form Submitted:', values);
-      form.reset()
-      setIsLoading(false);
+      try {
+        const response = await register({
+          username, password, firstname, lastname, phone, email, dateOfBirth, country, state, city
+        });
+
+        if(typeof response === 'string') {
+          toast({
+            description: response
+          })
+        }
+
+        if(typeof response === 'object') {
+          toast({
+            description: 'Account created successfully'
+          });
+          setUser(response);
+        }
+
+      } catch (error: any) {
+        console.error("Registration error", error);
+      } finally {
+        form.reset()
+        setIsLoading(false);
+      }
     }
   };
+
 
 
   return (
@@ -91,6 +169,7 @@ const Register = () => {
                 <>
                   <CustomInput 
                     control={form.control}
+                    trigger={form.trigger}
                     name='username'
                     label='Username'
                     placeholder='username'
@@ -98,6 +177,7 @@ const Register = () => {
 
                   <CustomInput 
                     control={form.control}
+                    trigger={form.trigger}
                     name='password'
                     label='Password'
                     placeholder='password'
@@ -105,6 +185,7 @@ const Register = () => {
 
                   <CustomInput 
                     control={form.control}
+                    trigger={form.trigger}
                     name='firstname'
                     label='First name'
                     placeholder='firstname'
@@ -112,6 +193,7 @@ const Register = () => {
 
                   <CustomInput 
                     control={form.control}
+                    trigger={form.trigger}
                     name='lastname'
                     label='Last name'
                     placeholder='lastname'
@@ -146,6 +228,7 @@ const Register = () => {
                 <>
                   <CustomInput 
                     control={form.control}
+                    trigger={form.trigger}
                     name='phone'
                     label='Phone number'
                     placeholder='+1 763 872 987'
@@ -153,6 +236,7 @@ const Register = () => {
 
                   <CustomInput 
                     control={form.control}
+                    trigger={form.trigger}
                     name='email'
                     label='Email'
                     placeholder='email'
@@ -160,6 +244,7 @@ const Register = () => {
 
                   <CustomInput 
                     control={form.control}
+                    trigger={form.trigger}
                     name='dateOfBirth'
                     label='Date of birth'
                     placeholder='DD/MM/YY'
@@ -187,15 +272,36 @@ const Register = () => {
                   
               {step === 3 && (
                 <>
-                  <CustomInput 
+                  <FormField
                     control={form.control}
-                    name='country'
-                    label='Country'
-                    placeholder='country'
+                    name="country"
+                    render={({ field }) => (
+                      <div className='flex flex-col gap-2 w-full'>
+                        <FormLabel className='text-color-30 text-base lg:text-base font-normal'>
+                          Country
+                        </FormLabel>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <FormControl>
+                            <SelectTrigger className='bg-color-30 border-b-4 border-b-color-10 focus:outline-none px-4 py-2 lg:py-[10px] rounded-tr-2xl rounded-bl-2xl placeholder:text-color-60 placeholder:text-sm lg:placeholder:text-base text-color-60 mb-2 flex justify-between items-center'>
+                              <SelectValue placeholder="Select your country" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent className='overflow-y-scroll h-52 bg-color-30'>
+                            {countries.map((item) => {
+                              return (
+                                <SelectItem className='cursor-pointer' key={item.name} value={item.name}>{item.name}</SelectItem>
+                              )
+                            })}
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </div>
+                    )}
                   />
 
                   <CustomInput 
                     control={form.control}
+                    trigger={form.trigger}
                     name='state'
                     label='State'
                     placeholder='state'
@@ -203,6 +309,7 @@ const Register = () => {
 
                   <CustomInput 
                     control={form.control}
+                    trigger={form.trigger}
                     name='city'
                     label='City'
                     placeholder='city'

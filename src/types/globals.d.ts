@@ -137,5 +137,21 @@ export interface LiveMatch {
 }
 
 
+export type registerParams = {
+  username: string,
+  password: string,
+  firstname: string,
+  lastname: string,
+  phone: string,
+  email: string,
+  dateOfBirth: string,
+  country: string,
+  state: string,
+  city: string,
+  email_verified?: boolean,
+  identity_verified?: boolean,
+  isAdmin?: boolean
+}
+
 
 export {};

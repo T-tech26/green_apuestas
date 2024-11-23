@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Script from "next/script";
 import { GlobalProvider } from "@/contexts/GlobalContext";
+import { Toaster } from "@/components/ui/toaster";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -38,6 +39,7 @@ export default function RootLayout({
         <div id="google_translate_element"></div>
         <GlobalProvider>
           {children}
+          <Toaster />
         </GlobalProvider>
       </body>
     </html>

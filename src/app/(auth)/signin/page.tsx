@@ -1,93 +1,186 @@
 'use client'
 
-import CustomInput from '@/components/CustomInput'
 import Footer from '@/components/Footer'
 import FormButton from '@/components/FormButton'
 import LiveChat from '@/components/LiveChat'
-import { Form } from '@/components/ui/form'
-import { authFormSchema } from '@/lib/utils'
+import { Form, FormControl, FormField, FormLabel, FormMessage } from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { useUser } from '@/contexts/child_context/userContext'
+import { useToast } from '@/hooks/use-toast'
+import { getLoggedInUser, signin } from '@/lib/actions/userActions'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
-import React, { useState } from 'react'
+import { redirect } from 'next/navigation'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 const Signin = () => {
 
-  const type = 'signin';
-  const formSchema = authFormSchema(type);
+    const [isLoading, setIsLoading] = useState(false);
 
-  const [isLoading, setIsLoading] = useState(false);
+    const { user, setUser} = useUser();
 
-  // 1. Define your form.
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      username: '',
-      password: ''
-    },
-  })
- 
-  // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    setIsLoading(true)
-    console.log(values)
-    setIsLoading(false)
-  }
+    const { toast } = useToast();
 
 
-  return (
-    <>
-      <main className='flex flex-col justify-center items-center w-full h-screen bg-dark-gradient-135deg'>
-        
-        <h1 className='text-color-30 text-2xl md:text-3xl mb-8'>Login to your account</h1>
 
-        <div className="flex flex-col justify-center item-center gap-10 w-4/5 md:w-[500px]">
+    useEffect(() => {
+      const loggIn = async () => {
+          const response = await getLoggedInUser();
 
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
-              
-              <div className=" h-auto flex flex-col justify-center item-center gap-3">
+          if(typeof response === 'string') {
+            toast({
+              description: response
+            })
+          }
 
-                <CustomInput 
-                  control={form.control}
-                  name='username'
-                  label='Username'
-                  placeholder='username'
-                />
+          if(typeof response === 'object') setUser((response as any));
+      }
 
-                <CustomInput 
-                  control={form.control}
-                  name='password'
-                  label='Password'
-                  placeholder='password'
-                />
+      loggIn()
+    }, [])
 
-                <FormButton loading={isLoading}  text='Sigin'/>
 
-              </div>
-            </form>
-          </Form>
 
-          <p className='text-color-30 text-center text-sm'>
-            Don&apos;t have an account? &nbsp; 
-            <Link 
-              href='/register'
-              className='text-color-10 underline'
-            >
-              Register Now
-            </Link>
-          </p>
-        </div>
-      </main>
+    if(user) {
+      if((user as any)?.doucuments[0].subscription === false) {
+        redirect('/subscription');
+      } 
 
-      <Footer />
+      if((user as any)?.doucuments[0].subscription === true) {
+        redirect('/');
+      } 
+    }
 
-      <LiveChat />
-    </>
-  )
+
+
+    const formSchema = z.object({
+      email: z.string().email({ message: "Enter a valid email address" }),
+      password: z.string().min(8),
+    })
+
+
+
+    // 1. Define your form.
+    const form = useForm<z.infer<typeof formSchema>>({
+      resolver: zodResolver(formSchema),
+      defaultValues: {
+        email: '',
+        password: ''
+      },
+    })
+  
+
+    
+    // 2. Define a submit handler.
+    const onSubmit = async (values: z.infer<typeof formSchema>) => {
+      setIsLoading(true)
+      try {
+        const response = await signin(values.email, values.password);
+
+        if(typeof response === 'string') {
+          toast({
+            description: response
+          })
+        }
+
+        if(typeof response === 'object') setUser(response);
+
+      } catch (error) {
+        console.error("Error submitting activation code ", error);
+      } finally {
+        form.reset();
+        setIsLoading(false)
+      }
+    }
+
+    
+
+    return (
+      <>
+        <main className='flex flex-col justify-center items-center w-full h-screen bg-dark-gradient-135deg'>
+          
+          <h1 className='text-color-30 text-2xl md:text-3xl mb-8'>Login to your account</h1>
+
+          <div className="flex flex-col justify-center item-center gap-10 w-4/5 md:w-[500px]">
+
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)}>
+                
+                <div className=" h-auto flex flex-col justify-center item-center gap-3">
+
+                  <FormField
+                      control={form.control}
+                      name='email'
+                      render={({ field }) => (
+                          <div className='flex flex-col gap-2 w-full'>
+                              <FormLabel
+                                  className='text-color-30 text-base lg:text-base font-normal'
+                              >
+                                  Email
+                              </FormLabel>
+
+                              <FormControl>
+                                  <Input
+                                  placeholder='email address'
+                                  type='email'
+                                  {...field}
+                                  className='input'
+                                  />
+                              </FormControl>
+                              <FormMessage />
+                          </div>
+                      )}
+                  />
+
+                  <FormField
+                      control={form.control}
+                      name='password'
+                      render={({ field }) => (
+                          <div className='flex flex-col gap-2 w-full'>
+                              <FormLabel
+                                  className='text-color-30 text-base lg:text-base font-normal'
+                              >
+                                  Password
+                              </FormLabel>
+
+                              <FormControl>
+                                  <Input
+                                  placeholder='password'
+                                  type='password'
+                                  {...field}
+                                  className='input'
+                                  />
+                              </FormControl>
+                              <FormMessage />
+                          </div>
+                      )}
+                  />
+
+                  <FormButton loading={isLoading}  text='Sigin'/>
+
+                </div>
+              </form>
+            </Form>
+
+            <p className='text-color-30 text-center text-sm'>
+              Don&apos;t have an account? &nbsp; 
+              <Link 
+                href='/register'
+                className='text-color-10 underline'
+              >
+                Register Now
+              </Link>
+            </p>
+          </div>
+        </main>
+
+        <Footer />
+
+        <LiveChat />
+      </>
+    )
 }
 
 export default Signin

@@ -2,21 +2,21 @@
 
 import React, { useState } from 'react'
 import Image from 'next/image'
-import { authFormSchema } from '@/lib/utils';
+import { contactFormSchema } from '@/lib/utils';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
-import CustomInput from '@/components/CustomInput';
+import { Form} from '@/components/ui/form';
 import FormButton from '@/components/FormButton';
-import { Textarea } from '@/components/ui/textarea';
+import ContactForm from '@/components/ContactForm';
 
 const Contact = () => {
 
-  const type = 'contact';
-  const formSchema = authFormSchema(type);
-
   const [isLoading, setIsLoading] = useState(false);
+
+  const formSchema = contactFormSchema;
+
+
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
@@ -29,6 +29,8 @@ const Contact = () => {
       message: '',
     },
   })
+
+
  
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
@@ -41,6 +43,7 @@ const Contact = () => {
   }
 
 
+  
   return (
     <main className='flex-1'>
       <div className='w-full h-auto relative'>
@@ -67,60 +70,12 @@ const Contact = () => {
 
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)}>
-                
+
                 <div className=" h-auto flex flex-col justify-center item-center gap-3">
-
-                  <div className="flex flex-col gap-3 md:gap-3 md:flex-row w-full">
-                    <CustomInput 
-                      control={form.control}
-                      name='firstname'
-                      label=''
-                      placeholder='first name'
-                    />
-
-                    <CustomInput 
-                      control={form.control}
-                      name='lastname'
-                      label=''
-                      placeholder='last name'
-                    />
-                  </div>
-
-                  <div className="flex flex-col gap-3 md:gap-3 md:flex-row w-full">
-                    <CustomInput 
-                      control={form.control}
-                      name='email'
-                      label=''
-                      placeholder='email address'
-                    />
-
-                    <CustomInput 
-                      control={form.control}
-                      name='phone'
-                      label=''
-                      placeholder='phone number'
-                    />
-                  </div>
-
-                  <FormField
+                  <ContactForm 
                     control={form.control}
-                    name="message"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <Textarea
-                            placeholder="Write your message......."
-                            className='input w-full h-28'
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
                   />
-
                   <FormButton loading={isLoading}  text='Send message'/>
-
                 </div>
               </form>
             </Form>
