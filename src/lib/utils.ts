@@ -47,5 +47,6 @@ export const contactFormSchema = z.object({
 })
 
 
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export const parseStringify = (value: any) => JSON.parse(JSON.stringify(value));
+/* eslint-enable @typescript-eslint/no-explicit-any */
