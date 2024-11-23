@@ -24,7 +24,7 @@ const Signin = () => {
     const { toast } = useToast();
 
 
-
+    /* eslint-disable react-hooks/exhaustive-deps */
     useEffect(() => {
       const loggIn = async () => {
           const response = await getLoggedInUser();
@@ -35,15 +35,18 @@ const Signin = () => {
             })
           }
 
+          /* eslint-disable @typescript-eslint/no-explicit-any */
           if(typeof response === 'object') setUser((response as any));
+          /* eslint-enable @typescript-eslint/no-explicit-any */
       }
 
       loggIn()
     }, [])
-
+    /* eslint-enable react-hooks/exhaustive-deps */
 
 
     if(user) {
+      /* eslint-disable @typescript-eslint/no-explicit-any */
       if((user as any)?.doucuments[0].subscription === false) {
         redirect('/subscription');
       } 
@@ -51,6 +54,7 @@ const Signin = () => {
       if((user as any)?.doucuments[0].subscription === true) {
         redirect('/');
       } 
+      /* eslint-enable @typescript-eslint/no-explicit-any */
     }
 
 

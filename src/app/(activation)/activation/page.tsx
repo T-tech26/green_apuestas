@@ -9,7 +9,7 @@ import { Form, FormControl, FormField, FormLabel, FormMessage } from "@/componen
 import LiveChat from '@/components/LiveChat'
 import FormButton from '@/components/FormButton'
 import { Input } from '@/components/ui/input'
-import { activateSubscription, getLoggedInUser, getUser } from '@/lib/actions/userActions'
+import { activateSubscription, getLoggedInUser } from '@/lib/actions/userActions'
 import { redirect } from 'next/navigation'
 import { Loader2 } from 'lucide-react'
 import { useToast } from '@/hooks/use-toast'
@@ -27,7 +27,7 @@ const Activation = () => {
   const { toast } = useToast();
 
 
-
+  /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     const getLogin = async () => {
       setIsSubscriptionCheck(true);
@@ -40,7 +40,9 @@ const Activation = () => {
           })
         }
         
+        /* eslint-disable @typescript-eslint/no-explicit-any */
         if(typeof response === 'object') setUser((response as any));
+        /* eslint-enable @typescript-eslint/no-explicit-any */
 
       } catch (error) {
         console.error("Error checking user subscription", error);
@@ -50,11 +52,13 @@ const Activation = () => {
     }
     getLogin();
   }, []);
-
+  /* eslint-enable react-hooks/exhaustive-deps */
 
 
   if(user) {
+    /* eslint-disable @typescript-eslint/no-explicit-any */
     if((user as any)?.subscription === true) redirect('/');
+    /* eslint-enable @typescript-eslint/no-explicit-any */
   }
 
 
@@ -80,7 +84,9 @@ const Activation = () => {
 
     if(user) {
 
-      let id = (user as any)?.documents[0].$id;
+      /* eslint-disable @typescript-eslint/no-explicit-any */
+      const id = (user as any)?.documents[0].$id;
+      /* eslint-enable @typescript-eslint/no-explicit-any */
       
       setIsLoading(true)
       try {
