@@ -14,7 +14,6 @@ import React, { useEffect, useState } from 'react';
 
 const Home = () => {
   const [selectedLink, setSelectedLink] = useState<string>('Home');
-  const [loggedIn, setLoggedIn] = useState<object | string>('');
   const [isSubscriptionCheck, setIsSubscriptionCheck] = useState(false);
 
   /* eslint-disable react-hooks/exhaustive-deps */
