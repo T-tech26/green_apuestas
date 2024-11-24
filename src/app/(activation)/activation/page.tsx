@@ -144,6 +144,7 @@ const Activation = () => {
 
                               <FormControl>
                                   <Input
+                                    id='activation_pin'
                                     placeholder='Enter your pin'
                                     type='text'
                                     {...field}

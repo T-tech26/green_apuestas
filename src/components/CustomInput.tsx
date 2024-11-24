@@ -29,6 +29,7 @@ const CustomInput = ({ control, trigger, name, label, placeholder }: CustomInput
 
                     <FormControl>
                         <Input
+                            id={`${name}`}                                
                             placeholder={placeholder}
                             type={name === 'password' ? 'password' : name === 'dateOfBirth' ? 'date' : 'text'}
                             {...field}

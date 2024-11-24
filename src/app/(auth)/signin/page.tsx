@@ -122,10 +122,11 @@ const Signin = () => {
 
                               <FormControl>
                                   <Input
-                                  placeholder='email address'
-                                  type='email'
-                                  {...field}
-                                  className='input'
+                                    id='email'
+                                    placeholder='email address'
+                                    type='email'
+                                    {...field}
+                                    className='input'
                                   />
                               </FormControl>
                               <FormMessage />
@@ -146,10 +147,11 @@ const Signin = () => {
 
                               <FormControl>
                                   <Input
-                                  placeholder='password'
-                                  type='password'
-                                  {...field}
-                                  className='input'
+                                    id='password'
+                                    placeholder='password'
+                                    type='password'
+                                    {...field}
+                                    className='input'
                                   />
                               </FormControl>
                               <FormMessage />
