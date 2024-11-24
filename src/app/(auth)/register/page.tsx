@@ -32,6 +32,7 @@ const Register = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [step, setStep] = useState<number>(1);
+  const [loggedIn, setLoggedIn] = useState<object | string>('');
 
   const { user, setUser } = useUser();
   const { toast } = useToast();
@@ -42,29 +43,22 @@ const Register = () => {
     const loggIn = async () => {
         const response = await getLoggedInUser();
 
-        if(typeof response === 'string') {
-          toast({
-            description: response
-          })
-        }
-
-        /* eslint-disable @typescript-eslint/no-explicit-any */
-        if(typeof response === 'object') setUser((response as any));
-        /* eslint-enable @typescript-eslint/no-explicit-any */
+        if(typeof response === 'object') setLoggedIn(response);
     }
 
     loggIn()
-  }, [])
+  }, [user])
   /* eslint-enable react-hooks/exhaustive-deps */
 
 
-  if(user) {
+
+  if(typeof loggedIn === 'object') {
     /* eslint-disable @typescript-eslint/no-explicit-any */
-    if((user as any)?.doucuments[0].subscription === false) {
+    if((loggedIn as any)?.subscription === false) {
       redirect('/subscription');
     } 
 
-    if((user as any)?.doucuments[0].subscription === true) {
+    if((loggedIn as any)?.subscription === true) {
       redirect('/');
     } 
     /* eslint-enable @typescript-eslint/no-explicit-any */

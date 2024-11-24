@@ -124,7 +124,7 @@ export const getLoggedInUser = async (): Promise<object | string> => {
             [Query.equal('userId', id)]
         )
        
-        return parseStringify(user);  // Assuming parseStringify formats the user object
+        return parseStringify(user.documents[0]);  // Assuming parseStringify formats the user object
     } catch (error) {
         console.error("Error getting logged in user", error);
         // Return specific error message for no session
@@ -178,32 +178,19 @@ export const activateSubscription = async (userId: string, pin: string) => {
         if(!(pinCheck as any)?.documents.length) return 'Invalid code';
         /* eslint-enable @typescript-eslint/no-explicit-any */
         
-        const userExist = await database.listDocuments(
-            APPWRITE_DATABASE_ID!, 
-            APPWRITE_USERS_COLLECTION_ID!, 
-            [Query.equal('userId', userId)]
-        )
-
-        /* eslint-disable @typescript-eslint/no-explicit-any */
-        if(!(userExist as any)?.documents.length) return 'You have not yet registerd';
-        /* eslint-enable @typescript-eslint/no-explicit-any */
-        
-        const id = userExist.documents[0].$id;
-
         const updateSubscription = await database.updateDocument(
             APPWRITE_DATABASE_ID!,
             APPWRITE_USERS_COLLECTION_ID!,
-            id,
+            userId,
             { "subscription": true }
         )
         
         return parseStringify(updateSubscription);
     } catch (error) {
-        /* eslint-disable @typescript-eslint/no-explicit-any */
-        return `${(error as any)?.message}`;
-        /* eslint-enable @typescript-eslint/no-explicit-any */
-
         console.error('Error enabling user subscription ', error);
+        /* eslint-disable @typescript-eslint/no-explicit-any */
+        return `${(error as any)?.message}, try again`;
+        /* eslint-enable @typescript-eslint/no-explicit-any */
     }
 };
   

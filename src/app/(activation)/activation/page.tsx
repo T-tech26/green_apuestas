@@ -33,12 +33,6 @@ const Activation = () => {
       setIsSubscriptionCheck(true);
       try {
         const response = await getLoggedInUser();
-
-        if(typeof response === 'string') {
-          toast({
-            description: response
-          })
-        }
         
         /* eslint-disable @typescript-eslint/no-explicit-any */
         if(typeof response === 'object') setUser((response as any));
@@ -85,7 +79,7 @@ const Activation = () => {
     if(user) {
 
       /* eslint-disable @typescript-eslint/no-explicit-any */
-      const id = (user as any)?.documents[0].$id;
+      const id = (user as any)?.$id;
       /* eslint-enable @typescript-eslint/no-explicit-any */
       
       setIsLoading(true)
