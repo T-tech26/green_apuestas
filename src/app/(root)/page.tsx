@@ -44,12 +44,12 @@ const Home = () => {
         })
 
         setTimeout(() => {
-          setIsSubscriptionCheck(true);
+          setIsSubscriptionCheck(false);
           redirect('/subscription');
         }, 4000);
       }
 
-      if((loggedIn as any)?.subscription === true) setIsSubscriptionCheck(true);
+      if((loggedIn as any)?.subscription === true) setIsSubscriptionCheck(false);
       /* eslint-enable @typescript-eslint/no-explicit-any */
     }
 
