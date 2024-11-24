@@ -48,6 +48,8 @@ const Home = () => {
           redirect('/subscription');
         }, 4000);
       }
+
+      if((loggedIn as any)?.subscription === true) setIsSubscriptionCheck(true);
       /* eslint-enable @typescript-eslint/no-explicit-any */
     }
 
