@@ -63,13 +63,6 @@ const LanguageSwitcher = () => {
         onChange={(e) => switchLanguage(e.target.value)}
         className="custom-select"
       >
-        {/* First option shows default language when currentLanguage is 'auto' */}
-        {/* <option value="auto" disabled className='select-options'>
-          {currentLanguage === 'auto' || !currentLanguage
-            && languageConfig.languages.find(ld => ld.code === languageConfig.defaultLanguage)?.title
-          }
-        </option> */}
-
         {/* Render all available language options */}
         {languageConfig.languages.map((ld) => (
           <option

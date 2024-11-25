@@ -83,7 +83,6 @@ const Signin = () => {
           })
         }
 
-        console.log(response)
         if(typeof response === 'object') setUser(response);
 
       } catch (error) {

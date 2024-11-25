@@ -14,12 +14,11 @@ import React, { useEffect, useState } from 'react';
 
 const Home = () => {
   const [selectedLink, setSelectedLink] = useState<string>('Home');
-  const [isSubscriptionCheck, setIsSubscriptionCheck] = useState(false);
+  const [isSubscriptionCheck, setIsSubscriptionCheck] = useState(true);
 
   /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     const loggIn = async () => {
-      setIsSubscriptionCheck(true); // Set loading state
       const response = await getLoggedInUser();
 
       if (typeof response === 'object') {

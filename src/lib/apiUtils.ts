@@ -212,7 +212,7 @@ export const fetchLiveMatches = async (
   try {
     setIsLoading(true);
     const liveMatches = await liveScores();
-    setLives(liveMatches.live);
+    if(liveMatches) setLives(liveMatches.live);
   } catch (err) {
       setIsLoading(false);
       console.error(err)
