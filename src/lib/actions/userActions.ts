@@ -84,7 +84,7 @@ export const signin = async (email: string, password: string): Promise<string | 
         console.error("Login failed:", error);
         
         // Return a generic error message for unexpected issues
-        return "An unexpected error occurred";
+        return "An unexpected error occurred, check your connection and try again";
     }
 };
 
@@ -96,6 +96,8 @@ export const logOut = async () => {
         (await cookies()).delete('appwrite-session');
 
         await account.deleteSession('current');
+
+        return 'success';
         
     } catch (error) {
         console.error("Error logging out user", error);
