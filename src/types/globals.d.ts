@@ -185,7 +185,9 @@ export interface UserData {
   $id: string;
   $createdAt?: string;
   $updatedAt?: string;
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   $permissions?: any[];
+  /* eslint-enable @typescript-eslint/no-explicit-any */
   $databaseId?: string;
   $collectionId?: string;
 }

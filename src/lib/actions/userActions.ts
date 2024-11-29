@@ -3,7 +3,7 @@
 import { ID, Query } from "node-appwrite";
 import { createAdminClient, createSessionClient } from "../appwrite/config";
 import { cookies } from "next/headers";
-import { profileParams, registerParams, UserData } from "@/types/globals";
+import { registerParams, UserData } from "@/types/globals";
 import { parseStringify } from "../utils";
 
 const { APPWRITE_DATABASE_ID, APPWRITE_USERS_COLLECTION_ID, APPWRITE_ACTIVATION_COLLECTION_ID } = process.env;

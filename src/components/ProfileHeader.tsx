@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import Image from "next/image";
 import { getLoggedInUser } from '@/lib/actions/userActions';
 import { useUser } from '@/contexts/child_context/userContext';

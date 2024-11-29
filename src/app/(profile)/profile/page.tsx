@@ -21,7 +21,7 @@ const Profile = () => {
 
     const { user, setUser } = useUser();
       
-    
+    /* eslint-disable react-hooks/exhaustive-deps */
     useEffect(() => {
         const login = async () => {
             const response = await getLoggedInUser();
@@ -37,7 +37,7 @@ const Profile = () => {
 
         login();
     }, []);
-
+    /* eslint-enable react-hooks/exhaustive-deps */
 
 
     if (isLoading) {
