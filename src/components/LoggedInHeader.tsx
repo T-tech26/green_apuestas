@@ -10,6 +10,7 @@ import {
 import { logOut } from '@/lib/actions/userActions';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
+import { useUser } from '@/contexts/child_context/userContext';
   
 
 interface ProfileProps {
@@ -19,10 +20,15 @@ interface ProfileProps {
 
 const LoggedInHeader = ({ name, balance }: ProfileProps) => {
 
+    const { setUser } = useUser();
+
     const handleLogOut = async () => {
         const response = await logOut();
 
-        if(response === 'success') return redirect('/signin');
+        if(response === 'success') {
+            setUser('');
+            return redirect('/signin');
+        }
     }
 
     return (

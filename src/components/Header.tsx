@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import MobileNav from './MobileNav';
 import Link from 'next/link';
 import { LanguageSwitcher } from './LanguageSwitcher';
@@ -6,17 +6,21 @@ import { menuLinks } from '@/constants';
 import { usePathname } from 'next/navigation';
 import { getLoggedInUser } from '@/lib/actions/userActions';
 import LoggedInHeader from './LoggedInHeader';
+import { useUser } from '@/contexts/child_context/userContext';
+import { UserData } from '@/types/globals';
 
 const Header = () => {
 
+    const { user, setUser } = useUser();
+
     const pathName = usePathname();
-    const [loggedIn, setLoggedIn] = useState<object | string>('');
+
 
     useEffect(() => {
         const getLogin = async () => {
             const response = await getLoggedInUser();
 
-            if(typeof response === 'object') setLoggedIn(response);
+            if(typeof response === 'object') setUser(response);
         }
 
         getLogin();
@@ -26,15 +30,13 @@ const Header = () => {
 
     return (
         <>
-            {loggedIn ? (
-                /* eslint-disable @typescript-eslint/no-explicit-any */
+            {user ? (
                 <LoggedInHeader 
                     name={
-                        `${(loggedIn as any)?.lastname} ${(loggedIn as any)?.firstname}`
+                        `${(user as UserData)?.lastname} ${(user as UserData)?.firstname}`
                     }
-                    balance={`${(loggedIn as any)?.balance}`}
+                    balance={`${(user as UserData)?.balance}`}
                 />
-                /* eslint-enable @typescript-eslint/no-explicit-any */
             ) : (
                 <div className="header">
                     <div className="md:hidden flex items-center justify-between">

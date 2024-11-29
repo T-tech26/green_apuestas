@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input'
 import { useUser } from '@/contexts/child_context/userContext'
 import { useToast } from '@/hooks/use-toast'
 import { getLoggedInUser, signin } from '@/lib/actions/userActions'
+import { UserData } from '@/types/globals'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
@@ -30,25 +31,24 @@ const Signin = () => {
       const loggIn = async () => {
           const response = await getLoggedInUser();
 
-          if(typeof response === 'object') setLoggedIn(response);
+          if(typeof response === 'object') setUser(response);
       }
 
       loggIn()
-    }, [user])
+    }, [loggedIn])
     /* eslint-enable react-hooks/exhaustive-deps */
 
 
 
-    if(typeof loggedIn === 'object') {
-      /* eslint-disable @typescript-eslint/no-explicit-any */
-      if((loggedIn as any)?.subscription === false) {
+    if(typeof user === 'object') {
+      if((user as UserData)?.subscription === false) {
         redirect('/subscription');
       } 
 
-      if((loggedIn as any)?.subscription === true) {
+      if((user as UserData)?.subscription === true) {
+        console.log(user)
         redirect('/');
       } 
-      /* eslint-enable @typescript-eslint/no-explicit-any */
     }
   
 
@@ -83,7 +83,7 @@ const Signin = () => {
           })
         }
 
-        if(typeof response === 'object') setUser(response);
+        if(typeof response === 'object') setLoggedIn(response);
 
       } catch (error) {
         console.error("Error submitting activation code ", error);
