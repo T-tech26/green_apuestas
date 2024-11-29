@@ -94,3 +94,31 @@ export const EventMenuLinks = [
        name: 'Tomorrow' 
     },
 ]
+
+export const ProfileMenuLinks = [
+    {
+        route: '/profile',
+        icon: '/personal-profile-icon.svg',
+        name: 'Personal profile'
+    },
+    {
+        route: '/deposit',
+        icon: '/deposit-icon.svg',
+        name: 'Make a deposit'
+    },
+    {
+        route: '/withdrawal',
+        icon: '/withdraw-icon.svg',
+        name: 'Withdraw funds'
+    },
+    {
+        route: '/transactions',
+        icon: '/transaction-icon.svg',
+        name: 'Transactions history'
+    },
+    {
+        route: '/bet_history',
+        icon: '/betslip-icon.svg',
+        name: 'Bet history'
+    },
+]

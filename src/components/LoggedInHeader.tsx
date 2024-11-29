@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { logOut } from '@/lib/actions/userActions';
 import { redirect } from 'next/navigation';
+import Link from 'next/link';
   
 
 interface ProfileProps {
@@ -105,64 +106,89 @@ const LoggedInHeader = ({ name, balance }: ProfileProps) => {
                                     </div>
 
                                     <DropdownMenuItem 
-                                        className='px-5 py-3 border-b-2 border-color-10 hover:bg-light-gradient-135deg cursor-pointer flex gap-2 items-center'
+                                        className='px-5 py-3 border-b-2 border-color-10 hover:bg-light-gradient-135deg cursor-pointer'
                                     >
-                                        <Image
-                                            src='/personal-profile-icon.svg'
-                                            width={20}
-                                            height={20}
-                                            alt='personal profile icon'
-                                            className='cursor-pointer'
-                                        />
-                                        Personal Profile
+                                        <Link
+                                            href='/profile'
+                                            className='flex gap-2 items-center'
+                                        >
+                                            <Image
+                                                src='/personal-profile-icon.svg'
+                                                width={20}
+                                                height={20}
+                                                alt='personal profile icon'
+                                                className='cursor-pointer'
+                                            />
+                                            Personal Profile
+                                        </Link>
                                     </DropdownMenuItem>
                                     <DropdownMenuItem 
-                                        className='px-5 py-3 border-b-2 border-color-10 hover:bg-light-gradient-135deg cursor-pointer flex gap-2 items-center'
+                                        className='profile-link'
                                     >
-                                        <Image
-                                            src='/deposit-icon.svg'
-                                            width={20}
-                                            height={20}
-                                            alt='deposit icon'
-                                            className='cursor-pointer'
-                                        />
-                                        Make a deposit
+                                        <Link
+                                            href='/profile'
+                                            className='flex gap-2 items-center'
+                                        >
+                                            <Image
+                                                src='/deposit-icon.svg'
+                                                width={20}
+                                                height={20}
+                                                alt='deposit icon'
+                                                className='cursor-pointer'
+                                            />
+                                            Make a deposit
+                                        </Link>
                                     </DropdownMenuItem>
                                     <DropdownMenuItem 
-                                        className='px-5 py-3 border-b-2 border-color-10 hover:bg-light-gradient-135deg cursor-pointer flex gap-2 items-center'
+                                        className='profile-link'
                                     >   
-                                        <Image
-                                            src='/withdraw-icon.svg'
-                                            width={20}
-                                            height={20}
-                                            alt='withdrawal icon'
-                                            className='cursor-pointer'
-                                        />
-                                        Withdraw funds
+                                        <Link
+                                            href='/profile'
+                                            className='flex gap-2 items-center'
+                                        >
+                                            <Image
+                                                src='/withdraw-icon.svg'
+                                                width={20}
+                                                height={20}
+                                                alt='withdrawal icon'
+                                                className='cursor-pointer'
+                                            />
+                                            Withdraw funds
+                                        </Link>
                                     </DropdownMenuItem>
                                     <DropdownMenuItem 
-                                        className='px-5 py-3 border-b-2 border-color-10 hover:bg-light-gradient-135deg cursor-pointer flex gap-2 items-center'
+                                        className='profile-link'
                                     >
-                                        <Image
-                                            src='/transaction-icon.svg'
-                                            width={20}
-                                            height={20}
-                                            alt='transaction icon'
-                                            className='cursor-pointer'
-                                        />
-                                        Transaction history
+                                        <Link
+                                        href='/profile'
+                                        className='flex gap-2 items-center'
+                                        >
+                                            <Image
+                                                src='/transaction-icon.svg'
+                                                width={20}
+                                                height={20}
+                                                alt='transaction icon'
+                                                className='cursor-pointer'
+                                            />
+                                            Transaction history
+                                        </Link>
                                     </DropdownMenuItem>
                                     <DropdownMenuItem 
-                                        className='px-5 py-3 border-b-2 border-color-10 hover:bg-light-gradient-135deg cursor-pointer flex gap-2 items-center'
+                                        className='profile-link'
                                     >
-                                        <Image
-                                            src='/betslip-icon.svg'
-                                            width={20}
-                                            height={20}
-                                            alt='bet history icon'
-                                            className='cursor-pointer'
-                                        />
-                                        Bet history
+                                        <Link
+                                            href='/profile'
+                                            className='flex gap-2 items-center'
+                                        >
+                                            <Image
+                                                src='/betslip-icon.svg'
+                                                width={20}
+                                                height={20}
+                                                alt='bet history icon'
+                                                className='cursor-pointer'
+                                            />
+                                            Bet history
+                                        </Link>
                                     </DropdownMenuItem>
 
                                     <div className='h-20'></div>

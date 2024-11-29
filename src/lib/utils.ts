@@ -50,3 +50,38 @@ export const contactFormSchema = z.object({
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export const parseStringify = (value: any) => JSON.parse(JSON.stringify(value));
 /* eslint-enable @typescript-eslint/no-explicit-any */
+
+
+export const firstNameSchema = z.object({
+  firstname: z.string().min(3),
+})
+
+
+export const lastNameSchema = z.object({
+  lastname: z.string().min(3),
+})
+
+
+export const emailSchema = z.object({
+  email: z.string().email(),
+})
+
+export const phoneNumberSchema = z.object({
+  phone: z.string().min(3),
+})
+
+export const dateOfBirthSchema = z.object({
+  dateOfBirth: z.string().date(),
+})
+
+export const countrySchema = z.object({
+  country: z.string().min(3),
+})
+
+export const stateSchema = z.object({
+  state: z.string().min(3),
+})
+
+export const citySchema = z.object({
+  city: z.string().min(3),
+})

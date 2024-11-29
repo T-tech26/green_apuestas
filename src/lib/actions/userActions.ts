@@ -3,7 +3,7 @@
 import { ID, Query } from "node-appwrite";
 import { createAdminClient, createSessionClient } from "../appwrite/config";
 import { cookies } from "next/headers";
-import { registerParams } from "@/types/globals";
+import { profileParams, registerParams, UserData } from "@/types/globals";
 import { parseStringify } from "../utils";
 
 const { APPWRITE_DATABASE_ID, APPWRITE_USERS_COLLECTION_ID, APPWRITE_ACTIVATION_COLLECTION_ID } = process.env;
@@ -108,7 +108,7 @@ export const logOut = async () => {
 };
 
 
-export const getLoggedInUser = async (): Promise<object | string> => {
+export const getLoggedInUser = async (): Promise<UserData | string> => {
     try {
         const { account } = await createSessionClient(); 
         const { database } = await createAdminClient()
@@ -193,6 +193,28 @@ export const activateSubscription = async (userId: string, pin: string) => {
         /* eslint-disable @typescript-eslint/no-explicit-any */
         return `${(error as any)?.message}, try again`;
         /* eslint-enable @typescript-eslint/no-explicit-any */
+    }
+};
+
+
+export const updateUserProfile = async (field: string, data: string, id: string) => {
+    try {
+        const { database } = await createAdminClient();
+
+        const updateProfile = await database.updateDocument(
+            APPWRITE_DATABASE_ID!,
+            APPWRITE_USERS_COLLECTION_ID!,
+            id,
+           { [field] : data }
+        );
+
+        // Return the updated profile
+        return parseStringify(updateProfile);
+    } catch (error) {
+      console.error('Error enabling user subscription ', error);
+      /* eslint-disable @typescript-eslint/no-explicit-any */
+      return `${(error as any)?.message}, try again`;
+      /* eslint-enable @typescript-eslint/no-explicit-any */
     }
 };
   

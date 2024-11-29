@@ -91,9 +91,10 @@ body {
     @apply flex w-4/5 flex-col
   }
 
-  .odds-btn {
-    @apply w-14 md:w-16 text-sm text-color-30 rounded-none bg-dark-gradient-135deg hover:bg-light-gradient-135deg
+  .profile-link {
+    @apply px-5 py-3 border-b-2 border-color-10 hover:bg-light-gradient-135deg cursor-pointer
   }
+
 }
 
 @layer base {

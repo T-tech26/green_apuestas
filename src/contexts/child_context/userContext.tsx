@@ -1,17 +1,18 @@
 'use client'
 
+import { UserData } from '@/types/globals';
 import { ReactNode, createContext, useContext, useState } from 'react'
 
 interface UserType {
-    user: object | null,
-    setUser: (newUser: object | null) => void,
+    user: UserData | string,
+    setUser: (newUser: UserData | string) => void,
 }
 
 export const UserContext = createContext<UserType | undefined>(undefined);
 
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
-    const [user, setUser] = useState<object | null>(null);
+    const [user, setUser] = useState<UserData | string>('');
 
 
     return (

@@ -154,4 +154,42 @@ export type registerParams = {
 }
 
 
+export type profileParams = {
+  password?: string,
+  firstname?: string,
+  lastname?: string,
+  phone?: string,
+  email?: string,
+  dateOfBirth?: string,
+  country?: string,
+  state?: string,
+  city?: string,
+}
+
+export interface UserData {
+  username: string;
+  firstname: string;
+  lastname: string;
+  phone: string;
+  email: string;
+  dateOfBirth: string;
+  country: string;
+  state: string;
+  city: string;
+  email_verified: boolean;
+  identity_verified: boolean;
+  isAdmin: boolean;
+  balance: string;
+  userId: string;
+  subscription: boolean;
+  $id: string;
+  $createdAt?: string;
+  $updatedAt?: string;
+  $permissions?: any[];
+  $databaseId?: string;
+  $collectionId?: string;
+}
+
+
+
 export {};
