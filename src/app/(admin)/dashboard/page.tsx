@@ -15,7 +15,7 @@ import Image from 'next/image';
 import User from '@/components/User';
 import { Loader2 } from 'lucide-react';
 
-const page = () => {
+const Dashboard = () => {
 
     const { user, allUsers } = useUser();
     const [selectedUser, setSelectedUser] = useState<UserData | string>('');
@@ -23,7 +23,7 @@ const page = () => {
     let balance;
 
 
-    
+
     if(allUsers.length > 0) {
         balance = (allUsers as UserData[]).reduce((total, user) => {
             return total = Number(user.balance);
@@ -126,4 +126,4 @@ const page = () => {
     )
 }
 
-export default page
+export default Dashboard

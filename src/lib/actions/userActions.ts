@@ -276,7 +276,7 @@ export const getActivationPins = async () => {
 
         return parseStringify(pins.documents);
     } catch (error) {
-        console.error('Error enabling user subscription ', error);
+        console.error('Error getting activation pins ', error);
         /* eslint-disable @typescript-eslint/no-explicit-any */
         return `${(error as any)?.message}, try again`;
         /* eslint-enable @typescript-eslint/no-explicit-any */
@@ -301,7 +301,7 @@ export const deleteActivationPin = async (id: string) => {
 
         return parseStringify(pins.documents);
     } catch (error) {
-        
+        console.error('Error deleting user: ', error);
     }
 }
   

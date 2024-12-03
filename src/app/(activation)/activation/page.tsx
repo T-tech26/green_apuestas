@@ -9,7 +9,7 @@ import { Form, FormControl, FormField, FormLabel, FormMessage } from "@/componen
 import LiveChat from '@/components/LiveChat'
 import FormButton from '@/components/FormButton'
 import { Input } from '@/components/ui/input'
-import { activateSubscription, getLoggedInUser } from '@/lib/actions/userActions'
+import { activateSubscription } from '@/lib/actions/userActions'
 import { redirect } from 'next/navigation'
 import { Loader2 } from 'lucide-react'
 import { useToast } from '@/hooks/use-toast'

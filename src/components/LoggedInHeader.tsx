@@ -115,6 +115,7 @@ const LoggedInHeader = ({ name, balance }: ProfileProps) => {
                                     {ProfileMenuLinks.map(link => {
                                         return (
                                             <DropdownMenuItem 
+                                                key={link.name}
                                                 className='px-5 py-3 border-b-2 border-color-10 hover:bg-light-gradient-135deg cursor-pointer'
                                             >
                                                 <Link

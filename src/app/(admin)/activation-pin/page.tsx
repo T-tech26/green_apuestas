@@ -7,7 +7,7 @@ import { Loader2 } from 'lucide-react';
 import { deleteActivationPin, generateActivationPin, getActivationPins } from '@/lib/actions/userActions';
 import { GeneratedCode } from '@/types/globals';
 
-const page = () => {
+const ActivationPin = () => {
 
     const [loading, setLoading] = useState(false);
     const [pin, setPin] = useState<GeneratedCode | string>('');
@@ -168,4 +168,4 @@ const page = () => {
     )
 }
 
-export default page
+export default ActivationPin
