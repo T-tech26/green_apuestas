@@ -1,11 +1,11 @@
 'use client'
 import React from 'react'
-import Image from "next/image";
+import AdminMobleMenu from './AdminMobleMenu'
+import Image from 'next/image'
 import { useUser } from '@/contexts/child_context/userContext';
 import { UserData } from '@/types/globals';
-import ProfileMobleMenu from './ProfileMobleMenu';
 
-const ProfileHeader = () => {
+const AdminHeader = () => {
 
     const { user } = useUser();
 
@@ -13,9 +13,9 @@ const ProfileHeader = () => {
         <>
             {typeof user === 'object' && (
                 <div className="flex items-center justify-between md:justify-end w-full px-5 py-1 bg-white drop-shadow-md">
-                    <ProfileMobleMenu />
+                    <AdminMobleMenu />
                     
-                    <div className="flex items-center py-1 px-3 rounded-md gap-5">
+                    <div className="flex items-center py-1 px-3 rounded-md gap-4">
                         <Image
                             src='/profile-icon.svg'
                             width={40}
@@ -23,10 +23,7 @@ const ProfileHeader = () => {
                             alt='profile icon'
                         />
 
-                        <div>
-                            <p className='text-color-60 text-sm'>{`${(user as UserData)?.lastname} ${(user as UserData)?.firstname}`}</p>
-                            <p className='text-color-60 text-xs tracking-wide'>{`${(user as UserData)?.balance}`} USD</p>
-                        </div>
+                        <p className='text-color-60 text-sm'>Welcome, {`${(user as UserData)?.lastname} ${(user as UserData)?.firstname}`}</p>
 
                         <div className='relative'>
                             <Image
@@ -47,4 +44,4 @@ const ProfileHeader = () => {
     )
 }
 
-export default ProfileHeader
+export default AdminHeader

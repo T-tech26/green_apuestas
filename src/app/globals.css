@@ -25,6 +25,28 @@ body {
   display: none !important;
 }
 
+
+/* Target a specific container or div */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f0f0f0;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #97cbff;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.scroll-container::-webkit-scrollbar-thumb:hover {
+  background: #1089FF;
+}
+
+
+
 @layer utilities {
   .header {
     @apply w-full flex flex-col justify-between px-[15px] py-2 md:px-[23px] md:py-4 bg-dark-gradient-180deg gap-2 drop-shadow-drop-box;
@@ -93,6 +115,10 @@ body {
 
   .profile-link {
     @apply px-5 py-3 border-b-2 border-color-10 hover:bg-light-gradient-135deg cursor-pointer
+  }
+
+  .admin-link {
+    @apply px-3 py-3 hover:bg-light-gradient-135deg cursor-pointer flex gap-2 items-center text-color-30 text-sm
   }
 
 }

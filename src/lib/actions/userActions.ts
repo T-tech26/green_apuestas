@@ -145,7 +145,6 @@ export const getUser = async (userId: string) => {
     try {
         const { database } = await createAdminClient();
 
-        console.log(userId)
         const userExist = await database.listDocuments(
             APPWRITE_DATABASE_ID!, 
             APPWRITE_USERS_COLLECTION_ID!, 
@@ -156,8 +155,6 @@ export const getUser = async (userId: string) => {
         if(!(userExist as any)?.documents.length) return 'User not found';
         /* eslint-enable @typescript-eslint/no-explicit-any */
         
-        console.log(userExist)
-        
         return parseStringify(userExist);
     } catch (error) {
         console.error(error);
@@ -165,7 +162,23 @@ export const getUser = async (userId: string) => {
 };
 
 
-export const activateSubscription = async (userId: string, pin: string) => {
+export const getAllUsers = async () => {
+    try {
+        const { database } = await createAdminClient();
+
+        const allUsers = await database.listDocuments(
+            APPWRITE_DATABASE_ID!, 
+            APPWRITE_USERS_COLLECTION_ID!, 
+        )
+       
+        return parseStringify(allUsers.documents);
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+
+export const activateSubscription = async (userId: string, pin: string): Promise<UserData | string> => {
 
     try {
         const { database } = await createAdminClient();
@@ -217,4 +230,78 @@ export const updateUserProfile = async (field: string, data: string, id: string)
       /* eslint-enable @typescript-eslint/no-explicit-any */
     }
 };
+
+
+export const generateActivationPin = async (pin: string) => {
+    try {
+        const { database } = await createAdminClient();
+
+        const pinCheck = await database.listDocuments(
+            APPWRITE_DATABASE_ID!, 
+            APPWRITE_ACTIVATION_COLLECTION_ID!, 
+            [Query.equal('code', pin)]
+        );
+
+        /* eslint-disable @typescript-eslint/no-explicit-any */
+        if((pinCheck as any)?.documents.length) return 'Activation pin already exists, generate another pin';
+        /* eslint-enable @typescript-eslint/no-explicit-any */
+
+        const createPin = await database.createDocument(
+            APPWRITE_DATABASE_ID!,
+            APPWRITE_ACTIVATION_COLLECTION_ID!,
+            ID.unique(),
+            {
+                'code': pin
+            }
+        )
+
+        return parseStringify(createPin);
+    } catch (error) {
+        console.error('Error creating activation code ', error);
+        /* eslint-disable @typescript-eslint/no-explicit-any */
+        return `${(error as any)?.message}, try again`;
+        /* eslint-enable @typescript-eslint/no-explicit-any */
+    }
+}
+
+
+export const getActivationPins = async () => {
+    try {
+        const { database } = await createAdminClient();
+
+        const pins = await database.listDocuments(
+            APPWRITE_DATABASE_ID!, 
+            APPWRITE_ACTIVATION_COLLECTION_ID!, 
+        );
+
+        return parseStringify(pins.documents);
+    } catch (error) {
+        console.error('Error enabling user subscription ', error);
+        /* eslint-disable @typescript-eslint/no-explicit-any */
+        return `${(error as any)?.message}, try again`;
+        /* eslint-enable @typescript-eslint/no-explicit-any */
+    }
+}
+
+
+export const deleteActivationPin = async (id: string) => {
+    try {
+        const { database } = await createAdminClient();
+
+        await database.deleteDocument(
+            APPWRITE_DATABASE_ID!, 
+            APPWRITE_ACTIVATION_COLLECTION_ID!,
+            id
+        );
+
+        const pins = await database.listDocuments(
+            APPWRITE_DATABASE_ID!, 
+            APPWRITE_ACTIVATION_COLLECTION_ID!, 
+        );
+
+        return parseStringify(pins.documents);
+    } catch (error) {
+        
+    }
+}
   

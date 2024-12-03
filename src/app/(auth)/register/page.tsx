@@ -24,6 +24,7 @@ import { FormControl, FormField, FormLabel, FormMessage } from '@/components/ui/
 import { countries } from '@/lib/countries';
 import { useUser } from '@/contexts/child_context/userContext';
 import { useToast } from '@/hooks/use-toast';
+import { UserData } from '@/types/globals';
 
 
 const Register = () => {
@@ -43,25 +44,23 @@ const Register = () => {
     const loggIn = async () => {
         const response = await getLoggedInUser();
 
-        if(typeof response === 'object') setLoggedIn(response);
+        if(typeof response === 'object') setUser(response);
     }
 
     loggIn()
-  }, [user])
+  }, [loggedIn])
   /* eslint-enable react-hooks/exhaustive-deps */
 
 
 
-  if(typeof loggedIn === 'object') {
-    /* eslint-disable @typescript-eslint/no-explicit-any */
-    if((loggedIn as any)?.subscription === false) {
+  if(typeof user === 'object') {
+    if((user as UserData)?.subscription === false) {
       redirect('/subscription');
     } 
 
-    if((loggedIn as any)?.subscription === true) {
+    if((user as UserData)?.subscription === true) {
       redirect('/');
     } 
-    /* eslint-enable @typescript-eslint/no-explicit-any */
   }
   
 
@@ -134,7 +133,7 @@ const Register = () => {
           toast({
             description: 'Account created successfully'
           });
-          setUser(response);
+          setLoggedIn(response);
         }
 
         /* eslint-disable @typescript-eslint/no-explicit-any */

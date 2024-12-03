@@ -122,3 +122,69 @@ export const ProfileMenuLinks = [
         name: 'Bet history'
     },
 ]
+
+export const AdminMainMenuLinks = [
+    {
+        route: '/dashboard',
+        icon: '/home-icon.svg',
+        name: 'Dashboard'
+    },
+    {
+        route: '/activation-pin',
+        icon: '/subscription-icon.svg',
+        name: 'Subscription'
+    }
+]
+
+export const AdminSubMenuLinks = [
+    {
+        title: 'Identity verification',
+        routes: [
+            {
+                route: '/KYC-verification',
+                icon: '/kyc-verification-icon.svg',
+                name: 'KYC verification'
+            },
+            {
+                route: '/KYC-logs',
+                icon: '/kyc-log-icon.svg',
+                name: 'KYC Logs'
+            },
+        ]
+    },
+    {
+        title: 'Transactions',
+        routes: [
+            {
+                route: '/payment-methods',
+                icon: '/payment-method-icon.svg',
+                name: 'Payment methods'
+            },
+            {
+                route: 'deposit-requests',
+                icon: '/deposit-icon.svg',
+                name: 'Deposit requests'
+            },
+            {
+                route: 'withdrawal-requests',
+                icon: '/withdraw-icon.svg',
+                name: 'Withdrawal requests'
+            },
+        ]
+    },
+    {
+        title: 'Manage Bets',
+        routes: [
+            {
+                route: '/stake-bets',
+                icon: '/stake-bet-icon.svg',
+                name: 'Stake user bets'
+            },
+            {
+                route: '/user-bet-history',
+                icon: '/betSlip-icon.svg',
+                name: 'Bet history'
+            }
+        ]
+    }
+]

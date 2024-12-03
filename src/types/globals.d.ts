@@ -193,5 +193,20 @@ export interface UserData {
 }
 
 
+export interface GeneratedCode {
+  code: string;
+  $id: string;
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+  $permissions?: any[];
+  /* eslint-enable @typescript-eslint/no-explicit-any */
+  $createdAt?: string;
+  $updatedAt?: string;
+  $databaseId?: string;
+  $collectionId?: string;
+}
+
+
+
+
 
 export {};

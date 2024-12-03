@@ -46,7 +46,6 @@ const Signin = () => {
       } 
 
       if((user as UserData)?.subscription === true) {
-        console.log(user)
         redirect('/');
       } 
     }

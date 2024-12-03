@@ -1,36 +1,24 @@
-import React, { useEffect } from 'react'
+'use client'
+import React from 'react'
 import MobileNav from './MobileNav';
 import Link from 'next/link';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { menuLinks } from '@/constants';
 import { usePathname } from 'next/navigation';
-import { getLoggedInUser } from '@/lib/actions/userActions';
 import LoggedInHeader from './LoggedInHeader';
 import { useUser } from '@/contexts/child_context/userContext';
 import { UserData } from '@/types/globals';
 
 const Header = () => {
 
-    const { user, setUser } = useUser();
+    const { user } = useUser();
 
     const pathName = usePathname();
 
 
-    useEffect(() => {
-        const getLogin = async () => {
-            const response = await getLoggedInUser();
-
-            if(typeof response === 'object') setUser(response);
-        }
-
-        getLogin();
-    }, []);
-
-
-
     return (
         <>
-            {user ? (
+            {typeof user === 'object' ? (
                 <LoggedInHeader 
                     name={
                         `${(user as UserData)?.lastname} ${(user as UserData)?.firstname}`

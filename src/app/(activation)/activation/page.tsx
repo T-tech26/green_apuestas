@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { LanguageSwitcher } from '@/components/LanguageSwitcher'
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -14,45 +14,23 @@ import { redirect } from 'next/navigation'
 import { Loader2 } from 'lucide-react'
 import { useToast } from '@/hooks/use-toast'
 import { useUser } from '@/contexts/child_context/userContext'
+import { UserData } from '@/types/globals'
 
 
 const Activation = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [showHelpMessage, setShowHelpMessage] = useState(false);
-  const [isSubscriptionCheck, setIsSubscriptionCheck] = useState(false);
 
   const { user, setUser } = useUser();
 
   const { toast } = useToast();
 
 
-  /* eslint-disable react-hooks/exhaustive-deps */
-  useEffect(() => {
-    const getLogin = async () => {
-      setIsSubscriptionCheck(true);
-      try {
-        const response = await getLoggedInUser();
-        
-        /* eslint-disable @typescript-eslint/no-explicit-any */
-        if(typeof response === 'object') setUser((response as any));
-        /* eslint-enable @typescript-eslint/no-explicit-any */
-
-      } catch (error) {
-        console.error("Error checking user subscription", error);
-      } finally {
-        setIsSubscriptionCheck(false);
-      }
-    }
-    getLogin();
-  }, []);
-  /* eslint-enable react-hooks/exhaustive-deps */
-
-
-  if(user) {
-    /* eslint-disable @typescript-eslint/no-explicit-any */
-    if((user as any)?.subscription === true) redirect('/');
-    /* eslint-enable @typescript-eslint/no-explicit-any */
+  if(typeof user === 'object') {
+    if((user as UserData)?.subscription === true) redirect('/');
+  } else if (typeof user !== 'object') {
+    redirect('/signin'); 
   }
 
 
@@ -78,9 +56,7 @@ const Activation = () => {
 
     if(user) {
 
-      /* eslint-disable @typescript-eslint/no-explicit-any */
-      const id = (user as any)?.$id;
-      /* eslint-enable @typescript-eslint/no-explicit-any */
+      const id = (user as UserData)?.$id;
       
       setIsLoading(true)
       try {
@@ -108,7 +84,7 @@ const Activation = () => {
   return (
     <section className='w-full h-screen bg-dark-gradient-135deg flex flex-col'>
       
-      {isSubscriptionCheck ? (
+      {typeof user !== 'object' ? (
         <div className='w-full h-full flex justify-center items-center'>
           <Loader2 size={60} className='animate-spin text-color-30'/>
         </div>
