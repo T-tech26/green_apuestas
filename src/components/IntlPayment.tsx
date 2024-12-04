@@ -41,7 +41,9 @@ const IntlPayment = () => {
     });
 
 
+    /* eslint-disable @typescript-eslint/no-explicit-any */
     const handleImgUpload = (e: React.ChangeEvent<HTMLInputElement>, field: any) => {
+        /* eslint-enable @typescript-eslint/no-explicit-any */
         const file = e.target.files?.[0];
         const reader = new FileReader();
     
