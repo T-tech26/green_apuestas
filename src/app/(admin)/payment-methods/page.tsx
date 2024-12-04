@@ -30,7 +30,7 @@ const PaymentMethod = () => {
                           <Button 
                             key={method.id}
                             type='button'
-                            className={`rounded-none bg-dark-gradient-135deg hover:bg-light-gradient-135deg
+                            className={`rounded-none bg-dark-gradient-135deg hover:bg-light-gradient-135deg focus:outline-none outline-none
                               ${
                                 active ? 'bg-light-gradient-135deg' : ''
                               }`}
