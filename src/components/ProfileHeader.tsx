@@ -11,7 +11,7 @@ const ProfileHeader = () => {
 
     return (
         <>
-            {typeof user === 'object' && (
+            {typeof user === 'object' ? (
                 <div className="flex items-center justify-between md:justify-end w-full px-5 py-1 bg-white drop-shadow-md">
                     <ProfileMobleMenu />
                     
@@ -41,6 +41,12 @@ const ProfileHeader = () => {
                             </span>
                         </div>
                     </div>
+                </div>
+            ) : (
+                <div className="animate-pulse flex items-center h-[56px] justify-between md:justify-end w-full px-5 py-1 bg-white drop-shadow-md">
+                    <div className='w-10 h-9 md:hidden bg-gray-300 rounded-md'></div>
+
+                    <div className='w-64 h-9 bg-gray-300 rounded-md'></div>
                 </div>
             )}
         </>

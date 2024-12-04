@@ -16,10 +16,7 @@ import React from 'react'
 const Profile = () => {
 
     const { user, setUser } = useUser();
-  
-    console.log('still fetching')
-
-
+    
 
     if (typeof user !== 'object') {
       return (

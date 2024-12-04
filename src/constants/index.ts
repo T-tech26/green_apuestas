@@ -188,3 +188,22 @@ export const AdminSubMenuLinks = [
         ]
     }
 ]
+
+export const PaymentMethods = [
+    {
+        id: '1',
+        description: 'Binance ID'
+    },
+    {
+        id: '2',
+        description: 'Crypto Wallets'
+    },
+    {
+        id: '3',
+        description: 'Bank Accounts'
+    },
+    {
+        id: '4',
+        description: "Int'l Payment Platforms"
+    }
+]
