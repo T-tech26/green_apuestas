@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { Form, FormControl, FormField, FormMessage } from './ui/form';
@@ -7,6 +7,12 @@ import Image from 'next/image';
 import { Input } from './ui/input';
 import { Button } from './ui/button';
 import { Loader2 } from 'lucide-react';
+import { PaymentMethods } from '@/types/globals';
+import { useOtherContext } from '@/contexts/child_context/otherContext';
+import { createPaymentMethod, deletePaymentMethod, getPaymentMethods } from '@/lib/actions/userActions';
+import { toast } from '@/hooks/use-toast';
+import { paymentMethodsWithImages } from '@/lib/utils';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from './ui/table';
 
 const CryptoPayment = () => {
 
@@ -14,6 +20,43 @@ const CryptoPayment = () => {
     const imgRef = useRef<HTMLInputElement | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [img, setImg] = useState('');
+    const [type, setType] = useState<PaymentMethods[] | string>('');
+    const [deleteMethod, setDeleteMethod] = useState<string | PaymentMethods>('');
+
+    const { paymentMethods, setPaymentMethods } = useOtherContext();
+
+
+    useEffect(() => {
+        if(paymentMethods.length > 0) {
+            const cryptoType = paymentMethods.filter(methods => {  return methods.cryptoName; });
+            setType(cryptoType);
+        }
+    }, [paymentMethods]);
+
+
+    const deletePayment = async () => {
+        try {
+            if(deleteMethod) {
+                const response = await deletePaymentMethod(deleteMethod);
+                if(response !== 'Success') {
+                    toast({
+                        description: 'Error deleting payment method try again'
+                    })
+                    return
+                }
+                const res = await getPaymentMethods();
+                const payments = paymentMethodsWithImages(res);
+                setPaymentMethods(payments);
+            }
+        } catch (error) {
+            /* eslint-disable @typescript-eslint/no-explicit-any */
+            toast({
+                description: `${(error as any)?.message}, try again`
+            });
+            /* eslint-enable @typescript-eslint/no-explicit-any */
+            console.error("Error deleting payment method ", error);
+        }
+    }
 
 
     const formSchema = z.object({
@@ -24,7 +67,8 @@ const CryptoPayment = () => {
             .refine((file) => ['image/png', 'image/jpeg'].includes(file.type), {
             message: 'File must be PNG or JPEG',
             }),
-        name: z.string().min(3),
+        type: z.string().min(3),
+        cryptoName: z.string().min(3),
         address: z.string().min(3),
         minDeposit: z.string().min(3),
         network: z.string().min(3),
@@ -50,7 +94,8 @@ const CryptoPayment = () => {
         resolver: zodResolver(formSchema),
         defaultValues: {
             logo: undefined,
-            name: '',
+            type: '',
+            cryptoName: '',
             address: '',
             minDeposit: '',
             network: ''
@@ -62,22 +107,112 @@ const CryptoPayment = () => {
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         setIsLoading(true)
         try {
-            console.log(values)
+            const res = await createPaymentMethod(values);
+
+            if(res) {
+                toast({
+                    description: res
+                });
+            } else {
+                toast({
+                    description: 'Payment method uploaded'
+                });
+            }
+            
+
+            const response = await getPaymentMethods();
+            const payments = paymentMethodsWithImages(response);
+            setPaymentMethods(payments);
+
         } catch (error) {
-          console.error("Error submitting activation code ", error);
+            /* eslint-disable @typescript-eslint/no-explicit-any */
+            toast({
+                description: `${(error as any)?.message}, try again`
+            });
+            /* eslint-enable @typescript-eslint/no-explicit-any */
+            console.error("Error uploading payment method ", error);
         } finally {
           form.reset();
           setImg('');
           setIsLoading(false)
         }
     }
+
+    
       
     return (
         <main className='py-5'>
+
+            {Array.isArray(type) && type.length > 0 ? (
+                <div className='min-w-[200px] rounded-md overflow-x-scroll'>
+                    <h1 className='p-4 text-sm text-color-60 font-medium w-full'>Crypto payment methods.</h1>
+                    <Table>
+                        <TableHeader className='bg-dark-gradient-135deg'>
+                            <TableRow>
+                                <TableHead className="text-color-30 text-center">Type</TableHead>
+                                <TableHead className="text-color-30 text-center">Crypto</TableHead>
+                                <TableHead className="text-color-30 text-center">Network</TableHead>
+                                <TableHead className="text-color-30 text-center">Wallet address</TableHead>
+                                <TableHead className="text-color-30 text-center">Minimum deposit</TableHead>
+                                <TableHead className="text-color-30 text-right"></TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {type.map((method, index) => {
+
+                                const logo = method.logoUrl;
+
+                                return (
+                                    <TableRow 
+                                        key={method.$id} 
+                                        className={`hover:bg-light-gradient-135deg cursor-pointer ${index % 2 === 1 ? 'bg-gray-50' : ''}`}
+                                    >
+                                        <TableCell className="font-medium flex gap-2 justify-center items-center min-w-28">
+                                            <img
+                                                src={logo ? logo : '/profile-icon.svg'}
+                                                width={40}
+                                                height={40}
+                                                alt='method logo'
+                                                className='rounded-full size-9'
+                                            />
+                                            {`${method.type}`}
+                                        </TableCell>
+                                        <TableCell className='text-center'>{method.cryptoName}</TableCell>
+                                        <TableCell className='text-center'>{method.network}</TableCell>
+                                        <TableCell className='text-center max-w-40 overflow-x-scroll address'>{method.address}</TableCell>
+                                        <TableCell className='text-center'>{method.minDeposit}</TableCell>
+                                        <TableCell className='text-right text-red-500'>
+                                            <Image
+                                                src='/delete-icon.svg'
+                                                width={25}
+                                                height={25}
+                                                alt='delete icons'
+                                                className='cursor-pointer min-w-6'
+                                                onClick={() => {
+                                                    setDeleteMethod(method);
+                                                    deletePayment();
+                                                }}
+                                            />
+                                        </TableCell>
+                                    </TableRow>
+                                )
+                            })}
+                        </TableBody>
+                    </Table>
+                </div>
+            ) : Array.isArray(type) && type.length === 0 ? (
+                <div className='flex justify-center py-4'>
+                    <p className='text-color-60 text-sm'>No crypto method of payment is uploaded yet!</p>
+                </div>
+            ) : (
+                <div className="w-full h-52 bg-gray-300 animate-pulse flex items-center justify-between rounded-md">
+                </div>
+            )}
+
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)}>
                 
-                <div className="">
+                <div className="mt-6">
 
                     <FormField
                         control={form.control}
@@ -130,13 +265,33 @@ const CryptoPayment = () => {
 
                     <FormField
                         control={form.control}
-                        name='name'
+                        name='type'
                         render={({ field }) => (
                             <div className='flex flex-col gap-2 w-full mt-5'>
 
                                 <FormControl>
                                     <Input
-                                        id='name'
+                                        id='type'
+                                        placeholder='Payment method e.g crypto'
+                                        type='text'
+                                        {...field}
+                                        className='w-full py-2 px-3 border border-color-60 focus:border-color-10 focus:outline-none rounded-md'
+                                    />
+                                </FormControl>
+                                <FormMessage />
+                            </div>
+                        )}
+                    />
+
+                    <FormField
+                        control={form.control}
+                        name='cryptoName'
+                        render={({ field }) => (
+                            <div className='flex flex-col gap-2 w-full mt-5'>
+
+                                <FormControl>
+                                    <Input
+                                        id='cryptoName'
                                         placeholder='crypto name'
                                         type='text'
                                         {...field}

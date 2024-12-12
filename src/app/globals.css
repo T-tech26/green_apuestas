@@ -25,8 +25,6 @@ body {
   display: none !important;
 }
 
-
-/* Target a specific container or div */
 ::-webkit-scrollbar {
   width: 10px;
 }
@@ -42,6 +40,26 @@ body {
 }
 
 .scroll-container::-webkit-scrollbar-thumb:hover {
+  background: #1089FF;
+}
+
+
+.address::-webkit-scrollbar {
+  width: 10px;
+  height: 5px;
+}
+
+.address::-webkit-scrollbar-track {
+  background: #f0f0f0;
+}
+
+.address::-webkit-scrollbar-thumb {
+  background: #97cbff;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.address.scroll-container::-webkit-scrollbar-thumb:hover {
   background: #1089FF;
 }
 

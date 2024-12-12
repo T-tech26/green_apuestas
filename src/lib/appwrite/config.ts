@@ -2,7 +2,7 @@
 
 import { cookies } from "next/headers";
 import { config, adminConfig } from "../../config/config";
-import { Client, Account, Databases, Users } from "node-appwrite"
+import { Client, Account, Databases, Users, Storage } from "node-appwrite"
 
 
 export async function createSessionClient() {
@@ -41,6 +41,10 @@ export async function createAdminClient() {
 
       get users() {
         return new Users(client);
+      },
+
+      get storage() {
+        return new Storage(client);
       }
     };
 }

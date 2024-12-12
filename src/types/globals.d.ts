@@ -206,6 +206,72 @@ export interface GeneratedCode {
 }
 
 
+export interface PaymentMethod {
+  logo: File,
+  type: string,
+  minDeposit: string,
+  payId?: string,
+  cryptoName?: string,
+  address?: string,
+  network?: string,
+  bankName?: string,
+  accountName?: string,
+  accountNumber?: string,
+  currency?: string,
+  rate?: string,
+  platformName?: string,
+  email?: string,
+}
+
+
+export interface PaymentMethods {
+  logo?: string;
+  type?: string;
+  payId?: string;
+  logoUrl?: string;
+  minDeposit?: string;
+  cryptoName?: string | null;
+  address?: string | null;
+  network?: string | null;
+  bankName?: string | null;
+  accountName?: string | null;
+  accountNumber?: string | null;
+  currency?: string | null;
+  rate?: string | null;
+  platformName?: string | null;
+  email?: string | null;
+  $id?: string;
+  $createdAt?: string;
+  $updatedAt?: string;
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+  $permissions?: any[];
+  /* eslint-enable @typescript-eslint/no-explicit-any */
+  $databaseId?: string;
+  $collectionId?: string;
+}
+
+
+export interface Files {
+  $id: string;
+  bucketId: string;
+  $createdAt: string;
+  $updatedAt: string;
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+  $permissions?: any[];
+  /* eslint-enable @typescript-eslint/no-explicit-any */
+  name: string;
+  signature: string;
+  mimeType: string;
+  sizeOriginal: number;
+  chunksTotal: number;
+  chunksUploaded: number;
+}
+
+
+export interface Payment { 
+  method: PaymentMethods[], 
+  logo: Files[] 
+};
 
 
 

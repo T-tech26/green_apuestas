@@ -18,8 +18,14 @@ const ActivationPin = () => {
     useEffect(() => {
         const getPins = async () => {
             const response = await getActivationPins();
-
-            setAllPins(response);
+            if(typeof response === 'string') {
+                toast({
+                    description: response
+                });
+                setAllPins([]);
+            } else {
+                setAllPins(response);
+            }
         }
 
         getPins();

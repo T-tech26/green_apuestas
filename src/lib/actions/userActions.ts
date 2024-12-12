@@ -3,10 +3,16 @@
 import { ID, Query } from "node-appwrite";
 import { createAdminClient, createSessionClient } from "../appwrite/config";
 import { cookies } from "next/headers";
-import { registerParams, UserData } from "@/types/globals";
+import { Payment, PaymentMethod, PaymentMethods, registerParams, UserData } from "@/types/globals";
 import { parseStringify } from "../utils";
 
-const { APPWRITE_DATABASE_ID, APPWRITE_USERS_COLLECTION_ID, APPWRITE_ACTIVATION_COLLECTION_ID } = process.env;
+const { 
+    APPWRITE_DATABASE_ID, 
+    APPWRITE_USERS_COLLECTION_ID, 
+    APPWRITE_ACTIVATION_COLLECTION_ID,
+    APPWRITE_PAYMENT_METHOD_COLLECTION_ID,
+    APPWRITE_PAYMENT_METHOD_LOGO_BUCKET_ID
+ } = process.env;
 
 
 export const register = async ({ password, ...data}: registerParams) => {
@@ -302,6 +308,94 @@ export const deleteActivationPin = async (id: string) => {
         return parseStringify(pins.documents);
     } catch (error) {
         console.error('Error deleting user: ', error);
+    }
+}
+
+
+export const createPaymentMethod = async ({ logo, ...data }: PaymentMethod) => {
+
+    try {
+        const { database, storage } = await createAdminClient();
+
+        await database.createDocument(
+            APPWRITE_DATABASE_ID!,
+            APPWRITE_PAYMENT_METHOD_COLLECTION_ID!,
+            ID.unique(),
+            {
+                ...data,
+                logo: `${logo.name}`
+            }
+        )
+
+        await storage.createFile(
+            APPWRITE_PAYMENT_METHOD_LOGO_BUCKET_ID!,
+            ID.unique(),
+            logo
+        )
+    } catch (error) {
+        console.error('Error creating payment method ', error);
+        /* eslint-disable @typescript-eslint/no-explicit-any */
+        return `${(error as any)?.message}, try again`;
+        /* eslint-enable @typescript-eslint/no-explicit-any */
+    }
+}
+
+
+export const getPaymentMethods = async (): Promise<Payment | string> => {
+    try {
+        const { database, storage } = await createAdminClient();
+
+        const methods = await database.listDocuments(
+            APPWRITE_DATABASE_ID!,
+            APPWRITE_PAYMENT_METHOD_COLLECTION_ID!,
+        );
+
+        const methodLogos = await storage.listFiles(
+            APPWRITE_PAYMENT_METHOD_LOGO_BUCKET_ID!
+        );
+
+        return parseStringify({ method: methods.documents, logo: methodLogos.files });
+    } catch (error) {
+        console.error('Error creating payment method ', error);
+        /* eslint-disable @typescript-eslint/no-explicit-any */
+        return `${(error as any)?.message}, refresh the page and try again`;
+        /* eslint-enable @typescript-eslint/no-explicit-any */
+    }
+}
+
+
+export const deletePaymentMethod = async (payment: PaymentMethods | string) => {
+    try {
+        const { database, storage } = await createAdminClient();
+
+        const fileName = (payment as PaymentMethods)?.logo;
+
+        const file = await storage.listFiles(
+            APPWRITE_PAYMENT_METHOD_LOGO_BUCKET_ID!,
+            [Query.equal('name', fileName ? fileName : '')]
+        )
+
+        const fileId = file.files[0].$id;
+        
+        await storage.deleteFile(
+            APPWRITE_PAYMENT_METHOD_LOGO_BUCKET_ID!,
+            fileId
+        );
+
+        const paymentId = (payment as PaymentMethods)?.$id;
+
+        await database.deleteDocument(
+            APPWRITE_DATABASE_ID!,
+            APPWRITE_PAYMENT_METHOD_COLLECTION_ID!,
+            `${paymentId ? paymentId : ''}`
+        );
+
+        return 'Success'
+    } catch (error) {
+      console.error("Error uploading payment method ", error);
+      /* eslint-disable @typescript-eslint/no-explicit-any */
+      return `${(error as any)?.message}, try again`;
+      /* eslint-enable @typescript-eslint/no-explicit-any */
     }
 }
   

@@ -1,7 +1,7 @@
+import { Payment, PaymentMethods } from "@/types/globals"
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 import { z } from "zod"
-
 
 
 export function cn(...inputs: ClassValue[]) {
@@ -85,3 +85,19 @@ export const stateSchema = z.object({
 export const citySchema = z.object({
   city: z.string().min(3),
 })
+
+
+
+// Map over the payment methods and match logos to images
+export const paymentMethodsWithImages = (paymentMethods: Payment | string): PaymentMethods[] => {
+
+  return (paymentMethods as Payment)?.method.map((method) => {
+
+    const image = (paymentMethods as Payment)?.logo.find((img) => img.name === method.logo); // Match by the logo name
+
+    return {
+      ...method,
+      logoUrl: image && `${process.env.NEXT_PUBLIC_APPWRITE_PUBLIC_URL}/storage/buckets/${process.env.NEXT_PUBLIC_APPWRITE_PAYMENT_METHOD_LOGO_BUCKET_ID}/files/${image.$id}/view?project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID}&project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID}&mode=admin`,
+    };
+  })
+};
