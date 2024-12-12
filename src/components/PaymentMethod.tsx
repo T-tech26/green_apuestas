@@ -1,0 +1,88 @@
+'use client'
+import { useOtherContext } from '@/contexts/child_context/otherContext';
+import { PaymentMethods } from '@/types/globals';
+import React, { useEffect, useState } from 'react'
+import PaymentProcess from './PaymentProcess';
+
+
+interface PaymentMethodProps {
+    id: string
+}
+
+const PaymentMethod = ({ id }: PaymentMethodProps) => {
+
+    const { paymentMethods } = useOtherContext();
+
+    const [type, setType] = useState<PaymentMethods[] | string>('');
+    const [method, setMethod] = useState<PaymentMethods | string>('');
+    
+
+    useEffect(() => {
+        if(id === '1') {
+            if(paymentMethods.length > 0) {
+                const cryptoType = paymentMethods.filter(methods => {  return methods.payId; });
+                setType(cryptoType);
+            }
+        }
+    }, [paymentMethods]);
+
+    return (
+        <main className='py-7'>
+            {Array.isArray(type) && type.length > 0 ? (
+                <>
+                    {type.map((method, index) => {
+                        const logo = method.logoUrl;
+
+                        const isLastIndex = index === type.length - 1;
+                        return (
+                            <div 
+                                className={`flex items-center justify-between p-2 bg-gray-50 hover:bg-light-gradient-135deg border-b border-color-10 cursor-pointer ${
+                                    index === 0 ? 'rounded-t-md' : ''
+                                } ${ isLastIndex ? 'border-none rounded-b-md' : ''}`}
+                                onClick={() => setMethod(method)}
+                            >
+                                <div className='flex items-center gap-2 text-sm text-color-60'>
+                                    <img
+                                        src={logo ? logo : '/profile-icon.svg'}
+                                        width={30}
+                                        height={30}
+                                        alt='method logo'
+                                        className='rounded-full size-9'
+                                    />
+                                    {`${method.type}`}
+                                </div>
+
+                                <div>
+                                    <p className='text-color-60 font-semibold text-base mb-2'>Pay ID</p>
+                                    <p className='text-color-60 text-sm'>
+                                        {`${method.payId}`}
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <p className='text-color-60 font-semibold text-base mb-2'>Minimum deposit</p>
+                                    <p className='text-color-60 text-sm'>
+                                        {`${method.minDeposit}`}
+                                    </p>
+                                </div>
+                            </div>
+                        )
+                    })}
+                </>
+            ) : Array.isArray(type) && type.length === 0 ? (
+                <div className='flex justify-center py-4'>
+                    <p className='text-color-60 text-sm'>No Binance Pay payment method!</p>
+                </div>
+            ) : (
+                <div className="w-full animate-pulse">
+                    <div className='w-full h-16 bg-gray-300 rounded-t-md border-b border-color-10'></div>
+                    <div className='w-full h-16 bg-gray-300 rounded-b-md'></div>
+                </div>
+            )}
+
+            <PaymentProcess method={method} setMethod={setMethod} />
+        </main>
+    )
+}
+
+export default PaymentMethod

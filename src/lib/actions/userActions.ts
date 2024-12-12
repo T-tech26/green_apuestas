@@ -3,7 +3,7 @@
 import { ID, Query } from "node-appwrite";
 import { createAdminClient, createSessionClient } from "../appwrite/config";
 import { cookies } from "next/headers";
-import { Payment, PaymentMethod, PaymentMethods, registerParams, UserData } from "@/types/globals";
+import { AmountAndReciept, Payment, PaymentMethod, PaymentMethods, registerParams, UserData } from "@/types/globals";
 import { parseStringify } from "../utils";
 
 const { 
@@ -11,7 +11,8 @@ const {
     APPWRITE_USERS_COLLECTION_ID, 
     APPWRITE_ACTIVATION_COLLECTION_ID,
     APPWRITE_PAYMENT_METHOD_COLLECTION_ID,
-    APPWRITE_PAYMENT_METHOD_LOGO_BUCKET_ID
+    APPWRITE_PAYMENT_METHOD_LOGO_BUCKET_ID,
+    APPWRITE_TRANSACTION_COLLECTION_ID
  } = process.env;
 
 
@@ -392,10 +393,61 @@ export const deletePaymentMethod = async (payment: PaymentMethods | string) => {
 
         return 'Success'
     } catch (error) {
-      console.error("Error uploading payment method ", error);
+      console.error("Error deleting payment method ", error);
       /* eslint-disable @typescript-eslint/no-explicit-any */
       return `${(error as any)?.message}, try again`;
       /* eslint-enable @typescript-eslint/no-explicit-any */
     }
 }
+
+
+export const createTransaction = async ({ reciept, ...data }: AmountAndReciept, method: PaymentMethods, time: string, userId: string) => {
+
+    try {
+        const { database, storage } = await createAdminClient();
+
+
+        const transaction = await database.createDocument(
+            APPWRITE_DATABASE_ID!,
+            APPWRITE_TRANSACTION_COLLECTION_ID!,
+            ID.unique(),
+            {
+                transaction_type: method.type,
+                transaction_status: 'pending',
+                amount: data.amount,
+                transaction_time: time,
+                userId: userId,
+                transaction_details: {
+                    type: method.type,
+                    payId: method.payId,
+                    logoUrl: method.logoUrl,
+                    minDeposit: method.minDeposit,
+                    cryptoName: method.cryptoName,
+                    address: method.address,
+                    network: method.network,
+                    bankName: method.bankName,
+                    accountName: method.accountName,
+                    accountNumber: method.accountNumber,
+                    currency: method.currency,
+                    rate: method.rate,
+                    platformName: method.platformName,
+                    email: method.email
+                }
+            }
+        );
+
+        const transacReciept = await storage.createFile(
+            APPWRITE_PAYMENT_METHOD_LOGO_BUCKET_ID!,
+            ID.unique(),
+            reciept
+        );
+
+        return 'Success';
+    } catch (error) {
+        console.error("Error creating transaction ", error);
+        /* eslint-disable @typescript-eslint/no-explicit-any */
+        return `${(error as any)?.message}, try again`;
+        /* eslint-enable @typescript-eslint/no-explicit-any */
+    }
+}   
   

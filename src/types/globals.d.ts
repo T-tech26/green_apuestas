@@ -251,6 +251,7 @@ export interface PaymentMethods {
 }
 
 
+
 export interface Files {
   $id: string;
   bucketId: string;
@@ -272,6 +273,39 @@ export interface Payment {
   method: PaymentMethods[], 
   logo: Files[] 
 };
+
+
+export interface UsedPaymentMethod {
+  logo?: string;
+  type?: string;
+  payId?: string;
+  logoUrl?: string;
+  minDeposit?: string;
+  cryptoName?: string | null;
+  address?: string | null;
+  network?: string | null;
+  bankName?: string | null;
+  accountName?: string | null;
+  accountNumber?: string | null;
+  currency?: string | null;
+  rate?: string | null;
+  platformName?: string | null;
+  email?: string | null;
+  $id?: string;
+  $createdAt?: string;
+  $updatedAt?: string;
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+  $permissions?: any[];
+  /* eslint-enable @typescript-eslint/no-explicit-any */
+  $databaseId?: string;
+  $collectionId?: string;
+}
+
+
+export interface AmountAndReciept {
+  reciept: File,
+  amount: string
+}
 
 
 

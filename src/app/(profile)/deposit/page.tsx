@@ -1,26 +1,45 @@
-import React from 'react'
+'use client'
+import PaymentMethod from '@/components/PaymentMethod'
+import { Button } from '@/components/ui/button'
+import { PaymentMethods } from '@/constants'
+import React, { useState } from 'react'
 
 const page = () => {
-  return (
-    <main className='flex-1 py-14 overflow-y-scroll'>
-        <div className='w-4/5 mx-auto flex flex-col gap-1'>
-            <div className='flex justify-center items-start flex-wrap'>
-                <div className='w-32 h-auto'>
-                    <p className='text-color-60 text-xs'>Bank transfer</p>
+
+
+    const [paymentMethod, setPaymentMethod] = useState('1');
+
+
+    return (
+        <main className='flex-1 py-14 overflow-y-scroll'>
+            <div className='w-4/5 mx-auto flex flex-col gap-5'>
+                <div
+                    className='flex items-center flex-wrap py-3'
+                >
+                    {PaymentMethods.map(method => {
+
+                    const active = paymentMethod === method.id;
+
+                    return (
+                        <Button 
+                        key={method.id}
+                        type='button'
+                        className={`rounded-none bg-dark-gradient-135deg hover:bg-light-gradient-135deg focus:outline-none outline-none
+                            ${
+                            active ? 'bg-light-gradient-135deg' : ''
+                            }`}
+                            onClick={() => setPaymentMethod(method.id)}
+                        >
+                        {method.description}
+                        </Button>
+                    )
+                    })}
                 </div>
-                <div className='w-32 h-auto'>
-                    <p className='text-color-60 text-xs'>Bank transfer</p>
-                </div>
-                <div className='w-32 h-auto'>
-                    <p className='text-color-60 text-xs'>Bank transfer</p>
-                </div>
-                <div className='w-32 h-auto'>
-                    <p className='text-color-60 text-xs'>Bank transfer</p>
-                </div>
+
+                <PaymentMethod id={paymentMethod} />
             </div>
-        </div>
-    </main>
-  )
+        </main>
+    )
 }
 
 export default page
