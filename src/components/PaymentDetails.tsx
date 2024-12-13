@@ -1,57 +1,23 @@
-'use client'
-import { useUser } from '@/contexts/child_context/userContext';
 import { toast } from '@/hooks/use-toast';
-import { createTransaction } from '@/lib/actions/userActions';
-import { PaymentMethods, UserData } from '@/types/globals';
-import { zodResolver } from '@hookform/resolvers/zod';
-import React, { useRef, useState } from 'react'
-import { useForm, UseFormReturn } from 'react-hook-form';
-import { z } from 'zod';
+import { PaymentMethods } from '@/types/globals';
+import React from 'react'
 import Image from 'next/image';
 import { Button } from './ui/button';
-import { paymentFormSchema } from '@/lib/utils';
-import PaymentForm from './PaymentForm';
 
 
 interface MethodProps {
     methodType: PaymentMethods;
     step: number;
     setStep: (newStep: number) => void;
-    form: UseFormReturn<PaymentForm>;
 }
 
-const PaymentDetails = ({ methodType, step, setStep, form }: MethodProps) => {
+const PaymentDetails = ({ methodType, step, setStep }: MethodProps) => {
 
 
     const handleNextStep = () => {
 
-        const firstForm = 'amount';
-        const secondForm = 'reciept'
-
         if (step === 1) {
             setStep(step + 1);
-        } else if(step === 2) {
-            form.trigger(firstForm).then((isValid) => {
-                if (isValid) {
-                    const amount = form.getValues('amount');
-
-                    if(parseFloat(amount) >= Number(methodType.minDeposit)) {
-                        setStep(step + 1); // Proceed to next step if validation passes
-                    } else {
-                        // Invalidate the amount input if threshold is not met
-                        form.setError('amount', {
-                            type: 'manual', // Indicate this is a custom error
-                            message: `Minimum deposit is ${methodType.minDeposit} USD`, // Custom error message
-                        });
-                    }
-                }
-            });
-        } else if(step === 3) {
-            form.trigger(secondForm).then((isValid) => {
-                if (isValid) {
-                    setStep(step + 1); // Proceed to next step if validation passes
-                }
-            });
         } else {
             setStep(step + 1);
         }

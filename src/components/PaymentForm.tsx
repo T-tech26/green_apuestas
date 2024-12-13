@@ -22,10 +22,6 @@ interface MethodProps {
     setMethod: (newMethod: PaymentMethods | string) => void;
 }
 
-
-type PaymentForm = z.infer<typeof paymentFormSchema>;
-
-
 const PaymentForm = ({ methodType, setMethod }: MethodProps) => {
 
     const imgRef = useRef<HTMLInputElement | null>(null);
@@ -178,7 +174,7 @@ const PaymentForm = ({ methodType, setMethod }: MethodProps) => {
                         className="flex flex-col justify-center item-center gap-2"
                     >
                         {step === 1 && (
-                            <PaymentDetails methodType={methodType} step={step} setStep={setStep} form={form} />
+                            <PaymentDetails methodType={methodType} step={step} setStep={setStep} />
                         )}
 
                         {step === 2 && (
