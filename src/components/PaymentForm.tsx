@@ -2,7 +2,7 @@
 import { toast } from '@/hooks/use-toast';
 import { PaymentMethods, UserData } from '@/types/globals';
 import Image from 'next/image';
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Button } from './ui/button';
 import { z } from 'zod';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -12,6 +12,8 @@ import { Input } from './ui/input';
 import { createTransaction } from '@/lib/actions/userActions';
 import { useUser } from '@/contexts/child_context/userContext';
 import { Loader2 } from 'lucide-react';
+import { paymentFormSchema } from '@/lib/utils';
+import PaymentDetails from './PaymentDetails';
 
 
 
@@ -20,12 +22,17 @@ interface MethodProps {
     setMethod: (newMethod: PaymentMethods | string) => void;
 }
 
-const BinanceIDPayment = ({ methodType, setMethod }: MethodProps) => {
+
+type PaymentForm = z.infer<typeof paymentFormSchema>;
+
+
+const PaymentForm = ({ methodType, setMethod }: MethodProps) => {
 
     const imgRef = useRef<HTMLInputElement | null>(null);
     const [step, setStep] = useState<number>(1);
     const [img, setImg] = useState('');
     const [loading, setLoading] = useState(false);
+    const [equivalentAmountInCurrency, setEquivalentAmountInCurrency] = useState(0);
 
     const { user } = useUser();
 
@@ -44,26 +51,25 @@ const BinanceIDPayment = ({ methodType, setMethod }: MethodProps) => {
     }
 
 
-    const formSchema = z.object({
-        amount: z.string().min(2, {message: 'Amount must be greater than minimum deposit'}),
-        reciept: z.instanceof(File)
-            .refine((file) => file.size <= 5 * 1024 * 1024, {
-            message: 'File size must be less than or equal to 5MB',
-            })
-            .refine((file) => ['image/png', 'image/jpeg'].includes(file.type), {
-            message: 'File must be PNG or JPEG',
-            }),
-    })
-
-
     // 1. Define your form.
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
+    const form = useForm<z.infer<typeof paymentFormSchema>>({
+        resolver: zodResolver(paymentFormSchema),
         defaultValues: {
           amount: '',
           reciept: undefined
         },
     })
+
+
+    const handleRateConversion = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const enteredAmount = e.target.value;
+
+        const localAmount = Number(enteredAmount) * Number(methodType.rate);
+
+        setEquivalentAmountInCurrency(localAmount);
+
+        form.setValue('amount', enteredAmount);
+    }
 
 
     const handleNextStep = () => {
@@ -104,33 +110,17 @@ const BinanceIDPayment = ({ methodType, setMethod }: MethodProps) => {
     const handlePrevStep = () => setStep(step - 1);
 
 
-    const handleCopyClick = async (text: string) => {
-        try {
-            await navigator.clipboard.writeText(text);
-    
-            toast({
-                description: 'Copied successfully',
-            });
-        } catch (error) {
-            console.error("Failed to copy text:", error);
-            toast({
-                description: 'Failed to copy text',
-            });
-        }
-    };
-
-
     const generateDateString = () => {
         const today = new Date();
         const day = today.getDate().toString().padStart(2, '0'); // Adds leading zero for single-digit days
         const month = (today.getMonth() + 1).toString().padStart(2, '0'); // Month is 0-indexed, so we add 1
         const year = today.getFullYear();
     
-        return `${day}/${month}/${year}`;
+        return `${day}-${month}-${year}`;
     }
 
 
-    const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    const onSubmit = async (data: z.infer<typeof paymentFormSchema>) => {
 
         const transactionTime = generateDateString();
         const userId = (user as UserData).userId;
@@ -162,6 +152,9 @@ const BinanceIDPayment = ({ methodType, setMethod }: MethodProps) => {
             }
         }
     };
+
+
+    const amount = form.watch('amount');
     
 
     return (
@@ -172,7 +165,11 @@ const BinanceIDPayment = ({ methodType, setMethod }: MethodProps) => {
                 height={25}
                 alt='Close icon'
                 className='absolute -top-[30px] -right-[10px]'
-                onClick={() => setMethod('')}
+                onClick={() => {
+                    form.setValue('amount', '');
+                    setStep(1);
+                    setMethod('');
+                }}
             />
             <FormProvider {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -181,51 +178,7 @@ const BinanceIDPayment = ({ methodType, setMethod }: MethodProps) => {
                         className="flex flex-col justify-center item-center gap-2"
                     >
                         {step === 1 && (
-                            <div className='flex flex-col justify-center gap-5'>
-                                <div className='flex items-center gap-2 text-sm text-color-60'>
-                                    {/* eslint-disable @next/next/no-img-element */}
-                                    <img
-                                        src={methodType ? methodType.logoUrl : '/profile-icon.svg'}
-                                        width={30}
-                                        height={30}
-                                        alt='method logo'
-                                        className='rounded-full size-9'
-                                    />
-                                    {/* eslint-enable @next/next/no-img-element */}
-                                    {`${methodType.type}`}
-                                </div>
-
-                                <div className='flex items-center justify-between w-full border border-color-60 rounded-md py-1 px-2'>
-                                    <p className='font-semibold text-base text-color-60'>Pay ID</p>
-                                    <p 
-                                        className='text-sm text-color-60 flex items-center gap-3'
-                                        onClick={() => handleCopyClick(methodType.payId ? methodType.payId : '')}
-                                    >
-                                        <Image
-                                            src='/copy-content-icon.svg'
-                                            width={15}
-                                            height={15}
-                                            alt='menu icons'
-                                            className='cursor-pointer'
-                                            onClick={() => handleCopyClick(methodType.payId ? methodType.payId : '')}
-                                        />
-                                        {methodType.payId}
-                                    </p>
-                                </div>
-
-                                <div className='flex items-center justify-between w-full border border-color-60 rounded-md py-1 px-2'>
-                                    <p className='font-semibold text-base text-color-60'>Minimum deposite</p>
-                                    <p className='text-sm text-color-60'>{methodType.minDeposit}</p>
-                                </div>
-
-                                <Button
-                                    type='button'
-                                    className='bg-dark-gradient-135deg'
-                                    onClick={() => handleNextStep()}
-                                >
-                                    Next
-                                </Button>
-                            </div>
+                            <PaymentDetails methodType={methodType} step={step} setStep={setStep} form={form} />
                         )}
 
                         {step === 2 && (
@@ -236,13 +189,33 @@ const BinanceIDPayment = ({ methodType, setMethod }: MethodProps) => {
                                     render={({ field }) => (
                                         <div className='flex flex-col gap-2 w-full'>
                                             <FormControl>
-                                                <Input
-                                                    id='amount'
-                                                    placeholder='enter amount'
-                                                    type='text'
-                                                    {...field}
-                                                    className='px-4 py-2 rounded-md bg-transparent border border-color-60 text-color-60 placeholder:text-color-60 focus:outline-none'
-                                                />
+                                                {methodType.bankName ? (
+                                                    <div
+                                                        className='pr-4 pb-2 rounded-md border border-color-60 flex flex-col md:flex-row md:pb-0 gap-2 md:items-center justify-between'
+                                                    >
+                                                        <Input
+                                                            id='amount'
+                                                            placeholder='enter amount'
+                                                            type='text'
+                                                            {...form.register('amount')}
+                                                            value={amount}
+                                                            className='px-4 py-2 rounded-md bg-transparent text-color-60 placeholder:text-color-60 focus:outline-none flex-1'
+                                                            onChange={handleRateConversion}
+                                                        />
+
+                                                        <p className='text-[13px] pl-4'>
+                                                            Minimum deposit {equivalentAmountInCurrency === 0 ? Number(methodType.minDeposit) * Number(methodType.rate) : equivalentAmountInCurrency} {methodType.currency}
+                                                        </p>
+                                                    </div>
+                                                ) : (
+                                                    <Input
+                                                        id='amount'
+                                                        placeholder='enter amount'
+                                                        type='text'
+                                                        {...field}
+                                                        className='px-4 py-2 rounded-md bg-transparent border border-color-60 text-color-60 placeholder:text-color-60 focus:outline-none'
+                                                    />
+                                                )}
                                             </FormControl>
                                             <FormMessage />
                                         </div>
@@ -343,4 +316,4 @@ const BinanceIDPayment = ({ methodType, setMethod }: MethodProps) => {
     )
 }
 
-export default BinanceIDPayment
+export default PaymentForm

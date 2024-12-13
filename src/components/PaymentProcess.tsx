@@ -1,6 +1,6 @@
 import { PaymentMethods } from '@/types/globals'
 import React from 'react'
-import BinanceIDPayment from './BinanceIDPayment';
+import PaymentForm from './PaymentForm';
 
 
 interface MethodProps {
@@ -20,9 +20,7 @@ const PaymentProcess = ({ method, setMethod }: MethodProps) => {
             }`}
         >
             <div className='w-[95%] md:w-4/5 px-6 py-10 flex gap-5 flex-col bg-light-gradient-135deg rounded-md'>
-                {methodType.payId && (
-                    <BinanceIDPayment methodType={methodType} setMethod={setMethod} />
-                )}
+                <PaymentForm methodType={methodType} setMethod={setMethod} />
             </div>
         </main>
     )

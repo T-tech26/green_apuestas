@@ -101,3 +101,15 @@ export const paymentMethodsWithImages = (paymentMethods: Payment | string): Paym
     };
   })
 };
+
+
+export const paymentFormSchema = z.object({
+  amount: z.string().min(2, {message: 'Amount must be greater than minimum deposit'}),
+  reciept: z.instanceof(File)
+      .refine((file) => file.size <= 5 * 1024 * 1024, {
+      message: 'File size must be less than or equal to 5MB',
+      })
+      .refine((file) => ['image/png', 'image/jpeg'].includes(file.type), {
+      message: 'File must be PNG or JPEG',
+      }),
+});
