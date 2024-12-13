@@ -2,7 +2,7 @@
 import { toast } from '@/hooks/use-toast';
 import { PaymentMethods, UserData } from '@/types/globals';
 import Image from 'next/image';
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { Button } from './ui/button';
 import { z } from 'zod';
 import { FormProvider, useForm } from 'react-hook-form';
