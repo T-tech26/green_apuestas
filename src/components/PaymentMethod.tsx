@@ -36,12 +36,14 @@ const PaymentMethod = ({ id }: PaymentMethodProps) => {
                         const isLastIndex = index === type.length - 1;
                         return (
                             <div 
+                                key={method.$id}
                                 className={`flex items-center justify-between p-2 bg-gray-50 hover:bg-light-gradient-135deg border-b border-color-10 cursor-pointer ${
                                     index === 0 ? 'rounded-t-md' : ''
                                 } ${ isLastIndex ? 'border-none rounded-b-md' : ''}`}
                                 onClick={() => setMethod(method)}
                             >
                                 <div className='flex items-center gap-2 text-sm text-color-60'>
+                                    {/* eslint-disable @next/next/no-img-element */}
                                     <img
                                         src={logo ? logo : '/profile-icon.svg'}
                                         width={30}
@@ -49,6 +51,7 @@ const PaymentMethod = ({ id }: PaymentMethodProps) => {
                                         alt='method logo'
                                         className='rounded-full size-9'
                                     />
+                                    {/* eslint-enable @next/next/no-img-element */}
                                     {`${method.type}`}
                                 </div>
 

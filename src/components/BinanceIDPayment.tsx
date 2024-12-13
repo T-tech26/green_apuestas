@@ -68,8 +68,8 @@ const BinanceIDPayment = ({ methodType, setMethod }: MethodProps) => {
 
     const handleNextStep = () => {
 
-        const firstForm: ('amount') = 'amount';
-        const secondForm: ('reciept') = 'reciept'
+        const firstForm = 'amount';
+        const secondForm = 'reciept'
 
         if (step === 1) {
             setStep(step + 1);
@@ -183,6 +183,7 @@ const BinanceIDPayment = ({ methodType, setMethod }: MethodProps) => {
                         {step === 1 && (
                             <div className='flex flex-col justify-center gap-5'>
                                 <div className='flex items-center gap-2 text-sm text-color-60'>
+                                    {/* eslint-disable @next/next/no-img-element */}
                                     <img
                                         src={methodType ? methodType.logoUrl : '/profile-icon.svg'}
                                         width={30}
@@ -190,6 +191,7 @@ const BinanceIDPayment = ({ methodType, setMethod }: MethodProps) => {
                                         alt='method logo'
                                         className='rounded-full size-9'
                                     />
+                                    {/* eslint-enable @next/next/no-img-element */}
                                     {`${methodType.type}`}
                                 </div>
 

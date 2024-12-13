@@ -160,6 +160,7 @@ const BinanceID = () => {
                                             className={`hover:bg-light-gradient-135deg cursor-pointer ${index % 2 === 1 ? 'bg-gray-50' : ''}`}
                                         >
                                             <TableCell className="font-medium flex gap-2 justify-center items-center">
+                                                {/* eslint-disable @next/next/no-img-element */}
                                                 <img
                                                     src={logo ? logo : '/profile-icon.svg'}
                                                     width={40}
@@ -167,6 +168,7 @@ const BinanceID = () => {
                                                     alt='method logo'
                                                     className='rounded-full size-9'
                                                 />
+                                                {/* eslint-enable @next/next/no-img-element */}
                                                 {`${method.type}`}
                                             </TableCell>
                                             <TableCell className='text-center'>{method.payId}</TableCell>

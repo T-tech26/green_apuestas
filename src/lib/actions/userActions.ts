@@ -407,7 +407,7 @@ export const createTransaction = async ({ reciept, ...data }: AmountAndReciept, 
         const { database, storage } = await createAdminClient();
 
 
-        const transaction = await database.createDocument(
+        await database.createDocument(
             APPWRITE_DATABASE_ID!,
             APPWRITE_TRANSACTION_COLLECTION_ID!,
             ID.unique(),
@@ -436,7 +436,7 @@ export const createTransaction = async ({ reciept, ...data }: AmountAndReciept, 
             }
         );
 
-        const transacReciept = await storage.createFile(
+        await storage.createFile(
             APPWRITE_PAYMENT_METHOD_LOGO_BUCKET_ID!,
             ID.unique(),
             reciept

@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 import { PaymentMethods } from '@/constants'
 import React, { useState } from 'react'
 
-const page = () => {
+const Deposit = () => {
 
 
     const [paymentMethod, setPaymentMethod] = useState('1');
@@ -42,4 +42,4 @@ const page = () => {
     )
 }
 
-export default page
+export default Deposit
