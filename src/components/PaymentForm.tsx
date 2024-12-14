@@ -9,11 +9,12 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormControl, FormField, FormMessage } from './ui/form';
 import { Input } from './ui/input';
-import { createTransaction } from '@/lib/actions/userActions';
+import { createTransaction, getTransactions } from '@/lib/actions/userActions';
 import { useUser } from '@/contexts/child_context/userContext';
 import { Loader2 } from 'lucide-react';
-import { paymentFormSchema } from '@/lib/utils';
+import { paymentFormSchema, transactionsWithImages } from '@/lib/utils';
 import PaymentDetails from './PaymentDetails';
+import { useOtherContext } from '@/contexts/child_context/otherContext';
 
 
 
@@ -31,6 +32,7 @@ const PaymentForm = ({ methodType, setMethod }: MethodProps) => {
     const [equivalentAmountInCurrency, setEquivalentAmountInCurrency] = useState(0);
 
     const { user } = useUser();
+    const { setTransactions } = useOtherContext();
 
 
     /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -124,27 +126,35 @@ const PaymentForm = ({ methodType, setMethod }: MethodProps) => {
         if(step === 3) {
             setLoading(true);
             try {
-                const response = await createTransaction(data, methodType, transactionTime, userId);
+                const response = await createTransaction(data, methodType, transactionTime, userId, 'Deposit');
         
                 if(response !== 'Success') {
-                toast({
-                    description: response
-                })
+                    toast({
+                        description: response
+                    })
                 } else {
-                    
+                    toast({
+                        description: 'Something went wrong! try again'
+                    })
                 }
 
+                const res = await getTransactions();
+                if(typeof res === 'string') return;
+                const trans = transactionsWithImages(res);
+                setTransactions(trans);
                 /* eslint-disable @typescript-eslint/no-explicit-any */
             } catch (error: any) {
                 /* eslint-enable @typescript-eslint/no-explicit-any */
                 console.error("Registration error", error);
             } finally {
                 setLoading(false);
+                setImg('');
                 form.reset();
                 toast({
                     description: "Your deposit is pending"
                 })
-                setMethod('')
+                setStep(1);
+                setMethod('');
             }
         }
     };
@@ -163,6 +173,8 @@ const PaymentForm = ({ methodType, setMethod }: MethodProps) => {
                 className='absolute -top-[30px] -right-[10px]'
                 onClick={() => {
                     form.setValue('amount', '');
+                    setImg('');
+                    setLoading(false);
                     setStep(1);
                     setMethod('');
                 }}

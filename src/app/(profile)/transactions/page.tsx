@@ -1,82 +1,109 @@
+'use client'
+import TransactionDetails from '@/components/TransactionDetails'
+import { useOtherContext } from '@/contexts/child_context/otherContext'
+import { Transaction } from '@/types/globals'
 import Image from 'next/image'
-import React from 'react'
+import Link from 'next/link'
+import React, { useEffect, useState } from 'react'
 
-const page = () => {
-  return (
-    <main className='flex-1 py-14 overflow-y-scroll'>
-        <div className='w-4/5 mx-auto flex flex-col gap-1'>
+const TransactionHistory = () => {
 
-            <div
-                className='bg-white drop-shadow-md px-3 py-2'
-            >
-                <div className='flex items-center justify-between'>
-                    <p className='text-sm text-color-60 font-semibold'>Deposit</p>
-                    <p className='text-xs text-gray-400'>09-09-2003</p>
-                </div>
+    const [showDetails, setShowDetails] = useState<Transaction | string>('');
+    const [transactionLoading, setTransactionLoading] = useState(false);
+    const { transactions } = useOtherContext();
 
-                <div className='flex items-center justify-between border-t border-gray-300 py-3'>
-                    <div>
-                        <p className='text-xs text-gray-400 font-medium'>Method</p>
-                        <p className='text-[10px] text-color-60'>USDT deposit</p>
+    useEffect(() => {
+        setTransactionLoading(!transactionLoading);
+    }, [transactions]);
+
+    return (
+        <main className='flex-1 py-14 overflow-y-scroll'>
+            <div className='w-4/5 mx-auto flex flex-col gap-10'>
+                <h1 className='text-lg text-color-60 font-medium'>Transaction History</h1>
+
+                {transactions.length > 0 ? (
+                    <div className='w-full mx-auto flex flex-col gap-1'>
+                        {transactions.map(trans => {
+                            return (
+                                <div
+                                    key={trans.$id}
+                                    className='bg-white drop-shadow-md px-3 py-2 cursor-pointer hover:bg-gray-50'
+                                    onClick={() => setShowDetails(trans)}
+                                >
+                                    <div className='flex items-center justify-between'>
+                                        <p className='text-sm text-color-60 font-semibold'>{trans.transaction_type}</p>
+                                        <p className='text-xs text-gray-400'>{trans.transaction_time}</p>
+                                    </div>
+
+                                    <div className='flex items-center justify-between border-t border-gray-300 py-3'>
+                                        <div>
+                                            <p className='text-xs text-gray-400 font-medium mb-1'>{
+                                                trans.transaction_details.payId ? 'Binance pay' : trans.transaction_method
+                                            }</p>
+                                            <p className='text-[10px] text-color-60'>{
+                                                trans.transaction_details.payId ? 'USDT'
+                                                    : trans.transaction_details.cryptoName ? trans.transaction_details.cryptoName
+                                                        : trans.transaction_details.bankName ? 'Bank'
+                                                            : trans.transaction_details.platformName
+                                                } deposit
+                                            </p>
+                                        </div>
+
+                                        <div>
+                                            <p className='text-xs text-gray-400 font-medium mb-1'>Amount</p>
+                                            <p className='text-[10px] text-color-60'>{trans.amount} USD</p>
+                                        </div>
+
+                                        <div className='flex flex-col gap-1 items-center'>
+                                            <p className='text-xs text-gray-400 font-medium'>Status</p>
+                                            <p 
+                                                className={`text-[10px] flex items-center gap-1 drop-shadow-md rounded-full pl-2 pr-3 ${
+                                                    trans.transaction_status === 'pending' ? 'text-red-400 bg-red-200'
+                                                            : trans.transaction_status === 'rejected' ? 'text-red-400 bg-red-200'
+                                                                : 'text-green-400 bg-green-200'
+                                                }`}
+                                            >
+                                                <Image
+                                                    src={
+                                                        trans.transaction_status === 'pending' ? '/red-dot-icon.svg'
+                                                            : trans.transaction_status === 'rejected' ? '/red-dot-icon.svg'
+                                                                : '/green-dot-icon.svg'
+                                                    }
+                                                    width={10}
+                                                    height={10}
+                                                    alt='pending transaction icon'
+                                                />
+                                                {
+                                                    trans.transaction_status === 'pending' ? 'Pending'
+                                                        : trans.transaction_status === 'rejected' ? 'Rejected'
+                                                        : 'Approved'
+                                                }
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            )
+                        })}
                     </div>
-
-                    <div>
-                        <p className='text-xs text-gray-400 font-medium'>Amount</p>
-                        <p className='text-[10px] text-color-60'>300 USD</p>
+                ) : transactions.length === 0 && !transactionLoading ? (
+                    <div className='w-full py-4 flex flex-col items-center justify-center gap-2'>
+                        <p className='text-color-60 text-sm font-semibold'>You have no transactions yet</p>
+                        <Link href='/deposit' className='text-color-30 text-xs bg-light-gradient-135deg py-2 px-5 rounded-full'>Make a Deposit</Link>
                     </div>
-
-                    <div>
-                        <p className='text-xs text-gray-400 font-medium'>Status</p>
-                        <p className='text-[10px] text-red-400 flex items-center gap-1 drop-shadow-md bg-red-200 rounded-full px-3'>
-                            <Image
-                                src='/red-dot-icon.svg'
-                                width={10}
-                                height={10}
-                                alt='pending transaction icon'
-                            />
-                            Pending
-                        </p>
+                ) : (
+                    <div className="w-full animate-pulse flex flex-col gap-1">
+                        <div className='w-full h-16 bg-gray-300'></div>
+                        <div className='w-full h-16 bg-gray-300'></div>
+                        <div className='w-full h-16 bg-gray-300'></div>
                     </div>
-                </div>
+                )}
             </div>
 
-            <div
-                className='bg-white drop-shadow-md px-3 py-2'
-            >
-                <div className='flex items-center justify-between'>
-                    <p className='text-sm text-color-60 font-semibold'>Deposit</p>
-                    <p className='text-xs text-gray-400'>09-09-2003</p>
-                </div>
-
-                <div className='flex items-center justify-between border-t border-gray-300 py-3'>
-                    <div>
-                        <p className='text-xs text-gray-400 font-medium'>Method</p>
-                        <p className='text-[10px] text-color-60'>USDT deposit</p>
-                    </div>
-
-                    <div>
-                        <p className='text-xs text-gray-400 font-medium'>Amount</p>
-                        <p className='text-[10px] text-color-60'>300 USD</p>
-                    </div>
-
-                    <div>
-                        <p className='text-xs text-gray-400 font-medium'>Status</p>
-                        <p className='text-[10px] text-green-400 flex items-center gap-1 drop-shadow-md bg-green-200 rounded-full px-3'>
-                            <Image
-                                src='/green-dot-icon.svg'
-                                width={10}
-                                height={10}
-                                alt='approve transaction icon'
-                            />
-                            Approved
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </main>
-  )
+            {typeof showDetails === 'object' && (
+                <TransactionDetails trans={showDetails} setShowDetails={setShowDetails} />
+            )}
+        </main>
+    )
 }
 
-export default page
+export default TransactionHistory

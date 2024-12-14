@@ -1,4 +1,4 @@
-import { Payment, PaymentMethods } from "@/types/globals"
+import { Payment, PaymentMethods, Transaction, Transactions } from "@/types/globals"
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 import { z } from "zod"
@@ -89,7 +89,7 @@ export const citySchema = z.object({
 
 
 // Map over the payment methods and match logos to images
-export const paymentMethodsWithImages = (paymentMethods: Payment | string): PaymentMethods[] => {
+export const paymentMethodsWithImages = (paymentMethods: Payment): PaymentMethods[] => {
 
   return (paymentMethods as Payment)?.method.map((method) => {
 
@@ -98,6 +98,21 @@ export const paymentMethodsWithImages = (paymentMethods: Payment | string): Paym
     return {
       ...method,
       logoUrl: image && `${process.env.NEXT_PUBLIC_APPWRITE_PUBLIC_URL}/storage/buckets/${process.env.NEXT_PUBLIC_APPWRITE_PAYMENT_METHOD_LOGO_BUCKET_ID}/files/${image.$id}/view?project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID}&project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID}&mode=admin`,
+    };
+  })
+};
+
+
+// Map over the transactions and match logos to images
+export const transactionsWithImages = (transactions: Transactions): Transaction[] => {
+
+  return (transactions as Transactions)?.transactions.map((trans) => {
+
+    const image = (transactions as Transactions)?.reciepts.find((img) => img.name === trans.reciept); // Match by the reciept name
+
+    return {
+      ...trans,
+      recieptUrl: image && `${process.env.NEXT_PUBLIC_APPWRITE_PUBLIC_URL}/storage/buckets/${process.env.NEXT_PUBLIC_APPWRITE_PAYMENT_RECIEPT_LOGO_BUCKET_ID}/files/${image.$id}/view?project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID}&project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID}&mode=admin`,
     };
   })
 };

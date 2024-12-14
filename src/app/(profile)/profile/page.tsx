@@ -31,6 +31,7 @@ const Profile = () => {
         {typeof user === 'object' && (
           <main className='flex-1 py-14 overflow-y-scroll'>
             <div className='w-4/5 mx-auto flex flex-col gap-4'>
+              <h1 className='text-lg text-color-60 font-medium mb-5'>Profile</h1>
               
               <FirstNameForm
                 user={user}

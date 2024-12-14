@@ -3,7 +3,7 @@
 import { ID, Query } from "node-appwrite";
 import { createAdminClient, createSessionClient } from "../appwrite/config";
 import { cookies } from "next/headers";
-import { AmountAndReciept, Payment, PaymentMethod, PaymentMethods, registerParams, UserData } from "@/types/globals";
+import { AmountAndReciept, Payment, PaymentMethod, PaymentMethods, registerParams, Transactions, UserData } from "@/types/globals";
 import { parseStringify } from "../utils";
 
 const { 
@@ -12,7 +12,8 @@ const {
     APPWRITE_ACTIVATION_COLLECTION_ID,
     APPWRITE_PAYMENT_METHOD_COLLECTION_ID,
     APPWRITE_PAYMENT_METHOD_LOGO_BUCKET_ID,
-    APPWRITE_TRANSACTION_COLLECTION_ID
+    APPWRITE_TRANSACTION_COLLECTION_ID,
+    APPWRITE_PAYMENT_RECIEPT_LOGO_BUCKET_ID
  } = process.env;
 
 
@@ -401,7 +402,10 @@ export const deletePaymentMethod = async (payment: PaymentMethods | string) => {
 }
 
 
-export const createTransaction = async ({ reciept, ...data }: AmountAndReciept, method: PaymentMethods, time: string, userId: string) => {
+export const createTransaction = async (
+    { reciept, ...data }: AmountAndReciept, 
+    method: PaymentMethods, 
+    time: string, userId: string, type: string) => {
 
     try {
         const { database, storage } = await createAdminClient();
@@ -412,9 +416,11 @@ export const createTransaction = async ({ reciept, ...data }: AmountAndReciept, 
             APPWRITE_TRANSACTION_COLLECTION_ID!,
             ID.unique(),
             {
-                transaction_type: method.type,
+                transaction_type: type,
+                transaction_method: method.type,
                 transaction_status: 'pending',
                 amount: data.amount,
+                reciept: reciept.name,
                 transaction_time: time,
                 userId: userId,
                 transaction_details: {
@@ -437,7 +443,7 @@ export const createTransaction = async ({ reciept, ...data }: AmountAndReciept, 
         );
 
         await storage.createFile(
-            APPWRITE_PAYMENT_METHOD_LOGO_BUCKET_ID!,
+            APPWRITE_PAYMENT_RECIEPT_LOGO_BUCKET_ID!,
             ID.unique(),
             reciept
         );
@@ -450,4 +456,27 @@ export const createTransaction = async ({ reciept, ...data }: AmountAndReciept, 
         /* eslint-enable @typescript-eslint/no-explicit-any */
     }
 }   
+
+
+export const getTransactions = async (): Promise<Transactions | string> => {
+    try {
+        const { database, storage } = await createAdminClient();
+
+        const transactions = await database.listDocuments(
+            APPWRITE_DATABASE_ID!,
+            APPWRITE_TRANSACTION_COLLECTION_ID!,
+        );
+
+        const reciepts = await storage.listFiles(
+            APPWRITE_PAYMENT_RECIEPT_LOGO_BUCKET_ID!
+        )
+
+        return parseStringify({ transactions: transactions.documents, reciepts: reciepts.files });
+    } catch (error) {
+        console.error("Error getting transactions ", error);
+        /* eslint-disable @typescript-eslint/no-explicit-any */
+        return `${(error as any)?.message}, try again`;
+        /* eslint-enable @typescript-eslint/no-explicit-any */
+    }
+}
   

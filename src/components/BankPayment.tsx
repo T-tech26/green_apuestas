@@ -44,6 +44,7 @@ const BankPayment = () => {
                     return
                 }
                 const res = await getPaymentMethods();
+                if(typeof res === 'string') return;
                 const payments = paymentMethodsWithImages(res);
                 setPaymentMethods(payments);
             }
@@ -122,6 +123,7 @@ const BankPayment = () => {
             }
 
             const response = await getPaymentMethods();
+            if(typeof response === 'string') return;
             const payments = paymentMethodsWithImages(response);
             setPaymentMethods(payments);
 

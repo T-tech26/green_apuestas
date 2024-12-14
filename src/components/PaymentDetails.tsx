@@ -271,7 +271,7 @@ const PaymentDetails = ({ methodType, step, setStep }: MethodProps) => {
             </div>
 
             <div className='flex items-center justify-between w-full border border-color-60 rounded-md py-1 px-2'>
-                <p className='font-semibold text-base text-color-60'>Minimum deposite</p>
+                <p className='font-semibold text-base text-color-60'>Minimum deposit</p>
                 <p className='text-sm text-color-60'>{methodType.minDeposit} USD</p>
             </div>
 

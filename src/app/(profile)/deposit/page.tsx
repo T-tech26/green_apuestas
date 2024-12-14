@@ -13,6 +13,8 @@ const Deposit = () => {
     return (
         <main className='flex-1 py-14 overflow-y-scroll'>
             <div className='w-4/5 mx-auto flex flex-col gap-5'>
+                <h1 className='text-lg text-color-60 font-medium'>Deposit</h1>
+
                 <div
                     className='flex items-center flex-wrap py-3'
                 >
