@@ -113,8 +113,11 @@ const PaymentForm = ({ methodType, setMethod }: MethodProps) => {
         const day = today.getDate().toString().padStart(2, '0'); // Adds leading zero for single-digit days
         const month = (today.getMonth() + 1).toString().padStart(2, '0'); // Month is 0-indexed, so we add 1
         const year = today.getFullYear();
+        const hour = today.getHours().toString().padStart(2, '0');
+        const minutes = today.getMinutes().toString().padStart(2, '0');
+        const seconds = today.getSeconds().toString().padStart(2, '0');
     
-        return `${day}-${month}-${year}`;
+        return `${day}-${month}-${year}, ${hour}:${minutes}:${seconds}`;
     }
 
 

@@ -479,4 +479,25 @@ export const getTransactions = async (): Promise<Transactions | string> => {
         /* eslint-enable @typescript-eslint/no-explicit-any */
     }
 }
+
+
+export const depositStatus = async (id: string, status: string) => {
+    try {
+        const { database } = await createAdminClient();
+
+        await database.updateDocument(
+            APPWRITE_DATABASE_ID!,
+            APPWRITE_TRANSACTION_COLLECTION_ID!,
+            id,
+            { 'transaction_status': status }
+        )
+
+        return 'success';
+    } catch (error) {
+        console.error("Error setting payment status ", error);
+        /* eslint-disable @typescript-eslint/no-explicit-any */
+        return `${(error as any)?.message}, try again`;
+        /* eslint-enable @typescript-eslint/no-explicit-any */
+    }
+}
   

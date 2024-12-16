@@ -1,7 +1,8 @@
 'use client'
 import TransactionDetails from '@/components/TransactionDetails'
 import { useOtherContext } from '@/contexts/child_context/otherContext'
-import { Transaction } from '@/types/globals'
+import { useUser } from '@/contexts/child_context/userContext'
+import { Transaction, UserData } from '@/types/globals'
 import Image from 'next/image'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
@@ -9,21 +10,29 @@ import React, { useEffect, useState } from 'react'
 const TransactionHistory = () => {
 
     const [showDetails, setShowDetails] = useState<Transaction | string>('');
-    const [transactionLoading, setTransactionLoading] = useState(false);
+    const [transactionLoading, setTransactionLoading] = useState(true);
+    const [userTransactions, setUserTransactions] = useState<Transaction[]>([]);
     const { transactions } = useOtherContext();
+    const { user } = useUser();
+    
 
     useEffect(() => {
-        setTransactionLoading(!transactionLoading);
+        if(transactions.length > 0) {
+            const userTransaction = transactions.filter(userTrans => userTrans.userId === (user as UserData).userId);
+            setUserTransactions(userTransaction);
+            if(transactionLoading) setTransactionLoading(!transactionLoading);
+        }
     }, [transactions]);
+
 
     return (
         <main className='flex-1 py-14 overflow-y-scroll'>
             <div className='w-4/5 mx-auto flex flex-col gap-10'>
                 <h1 className='text-lg text-color-60 font-medium'>Transaction History</h1>
 
-                {transactions.length > 0 ? (
+                {userTransactions.length > 0 ? (
                     <div className='w-full mx-auto flex flex-col gap-1'>
-                        {transactions.map(trans => {
+                        {userTransactions.map(trans => {
                             return (
                                 <div
                                     key={trans.$id}
@@ -85,7 +94,7 @@ const TransactionHistory = () => {
                             )
                         })}
                     </div>
-                ) : transactions.length === 0 && !transactionLoading ? (
+                ) : !transactionLoading ? (
                     <div className='w-full py-4 flex flex-col items-center justify-center gap-2'>
                         <p className='text-color-60 text-sm font-semibold'>You have no transactions yet</p>
                         <Link href='/deposit' className='text-color-30 text-xs bg-light-gradient-135deg py-2 px-5 rounded-full'>Make a Deposit</Link>
@@ -100,7 +109,7 @@ const TransactionHistory = () => {
             </div>
 
             {typeof showDetails === 'object' && (
-                <TransactionDetails trans={showDetails} setShowDetails={setShowDetails} />
+                <TransactionDetails trans={showDetails} setShowDetails={setShowDetails} type='user' />
             )}
         </main>
     )

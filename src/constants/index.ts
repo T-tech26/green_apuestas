@@ -161,12 +161,12 @@ export const AdminSubMenuLinks = [
                 name: 'Payment methods'
             },
             {
-                route: 'deposit-requests',
+                route: '/deposit-requests',
                 icon: '/deposit-icon.svg',
                 name: 'Deposit requests'
             },
             {
-                route: 'withdrawal-requests',
+                route: '/withdrawal-requests',
                 icon: '/withdraw-icon.svg',
                 name: 'Withdrawal requests'
             },
