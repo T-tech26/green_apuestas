@@ -9,14 +9,14 @@ const page = () => {
                 <div 
                     className='bg-color-30 rounded-md'
                 >
-                    <div className='bg-light-gradient-135deg px-5 py-1 rounded-t-md'>
-                        <p className='flex justify-between text-color-30 text-sm font-medium'>
+                    <div className='bg-light-gradient-135deg px-5 py-1 rounded-t-md flex justify-between'>
+                        <p className='flex flex-col justify-between text-color-30 text-sm font-medium'>
                             <span>Multiple</span>
-                            <span>won</span>
+                            <span>Ticket ID: 23229384</span>
                         </p>
 
-                        <p className='flex justify-between text-color-30 text-xs'>
-                            <span>Ticket ID: 23229384</span>
+                        <p className='flex flex-col justify-between text-color-30 text-xs'>
+                            <span>won</span>
                             <span>09-09-2022</span>
                         </p>
                     </div>

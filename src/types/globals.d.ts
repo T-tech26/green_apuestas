@@ -333,5 +333,25 @@ export interface Transactions {
 };
 
 
+export interface Games {
+  home: string,
+  away: string,
+  odd: string,
+  homeGoal: string,
+  awayGoal: string,
+}
+
+
+export interface UserGames {
+  totalOdds: string,
+  stake: string,
+  payout: string,
+  userId: string,
+  matchStatus: string,
+  date: string,
+  games: Games[]
+}
+
+
 
 export {};

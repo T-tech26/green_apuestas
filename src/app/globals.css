@@ -11,6 +11,7 @@
 body {
   margin: auto;
   top: 0% !important;
+  overflow: hidden !important;
 }
 
 .custom-select {

@@ -3,7 +3,7 @@
 import { ID, Query } from "node-appwrite";
 import { createAdminClient, createSessionClient } from "../appwrite/config";
 import { cookies } from "next/headers";
-import { AmountAndReciept, Payment, PaymentMethod, PaymentMethods, registerParams, Transactions, UserData } from "@/types/globals";
+import { AmountAndReciept, Payment, PaymentMethod, PaymentMethods, registerParams, Transactions, UserData, UserGames } from "@/types/globals";
 import { parseStringify } from "../utils";
 
 const { 
@@ -13,7 +13,8 @@ const {
     APPWRITE_PAYMENT_METHOD_COLLECTION_ID,
     APPWRITE_PAYMENT_METHOD_LOGO_BUCKET_ID,
     APPWRITE_TRANSACTION_COLLECTION_ID,
-    APPWRITE_PAYMENT_RECIEPT_LOGO_BUCKET_ID
+    APPWRITE_PAYMENT_RECIEPT_LOGO_BUCKET_ID,
+    APPWRITE_USER_BETS_COLLECTION_ID
  } = process.env;
 
 
@@ -495,6 +496,28 @@ export const depositStatus = async (id: string, status: string) => {
         return 'success';
     } catch (error) {
         console.error("Error setting payment status ", error);
+        /* eslint-disable @typescript-eslint/no-explicit-any */
+        return `${(error as any)?.message}, try again`;
+        /* eslint-enable @typescript-eslint/no-explicit-any */
+    }
+}
+
+
+export const createGameTicket = async (data: UserGames) => {
+    try {
+        const { database } = await createAdminClient();
+
+        await database.createDocument(
+            APPWRITE_DATABASE_ID!,
+            APPWRITE_USER_BETS_COLLECTION_ID!,
+            ID.unique(),
+            { ...data }
+        )
+
+        return 'success';
+        
+    } catch (error) {
+        console.error("Error creating game ticket ", error);
         /* eslint-disable @typescript-eslint/no-explicit-any */
         return `${(error as any)?.message}, try again`;
         /* eslint-enable @typescript-eslint/no-explicit-any */
