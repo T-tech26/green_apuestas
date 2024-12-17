@@ -15,7 +15,7 @@ const TransactionHistory = () => {
     const { transactions } = useOtherContext();
     const { user } = useUser();
     
-
+    /* eslint-disable react-hooks/exhaustive-deps */
     useEffect(() => {
         if(transactions.length > 0) {
             const userTransaction = transactions.filter(userTrans => userTrans.userId === (user as UserData).userId);
@@ -23,6 +23,7 @@ const TransactionHistory = () => {
             if(transactionLoading) setTransactionLoading(!transactionLoading);
         }
     }, [transactions]);
+    /* eslint-enable react-hooks/exhaustive-deps */
 
 
     return (

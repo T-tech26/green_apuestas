@@ -135,7 +135,6 @@ const StakeBets = () => {
 
 
     const onSubmit = async () => {
-        const {date, ...data} = games;
         const gameDate = generateDateString();
 
         setLoading(true);
@@ -204,7 +203,7 @@ const StakeBets = () => {
 
             const gamesWithDate: UserGames = {
                 ...games,
-                ...data,
+                ...games,
                 date: gameDate
             };
 

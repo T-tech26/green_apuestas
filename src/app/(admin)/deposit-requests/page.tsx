@@ -20,6 +20,7 @@ const DepositRequests = () => {
     const { transactions, setTransactions } = useOtherContext();
 
 
+    /* eslint-disable react-hooks/exhaustive-deps */
     useEffect(() => {
         if(transactions.length > 0) {
             const transStatus = transactions.filter(trans => trans.transaction_status === status);
@@ -27,6 +28,7 @@ const DepositRequests = () => {
             if(transactionLoading) setTransactionLoading(!transactionLoading);
         }
     }, [status, transactions]);
+     /* eslint-enable react-hooks/exhaustive-deps */
 
 
     const handleStatus = async (id: string, status: string) => {

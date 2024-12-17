@@ -20,12 +20,14 @@ const TransactionDetails = ({ trans, setShowDetails, type }: TransactionDetailsP
     const [user, setUser] = useState<UserData | string>('');
 
 
+    /* eslint-disable react-hooks/exhaustive-deps */
     useEffect(() => {
         if(allUsers.length > 0) {
             const transactionUser = (allUsers as UserData[]).filter(user => user.userId === (trans as Transaction).userId);
             setUser(transactionUser[0]);
         }
     }, [allUsers]);
+    /* eslint-enable react-hooks/exhaustive-deps */
 
     
     const handleCopyClick = async (text: string) => {
