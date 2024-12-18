@@ -315,15 +315,15 @@ export interface Transaction {
   amount: string;
   transaction_time: string;
   userId: string;
-  '$id': string;
-  '$createdAt': string;
-  '$updatedAt': string;
+  $id: string;
+  $createdAt: string;
+  $updatedAt: string;
   /* eslint-disable @typescript-eslint/no-explicit-any */
-  '$permissions'?: any[];
+  $permissions?: any[];
   /* eslint-enable @typescript-eslint/no-explicit-any */
   transaction_details: TransactionDetails;
-  '$databaseId': string;
-  '$collectionId': string;
+  $databaseId: string;
+  $collectionId: string;
 }
 
 
@@ -339,6 +339,14 @@ export interface Games {
   odd: string,
   homeGoal: string,
   awayGoal: string,
+  $id?: string,
+  $createdAt?: string,
+  $updatedAt?: string,
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+  $permissions?: any[];
+  /* eslint-enable @typescript-eslint/no-explicit-any */
+  $databaseId?: string,
+  $collectionId?: string
 }
 
 
@@ -349,7 +357,15 @@ export interface UserGames {
   userId: string,
   matchStatus: string,
   date: string,
-  games: Games[]
+  games: Games[],
+  $id?: string,
+  $createdAt?: string,
+  $updatedAt?: string,
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+  $permissions?: any[];
+  /* eslint-enable @typescript-eslint/no-explicit-any */
+  $databaseId?: string,
+  $collectionId?: string
 }
 
 

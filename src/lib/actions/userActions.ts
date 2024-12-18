@@ -14,7 +14,8 @@ const {
     APPWRITE_PAYMENT_METHOD_LOGO_BUCKET_ID,
     APPWRITE_TRANSACTION_COLLECTION_ID,
     APPWRITE_PAYMENT_RECIEPT_LOGO_BUCKET_ID,
-    APPWRITE_USER_BETS_COLLECTION_ID
+    APPWRITE_USER_BETS_COLLECTION_ID,
+    APPWRITE_BET_STAKE_NOTIFICATION_COLLECTION_ID
  } = process.env;
 
 
@@ -503,6 +504,30 @@ export const depositStatus = async (id: string, status: string) => {
 }
 
 
+export const stakeUserBet = async (id: string) => {
+    try {
+        const { database } = await createAdminClient();
+
+        await database.createDocument(
+            APPWRITE_DATABASE_ID!,
+            APPWRITE_BET_STAKE_NOTIFICATION_COLLECTION_ID!,
+            ID.unique(),
+            { 
+                userId: id,
+                notification: 'has book a correct score game for you'
+            }
+        )
+
+        return 'success';
+    } catch (error) {
+        console.error("Error creating user bet notification ", error);
+        /* eslint-disable @typescript-eslint/no-explicit-any */
+        return `${(error as any)?.message}, try again`;
+        /* eslint-enable @typescript-eslint/no-explicit-any */
+    }
+}
+
+
 export const createGameTicket = async (data: UserGames) => {
     try {
         const { database } = await createAdminClient();
@@ -516,6 +541,25 @@ export const createGameTicket = async (data: UserGames) => {
 
         return 'success';
         
+    } catch (error) {
+        console.error("Error creating game ticket ", error);
+        /* eslint-disable @typescript-eslint/no-explicit-any */
+        return `${(error as any)?.message}, try again`;
+        /* eslint-enable @typescript-eslint/no-explicit-any */
+    }
+}
+
+
+export const getGameTickets = async () => {
+    try {
+        const { database } = await createAdminClient();
+
+        const slips = await database.listDocuments(
+            APPWRITE_DATABASE_ID!,
+            APPWRITE_USER_BETS_COLLECTION_ID!,
+        );
+
+        return parseStringify(slips.documents);
     } catch (error) {
         console.error("Error creating game ticket ", error);
         /* eslint-disable @typescript-eslint/no-explicit-any */

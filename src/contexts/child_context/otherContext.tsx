@@ -1,7 +1,7 @@
 'use client'
-import { getPaymentMethods, getTransactions } from '@/lib/actions/userActions';
+import { getGameTickets, getPaymentMethods, getTransactions } from '@/lib/actions/userActions';
 import { paymentMethodsWithImages, transactionsWithImages } from '@/lib/utils';
-import { PaymentMethods, Transaction } from '@/types/globals';
+import { PaymentMethods, Transaction, UserGames } from '@/types/globals';
 import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react'
 
 
@@ -11,6 +11,9 @@ interface ContextType {
 
     transactions: Transaction[];
     setTransactions: (newTransactions: Transaction[]) => void;
+
+    userSlips: UserGames[];
+    setUserSlips: (newUserSlips: UserGames[]) => void;
 }
 
 export const OtherContext = createContext<ContextType | undefined>(undefined);
@@ -18,6 +21,7 @@ export const OtherContext = createContext<ContextType | undefined>(undefined);
 export const OtherProvider = ({ children } : { children: ReactNode }) => {
     const [paymentMethods, setPaymentMethods] = useState<PaymentMethods[]>([])
     const [transactions, setTransactions] = useState<Transaction[]>([]);
+    const [userSlips, setUserSlips] = useState<UserGames[]>([]);
 
 
     /* eslint-disable react-hooks/exhaustive-deps */
@@ -27,15 +31,19 @@ export const OtherProvider = ({ children } : { children: ReactNode }) => {
             try {
                 const response = await getPaymentMethods();
                 const transactionsResponse = await getTransactions();
+                const slips = await getGameTickets();
 
                 if(typeof response === 'string') return;
 
                 if(typeof transactionsResponse === 'string') return;
-                
+
+                if(typeof slips === 'string') return;
+
                 const methods = paymentMethodsWithImages(response);
                 const trans = transactionsWithImages(transactionsResponse);
                 setPaymentMethods(methods);
                 setTransactions(trans);
+                setUserSlips(slips);
             } catch (error) {
                 console.error("Error fetching user data:", error);
             }
@@ -49,7 +57,8 @@ export const OtherProvider = ({ children } : { children: ReactNode }) => {
 
     return (
         <OtherContext.Provider value={{
-            paymentMethods, setPaymentMethods, transactions, setTransactions
+            paymentMethods, setPaymentMethods, transactions, setTransactions,
+            userSlips, setUserSlips
         }}>
             {children}
         </OtherContext.Provider>
