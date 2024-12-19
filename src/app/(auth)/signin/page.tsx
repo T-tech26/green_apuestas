@@ -9,7 +9,7 @@ import { useUser } from '@/contexts/child_context/userContext'
 import { useToast } from '@/hooks/use-toast'
 import { getLoggedInUser, signin } from '@/lib/actions/userActions'
 import { isAdmin, isUserData } from '@/lib/utils'
-import { Admin, UserData } from '@/types/globals'
+import { UserData } from '@/types/globals'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
@@ -26,7 +26,7 @@ const Signin = () => {
     const { toast } = useToast();
 
 
-
+  /* eslint-disable react-hooks/exhaustive-deps */
     useEffect(() => {
       const loggIn = async () => {
         if(typeof admin !== 'object' && typeof user !== 'object') {
@@ -47,6 +47,7 @@ const Signin = () => {
 
       loggIn()
     }, [user, admin])
+    /* eslint-enable react-hooks/exhaustive-deps */
     
 
 

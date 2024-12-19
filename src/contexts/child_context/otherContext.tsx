@@ -1,7 +1,7 @@
 'use client'
 import { getAdminNotification, getGameTickets, getPaymentMethods, getTransactions, getUserNotification } from '@/lib/actions/userActions';
 import { paymentMethodsWithImages, transactionsWithImages } from '@/lib/utils';
-import { BetNotifications, Notifications, PaymentMethods, Transaction, UserGame, UserGames } from '@/types/globals';
+import { BetNotifications, Notifications, PaymentMethods, Transaction, UserGame } from '@/types/globals';
 import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react'
 
 

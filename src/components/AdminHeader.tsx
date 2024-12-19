@@ -3,7 +3,6 @@ import React, { useState } from 'react'
 import AdminMobleMenu from './AdminMobleMenu'
 import Image from 'next/image'
 import { useUser } from '@/contexts/child_context/userContext';
-import { UserData } from '@/types/globals';
 import { useOtherContext } from '@/contexts/child_context/otherContext';
 import Notifications from './Notifications';
 

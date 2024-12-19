@@ -26,6 +26,7 @@ const UserBetHistory = () => {
     const [userBetsLoading, setUserBetsLoading] = useState(true);
 
 
+    /* eslint-disable react-hooks/exhaustive-deps */
     useEffect(() => {
 
         if (userSlips.length > 0) {
@@ -53,6 +54,7 @@ const UserBetHistory = () => {
         }
 
     }, [allUsers, userSlips]);
+    /* eslint-enable react-hooks/exhaustive-deps */
     
     
     const handleAnimation = (id: string, index: number) => {

@@ -4,7 +4,7 @@ import { useUser } from '@/contexts/child_context/userContext'
 import { UserData, UserGame } from '@/types/globals';
 import React, { useEffect, useState } from 'react'
 
-const page = () => {
+const BetHistory = () => {
 
     const { user } = useUser();
     const { userSlips } = useOtherContext();
@@ -14,6 +14,7 @@ const page = () => {
     const [userBetsLoading, setUserBetsLoading] = useState(true);
 
 
+    /* eslint-disable react-hooks/exhaustive-deps */
     useEffect(() => {
         if(userSlips.length > 0) {
             const filteredUserWithSlip: UserGame[] = userSlips.filter(slip => slip.userId === (user as UserData).userId);
@@ -21,6 +22,7 @@ const page = () => {
             if(userBetsLoading) setUserBetsLoading(!userBetsLoading);
         }
     }, [userSlips]);
+    /* eslint-enable react-hooks/exhaustive-deps */
 
 
 
@@ -200,4 +202,4 @@ const page = () => {
     )
 }
 
-export default page
+export default BetHistory

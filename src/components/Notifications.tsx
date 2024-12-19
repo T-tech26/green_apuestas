@@ -28,6 +28,7 @@ const Notifications = ({ setShow, type }: NotificationsProps) => {
     const [adminWithNotification, setAdminWithNotification] = useState<UserWithNotify[]>([]);
 
 
+    /* eslint-enable react-hooks/exhaustive-deps */
     useEffect(() => {
         if(userNotifications.length > 0) {
             const mappedUserWithNotification: BetNotifications[] = userNotifications.filter(notify => notify.userId === (user as UserData).userId)
@@ -35,9 +36,11 @@ const Notifications = ({ setShow, type }: NotificationsProps) => {
             setUserWithNotification(mappedUserWithNotification);   
         }
     }, [userNotifications]);
+    /* eslint-enable react-hooks/exhaustive-deps */
 
 
 
+    /* eslint-disable react-hooks/exhaustive-deps */
     useEffect(() => {
         if (adminNotifications.length > 0) {
 
@@ -62,6 +65,7 @@ const Notifications = ({ setShow, type }: NotificationsProps) => {
             setAdminWithNotification(mappedUserWithNotify.reverse());
         }
     }, [adminNotifications])
+    /* eslint-enable react-hooks/exhaustive-deps */
 
 
     const handleDeleteUseNotifications = async (id: string | undefined) => {
@@ -74,6 +78,8 @@ const Notifications = ({ setShow, type }: NotificationsProps) => {
             const notifications = await getUserNotification();
             if(typeof notifications === 'string') return;
             setUserNotifications(notifications);
+
+            /* eslint-disable @typescript-eslint/no-explicit-any */
         } catch (error: any) {
             /* eslint-enable @typescript-eslint/no-explicit-any */
             console.error("Error deleting notification", error);
@@ -92,6 +98,8 @@ const Notifications = ({ setShow, type }: NotificationsProps) => {
             const notifications = await getAdminNotification();
             if(typeof notifications === 'string') return;
             setAdminNotifications(notifications);
+
+            /* eslint-disable @typescript-eslint/no-explicit-any */
         } catch (error: any) {
             /* eslint-enable @typescript-eslint/no-explicit-any */
             console.error("Error deleting notification", error);

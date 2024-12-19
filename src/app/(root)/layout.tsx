@@ -45,7 +45,7 @@ export default function RootLayout({
       }
 
       loggIn()
-    }, [user, admin])
+    }, [user, admin, isLoading])
 
 
     if(isSubscriptionCheck && typeof user !== 'object') {

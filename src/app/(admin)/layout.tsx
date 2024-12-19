@@ -19,7 +19,7 @@ export default function RootLayout({
     useEffect(() => {
         if(typeof user === 'object') { redirect('/'); }
         if(typeof user !== 'object' && !isLoading && typeof admin !== 'object') { redirect('/'); }
-    }, [user, isLoading]);
+    }, [user, isLoading, admin]);
 
 
 

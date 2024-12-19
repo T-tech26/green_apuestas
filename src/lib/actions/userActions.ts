@@ -3,7 +3,7 @@
 import { ID, Query } from "node-appwrite";
 import { createAdminClient, createSessionClient } from "../appwrite/config";
 import { cookies } from "next/headers";
-import { Admin, AmountAndReciept, Payment, PaymentMethod, PaymentMethods, registerParams, Transactions, UserData, UserGames } from "@/types/globals";
+import { Admin, AmountAndReciept, Payment, PaymentMethod, PaymentMethods, registerParams, Transactions, UserData, UserGame } from "@/types/globals";
 import { parseStringify } from "../utils";
 
 const { 
@@ -609,7 +609,7 @@ export const deleteUserNotification = async (id: string) => {
 }
 
 
-export const createGameTicket = async (data: UserGames) => {
+export const createGameTicket = async (data: UserGame) => {
     try {
         const { database } = await createAdminClient();
 

@@ -349,24 +349,6 @@ export interface Games {
 }
 
 
-export interface UserGames {
-  totalOdds: string,
-  stake: string,
-  payout: string,
-  userId: string,
-  date: string,
-  games: Games[],
-  $id?: string,
-  $createdAt?: string,
-  $updatedAt?: string,
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-  $permissions?: any[];
-  /* eslint-enable @typescript-eslint/no-explicit-any */
-  $databaseId?: string,
-  $collectionId?: string
-}
-
-
 export interface UserGame {
   totalOdds: string,
   stake: string,
