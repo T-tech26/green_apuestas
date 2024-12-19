@@ -1,7 +1,7 @@
 import { useUser } from '@/contexts/child_context/userContext';
 import { toast } from '@/hooks/use-toast';
 import { createGameTicket } from '@/lib/actions/userActions';
-import { Games, UserData, UserGames } from '@/types/globals';
+import { Games, UserData, UserGame } from '@/types/globals';
 import { zodResolver } from '@hookform/resolvers/zod';
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
@@ -19,7 +19,7 @@ const UserBetUpload = () => {
 
     const [loading, setLoading] = useState(false);
     const [missingFields, setMissingFields] = useState<string[]>([]);
-    const [games, setGames] = useState<UserGames>({
+    const [games, setGames] = useState<UserGame>({
         totalOdds: '',
         stake: '',
         payout: '',
@@ -83,7 +83,7 @@ const UserBetUpload = () => {
 
     // Step 3: Handle updating the rest of the user game data
     const updateUserData = () => {
-        const updatedUserGames: UserGames = {
+        const updatedUserGames: UserGame = {
             ...games,
             totalOdds: form.getValues('totalOdds') || games.totalOdds,
             stake: form.getValues('stake') || games.stake,
@@ -130,11 +130,11 @@ const UserBetUpload = () => {
             const newMissingFields: string[] = [];
 
             // Validate UserGames fields
-            const userGamesFields: (keyof UserGames)[] = ['totalOdds', 'stake', 'payout', 'userId'];
+            const userGamesFields: (keyof UserGame)[] = ['totalOdds', 'stake', 'payout', 'userId'];
 
 
             userGamesFields.forEach((field) => {
-                if (!(games as UserGames)[field]) {
+                if (!(games as UserGame)[field]) {
 
                     const message = `${
                         field === 'totalOdds' ? 'Total odds' 
@@ -187,7 +187,7 @@ const UserBetUpload = () => {
             }
 
 
-            const gamesWithDate: UserGames = {
+            const gamesWithDate: UserGame = {
                 ...games,
                 ...games,
                 date: gameDate

@@ -355,7 +355,7 @@ export interface UserGame {
   payout: string,
   userId: string,
   date: string,
-  showBet: boolean,
+  showBet?: boolean,
   games: Games[],
   $id?: string,
   $createdAt?: string,
