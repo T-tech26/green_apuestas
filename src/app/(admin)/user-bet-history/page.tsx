@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { useOtherContext } from '@/contexts/child_context/otherContext';
 import { useUser } from '@/contexts/child_context/userContext'
 import { getGameTickets, showBetSlip } from '@/lib/actions/userActions';
-import { UserData, UserGame, UserGames } from '@/types/globals';
+import { UserData, UserGame } from '@/types/globals';
 import { Loader2 } from 'lucide-react';
 import React, { useEffect, useState } from 'react'
 
@@ -31,7 +31,7 @@ const UserBetHistory = () => {
 
         if (userSlips.length > 0) {
             // Map over the userSlips and find the user associated with each slip
-            const mappedUserWithSlip: UserWithSlip[] = userSlips.map((slip: UserGames) => {
+            const mappedUserWithSlip: UserWithSlip[] = userSlips.map((slip: UserGame) => {
                 // Find the user that matches the userId in the slip
                 const user = (allUsers as UserData[]).find(user => user.userId === slip.userId);
         
