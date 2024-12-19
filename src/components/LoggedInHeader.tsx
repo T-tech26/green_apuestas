@@ -12,16 +12,12 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { useUser } from '@/contexts/child_context/userContext';
 import { ProfileMenuLinks } from '@/constants';
+import { UserData } from '@/types/globals';
   
 
-interface ProfileProps {
-    name: string,
-    balance: string
-}
+const LoggedInHeader = () => {
 
-const LoggedInHeader = ({ name, balance }: ProfileProps) => {
-
-    const { setUser } = useUser();
+    const { user, setUser } = useUser();
 
     const handleLogOut = async () => {
         const response = await logOut();
@@ -75,8 +71,8 @@ const LoggedInHeader = ({ name, balance }: ProfileProps) => {
                         />
 
                         <div>
-                            <p className='text-color-30 text-sm'>{name}</p>
-                            <p className='text-color-30 text-xs'>{balance} USD</p>
+                            <p className='text-color-30 text-sm'>{(user as UserData).firstname} {(user as UserData).lastname}</p>
+                            <p className='text-color-30 text-xs'>{(user as UserData).balance} USD</p>
                         </div>
 
                         <div
@@ -108,7 +104,7 @@ const LoggedInHeader = ({ name, balance }: ProfileProps) => {
                                         />
 
                                         <div>
-                                            <p className='text-color-30 text-sm'>{name}</p>
+                                            <p className='text-color-30 text-sm'>{(user as UserData).firstname} {(user as UserData).lastname}</p>
                                         </div>
                                     </div>
 

@@ -7,7 +7,8 @@ import { menuLinks } from '@/constants';
 import { usePathname } from 'next/navigation';
 import LoggedInHeader from './LoggedInHeader';
 import { useUser } from '@/contexts/child_context/userContext';
-import { UserData } from '@/types/globals';
+
+
 
 const Header = () => {
 
@@ -19,12 +20,7 @@ const Header = () => {
     return (
         <>
             {typeof user === 'object' ? (
-                <LoggedInHeader 
-                    name={
-                        `${(user as UserData)?.lastname} ${(user as UserData)?.firstname}`
-                    }
-                    balance={`${(user as UserData)?.balance}`}
-                />
+                <LoggedInHeader />
             ) : (
                 <div className="header">
                     <div className="md:hidden flex items-center justify-between">

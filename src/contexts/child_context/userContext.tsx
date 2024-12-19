@@ -1,15 +1,22 @@
 'use client'
 
 import { getAllUsers, getLoggedInUser } from '@/lib/actions/userActions';
-import { UserData } from '@/types/globals';
+import { isAdmin, isUserData } from '@/lib/utils';
+import { Admin, UserData } from '@/types/globals';
 import { ReactNode, createContext, useContext, useEffect, useState } from 'react'
 
 interface UserType {
     user: UserData | string,
     setUser: (newUser: UserData | string) => void,
 
+    admin: Admin,
+    setAdmin: (newAdmin: Admin) => void,
+
     allUsers: UserData[] | string,
     setAllUsers: (newUser: UserData[] | string) => void,
+
+    isLoading: boolean,
+    setIsLoading: (newIsLoading: boolean) => void,
 }
 
 export const UserContext = createContext<UserType | undefined>(undefined);
@@ -18,6 +25,8 @@ export const UserContext = createContext<UserType | undefined>(undefined);
 export const UserProvider = ({ children }: { children: ReactNode }) => {
     const [user, setUser] = useState<UserData | string>('');
     const [allUsers, setAllUsers] = useState<UserData[] | string>('');
+    const [admin, setAdmin] = useState<Admin>({ name: '', label: [] });
+    const [isLoading, setIsLoading] = useState(true);
 
 
     /* eslint-disable react-hooks/exhaustive-deps */
@@ -25,16 +34,20 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         const login = async () => {
             // Fetch logged-in user and all users only if needed
             try {
-                const response = await getLoggedInUser();
+                const user = await getLoggedInUser();
                 const users = await getAllUsers();
 
-                if (typeof response === "object" && Array.isArray(users)) {
-                    setUser(response);
+                if (typeof user === "object" && Array.isArray(users)) {
+
+                    if(isAdmin(user)) { setAdmin(user); }
+                    if(isUserData(user)) { setUser(user); }
                     setAllUsers(users);
-                } else if (typeof response !== "object") {
+                    setIsLoading(false);
                 }
+
+                if(user === 'No session') { setIsLoading(false); }
             } catch (error) {
-                console.error("Error fetching user data:", error);
+                console.error("Error fetching user data:", error)
             }
         };
 
@@ -46,7 +59,8 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 
     return (
         <UserContext.Provider value={{
-            user, setUser, allUsers, setAllUsers
+            user, setUser, allUsers, setAllUsers,
+            admin, setAdmin, isLoading, setIsLoading
         }}>
             {children}
         </UserContext.Provider>

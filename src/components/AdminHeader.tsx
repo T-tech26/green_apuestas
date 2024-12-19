@@ -1,17 +1,22 @@
 'use client'
-import React from 'react'
+import React, { useState } from 'react'
 import AdminMobleMenu from './AdminMobleMenu'
 import Image from 'next/image'
 import { useUser } from '@/contexts/child_context/userContext';
 import { UserData } from '@/types/globals';
+import { useOtherContext } from '@/contexts/child_context/otherContext';
+import Notifications from './Notifications';
 
 const AdminHeader = () => {
 
-    const { user } = useUser();
+    const { admin } = useUser();
+    const { adminNotifications } = useOtherContext();
+
+    const [showNotification, setShowNotification] = useState(false);
 
     return (
         <>
-            {typeof user === 'object' ? (
+            {typeof admin === 'object' ? (
                 <div className="flex items-center justify-between md:justify-end w-full px-5 py-1 bg-white drop-shadow-md">
                     <AdminMobleMenu />
                     
@@ -23,18 +28,24 @@ const AdminHeader = () => {
                             alt='profile icon'
                         />
 
-                        <p className='text-color-60 text-sm'>Welcome, {`${(user as UserData)?.lastname} ${(user as UserData)?.firstname}`}</p>
+                        <p className='text-color-60 text-sm'>Welcome, {admin.name}</p>
 
-                        <div className='relative'>
+                        <div className='relative cursor-pointer' onClick={() => setShowNotification(true)}>
                             <Image
                                 src='/notifications-icon.svg'
                                 width={30}
                                 height={30}
                                 alt='notifications icon'
+                                onClick={() => setShowNotification(true)}
                             />
 
-                            <span className='text-color-30 text-xs absolute top-[-5px] right-0 bg-color-10 px-1 rounded-full'>
-                                0
+                            
+
+                            <span className='text-color-30 text-xs absolute top-[-5px] right-0 bg-color-10 px-1 rounded-full z-50'>
+                                {adminNotifications.length > 0 && (
+                                    <span className='absolute top-0 -right-[3px] bg-color-10 rounded-full size-5 -z-50 animate-ping'></span>
+                                )}
+                                {adminNotifications.length}
                             </span>
                         </div>
                     </div>
@@ -45,6 +56,10 @@ const AdminHeader = () => {
 
                     <div className='w-64 h-9 bg-gray-300 rounded-md'></div>
                 </div>
+            )}
+
+            {showNotification && (
+                <Notifications setShow={setShowNotification} type='admin' />
             )}
         </>
     )

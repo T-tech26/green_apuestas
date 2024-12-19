@@ -14,16 +14,18 @@ import {
 } from "@/components/ui/select"
 import { z } from 'zod';
 import { useUser } from '@/contexts/child_context/userContext';
-import { stakeUserBet } from '@/lib/actions/userActions';
+import { getUserNotification, userNotification } from '@/lib/actions/userActions';
 import { toast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
 import UserBetUpload from '@/components/UserBetUpload';
+import { useOtherContext } from '@/contexts/child_context/otherContext';
 
 
 
 const StakeBets = () => {
 
-    const { allUsers } = useUser()
+    const { allUsers } = useUser();
+    const { setUserNotifications } = useOtherContext();
 
     const [loading, setLoading] = useState(false);
     const [status, setStatus] = useState<string>('stake');
@@ -43,17 +45,40 @@ const StakeBets = () => {
     });
 
 
-    const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    const generateDateString = () => {
+        const today = new Date();
+        const day = today.getDate().toString().padStart(2, '0'); // Adds leading zero for single-digit days
+        const month = (today.getMonth() + 1).toString().padStart(2, '0'); // Month is 0-indexed, so we add 1
+        const year = today.getFullYear();
+        const hour = today.getHours().toString().padStart(2, '0');
+        const munites = today.getMinutes().toString().padStart(2, '0');
+        const seconds = today.getSeconds().toString().padStart(2, '0');
+    
+        return `${day}-${month}-${year}, ${hour}:${munites}:${seconds}`;
+    }
 
+
+    const onSubmit = async (data: z.infer<typeof formSchema>) => {
+        const date = generateDateString();
         setLoading(true);
         try {
-            const response = await stakeUserBet(data.userId);
+            const response = await userNotification(data.userId, 'stake', date);
+
+            if(response !== 'success') {
+                toast({
+                    description: 'Something went wrong! try again'
+                })
+            }
 
             if(response === 'success') {
                 toast({
                     description: 'User notified'
                 })
             }
+
+            const notifications = await getUserNotification();
+            if(typeof notifications === 'string') return;
+            setUserNotifications(notifications);
 
             /* eslint-disable @typescript-eslint/no-explicit-any */
         } catch (error: any) {
@@ -69,7 +94,7 @@ const StakeBets = () => {
     return (
         <main className='flex-1 py-14 overflow-x-hidden overflow-y-scroll'>
             <div className='w-4/5 mx-auto flex flex-col gap-10'>
-                <h1 className='text-lg text-color-60 font-medium'>User Bets</h1>
+                <h1 className='text-lg text-color-60 font-medium'>STAKE USER BETS</h1>
 
 
                 <div

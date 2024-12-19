@@ -9,7 +9,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormControl, FormField, FormMessage } from './ui/form';
 import { Input } from './ui/input';
-import { createTransaction, getTransactions } from '@/lib/actions/userActions';
+import { adminNotification, createTransaction, getTransactions } from '@/lib/actions/userActions';
 import { useUser } from '@/contexts/child_context/userContext';
 import { Loader2 } from 'lucide-react';
 import { paymentFormSchema, transactionsWithImages } from '@/lib/utils';
@@ -133,13 +133,16 @@ const PaymentForm = ({ methodType, setMethod }: MethodProps) => {
         
                 if(response !== 'Success') {
                     toast({
-                        description: response
-                    })
-                } else {
-                    toast({
                         description: 'Something went wrong! try again'
                     })
+                    return;
+                } else {
+                    toast({
+                        description: "Your deposit is pending"
+                    })
                 }
+
+                await adminNotification((user as UserData).userId, 'deposit', transactionTime, data.amount)
 
                 const res = await getTransactions();
                 if(typeof res === 'string') return;
@@ -153,9 +156,6 @@ const PaymentForm = ({ methodType, setMethod }: MethodProps) => {
                 setLoading(false);
                 setImg('');
                 form.reset();
-                toast({
-                    description: "Your deposit is pending"
-                })
                 setStep(1);
                 setMethod('');
             }

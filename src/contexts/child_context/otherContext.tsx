@@ -1,7 +1,7 @@
 'use client'
-import { getGameTickets, getPaymentMethods, getTransactions } from '@/lib/actions/userActions';
+import { getAdminNotification, getGameTickets, getPaymentMethods, getTransactions, getUserNotification } from '@/lib/actions/userActions';
 import { paymentMethodsWithImages, transactionsWithImages } from '@/lib/utils';
-import { PaymentMethods, Transaction, UserGames } from '@/types/globals';
+import { BetNotifications, Notifications, PaymentMethods, Transaction, UserGame, UserGames } from '@/types/globals';
 import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react'
 
 
@@ -12,8 +12,14 @@ interface ContextType {
     transactions: Transaction[];
     setTransactions: (newTransactions: Transaction[]) => void;
 
-    userSlips: UserGames[];
-    setUserSlips: (newUserSlips: UserGames[]) => void;
+    userSlips: UserGame[];
+    setUserSlips: (newUserSlips: UserGame[]) => void;
+
+    userNotifications: BetNotifications[];
+    setUserNotifications: (newBetNotification: BetNotifications[]) => void;
+
+    adminNotifications: Notifications[];
+    setAdminNotifications: (newAdminNotifications: Notifications[]) => void;
 }
 
 export const OtherContext = createContext<ContextType | undefined>(undefined);
@@ -21,7 +27,9 @@ export const OtherContext = createContext<ContextType | undefined>(undefined);
 export const OtherProvider = ({ children } : { children: ReactNode }) => {
     const [paymentMethods, setPaymentMethods] = useState<PaymentMethods[]>([])
     const [transactions, setTransactions] = useState<Transaction[]>([]);
-    const [userSlips, setUserSlips] = useState<UserGames[]>([]);
+    const [userSlips, setUserSlips] = useState<UserGame[]>([]);
+    const [userNotifications, setUserNotifications] = useState<BetNotifications[]>([]);
+    const [adminNotifications, setAdminNotifications] = useState<Notifications[]>([]);
 
 
     /* eslint-disable react-hooks/exhaustive-deps */
@@ -32,18 +40,26 @@ export const OtherProvider = ({ children } : { children: ReactNode }) => {
                 const response = await getPaymentMethods();
                 const transactionsResponse = await getTransactions();
                 const slips = await getGameTickets();
+                const notifications = await getUserNotification();
+                const adminNot = await getAdminNotification();
 
                 if(typeof response === 'string') return;
+                const methods = paymentMethodsWithImages(response);
+                setPaymentMethods(methods);
 
                 if(typeof transactionsResponse === 'string') return;
+                const trans = transactionsWithImages(transactionsResponse);
+                setTransactions(trans);
 
                 if(typeof slips === 'string') return;
-
-                const methods = paymentMethodsWithImages(response);
-                const trans = transactionsWithImages(transactionsResponse);
-                setPaymentMethods(methods);
-                setTransactions(trans);
                 setUserSlips(slips);
+
+                if(typeof notifications === 'string') return;
+                setUserNotifications(notifications);
+
+                if(typeof adminNot === 'string') return;
+                setAdminNotifications(adminNot);
+
             } catch (error) {
                 console.error("Error fetching user data:", error);
             }
@@ -58,7 +74,8 @@ export const OtherProvider = ({ children } : { children: ReactNode }) => {
     return (
         <OtherContext.Provider value={{
             paymentMethods, setPaymentMethods, transactions, setTransactions,
-            userSlips, setUserSlips
+            userSlips, setUserSlips, userNotifications, setUserNotifications,
+            adminNotifications, setAdminNotifications
         }}>
             {children}
         </OtherContext.Provider>

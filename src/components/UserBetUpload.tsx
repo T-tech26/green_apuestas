@@ -24,7 +24,6 @@ const UserBetUpload = () => {
         stake: '',
         payout: '',
         userId: '',
-        matchStatus: '',
         date: '',
         games: []
     });
@@ -40,7 +39,6 @@ const UserBetUpload = () => {
         stake: z.string().min(2).optional(),
         payout: z.string().min(2).optional(),
         userId: z.string().min(2).optional(),
-        status: z.string().min(2).optional()
     });
 
 
@@ -57,7 +55,6 @@ const UserBetUpload = () => {
             stake: '',
             payout: '',
             userId: '',
-            status: ''
         }
     });
 
@@ -92,7 +89,6 @@ const UserBetUpload = () => {
             stake: form.getValues('stake') || games.stake,
             payout: form.getValues('payout') || games.payout,
             userId: form.getValues('userId') || games.userId,
-            matchStatus: form.getValues('status') || games.matchStatus,
         };
 
         setGames(updatedUserGames);
@@ -134,7 +130,7 @@ const UserBetUpload = () => {
             const newMissingFields: string[] = [];
 
             // Validate UserGames fields
-            const userGamesFields: (keyof UserGames)[] = ['totalOdds', 'stake', 'payout', 'userId', 'matchStatus'];
+            const userGamesFields: (keyof UserGames)[] = ['totalOdds', 'stake', 'payout', 'userId'];
 
 
             userGamesFields.forEach((field) => {
@@ -144,8 +140,7 @@ const UserBetUpload = () => {
                         field === 'totalOdds' ? 'Total odds' 
                             : field === 'stake' ? 'Stake'
                                 : field === 'payout' ? 'Payout'
-                                    : field === 'userId' ? 'User'
-                                        : 'Match status'
+                                    : 'User'
                     } is empty`
                     
                     newMissingFields.push(message);
@@ -217,7 +212,6 @@ const UserBetUpload = () => {
                 stake: '',
                 payout: '',
                 userId: '',
-                matchStatus: '',
                 date: '',
                 games: []
             })
@@ -268,7 +262,7 @@ const UserBetUpload = () => {
                                         <span>Correct score</span>
                                     </p>
                                     <p className='flex items-center justify-between text-color-60 text-xs w-full relative'>
-                                        <span className='text-green-400 font-semibold'>{games.matchStatus}</span> 
+                                        <span className='text-green-400 font-semibold'>won</span> 
                                         <span className='text-[10px] text-gray-400 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>{game.odd}</span>
                                         <span>{game.homeGoal} - {game.awayGoal}</span>
                                     </p>
@@ -303,7 +297,7 @@ const UserBetUpload = () => {
                         </p>
 
                         <p className='flex flex-col justify-between text-color-30 text-xs'>
-                            <span>Game status won/pending</span>
+                            <span>won</span>
                             <span>Date</span>
                         </p>
                     </div>
@@ -540,26 +534,6 @@ const UserBetUpload = () => {
                                         </Select>
                                         <FormMessage />
                                     </div>
-                                    )}
-                                />
-
-                                <FormField
-                                    control={form.control}
-                                    name='status'
-                                    render={({ field }) => (
-                                        <div className='w-full'>
-
-                                            <FormControl>
-                                                <Input
-                                                    id='status'
-                                                    placeholder='Enter game status'
-                                                    type='text'
-                                                    {...field}
-                                                    className='w-full py-2 px-3 border border-color-60 focus:border-color-10 focus:outline-none rounded-md placeholder:text-sm'
-                                                />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </div>
                                     )}
                                 />
 

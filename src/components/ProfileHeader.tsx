@@ -1,13 +1,18 @@
 'use client'
-import React from 'react'
+import React, { useState } from 'react'
 import Image from "next/image";
 import { useUser } from '@/contexts/child_context/userContext';
 import { UserData } from '@/types/globals';
 import ProfileMobleMenu from './ProfileMobleMenu';
+import { useOtherContext } from '@/contexts/child_context/otherContext';
+import Notifications from './Notifications';
 
 const ProfileHeader = () => {
 
     const { user } = useUser();
+    const { userNotifications } = useOtherContext();
+    
+    const [showNotification, setShowNotification] = useState(false);
 
     return (
         <>
@@ -28,16 +33,20 @@ const ProfileHeader = () => {
                             <p className='text-color-60 text-xs tracking-wide'>{`${(user as UserData)?.balance}`} USD</p>
                         </div>
 
-                        <div className='relative'>
+                        <div className='relative cursor-pointer' onClick={() => setShowNotification(true)}>
                             <Image
                                 src='/notifications-icon.svg'
                                 width={30}
                                 height={30}
                                 alt='notifications icon'
+                                onClick={() => setShowNotification(true)}
                             />
 
-                            <span className='text-color-30 text-xs absolute top-[-5px] right-0 bg-color-10 px-1 rounded-full'>
-                                0
+                            <span className='text-color-30 text-xs absolute top-[-5px] right-0 bg-color-10 px-1 rounded-full z-50'>
+                                {userNotifications.length > 0 && (
+                                    <span className='absolute top-0 -right-[3px] bg-color-10 rounded-full size-5 -z-50 animate-ping'></span>
+                                )}
+                                {userNotifications.length}
                             </span>
                         </div>
                     </div>
@@ -48,6 +57,10 @@ const ProfileHeader = () => {
 
                     <div className='w-64 h-9 bg-gray-300 rounded-md'></div>
                 </div>
+            )}
+
+            {showNotification && (
+                <Notifications setShow={setShowNotification} type='user' />
             )}
         </>
     )

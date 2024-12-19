@@ -6,7 +6,7 @@ import FormButton from '@/components/FormButton';
 import LiveChat from '@/components/LiveChat';
 import { Button } from '@/components/ui/button';
 import { getLoggedInUser, register } from '@/lib/actions/userActions';
-import { authFormSchema } from '@/lib/utils';
+import { authFormSchema, isAdmin, isUserData } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react'
@@ -33,43 +33,39 @@ const Register = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [step, setStep] = useState<number>(1);
-  const [loggedIn, setLoggedIn] = useState<object | string>('');
 
-  const { user, setUser } = useUser();
+  const { user, setUser, admin, setAdmin } = useUser();
   const { toast } = useToast();
 
 
   /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     const loggIn = async () => {
-        const response = await getLoggedInUser();
+      if(!isAdmin(admin) && !isUserData(user)) {
+        const loggedIn = await getLoggedInUser();
+        
+        if(isAdmin(loggedIn)) { setAdmin(loggedIn); return; }
 
-        if(typeof response === 'object') setUser(response);
+        if(isUserData(loggedIn)) { setUser(loggedIn); return; }
+      } else {
+
+        if((user as UserData)?.subscription === false) { redirect('/subscription'); } 
+
+        if((user as UserData)?.subscription === true) { redirect('/'); } 
+
+        if(admin.label[0] === 'admin') { redirect('/dashboard') }
+      }
     }
-
-    loggIn()
-  }, [loggedIn])
-  /* eslint-enable react-hooks/exhaustive-deps */
-
-
-
-  if(typeof user === 'object') {
-    if((user as UserData)?.subscription === false) {
-      redirect('/subscription');
-    } 
-
-    if((user as UserData)?.subscription === true) {
-      redirect('/');
-    } 
-  }
   
+    loggIn()
+  }, [user, admin])
+  /* eslint-enable react-hooks/exhaustive-deps */
 
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: '',
       password: '',
       firstname: '',
       lastname: '',
@@ -86,7 +82,7 @@ const Register = () => {
 
   const handleNextStep = () => {
 
-    const firstForm: ("username" | "password" | "firstname" | "lastname")[] = ['username', 'password', 'firstname', 'lastname'];
+    const firstForm: ("password" | "firstname" | "lastname")[] = ['password', 'firstname', 'lastname'];
     const secondForm: ("phone" | "email" | "dateOfBirth")[] = ['phone', 'email', 'dateOfBirth'];
 
     if (step === 1) {
@@ -114,26 +110,28 @@ const Register = () => {
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
 
-    const { username, password, firstname, lastname, phone, email, dateOfBirth, country, state, city } = data;
+    const { password, firstname, lastname, phone, email, dateOfBirth, country, state, city } = data;
 
     if(step === 3) {
       setIsLoading(true);
       try {
         const response = await register({
-          username, password, firstname, lastname, phone, email, dateOfBirth, country, state, city
+          password, firstname, lastname, phone, email, dateOfBirth, country, state, city
         });
 
         if(typeof response === 'string') {
           toast({
             description: response
           })
+          return;
         }
 
         if(typeof response === 'object') {
           toast({
             description: 'Account created successfully'
           });
-          setLoggedIn(response);
+
+          if(isUserData(response)) { setUser(response); }
         }
 
         /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -170,22 +168,6 @@ const Register = () => {
                   <CustomInput 
                     control={form.control}
                     trigger={form.trigger}
-                    name='username'
-                    label='Username'
-                    placeholder='username'
-                  />
-
-                  <CustomInput 
-                    control={form.control}
-                    trigger={form.trigger}
-                    name='password'
-                    label='Password'
-                    placeholder='password'
-                  />
-
-                  <CustomInput 
-                    control={form.control}
-                    trigger={form.trigger}
                     name='firstname'
                     label='First name'
                     placeholder='firstname'
@@ -197,6 +179,14 @@ const Register = () => {
                     name='lastname'
                     label='Last name'
                     placeholder='lastname'
+                  />
+
+                  <CustomInput 
+                    control={form.control}
+                    trigger={form.trigger}
+                    name='password'
+                    label='Password'
+                    placeholder='password'
                   />
 
                   <p className='text-color-30 text-sm'>By creating an account you agree to accept our <span className='text-color-10'>Terms & Conditions,</span> and you are over 18 and are aware of our Responsible Gaming Policy</p>

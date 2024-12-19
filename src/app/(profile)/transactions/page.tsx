@@ -19,7 +19,7 @@ const TransactionHistory = () => {
     useEffect(() => {
         if(transactions.length > 0) {
             const userTransaction = transactions.filter(userTrans => userTrans.userId === (user as UserData).userId);
-            setUserTransactions(userTransaction);
+            setUserTransactions(userTransaction.reverse());
             if(transactionLoading) setTransactionLoading(!transactionLoading);
         }
     }, [transactions]);

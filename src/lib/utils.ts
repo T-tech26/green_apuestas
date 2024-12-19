@@ -1,4 +1,4 @@
-import { Payment, PaymentMethods, Transaction, Transactions } from "@/types/globals"
+import { Admin, Payment, PaymentMethods, Transaction, Transactions, UserData } from "@/types/globals"
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 import { z } from "zod"
@@ -11,8 +11,6 @@ export function cn(...inputs: ClassValue[]) {
 
 
 export const authFormSchema = z.object({
-  username: z.string().max(8, { message: "Username must be less than 8 characters" }),
-
   password: z.string().min(8, { message: "Password must be at least 8 characters long with uppercase letter, and number" }),
 
   firstname: z.string().min(3).max(18, { message: "Firt name must be at least 3 characters" }),
@@ -25,7 +23,7 @@ export const authFormSchema = z.object({
 
   dateOfBirth: z.string().date(),
 
-  country: z.string().max(12),
+  country: z.string().max(20),
 
   state: z.string().min(3),
 
@@ -128,3 +126,14 @@ export const paymentFormSchema = z.object({
       message: 'File must be PNG or JPEG',
       }),
 });
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
+export const isAdmin = (user: any): user is Admin => {
+  return user.label !== undefined;
+}
+
+// Type guard to check if the object is of type UserData
+export const isUserData = (user: any): user is UserData => {
+  return user.userId !== undefined;
+}
+/* eslint-enable @typescript-eslint/no-explicit-any */

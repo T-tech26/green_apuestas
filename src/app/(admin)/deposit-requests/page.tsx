@@ -59,7 +59,7 @@ const DepositRequests = () => {
     return (
         <main className='flex-1 py-14 overflow-x-hidden overflow-y-scroll'>
             <div className='w-4/5 mx-auto flex flex-col gap-10'>
-                <h1 className='text-lg text-color-60 font-medium'>Deposit Request</h1>
+                <h1 className='text-lg text-color-60 font-medium'>DEPOSIT REQUEST</h1>
 
                 <div
                     className='flex items-center flex-wrap py-3'

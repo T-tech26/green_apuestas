@@ -138,7 +138,6 @@ export interface LiveMatch {
 
 
 export type registerParams = {
-  username: string,
   password: string,
   firstname: string,
   lastname: string,
@@ -355,7 +354,6 @@ export interface UserGames {
   stake: string,
   payout: string,
   userId: string,
-  matchStatus: string,
   date: string,
   games: Games[],
   $id?: string,
@@ -366,6 +364,61 @@ export interface UserGames {
   /* eslint-enable @typescript-eslint/no-explicit-any */
   $databaseId?: string,
   $collectionId?: string
+}
+
+
+export interface UserGame {
+  totalOdds: string,
+  stake: string,
+  payout: string,
+  userId: string,
+  date: string,
+  showBet: boolean,
+  games: Games[],
+  $id?: string,
+  $createdAt?: string,
+  $updatedAt?: string,
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+  $permissions?: any[];
+  /* eslint-enable @typescript-eslint/no-explicit-any */
+  $databaseId?: string,
+  $collectionId?: string
+}
+
+
+export interface BetNotifications {
+  userId: string,
+  notification: string,
+  date: string,
+  $id?: string,
+  $createdAt?: string,
+  $updatedAt?: string,
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+  $permissions?: any[];
+  /* eslint-enable @typescript-eslint/no-explicit-any */
+  $databaseId?: string,
+  $collectionId?: string
+}
+
+export interface Notifications {
+  userId: string,
+  type: string,
+  date: string,
+  amount?: string,
+  $id?: string,
+  $createdAt?: string,
+  $updatedAt?: string,
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+  $permissions?: any[];
+  /* eslint-enable @typescript-eslint/no-explicit-any */
+  $databaseId?: string,
+  $collectionId?: string
+}
+
+
+export interface Admin {
+  name: string,
+  label: string[],
 }
 
 

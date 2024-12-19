@@ -3,19 +3,21 @@
 import { ID, Query } from "node-appwrite";
 import { createAdminClient, createSessionClient } from "../appwrite/config";
 import { cookies } from "next/headers";
-import { AmountAndReciept, Payment, PaymentMethod, PaymentMethods, registerParams, Transactions, UserData, UserGames } from "@/types/globals";
+import { Admin, AmountAndReciept, Payment, PaymentMethod, PaymentMethods, registerParams, Transactions, UserData, UserGames } from "@/types/globals";
 import { parseStringify } from "../utils";
 
 const { 
     APPWRITE_DATABASE_ID, 
     APPWRITE_USERS_COLLECTION_ID, 
     APPWRITE_ACTIVATION_COLLECTION_ID,
+    APPWRITE_USED_CODE_COLLECTION_ID,
     APPWRITE_PAYMENT_METHOD_COLLECTION_ID,
     APPWRITE_PAYMENT_METHOD_LOGO_BUCKET_ID,
     APPWRITE_TRANSACTION_COLLECTION_ID,
     APPWRITE_PAYMENT_RECIEPT_LOGO_BUCKET_ID,
     APPWRITE_USER_BETS_COLLECTION_ID,
-    APPWRITE_BET_STAKE_NOTIFICATION_COLLECTION_ID
+    APPWRITE_BET_STAKE_NOTIFICATION_COLLECTION_ID,
+    APPWRITE_ADMIN_NOTIFICATION_COLLECTION_ID
  } = process.env;
 
 
@@ -118,16 +120,27 @@ export const logOut = async () => {
 };
 
 
-export const getLoggedInUser = async (): Promise<UserData | string> => {
+export const getLoggedInUser = async (): Promise<UserData | Admin | string> => {
     try {
         const { account } = await createSessionClient(); 
         const { database } = await createAdminClient()
         const loggedInUser = await account.get();  // Get the logged-in user
         
         let id;
+        
+        /* eslint-disable @typescript-eslint/no-explicit-any */
+        if(loggedInUser && (loggedInUser as any)?.labels[0] === 'admin') {
+        /* eslint-enable @typescript-eslint/no-explicit-any */
+            const isAdmin: Admin = {
+                name: loggedInUser.name,
+                label: loggedInUser.labels
+            };
+
+            return parseStringify(isAdmin);
+        }
 
         /* eslint-disable @typescript-eslint/no-explicit-any */
-        if((loggedInUser as any)?.$id) id = (loggedInUser as any)?.$id;
+        if(loggedInUser && (loggedInUser as any)?.$id) id = (loggedInUser as any)?.$id;
         /* eslint-enable @typescript-eslint/no-explicit-any */
 
         const user = await database.listDocuments(
@@ -135,17 +148,13 @@ export const getLoggedInUser = async (): Promise<UserData | string> => {
             APPWRITE_USERS_COLLECTION_ID!,
             [Query.equal('userId', id)]
         )
-       
+
         return parseStringify(user.documents[0]);  // Assuming parseStringify formats the user object
     } catch (error) {
         console.error("Error getting logged in user", error);
-        // Return specific error message for no session
-        if (error instanceof Error && error.message.includes("No session")) {
-            return "No user logged in";
-        }
-
+        
         /* eslint-disable @typescript-eslint/no-explicit-any */
-        return `Error: ${(error as any)?.message || "Unknown error"}`;
+        return `${(error as any)?.message || "Unknown error"}`;
         /* eslint-enable @typescript-eslint/no-explicit-any */
     }
 };
@@ -200,8 +209,29 @@ export const activateSubscription = async (userId: string, pin: string): Promise
         )
         
         /* eslint-disable @typescript-eslint/no-explicit-any */
-        if(!(pinCheck as any)?.documents.length) return 'Invalid code';
+        if(!(pinCheck as any)?.documents.length) return 'Invalid pin';
         /* eslint-enable @typescript-eslint/no-explicit-any */
+
+        const usedPin = await database.listDocuments(
+            APPWRITE_DATABASE_ID!, 
+            APPWRITE_USED_CODE_COLLECTION_ID!, 
+            [Query.equal('code', pin)]
+        )
+
+        /* eslint-disable @typescript-eslint/no-explicit-any */
+        if((usedPin as any)?.documents.length) return 'Pin already used';
+        /* eslint-enable @typescript-eslint/no-explicit-any */
+
+
+        await database.createDocument(
+            APPWRITE_DATABASE_ID!,
+            APPWRITE_USED_CODE_COLLECTION_ID!,
+            ID.unique(),
+            {
+                'code': pin
+            }
+        )
+
         
         const updateSubscription = await database.updateDocument(
             APPWRITE_DATABASE_ID!,
@@ -281,7 +311,7 @@ export const getActivationPins = async () => {
 
         const pins = await database.listDocuments(
             APPWRITE_DATABASE_ID!, 
-            APPWRITE_ACTIVATION_COLLECTION_ID!, 
+            APPWRITE_USED_CODE_COLLECTION_ID!, 
         );
 
         return parseStringify(pins.documents);
@@ -300,13 +330,19 @@ export const deleteActivationPin = async (id: string) => {
 
         await database.deleteDocument(
             APPWRITE_DATABASE_ID!, 
+            APPWRITE_USED_CODE_COLLECTION_ID!,
+            id
+        );
+
+        await database.deleteDocument(
+            APPWRITE_DATABASE_ID!, 
             APPWRITE_ACTIVATION_COLLECTION_ID!,
             id
         );
 
         const pins = await database.listDocuments(
             APPWRITE_DATABASE_ID!, 
-            APPWRITE_ACTIVATION_COLLECTION_ID!, 
+            APPWRITE_USED_CODE_COLLECTION_ID!, 
         );
 
         return parseStringify(pins.documents);
@@ -504,23 +540,68 @@ export const depositStatus = async (id: string, status: string) => {
 }
 
 
-export const stakeUserBet = async (id: string) => {
+export const userNotification = async (id: string, type: string, date: string) => {
     try {
         const { database } = await createAdminClient();
 
-        await database.createDocument(
-            APPWRITE_DATABASE_ID!,
-            APPWRITE_BET_STAKE_NOTIFICATION_COLLECTION_ID!,
-            ID.unique(),
-            { 
-                userId: id,
-                notification: 'has book a correct score game for you'
-            }
-        )
+        if(type === 'stake') {
+            await database.createDocument(
+                APPWRITE_DATABASE_ID!,
+                APPWRITE_BET_STAKE_NOTIFICATION_COLLECTION_ID!,
+                ID.unique(),
+                { 
+                    userId: id,
+                    date: date,
+                    notification: 'Green apuesta team has just booked a correct score bet for you'
+                }
+            )
+        }
+
 
         return 'success';
     } catch (error) {
         console.error("Error creating user bet notification ", error);
+        /* eslint-disable @typescript-eslint/no-explicit-any */
+        return `${(error as any)?.message}, try again`;
+        /* eslint-enable @typescript-eslint/no-explicit-any */
+    }
+}
+
+
+export const getUserNotification = async () => {
+    try {
+        const { database } = await createAdminClient();
+
+        const notifications = await database.listDocuments(
+            APPWRITE_DATABASE_ID!,
+            APPWRITE_BET_STAKE_NOTIFICATION_COLLECTION_ID!,
+        );
+
+        return parseStringify(notifications.documents);
+
+    } catch (error) {
+        console.error("Error getting user bet notifications ", error);
+        /* eslint-disable @typescript-eslint/no-explicit-any */
+        return `${(error as any)?.message}, try again`;
+        /* eslint-enable @typescript-eslint/no-explicit-any */
+    }
+}
+
+
+export const deleteUserNotification = async (id: string) => {
+    try {
+        const { database } = await createAdminClient();
+
+        await database.deleteDocument(
+            APPWRITE_DATABASE_ID!,
+            APPWRITE_BET_STAKE_NOTIFICATION_COLLECTION_ID!,
+            id
+        );
+
+        return 'success';
+
+    } catch (error) {
+        console.error("Error deleting user bet notifications ", error);
         /* eslint-disable @typescript-eslint/no-explicit-any */
         return `${(error as any)?.message}, try again`;
         /* eslint-enable @typescript-eslint/no-explicit-any */
@@ -561,10 +642,104 @@ export const getGameTickets = async () => {
 
         return parseStringify(slips.documents);
     } catch (error) {
-        console.error("Error creating game ticket ", error);
+        console.error("Error getting game tickets ", error);
         /* eslint-disable @typescript-eslint/no-explicit-any */
         return `${(error as any)?.message}, try again`;
         /* eslint-enable @typescript-eslint/no-explicit-any */
     }
 }
   
+
+export const showBetSlip = async (id: string) => {
+    try {
+        const { database } = await createAdminClient();
+
+        const updated = await database.getDocument(
+            APPWRITE_DATABASE_ID!,
+            APPWRITE_USER_BETS_COLLECTION_ID!,
+            id,
+        )
+
+        await database.updateDocument(
+            APPWRITE_DATABASE_ID!,
+            APPWRITE_USER_BETS_COLLECTION_ID!,
+            id,
+            { 'showBet': !updated.showBet }
+        )
+
+        return 'success';
+        
+    } catch (error) {
+        console.error("Error showing user bet slip", error);
+        /* eslint-disable @typescript-eslint/no-explicit-any */
+        return `${(error as any)?.message}, try again`;
+        /* eslint-enable @typescript-eslint/no-explicit-any */
+    }
+}
+
+
+export const adminNotification = async (id: string, type: string, date: string, amount: string) => {
+    try {
+        const { database } = await createAdminClient();
+
+        await database.createDocument(
+            APPWRITE_DATABASE_ID!,
+            APPWRITE_ADMIN_NOTIFICATION_COLLECTION_ID!,
+            ID.unique(),
+            { 
+                userId: id,
+                date: date,
+                type: type,
+                amount: amount
+            }
+        )
+
+        return 'success';
+    } catch (error) {
+        console.error("Error creating admin notification ", error);
+        /* eslint-disable @typescript-eslint/no-explicit-any */
+        return `${(error as any)?.message}, try again`;
+        /* eslint-enable @typescript-eslint/no-explicit-any */
+    }
+}
+
+
+export const getAdminNotification = async () => {
+    try {
+        const { database } = await createAdminClient();
+
+        const notifications = await database.listDocuments(
+            APPWRITE_DATABASE_ID!,
+            APPWRITE_ADMIN_NOTIFICATION_COLLECTION_ID!,
+        );
+
+        return parseStringify(notifications.documents);
+
+    } catch (error) {
+        console.error("Error getting admin notifications ", error);
+        /* eslint-disable @typescript-eslint/no-explicit-any */
+        return `${(error as any)?.message}, try again`;
+        /* eslint-enable @typescript-eslint/no-explicit-any */
+    }
+}
+
+
+export const deleteAdminNotification = async (id: string) => {
+    try {
+        const { database } = await createAdminClient();
+
+        await database.deleteDocument(
+            APPWRITE_DATABASE_ID!,
+            APPWRITE_ADMIN_NOTIFICATION_COLLECTION_ID!,
+            id
+        );
+
+        return 'success';
+
+    } catch (error) {
+        console.error("Error deleting admin notifications ", error);
+        /* eslint-disable @typescript-eslint/no-explicit-any */
+        return `${(error as any)?.message}, try again`;
+        /* eslint-enable @typescript-eslint/no-explicit-any */
+    }
+}

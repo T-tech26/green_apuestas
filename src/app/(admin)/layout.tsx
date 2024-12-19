@@ -1,5 +1,10 @@
+'use client'
 import AdminHeader from "@/components/AdminHeader";
 import AdminMenu from "@/components/AdminMenu";
+import { useUser } from "@/contexts/child_context/userContext";
+import { Loader2 } from "lucide-react";
+import { redirect } from "next/navigation";
+import { useEffect } from "react";
 
 export default function RootLayout({
     children,
@@ -7,6 +12,24 @@ export default function RootLayout({
     children: React.ReactNode;
   }>) {
 
+
+    const { user, allUsers, admin, isLoading } = useUser();
+
+
+    useEffect(() => {
+        if(typeof user === 'object') { redirect('/'); }
+        if(typeof user !== 'object' && !isLoading && typeof admin !== 'object') { redirect('/'); }
+    }, [user, isLoading]);
+
+
+
+    if(admin.label && !admin.label.length && !Array.isArray(allUsers) && isLoading) {
+      return (
+        <div className="fixed top-0 bottom-0 right-0 left-0 w-full h-full bg-dark-gradient-135deg flex justify-center items-center">
+          <Loader2 size={60} className="animate-spin text-color-30" />
+        </div>
+      );
+    }
 
     return (
       <section className='flex item-center h-screen overflow-hidden'>

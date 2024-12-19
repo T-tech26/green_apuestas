@@ -1,5 +1,4 @@
 'use client'
-
 import { useUser } from '@/contexts/child_context/userContext'
 import { UserData } from '@/types/globals';
 import React, { useState } from 'react'
@@ -13,16 +12,14 @@ import {
 } from "@/components/ui/table"
 import Image from 'next/image';
 import User from '@/components/User';
-import { Loader2 } from 'lucide-react';
 
 const Dashboard = () => {
 
-    const { user, allUsers } = useUser();
+    const { allUsers } = useUser();
     const [selectedUser, setSelectedUser] = useState<UserData | string>('');
 
     let balance;
-
-
+    
 
     if(allUsers.length > 0) {
         balance = (allUsers as UserData[]).reduce((total, user) => {
@@ -31,20 +28,9 @@ const Dashboard = () => {
     }
 
 
-
-    if (typeof user !== 'object' && !Array.isArray(allUsers)) {
-        return (
-          <div className="fixed top-0 bottom-0 right-0 left-0 w-full h-full bg-dark-gradient-135deg flex justify-center items-center">
-            <Loader2 size={60} className="animate-spin text-color-30" />
-          </div>
-        );
-    }
-
-
-
     return (
         <>
-            {typeof user === 'object' && Array.isArray(allUsers) && (
+            {Array.isArray(allUsers) && (
                 <main className='flex-1 py-14 overflow-x-hidden overflow-y-scroll'>
                     <div className='w-4/5 mx-auto flex flex-col gap-10'>
                         <h1 className='text-lg text-color-60 font-medium'>Dashboard</h1>
