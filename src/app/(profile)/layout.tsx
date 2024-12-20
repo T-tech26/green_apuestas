@@ -1,7 +1,6 @@
 'use client'
 import ProfileHeader from "@/components/ProfileHeader";
 import ProfileMenu from "@/components/ProfileMenu";
-import { useOtherContext } from "@/contexts/child_context/otherContext";
 import { useUser } from "@/contexts/child_context/userContext";
 import { Loader2 } from "lucide-react";
 import { redirect } from "next/navigation";
@@ -17,6 +16,7 @@ export default function RootLayout({
     const { user, admin, isLoading } = useUser();
     
 
+    /* eslint-disable react-hooks/exhaustive-deps */
     useEffect(() => {
       if(admin.label.length) { redirect('/dashboard'); }
 
@@ -24,6 +24,7 @@ export default function RootLayout({
         if(typeof user !== 'object') { redirect('/'); }
       }
     }, [user, admin]);
+    /* eslint-enable react-hooks/exhaustive-deps */
 
 
 

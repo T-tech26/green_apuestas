@@ -1,7 +1,7 @@
 'use client'
 import { useOtherContext } from '@/contexts/child_context/otherContext'
 import { deleteAdminNotification, deleteUserNotification, getAdminNotification, getUserNotification } from '@/lib/actions/userActions'
-import { BetNotifications, UserData, Notifications as AdminNotifications } from '@/types/globals'
+import { UserData, Notifications as AdminNotifications } from '@/types/globals'
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { useUser } from '@/contexts/child_context/userContext'
@@ -29,7 +29,7 @@ const Notifications = ({ setShow, type }: NotificationsProps) => {
     const [adminWithNotification, setAdminWithNotification] = useState<UserWithNotify[]>([]);
 
 
-    /* eslint-enable react-hooks/exhaustive-deps */
+    /* eslint-disable react-hooks/exhaustive-deps */
     useEffect(() => {
         if(userNotifications.length > 0) {
             const mappedUserWithNotification: AdminNotifications[] = userNotifications.filter(notify => notify.userId === (user as UserData).userId)
@@ -37,11 +37,9 @@ const Notifications = ({ setShow, type }: NotificationsProps) => {
             setUserWithNotification(mappedUserWithNotification.reverse());   
         }
     }, [userNotifications]);
-    /* eslint-enable react-hooks/exhaustive-deps */
+    
 
-
-
-    /* eslint-disable react-hooks/exhaustive-deps */
+    
     useEffect(() => {
         if (adminNotifications.length > 0) {
 
