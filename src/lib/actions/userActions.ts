@@ -16,7 +16,7 @@ const {
     APPWRITE_TRANSACTION_COLLECTION_ID,
     APPWRITE_PAYMENT_RECIEPT_LOGO_BUCKET_ID,
     APPWRITE_USER_BETS_COLLECTION_ID,
-    APPWRITE_BET_STAKE_NOTIFICATION_COLLECTION_ID,
+    APPWRITE_USER_NOTIFICATION_COLLECTION_ID,
     APPWRITE_ADMIN_NOTIFICATION_COLLECTION_ID
  } = process.env;
 
@@ -540,23 +540,21 @@ export const depositStatus = async (id: string, status: string) => {
 }
 
 
-export const userNotification = async (id: string, type: string, date: string) => {
+export const userNotification = async (id: string, type: string, date: string, amount: string) => {
     try {
         const { database } = await createAdminClient();
 
-        if(type === 'stake') {
-            await database.createDocument(
-                APPWRITE_DATABASE_ID!,
-                APPWRITE_BET_STAKE_NOTIFICATION_COLLECTION_ID!,
-                ID.unique(),
-                { 
-                    userId: id,
-                    date: date,
-                    notification: 'Green apuesta team has just booked a correct score bet for you'
-                }
-            )
-        }
-
+        await database.createDocument(
+            APPWRITE_DATABASE_ID!,
+            APPWRITE_USER_NOTIFICATION_COLLECTION_ID!,
+            ID.unique(),
+            { 
+                userId: id,
+                date: date,
+                type: type,
+                amount: amount
+            }
+        )
 
         return 'success';
     } catch (error) {
@@ -574,7 +572,7 @@ export const getUserNotification = async () => {
 
         const notifications = await database.listDocuments(
             APPWRITE_DATABASE_ID!,
-            APPWRITE_BET_STAKE_NOTIFICATION_COLLECTION_ID!,
+            APPWRITE_USER_NOTIFICATION_COLLECTION_ID!,
         );
 
         return parseStringify(notifications.documents);
@@ -594,7 +592,7 @@ export const deleteUserNotification = async (id: string) => {
 
         await database.deleteDocument(
             APPWRITE_DATABASE_ID!,
-            APPWRITE_BET_STAKE_NOTIFICATION_COLLECTION_ID!,
+            APPWRITE_USER_NOTIFICATION_COLLECTION_ID!,
             id
         );
 
@@ -650,7 +648,7 @@ export const getGameTickets = async () => {
 }
   
 
-export const showBetSlip = async (id: string) => {
+export const showBetSlip = async (id: string, type: string) => {
     try {
         const { database } = await createAdminClient();
 
@@ -659,6 +657,20 @@ export const showBetSlip = async (id: string) => {
             APPWRITE_USER_BETS_COLLECTION_ID!,
             id,
         )
+
+        if(type === 'ticketWon') {
+
+            await database.updateDocument(
+                APPWRITE_DATABASE_ID!,
+                APPWRITE_USER_BETS_COLLECTION_ID!,
+                id,
+                { 
+                    'showBet': true,
+                    'creditUser': true,
+                }
+            )
+            return 'success';
+        }
 
         await database.updateDocument(
             APPWRITE_DATABASE_ID!,
@@ -738,6 +750,50 @@ export const deleteAdminNotification = async (id: string) => {
 
     } catch (error) {
         console.error("Error deleting admin notifications ", error);
+        /* eslint-disable @typescript-eslint/no-explicit-any */
+        return `${(error as any)?.message}, try again`;
+        /* eslint-enable @typescript-eslint/no-explicit-any */
+    }
+}
+
+
+export const creditUserBalance = async (userId: string, amount: string, type: string) => {
+    try {
+        const { database } = await createAdminClient();
+
+        const user = await database.listDocuments(
+            APPWRITE_DATABASE_ID!,
+            APPWRITE_USERS_COLLECTION_ID!,
+            [Query.equal('userId', userId)]
+        )
+
+        if(!user.documents.length) return;
+        
+        const id = user.documents[0].$id;
+        let newBalance: number;
+
+        if(type === 'credit') {
+            newBalance = Number(user.documents[0].balance) + Number(amount);
+        }
+
+        if(type === 'ticketWon') {
+            newBalance = Number(user.documents[0].balance) + Number(amount);
+        }
+        
+        if(type === 'deduct') {
+            newBalance = Number(user.documents[0].balance) - Number(amount);
+        }
+
+        await database.updateDocument(
+            APPWRITE_DATABASE_ID!,
+            APPWRITE_USERS_COLLECTION_ID!,
+            id,
+            { 'balance': newBalance!.toString() }
+        )
+
+        return 'success';
+    } catch (error) {
+        console.error("Error setting payment status ", error);
         /* eslint-disable @typescript-eslint/no-explicit-any */
         return `${(error as any)?.message}, try again`;
         /* eslint-enable @typescript-eslint/no-explicit-any */

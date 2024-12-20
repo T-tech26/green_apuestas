@@ -11,7 +11,7 @@ import { PaymentMethods } from '@/types/globals';
 import { useOtherContext } from '@/contexts/child_context/otherContext';
 import { createPaymentMethod, deletePaymentMethod, getPaymentMethods } from '@/lib/actions/userActions';
 import { toast } from '@/hooks/use-toast';
-import { paymentMethodsWithImages } from '@/lib/utils';
+import { formatAmount, paymentMethodsWithImages } from '@/lib/utils';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from './ui/table';
 
 const BankPayment = () => {
@@ -196,10 +196,10 @@ const BankPayment = () => {
                                                     height={10}
                                                     alt='rate icon'
                                                 />
-                                                {method.rate} {method.currency}
+                                                {method.rate && formatAmount(method.rate)} {method.currency}
                                             </p>
                                         </TableCell>
-                                        <TableCell className='text-center min-w-28'>{method.minDeposit}</TableCell>
+                                        <TableCell className='text-center min-w-28'>{method.minDeposit && formatAmount(method.minDeposit)}</TableCell>
                                         <TableCell className='text-right text-red-500'>
                                             <Image
                                                 src='/delete-icon.svg'

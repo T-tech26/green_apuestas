@@ -2,7 +2,9 @@
 import { Button } from '@/components/ui/button';
 import { useOtherContext } from '@/contexts/child_context/otherContext';
 import { useUser } from '@/contexts/child_context/userContext'
-import { getGameTickets, showBetSlip } from '@/lib/actions/userActions';
+import { toast } from '@/hooks/use-toast';
+import { creditUserBalance, getGameTickets, showBetSlip, userNotification } from '@/lib/actions/userActions';
+import { formatAmount, generateDateString } from '@/lib/utils';
 import { UserData, UserGame } from '@/types/globals';
 import { Loader2 } from 'lucide-react';
 import React, { useEffect, useState } from 'react'
@@ -68,17 +70,44 @@ const UserBetHistory = () => {
     }
 
 
-    const handleShowBet = async (id: string) => {
+    const handleShowBet = async (id: string, credit: boolean, userId: string, amount: string) => {
+        const date = generateDateString();
         setLoading(true);
         try {
 
-            const response = await showBetSlip(id);
+            const response = await showBetSlip(id, '');
 
             if(response !== 'success') return;
+
+            if(credit === false) {
+                const ticketWon = await creditUserBalance(userId, amount, 'ticketWon');
+                
+                if(ticketWon === 'success') {
+                    const updatedticketStatus = await showBetSlip(id, 'ticketWon');
+
+                    if(updatedticketStatus !== 'success') return;
+
+                    await userNotification(userId, 'ticketWon', date, amount);
+
+                    const slips = await getGameTickets();
+                    if(typeof slips === 'string') return;
+                    setUserSlips(slips);
+
+                    toast({
+                        description: 'User credited and ticket shown to user'
+                    })
+
+                    return;
+                }
+            }
 
             const slips = await getGameTickets();
             if(typeof slips === 'string') return;
             setUserSlips(slips);
+
+            toast({
+                description: 'User credited and ticket shown to user'
+            })
             
         /* eslint-disable @typescript-eslint/no-explicit-any */
         } catch (error: any) {
@@ -108,7 +137,12 @@ const UserBetHistory = () => {
                                             disabled={loading && id === slip.slip.$id}
                                             className='h-6 bg-light-gradient-135deg text-xs text-color-30 rounded-full'
                                             onClick={() => {
-                                                handleShowBet((slip.slip.$id as string))
+                                                handleShowBet(
+                                                    (slip.slip.$id as string), 
+                                                    (slip.slip.creditUser as boolean), 
+                                                    (slip.slip.userId as string),
+                                                    (slip.slip.payout as string)
+                                                );
                                                 setId((slip.slip.$id as string));
                                             }}
                                         >
@@ -174,12 +208,12 @@ const UserBetHistory = () => {
 
                                             <p className='flex justify-between text-color-60 text-xs'>
                                                 <span>Stake</span> 
-                                                <span>${slip.slip.stake}</span>
+                                                <span>${formatAmount(slip.slip.stake)}</span>
                                             </p>
 
                                             <p className='flex justify-between text-color-60 text-xs'>
                                                 <span>Payout:</span> 
-                                                <span>${slip.slip.payout}</span>
+                                                <span>${formatAmount(slip.slip.payout)}</span>
                                             </p>
                                         </div>
                                     </div>

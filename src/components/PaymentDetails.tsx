@@ -3,6 +3,7 @@ import { PaymentMethods } from '@/types/globals';
 import React from 'react'
 import Image from 'next/image';
 import { Button } from './ui/button';
+import { formatAmount } from '@/lib/utils';
 
 
 interface MethodProps {
@@ -81,7 +82,7 @@ const PaymentDetails = ({ methodType, step, setStep }: MethodProps) => {
     
                 <div className='flex items-center justify-between w-full border border-color-60 rounded-md py-1 px-2'>
                     <p className='font-semibold text-base text-color-60'>Minimum deposit</p>
-                    <p className='text-sm text-color-60'>{methodType.minDeposit} USD</p>
+                    <p className='text-sm text-color-60'>{methodType.minDeposit && formatAmount(methodType.minDeposit)} USD</p>
                 </div>
     
                 <Button
@@ -155,13 +156,13 @@ const PaymentDetails = ({ methodType, step, setStep }: MethodProps) => {
                             height={15}
                             alt='rate icon'
                         />
-                        {methodType.rate} {methodType.currency}
+                        {methodType.rate && formatAmount(methodType.rate)} {methodType.currency}
                     </p>
                 </div>
     
                 <div className='flex items-center justify-between w-full border border-color-60 rounded-md py-1 px-2'>
                     <p className='font-semibold text-base text-color-60'>Minimum deposit</p>
-                    <p className='text-sm text-color-60'>{methodType.minDeposit} USD</p>
+                    <p className='text-sm text-color-60'>{methodType.minDeposit && formatAmount(methodType.minDeposit)} USD</p>
                 </div>
     
                 <Button
@@ -222,7 +223,7 @@ const PaymentDetails = ({ methodType, step, setStep }: MethodProps) => {
     
                 <div className='flex items-center justify-between w-full border border-color-60 rounded-md py-1 px-2'>
                     <p className='font-semibold text-base text-color-60'>Minimum deposit</p>
-                    <p className='text-sm text-color-60'>{methodType.minDeposit} USD</p>
+                    <p className='text-sm text-color-60'>{methodType.minDeposit && formatAmount(methodType.minDeposit)} USD</p>
                 </div>
     
                 <Button
@@ -272,7 +273,7 @@ const PaymentDetails = ({ methodType, step, setStep }: MethodProps) => {
 
             <div className='flex items-center justify-between w-full border border-color-60 rounded-md py-1 px-2'>
                 <p className='font-semibold text-base text-color-60'>Minimum deposit</p>
-                <p className='text-sm text-color-60'>{methodType.minDeposit} USD</p>
+                <p className='text-sm text-color-60'>{methodType.minDeposit && formatAmount(methodType.minDeposit)} USD</p>
             </div>
 
             <Button

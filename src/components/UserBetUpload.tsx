@@ -1,9 +1,9 @@
 import { useUser } from '@/contexts/child_context/userContext';
 import { toast } from '@/hooks/use-toast';
-import { createGameTicket } from '@/lib/actions/userActions';
+import { createGameTicket, creditUserBalance, userNotification } from '@/lib/actions/userActions';
 import { Games, UserData, UserGame } from '@/types/globals';
 import { zodResolver } from '@hookform/resolvers/zod';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import Image from 'next/image';
@@ -12,10 +12,11 @@ import { Input } from './ui/input';
 import { Button } from './ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { Loader2 } from 'lucide-react';
+import { formatAmount, generateDateString } from '@/lib/utils';
 
 const UserBetUpload = () => {
 
-    const { allUsers } = useUser()
+    const { allUsers } = useUser();
 
     const [loading, setLoading] = useState(false);
     const [missingFields, setMissingFields] = useState<string[]>([]);
@@ -27,6 +28,16 @@ const UserBetUpload = () => {
         date: '',
         games: []
     });
+
+
+
+    useEffect(() => {
+        document.body.style.overflowY = 'hidden';
+
+        return () => {
+            document.body.style.overflowY = '';
+        }
+    }, []);
 
 
     const formSchema = z.object({
@@ -111,16 +122,6 @@ const UserBetUpload = () => {
     }
 
 
-    const generateDateString = () => {
-        const today = new Date();
-        const day = today.getDate().toString().padStart(2, '0'); // Adds leading zero for single-digit days
-        const month = (today.getMonth() + 1).toString().padStart(2, '0'); // Month is 0-indexed, so we add 1
-        const year = today.getFullYear();
-    
-        return `${day}-${month}-${year}`;
-    }
-
-
     const onSubmit = async () => {
         const gameDate = generateDateString();
 
@@ -189,7 +190,6 @@ const UserBetUpload = () => {
 
             const gamesWithDate: UserGame = {
                 ...games,
-                ...games,
                 date: gameDate
             };
 
@@ -199,6 +199,12 @@ const UserBetUpload = () => {
                 toast({
                     description: 'Game uploaded successfully'
                 })
+
+                const deduct = await creditUserBalance(games.userId, games.stake, 'deduct');
+
+                if(deduct === 'success') {
+                    await userNotification(games.userId, 'deduct', gameDate, games.stake);
+                }
             }
 
             /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -279,12 +285,12 @@ const UserBetUpload = () => {
 
                         <p className='flex justify-between text-color-60 text-xs'>
                             <span>Stake</span> 
-                            <span>${games.stake}</span>
+                            <span>${formatAmount(games.stake)}</span>
                         </p>
 
                         <p className='flex justify-between text-color-60 text-xs'>
                             <span>Payout:</span> 
-                            <span>${games.payout}</span>
+                            <span>${formatAmount(games.payout)}</span>
                         </p>
                     </div>
                 </div>
@@ -510,12 +516,11 @@ const UserBetUpload = () => {
                                     )}
                                 />
 
-
                                 <FormField
                                     control={form.control}
                                     name="userId"
                                     render={({ field }) => (
-                                    <div className='w-full'>
+                                    <div className='w-full !overflow-hidden'>
                                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                                         <FormControl>
                                             <SelectTrigger className='w-full py-2 px-3 border border-color-60 focus:border-color-10 focus:outline-none rounded-md placeholder:text-sm placeholder:text-gray-200 flex items-center justify-between'>
@@ -524,11 +529,11 @@ const UserBetUpload = () => {
                                         </FormControl>
                                         <SelectContent className=''>
                                             {(allUsers as UserData[]).length > 0 && (allUsers as UserData[]).map(user => {
-                                            return (
-                                                <SelectItem className='cursor-pointer' key={user.$id} value={user.userId}>
-                                                    {user.firstname} {user.lastname}
-                                                </SelectItem>
-                                            )
+                                                return (
+                                                    <SelectItem className='cursor-pointer' key={user.$id} value={user.userId}>
+                                                        {user.firstname} {user.lastname}
+                                                    </SelectItem>
+                                                )
                                             })}
                                         </SelectContent>
                                         </Select>

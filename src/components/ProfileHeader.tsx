@@ -6,6 +6,7 @@ import { UserData } from '@/types/globals';
 import ProfileMobleMenu from './ProfileMobleMenu';
 import { useOtherContext } from '@/contexts/child_context/otherContext';
 import Notifications from './Notifications';
+import { formatAmount } from '@/lib/utils';
 
 const ProfileHeader = () => {
 
@@ -30,7 +31,7 @@ const ProfileHeader = () => {
 
                         <div>
                             <p className='text-color-60 text-sm'>{`${(user as UserData)?.lastname} ${(user as UserData)?.firstname}`}</p>
-                            <p className='text-color-60 text-xs tracking-wide'>{`${(user as UserData)?.balance}`} USD</p>
+                            <p className='text-color-60 text-xs tracking-wide'>{`${formatAmount((user as UserData)?.balance)}`} USD</p>
                         </div>
 
                         <div className='relative cursor-pointer' onClick={() => setShowNotification(true)}>

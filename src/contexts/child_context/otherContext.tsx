@@ -15,8 +15,8 @@ interface ContextType {
     userSlips: UserGame[];
     setUserSlips: (newUserSlips: UserGame[]) => void;
 
-    userNotifications: BetNotifications[];
-    setUserNotifications: (newBetNotification: BetNotifications[]) => void;
+    userNotifications: Notifications[];
+    setUserNotifications: (newBetNotification: Notifications[]) => void;
 
     adminNotifications: Notifications[];
     setAdminNotifications: (newAdminNotifications: Notifications[]) => void;
@@ -28,45 +28,94 @@ export const OtherProvider = ({ children } : { children: ReactNode }) => {
     const [paymentMethods, setPaymentMethods] = useState<PaymentMethods[]>([])
     const [transactions, setTransactions] = useState<Transaction[]>([]);
     const [userSlips, setUserSlips] = useState<UserGame[]>([]);
-    const [userNotifications, setUserNotifications] = useState<BetNotifications[]>([]);
+    const [userNotifications, setUserNotifications] = useState<Notifications[]>([]);
     const [adminNotifications, setAdminNotifications] = useState<Notifications[]>([]);
 
 
     /* eslint-disable react-hooks/exhaustive-deps */
     useEffect(() => {
         const payment = async () => {
-            // Fetch logged-in user and all users only if needed
             try {
                 const response = await getPaymentMethods();
-                const transactionsResponse = await getTransactions();
-                const slips = await getGameTickets();
-                const notifications = await getUserNotification();
-                const adminNot = await getAdminNotification();
-
+                
                 if(typeof response === 'string') return;
                 const methods = paymentMethodsWithImages(response);
                 setPaymentMethods(methods);
 
-                if(typeof transactionsResponse === 'string') return;
-                const trans = transactionsWithImages(transactionsResponse);
-                setTransactions(trans);
-
-                if(typeof slips === 'string') return;
-                setUserSlips(slips);
-
-                if(typeof notifications === 'string') return;
-                setUserNotifications(notifications);
-
-                if(typeof adminNot === 'string') return;
-                setAdminNotifications(adminNot);
-
             } catch (error) {
-                console.error("Error fetching user data:", error);
+                console.error("Error fetching payment methods:", error);
             }
         };
 
-        // Call the paymet method function
         payment();
+    }, []);
+
+
+    useEffect(() => {
+        const transactions = async () => {
+            try {
+                const transactionsResponse = await getTransactions();
+                
+                if(typeof transactionsResponse === 'string') return;
+                const trans = transactionsWithImages(transactionsResponse);
+                setTransactions(trans);
+            } catch (error) {
+                console.error("Error fetching transactions data:", error);
+            }
+        };
+
+        transactions();
+    }, []);
+
+
+    useEffect(() => {
+        const tickets = async () => {
+            try {
+                const gameTickets = await getGameTickets();
+                
+                if(typeof gameTickets === 'string') return;
+                setUserSlips(gameTickets);
+
+            } catch (error) {
+                console.error("Error fetching game tickets data:", error);
+            }
+        };
+
+        tickets();
+    }, []);
+
+
+    useEffect(() => {
+        const notification = async () => {
+            try {
+                const userNotifications = await getUserNotification();
+
+                if(typeof userNotifications === 'string') return;
+                setUserNotifications(userNotifications);
+
+            } catch (error) {
+                console.error("Error fetching user notification data:", error);
+            }
+        };
+
+        notification();
+    }, []);
+
+
+    useEffect(() => {
+        const adminNot = async () => {
+            try {
+                const adminNotification = await getAdminNotification();
+                
+                if(typeof adminNotification === 'string') return;
+                setAdminNotifications(adminNotification);
+
+            } catch (error) {
+                console.error("Error fetching admin notification data:", error);
+            }
+        };
+
+        adminNot();
     }, []);
     /* eslint-enable react-hooks/exhaustive-deps */
 

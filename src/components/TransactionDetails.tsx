@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { Transaction, UserData } from '@/types/globals';
 import { toast } from '@/hooks/use-toast';
 import { useUser } from '@/contexts/child_context/userContext';
+import { formatAmount } from '@/lib/utils';
 
 
 interface TransactionDetailsProps {
@@ -66,7 +67,7 @@ const TransactionDetails = ({ trans, setShowDetails, type }: TransactionDetailsP
                         <p>{(user as UserData).firstname} {(user as UserData).lastname}</p>
                     )}
 
-                    <p className='text-color-60 text-sm font-semibold'>USD {details.amount}</p>
+                    <p className='text-color-60 text-sm font-semibold'>USD {formatAmount(details.amount)}</p>
 
                     <p 
                         className={`text-[10px] flex items-center gap-1 drop-shadow-md rounded-full pl-2 pr-3 ${
@@ -214,7 +215,7 @@ const TransactionDetails = ({ trans, setShowDetails, type }: TransactionDetailsP
                                         alt='rate icon'
                                     />
 
-                                    {details.transaction_details.rate} {details.transaction_details.currency}
+                                    {formatAmount(details.transaction_details.rate!)} {details.transaction_details.currency}
                                 </p>
                             </div>
                         )}

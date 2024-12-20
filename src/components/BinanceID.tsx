@@ -12,7 +12,7 @@ import { toast } from '@/hooks/use-toast';
 import { useOtherContext } from '@/contexts/child_context/otherContext';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from './ui/table';
 import { PaymentMethods } from '@/types/globals';
-import { paymentMethodsWithImages } from '@/lib/utils';
+import { formatAmount, paymentMethodsWithImages } from '@/lib/utils';
 
 const BinanceID = () => {
 
@@ -174,7 +174,7 @@ const BinanceID = () => {
                                                 {`${method.type}`}
                                             </TableCell>
                                             <TableCell className='text-center'>{method.payId}</TableCell>
-                                            <TableCell className='text-center'>{method.minDeposit}</TableCell>
+                                            <TableCell className='text-center'>{method.minDeposit && formatAmount(method.minDeposit)}</TableCell>
                                             <TableCell className='text-right text-red-500'>
                                                 <Image
                                                     src='/delete-icon.svg'

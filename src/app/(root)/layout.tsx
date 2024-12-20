@@ -22,7 +22,7 @@ export default function RootLayout({
 
     useEffect(() => {
       const loggIn = async () => {
-        if(typeof admin === 'object' || typeof user === 'object') {
+        if(admin.label.length || typeof user === 'object') {
           
           if((user as UserData)?.subscription === false) { 
 
@@ -37,7 +37,7 @@ export default function RootLayout({
             }, 4000);
           } 
   
-          if(admin.label[0] === 'admin') { redirect('/dashboard') }
+          if(admin.label.length) { redirect('/dashboard') }
 
           setIsSubscriptionCheck(false);
         }

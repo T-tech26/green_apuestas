@@ -2,6 +2,7 @@
 import TransactionDetails from '@/components/TransactionDetails'
 import { useOtherContext } from '@/contexts/child_context/otherContext'
 import { useUser } from '@/contexts/child_context/userContext'
+import { formatAmount } from '@/lib/utils'
 import { Transaction, UserData } from '@/types/globals'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -61,7 +62,7 @@ const TransactionHistory = () => {
 
                                         <div>
                                             <p className='text-xs text-gray-400 font-medium mb-1'>Amount</p>
-                                            <p className='text-[10px] text-color-60'>{trans.amount} USD</p>
+                                            <p className='text-[10px] text-color-60'>{formatAmount(trans.amount)} USD</p>
                                         </div>
 
                                         <div className='flex flex-col gap-1 items-center'>

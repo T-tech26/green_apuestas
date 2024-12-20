@@ -5,6 +5,7 @@ import { BetNotifications, UserData, Notifications as AdminNotifications } from 
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { useUser } from '@/contexts/child_context/userContext'
+import { formatAmount } from '@/lib/utils'
 
 interface NotificationsProps {
     setShow: (newShow: boolean) => void,
@@ -24,16 +25,16 @@ const Notifications = ({ setShow, type }: NotificationsProps) => {
     const { user, allUsers } = useUser();
     const { userNotifications, setUserNotifications, adminNotifications, setAdminNotifications } = useOtherContext();
 
-    const [userWithNotification, setUserWithNotification] = useState<BetNotifications[]>([]);
+    const [userWithNotification, setUserWithNotification] = useState<AdminNotifications[]>([]);
     const [adminWithNotification, setAdminWithNotification] = useState<UserWithNotify[]>([]);
 
 
     /* eslint-enable react-hooks/exhaustive-deps */
     useEffect(() => {
         if(userNotifications.length > 0) {
-            const mappedUserWithNotification: BetNotifications[] = userNotifications.filter(notify => notify.userId === (user as UserData).userId)
+            const mappedUserWithNotification: AdminNotifications[] = userNotifications.filter(notify => notify.userId === (user as UserData).userId)
 
-            setUserWithNotification(mappedUserWithNotification);   
+            setUserWithNotification(mappedUserWithNotification.reverse());   
         }
     }, [userNotifications]);
     /* eslint-enable react-hooks/exhaustive-deps */
@@ -131,7 +132,7 @@ const Notifications = ({ setShow, type }: NotificationsProps) => {
                                     }`}
                                 >
                                     {
-                                        not.not.type === 'deposit' && `${not.user.firstname} ${not.user.lastname} made a deposit of ${not.not.amount} USD`
+                                        not.not.type === 'deposit' && `${not.user.firstname} ${not.user.lastname} made a deposit of ${not.not.amount && formatAmount(not.not.amount)} USD`
                                     }
                                     <span className='text-gray-400 text-xs'>{not.not.date}</span>
                                     <span 
@@ -150,11 +151,17 @@ const Notifications = ({ setShow, type }: NotificationsProps) => {
                             return (
                                 <p 
                                     key={not.$id}
-                                    className={`text-color-60 text-sm px-5 py-4 bg-gray-100 border-b border-gray-300 relative flex justify-between ${
+                                    className={`text-color-60 text-sm px-5 py-2 bg-gray-100 border-b border-gray-300 relative flex flex-col justify-between ${
                                         index === 0 ? 'border-t' : ''
                                     }`}
                                 >
-                                    {not.notification}
+                                    {
+                                        not.type === 'credit' ? `Your account has been credited with ${not.amount && formatAmount(not.amount)} USD`
+                                            : not.type === 'stake' ? 'Green apuesta team has just booked a ticket for you'
+                                                : not.type === 'deduct' ? `${not.amount && formatAmount(not.amount)} USD has been deducted from your account for your ticket`
+                                                    : not.type === 'ticketWon' ? `You have been credited with ${not.amount && formatAmount(not.amount)} USD from you winning ticket`
+                                                        : ''
+                                    }
                                     <span className='text-gray-400 text-xs'>{not.date}</span>
                                     <span 
                                         className='text-gray-400 text-[11px] absolute bottom-0 right-3 cursor-pointer hover:text-color-10 hover:underline'

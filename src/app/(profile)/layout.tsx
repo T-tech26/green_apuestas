@@ -1,6 +1,7 @@
 'use client'
 import ProfileHeader from "@/components/ProfileHeader";
 import ProfileMenu from "@/components/ProfileMenu";
+import { useOtherContext } from "@/contexts/child_context/otherContext";
 import { useUser } from "@/contexts/child_context/userContext";
 import { Loader2 } from "lucide-react";
 import { redirect } from "next/navigation";
@@ -18,12 +19,15 @@ export default function RootLayout({
 
     useEffect(() => {
       if(admin.label.length) { redirect('/dashboard'); }
-      if(typeof user !== 'object') { redirect('/'); }
-    }, [user, admin, isLoading]);
+
+      if(!isLoading) {
+        if(typeof user !== 'object') { redirect('/'); }
+      }
+    }, [user, admin]);
 
 
 
-    if(typeof user !== 'object' && isLoading && typeof admin !== 'object') {
+    if(typeof user !== 'object' && !admin.label.length && isLoading) {
       return (
         <div className="fixed top-0 bottom-0 right-0 left-0 w-full h-full bg-dark-gradient-135deg flex justify-center items-center">
           <Loader2 size={60} className="animate-spin text-color-30" />

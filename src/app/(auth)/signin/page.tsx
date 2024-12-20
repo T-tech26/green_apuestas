@@ -29,7 +29,7 @@ const Signin = () => {
   /* eslint-disable react-hooks/exhaustive-deps */
     useEffect(() => {
       const loggIn = async () => {
-        if(typeof admin !== 'object' && typeof user !== 'object') {
+        if(!admin.label.length && typeof user !== 'object') {
           const loggedIn = await getLoggedInUser();
           
           if(isAdmin(loggedIn)) { setAdmin(loggedIn); return; }
@@ -41,7 +41,7 @@ const Signin = () => {
   
           if((user as UserData)?.subscription === true) { redirect('/'); } 
   
-          if(admin.label[0] === 'admin') { redirect('/dashboard') }
+          if(admin.label.length) { redirect('/dashboard') }
         }
       }
 

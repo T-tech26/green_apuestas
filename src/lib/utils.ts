@@ -137,3 +137,42 @@ export const isUserData = (user: any): user is UserData => {
   return user.userId !== undefined;
 }
 /* eslint-enable @typescript-eslint/no-explicit-any */
+
+
+export const generateDateString = () => {
+    const today = new Date();
+    const day = today.getDate().toString().padStart(2, '0'); // Adds leading zero for single-digit days
+    const month = (today.getMonth() + 1).toString().padStart(2, '0'); // Month is 0-indexed, so we add 1
+    const year = today.getFullYear();
+    const hour = today.getHours().toString().padStart(2, '0');
+    const munites = today.getMinutes().toString().padStart(2, '0');
+    const seconds = today.getSeconds().toString().padStart(2, '0');
+
+    return `${day}-${month}-${year}, ${hour}:${munites}:${seconds}`;
+}
+
+
+export const formatAmount = (amount: string) => {
+  // Split the amount into integer and decimal parts
+  const [integerPart, decimalPart] = amount.split('.') 
+
+  // Handle cases where there's no decimal part
+  let formattedInteger = integerPart;
+  
+  // Handle integer part formatting
+  if (formattedInteger.length === 4) {
+    formattedInteger = formattedInteger[0] + ',' + formattedInteger.slice(1);
+  } else if (formattedInteger.length === 5) {
+    formattedInteger = formattedInteger.slice(0, 2) + ',' + formattedInteger.slice(2);
+  } else if (formattedInteger.length >= 6) {
+    formattedInteger = formattedInteger.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
+
+  // If there's a decimal part, return the integer part with decimal formatting
+  if (decimalPart !== undefined) {
+    return formattedInteger + '.' + decimalPart;
+  }
+
+  // If there's no decimal part, return the formatted integer part only
+  return formattedInteger;
+};

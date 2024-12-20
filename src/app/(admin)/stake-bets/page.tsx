@@ -19,6 +19,7 @@ import { toast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
 import UserBetUpload from '@/components/UserBetUpload';
 import { useOtherContext } from '@/contexts/child_context/otherContext';
+import { generateDateString } from '@/lib/utils';
 
 
 
@@ -44,25 +45,13 @@ const StakeBets = () => {
         }
     });
 
-
-    const generateDateString = () => {
-        const today = new Date();
-        const day = today.getDate().toString().padStart(2, '0'); // Adds leading zero for single-digit days
-        const month = (today.getMonth() + 1).toString().padStart(2, '0'); // Month is 0-indexed, so we add 1
-        const year = today.getFullYear();
-        const hour = today.getHours().toString().padStart(2, '0');
-        const munites = today.getMinutes().toString().padStart(2, '0');
-        const seconds = today.getSeconds().toString().padStart(2, '0');
     
-        return `${day}-${month}-${year}, ${hour}:${munites}:${seconds}`;
-    }
-
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         const date = generateDateString();
         setLoading(true);
         try {
-            const response = await userNotification(data.userId, 'stake', date);
+            const response = await userNotification(data.userId, 'stake', date, '');
 
             if(response !== 'success') {
                 toast({
@@ -93,7 +82,7 @@ const StakeBets = () => {
 
     return (
         <main className='flex-1 py-14 overflow-x-hidden overflow-y-scroll'>
-            <div className='w-4/5 mx-auto flex flex-col gap-10'>
+            <div className='w-4/5 mx-auto flex flex-col gap-10 !overflow-y-hidden'>
                 <h1 className='text-lg text-color-60 font-medium'>STAKE USER BETS</h1>
 
 

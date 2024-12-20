@@ -6,8 +6,8 @@ import React, { useEffect, useState } from 'react'
 import Image from 'next/image';
 import TransactionDetails from '@/components/TransactionDetails';
 import { toast } from '@/hooks/use-toast';
-import { depositStatus, getTransactions } from '@/lib/actions/userActions';
-import { transactionsWithImages } from '@/lib/utils';
+import { creditUserBalance, depositStatus, getTransactions, userNotification } from '@/lib/actions/userActions';
+import { formatAmount, generateDateString, transactionsWithImages } from '@/lib/utils';
 
 const DepositRequests = () => {
 
@@ -31,9 +31,22 @@ const DepositRequests = () => {
      /* eslint-enable react-hooks/exhaustive-deps */
 
 
-    const handleStatus = async (id: string, status: string) => {
+
+    const handleStatus = async (id: string, status: string, userId?: string, amount?: string) => {
+
+        const date = generateDateString();
+
         try {
             const updated = await depositStatus(id, status);
+
+            if(userId && amount) { 
+                const credit = await creditUserBalance(userId, amount, 'credit');
+
+                if(credit === 'success') {
+                    await userNotification(userId, 'credit', date, amount);
+                }
+            }   
+            
             
             if(updated !== 'success') return;
 
@@ -134,7 +147,7 @@ const DepositRequests = () => {
 
                                             <div>
                                                 <p className='text-xs text-gray-400 font-medium mb-1'>Amount</p>
-                                                <p className='text-[10px] text-color-60'>{trans.amount} USD</p>
+                                                <p className='text-[10px] text-color-60'>{formatAmount(trans.amount)} USD</p>
                                             </div>
 
                                             <div className='flex flex-col gap-1 items-center'>
@@ -169,7 +182,7 @@ const DepositRequests = () => {
                                                     <Button 
                                                         type='button'
                                                         className='w-20 h-6 text-xs text-color-30 bg-light-gradient-135deg px-0 py-0 rounded-full focus:outline-none'
-                                                        onClick={() => handleStatus(trans.$id, 'approved')}
+                                                        onClick={() => handleStatus(trans.$id, 'approved', trans.userId, trans.amount)}
                                                     >
                                                         Approve
                                                     </Button>

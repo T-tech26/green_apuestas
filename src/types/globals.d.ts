@@ -165,6 +165,7 @@ export type profileParams = {
   city?: string,
 }
 
+
 export interface UserData {
   username: string;
   firstname: string;
@@ -177,7 +178,6 @@ export interface UserData {
   city: string;
   email_verified: boolean;
   identity_verified: boolean;
-  isAdmin: boolean;
   balance: string;
   userId: string;
   subscription: boolean;
@@ -356,6 +356,7 @@ export interface UserGame {
   userId: string,
   date: string,
   showBet?: boolean,
+  creditUser?: boolean,
   games: Games[],
   $id?: string,
   $createdAt?: string,

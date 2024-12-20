@@ -13,6 +13,7 @@ import Link from 'next/link';
 import { useUser } from '@/contexts/child_context/userContext';
 import { ProfileMenuLinks } from '@/constants';
 import { UserData } from '@/types/globals';
+import { formatAmount } from '@/lib/utils';
   
 
 const LoggedInHeader = () => {
@@ -72,7 +73,7 @@ const LoggedInHeader = () => {
 
                         <div>
                             <p className='text-color-30 text-sm'>{(user as UserData).firstname} {(user as UserData).lastname}</p>
-                            <p className='text-color-30 text-xs'>{(user as UserData).balance} USD</p>
+                            <p className='text-color-30 text-xs'>{formatAmount((user as UserData).balance)} USD</p>
                         </div>
 
                         <div

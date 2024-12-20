@@ -1,6 +1,7 @@
 'use client'
 import { useOtherContext } from '@/contexts/child_context/otherContext';
 import { useUser } from '@/contexts/child_context/userContext'
+import { formatAmount } from '@/lib/utils';
 import { UserData, UserGame } from '@/types/globals';
 import React, { useEffect, useState } from 'react'
 
@@ -168,12 +169,12 @@ const BetHistory = () => {
 
                                         <p className='flex justify-between text-color-60 text-xs'>
                                             <span>Stake</span> 
-                                            <span>${slip.stake}</span>
+                                            <span>${formatAmount(slip.stake)}</span>
                                         </p>
 
                                         <p className='flex justify-between text-color-60 text-xs'>
                                             <span>Payout:</span> 
-                                            <span>${slip.payout}</span>
+                                            <span>${formatAmount(slip.payout)}</span>
                                         </p>
                                     </div>
                                 </div>

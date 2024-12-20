@@ -11,7 +11,7 @@ import { PaymentMethods } from '@/types/globals';
 import { useOtherContext } from '@/contexts/child_context/otherContext';
 import { createPaymentMethod, deletePaymentMethod, getPaymentMethods } from '@/lib/actions/userActions';
 import { toast } from '@/hooks/use-toast';
-import { paymentMethodsWithImages } from '@/lib/utils';
+import { formatAmount, paymentMethodsWithImages } from '@/lib/utils';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from './ui/table';
 
 const IntlPayment = () => {
@@ -211,7 +211,7 @@ const IntlPayment = () => {
                                         </TableCell>
                                         <TableCell className='text-center'>{method.platformName}</TableCell>
                                         <TableCell className='text-center'>{method.email}</TableCell>
-                                        <TableCell className='text-center'>{method.minDeposit}</TableCell>
+                                        <TableCell className='text-center'>{method.minDeposit && formatAmount(method.minDeposit)}</TableCell>
                                         <TableCell className='text-right text-red-500'>
                                             <Image
                                                 src='/delete-icon.svg'

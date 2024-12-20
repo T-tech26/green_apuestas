@@ -12,7 +12,7 @@ import { Input } from './ui/input';
 import { adminNotification, createTransaction, getTransactions } from '@/lib/actions/userActions';
 import { useUser } from '@/contexts/child_context/userContext';
 import { Loader2 } from 'lucide-react';
-import { paymentFormSchema, transactionsWithImages } from '@/lib/utils';
+import { formatAmount, paymentFormSchema, transactionsWithImages } from '@/lib/utils';
 import PaymentDetails from './PaymentDetails';
 import { useOtherContext } from '@/contexts/child_context/otherContext';
 
@@ -29,7 +29,7 @@ const PaymentForm = ({ methodType, setMethod }: MethodProps) => {
     const [step, setStep] = useState<number>(1);
     const [img, setImg] = useState('');
     const [loading, setLoading] = useState(false);
-    const [equivalentAmountInCurrency, setEquivalentAmountInCurrency] = useState(0);
+    const [equivalentAmountInCurrency, setEquivalentAmountInCurrency] = useState<number | string>(0);
 
     const { user } = useUser();
     const { setTransactions } = useOtherContext();
@@ -59,12 +59,21 @@ const PaymentForm = ({ methodType, setMethod }: MethodProps) => {
     })
 
 
+    const formatRate = (minDeposit: number, rate: number): string => {
+        const calculatedAmount = minDeposit * rate;
+
+        const formatedAmount = formatAmount(calculatedAmount.toString());
+
+        return formatedAmount;
+    }
+
+
     const handleRateConversion = (e: React.ChangeEvent<HTMLInputElement>) => {
         const enteredAmount = e.target.value;
 
         const localAmount = Number(enteredAmount) * Number(methodType.rate);
 
-        setEquivalentAmountInCurrency(localAmount);
+        setEquivalentAmountInCurrency(formatAmount(localAmount.toString()));
 
         form.setValue('amount', enteredAmount);
     }
@@ -215,7 +224,7 @@ const PaymentForm = ({ methodType, setMethod }: MethodProps) => {
                                                         />
 
                                                         <p className='text-[13px] pl-4'>
-                                                            Minimum deposit {equivalentAmountInCurrency === 0 ? Number(methodType.minDeposit) * Number(methodType.rate) : equivalentAmountInCurrency} {methodType.currency}
+                                                            Minimum deposit {equivalentAmountInCurrency === 0 ? formatRate(Number(methodType.minDeposit), Number(methodType.rate)) : equivalentAmountInCurrency} {methodType.currency}
                                                         </p>
                                                     </div>
                                                 ) : (

@@ -11,7 +11,7 @@ import { PaymentMethods } from '@/types/globals';
 import { useOtherContext } from '@/contexts/child_context/otherContext';
 import { createPaymentMethod, deletePaymentMethod, getPaymentMethods } from '@/lib/actions/userActions';
 import { toast } from '@/hooks/use-toast';
-import { paymentMethodsWithImages } from '@/lib/utils';
+import { formatAmount, paymentMethodsWithImages } from '@/lib/utils';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from './ui/table';
 
 const CryptoPayment = () => {
@@ -184,7 +184,7 @@ const CryptoPayment = () => {
                                         <TableCell className='text-center'>{method.cryptoName}</TableCell>
                                         <TableCell className='text-center'>{method.network}</TableCell>
                                         <TableCell className='text-center max-w-40 overflow-x-scroll address'>{method.address}</TableCell>
-                                        <TableCell className='text-center'>{method.minDeposit}</TableCell>
+                                        <TableCell className='text-center'>{method.minDeposit && formatAmount(method.minDeposit)}</TableCell>
                                         <TableCell className='text-right text-red-500'>
                                             <Image
                                                 src='/delete-icon.svg'

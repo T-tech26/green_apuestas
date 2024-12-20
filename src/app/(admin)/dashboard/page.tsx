@@ -12,18 +12,43 @@ import {
 } from "@/components/ui/table"
 import Image from 'next/image';
 import User from '@/components/User';
+import { formatAmount } from '@/lib/utils';
+import { useOtherContext } from '@/contexts/child_context/otherContext';
 
 const Dashboard = () => {
 
     const { allUsers } = useUser();
+    const { transactions } = useOtherContext();
     const [selectedUser, setSelectedUser] = useState<UserData | string>('');
 
-    let balance;
+    let balance = 0;
+    let totalDeposit = 0;
+    let numberOfDeposit = 0;
+    let numberOfWidthdrawals = 0;
+    let pending = 0;
+
+
+    if(transactions.length && transactions.length > 0) {
+
+        const depositTransactions = transactions.filter(trans => trans.transaction_type === 'Deposit' && trans.transaction_status === 'approved');
+
+        const widthdrawTransactions = transactions.filter(trans => trans.transaction_type === 'Widthdrawal' && trans.transaction_status === 'approved');
+
+        const pendingTransactions = transactions.filter(trans => trans.transaction_status === 'pending');
+
+        numberOfDeposit = depositTransactions.length;
+        numberOfWidthdrawals = widthdrawTransactions.length;
+        pending = pendingTransactions.length;
+
+        totalDeposit = depositTransactions.reduce((total, trans) => {
+            return total = total + Number(trans.amount);
+        }, 0);
+    }
     
 
     if(allUsers.length > 0) {
         balance = (allUsers as UserData[]).reduce((total, user) => {
-            return total = Number(user.balance);
+            return total = total + Number(user.balance);
         }, 0);
     }
 
@@ -37,32 +62,40 @@ const Dashboard = () => {
         
                         <div className='grid grid-cols-2 md:grid-cols-3 gap-3'>
                             <div className='bg-color-30 rounded-md drop-shadow-md px-4 py-7'>
-                                <p className='text-color-60 text-2xl font-semibold'>{allUsers.length}</p>
+                                <p className='text-color-60 text-2xl font-semibold'>{allUsers.length < 10 ? `0${allUsers.length}` : allUsers.length}</p>
                                 <p className='text-color-60 text-sm'>Total Users</p>
                             </div>
         
                             <div className='bg-color-30 rounded-md drop-shadow-md px-4 py-7'>
-                                <p className='text-color-60 text-2xl font-semibold'><span className='text-sm'>$</span>{balance}</p>
+                                <p className='text-color-60 text-2xl font-semibold'><span className='text-sm'>$</span>
+                                    {formatAmount(balance.toString())}</p>
                                 <p className='text-color-60 text-sm'>Total User Funds</p>
                             </div>
         
                             <div className='bg-color-30 rounded-md drop-shadow-md px-4 py-7'>
-                                <p className='text-color-60 text-2xl font-semibold'><span className='text-sm'>$</span>{balance}</p>
+                                <p className='text-color-60 text-2xl font-semibold'><span className='text-sm'>$</span>
+                                    {formatAmount(totalDeposit.toString())}</p>
                                 <p className='text-color-60 text-sm'>Total Deposit</p>
                             </div>
         
                             <div className='bg-color-30 rounded-md drop-shadow-md px-4 py-7'>
-                                <p className='text-color-60 text-2xl font-semibold'>{allUsers.length}</p>
+                                <p className='text-color-60 text-2xl font-semibold'>
+                                    {numberOfDeposit < 10 ? `0${formatAmount(numberOfDeposit.toString())}` : numberOfDeposit}
+                                </p>
                                 <p className='text-color-60 text-sm'>Number of Deposits</p>
                             </div>
         
                             <div className='bg-color-30 rounded-md drop-shadow-md px-4 py-7'>
-                                <p className='text-color-60 text-2xl font-semibold'>{balance}</p>
+                                <p className='text-color-60 text-2xl font-semibold'>
+                                    {numberOfWidthdrawals < 10 ? `0${formatAmount(numberOfWidthdrawals.toString())}` : numberOfWidthdrawals}
+                                </p>
                                 <p className='text-color-60 text-sm'>Number of Withdrawals</p>
                             </div>
         
                             <div className='bg-color-30 rounded-md drop-shadow-md px-4 py-7'>
-                                <p className='text-color-60 text-2xl font-semibold'>{balance}</p>
+                                <p className='text-color-60 text-2xl font-semibold'>
+                                    {pending < 10 ? `0${formatAmount(pending.toString())}` : pending}
+                                </p>
                                 <p className='text-color-60 text-sm'>Pending Transactions</p>
                             </div>
                         </div>
@@ -96,7 +129,7 @@ const Dashboard = () => {
                                                 {`${user.lastname} ${user.firstname}`}
                                             </TableCell>
                                             <TableCell>{user.email}</TableCell>
-                                            <TableCell>{user.balance}</TableCell>
+                                            <TableCell>{formatAmount(user.balance)}</TableCell>
                                             <TableCell className="text-right">{user.subscription === true ? 'User subscribed' : 'User Unsubscribed'}</TableCell>
                                         </TableRow>
                                     ))}

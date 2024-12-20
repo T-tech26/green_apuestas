@@ -3,6 +3,7 @@ import { useOtherContext } from '@/contexts/child_context/otherContext';
 import { PaymentMethods } from '@/types/globals';
 import React, { useEffect, useState } from 'react'
 import PaymentProcess from './PaymentProcess';
+import { formatAmount } from '@/lib/utils';
 
 
 interface PaymentMethodProps {
@@ -85,7 +86,7 @@ const PaymentMethod = ({ id }: PaymentMethodProps) => {
                                     <div>
                                         <p className='text-color-60 font-semibold text-sm mb-2'>Minimum deposit</p>
                                         <p className='text-color-60 text-sm'>
-                                            {`${method.minDeposit}`}
+                                            {`${method.minDeposit && formatAmount(method.minDeposit)}`}
                                         </p>
                                     </div>
                                 </div>
@@ -156,7 +157,7 @@ const PaymentMethod = ({ id }: PaymentMethodProps) => {
                                     <div>
                                         <p className='text-color-60 font-semibold text-sm mb-2'>Minimum deposit</p>
                                         <p className='text-color-60 text-sm'>
-                                            {`${method.minDeposit}`}
+                                            {`${method.minDeposit && formatAmount(method.minDeposit)}`}
                                         </p>
                                     </div>
                                 </div>
@@ -220,7 +221,7 @@ const PaymentMethod = ({ id }: PaymentMethodProps) => {
                                     <div>
                                         <p className='text-color-60 font-semibold text-sm mb-2'>Minimum deposit</p>
                                         <p className='text-color-60 text-sm'>
-                                            {`${method.minDeposit}`}
+                                            {`${method.minDeposit && formatAmount(method.minDeposit)}`}
                                         </p>
                                     </div>
                                 </div>
@@ -283,7 +284,7 @@ const PaymentMethod = ({ id }: PaymentMethodProps) => {
                                 <div>
                                     <p className='text-color-60 font-semibold text-sm mb-2'>Minimum deposit</p>
                                     <p className='text-color-60 text-sm'>
-                                        {`${method.minDeposit}`}
+                                        {`${method.minDeposit && formatAmount(method.minDeposit)}`}
                                     </p>
                                 </div>
                             </div>
