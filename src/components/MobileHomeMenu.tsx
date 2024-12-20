@@ -1,7 +1,11 @@
+'use client'
 import { MobileHomeMenuLinks } from '@/constants'
+import { useOtherContext } from '@/contexts/child_context/otherContext';
+import { useUser } from '@/contexts/child_context/userContext';
+import { UserData, UserGame } from '@/types/globals';
 import Image from 'next/image'
 import Link from 'next/link'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 interface MobileMenuProps {
     selectedLink: string | null;
@@ -10,38 +14,59 @@ interface MobileMenuProps {
 
 const MobileHomeMenu = ({selectedLink, setSelectedLink}: MobileMenuProps) => {
 
-  return (
-    <nav
-        className='w-full flex justify-evenly fixed bottom-0 left-0 bg-dark-gradient-180deg lg:hidden'        
-    >
-        {MobileHomeMenuLinks.map((link) => {
-            return (
-                <Link
-                    key={link.name}
-                    href={link.route}
-                    className={`w-full text-color-30 flex flex-col justify-center items-center py-2 ${
-                        selectedLink === link.name
-                          ? 'bg-light-gradient-135deg'
-                          : ''
-                      } ${link.name === 'Betslips' ? 'border-none' : 'border-r-2 border-color-10'}`}
-                      onClick={() => setSelectedLink(link.name)}
-                >
-                    {link.icon === '0' ?
-                        <span className='text-lg'>{link.icon}</span> :
-                        <Image 
-                            src={link.icon}
-                            width={25}
-                            height={25}
-                            alt='menu icons'
-                        />
-                    }
 
-                    {link.name}
-                </Link>
-            )
-        })}
-    </nav>
-  )
+    const { user } = useUser();
+    const { userSlips } = useOtherContext();
+
+    const [openBet, setOpenBet] = useState<UserGame>();
+
+
+    useEffect(() => {
+        if(userSlips.length) {
+            const userBet = userSlips.filter(slip => slip.userId === (user as UserData).userId);
+        
+            const bet = userBet.reverse().find(slip => slip.showBet === false);
+        
+            setOpenBet(bet);
+        }
+    }, [user, userSlips]);
+
+
+    return (
+        <nav
+            className='w-full flex justify-evenly fixed bottom-0 left-0 bg-dark-gradient-180deg lg:hidden'        
+        >
+            {MobileHomeMenuLinks.map((link) => {
+                return (
+                    <Link
+                        key={link.name}
+                        href={link.route}
+                        className={`w-full text-color-30 flex flex-col justify-center items-center py-2 ${
+                            selectedLink === link.name
+                            ? 'bg-light-gradient-135deg'
+                            : ''
+                        } ${link.name === 'Betslips' ? 'border-none' : 'border-r-2 border-color-10'}`}
+                        onClick={() => setSelectedLink(link.name)}
+                    >
+                        {link.icon === '0' ? (
+                            <>
+                                {openBet !== undefined ? <span className='text-lg'>1</span> : '0'}
+                            </>
+                        ) : (
+                            <Image
+                                src={link.icon}
+                                width={20}
+                                height={20}
+                                alt='league icons'
+                            />
+                        )}
+
+                        {link.name}
+                    </Link>
+                )
+            })}
+        </nav>
+    )
 }
 
 export default MobileHomeMenu
