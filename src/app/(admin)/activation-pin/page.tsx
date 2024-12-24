@@ -76,9 +76,9 @@ const ActivationPin = () => {
     };
 
 
-    const deletePin = async (id: string) => {
+    const deletePin = async (id: string, code: string) => {
         try {
-            const response = await deleteActivationPin(id);
+            const response = await deleteActivationPin(id, code);
 
             if(Array.isArray(response)) setAllPins(response);
             
@@ -151,7 +151,7 @@ const ActivationPin = () => {
                                                 alt='close icon'
                                                 className='cursor-pointer'
                                                 onClick={() => {
-                                                    deletePin(pin.$id);
+                                                    deletePin(pin.$id, pin.code);
                                                     setAllPins('');
                                                 }}
                                             />

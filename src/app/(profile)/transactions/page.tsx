@@ -30,7 +30,7 @@ const TransactionHistory = () => {
     return (
         <main className='flex-1 py-14 overflow-y-scroll'>
             <div className='w-4/5 mx-auto flex flex-col gap-10'>
-                <h1 className='text-lg text-color-60 font-medium'>Transaction History</h1>
+                <h1 className='text-lg text-color-60 font-medium'>TRANSACTION HISTORY</h1>
 
                 {userTransactions.length > 0 ? (
                     <div className='w-full mx-auto flex flex-col gap-1'>
@@ -51,13 +51,18 @@ const TransactionHistory = () => {
                                             <p className='text-xs text-gray-400 font-medium mb-1'>{
                                                 trans.transaction_details.payId ? 'Binance pay' : trans.transaction_method
                                             }</p>
-                                            <p className='text-[10px] text-color-60'>{
-                                                trans.transaction_details.payId ? 'USDT'
-                                                    : trans.transaction_details.cryptoName ? trans.transaction_details.cryptoName
-                                                        : trans.transaction_details.bankName ? 'Bank'
-                                                            : trans.transaction_details.platformName
-                                                } deposit
-                                            </p>
+
+                                            {trans.transaction_type === 'Withdrawal' ? (
+                                                <p className='text-[10px] text-color-60'>Bank withdrawal</p>
+                                            ): (
+                                                <p className='text-[10px] text-color-60'>{
+                                                    trans.transaction_details.payId ? 'USDT'
+                                                        : trans.transaction_details.cryptoName ? trans.transaction_details.cryptoName
+                                                            : trans.transaction_details.bankName ? 'Bank'
+                                                                : trans.transaction_details.platformName
+                                                    } deposit
+                                                </p>
+                                            )}
                                         </div>
 
                                         <div>

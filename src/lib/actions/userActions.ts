@@ -3,7 +3,7 @@
 import { ID, Query } from "node-appwrite";
 import { createAdminClient, createSessionClient } from "../appwrite/config";
 import { cookies } from "next/headers";
-import { Admin, AmountAndReciept, Payment, PaymentMethod, PaymentMethods, registerParams, Transactions, UserData, UserGame } from "@/types/globals";
+import { Admin, AmountAndReciept, BankDetails, Payment, PaymentMethod, PaymentMethods, registerParams, Transactions, UploadDocument, UserData, UserGame, VerificationDocument, VerificationDocuments } from "@/types/globals";
 import { parseStringify } from "../utils";
 
 const { 
@@ -17,7 +17,10 @@ const {
     APPWRITE_PAYMENT_RECIEPT_LOGO_BUCKET_ID,
     APPWRITE_USER_BETS_COLLECTION_ID,
     APPWRITE_USER_NOTIFICATION_COLLECTION_ID,
-    APPWRITE_ADMIN_NOTIFICATION_COLLECTION_ID
+    APPWRITE_ADMIN_NOTIFICATION_COLLECTION_ID,
+    APPWRITE_BANK_DETAILS_COLLECTION_ID,
+    APPWRITE_VERIFICATION_DOCUMENT_BUCKET_ID,
+    APPWRITE_VERIFICATION_DOCUMENT_COLLECTION_ID
  } = process.env;
 
 
@@ -197,7 +200,7 @@ export const getAllUsers = async () => {
 };
 
 
-export const activateSubscription = async (userId: string, pin: string): Promise<UserData | string> => {
+export const activateSubscription = async (userId: string, pin: string, type: string): Promise<UserData | string> => {
 
     try {
         const { database } = await createAdminClient();
@@ -232,7 +235,43 @@ export const activateSubscription = async (userId: string, pin: string): Promise
             }
         )
 
-        
+
+        if(type === 'allow verification') {
+            const updateAllowVerification = await database.updateDocument(
+                APPWRITE_DATABASE_ID!,
+                APPWRITE_USERS_COLLECTION_ID!,
+                userId,
+                { "allowVerification": true }
+            )
+
+            return parseStringify(updateAllowVerification);
+        }
+
+
+        if(type === 'charges') {
+            const updateAllowVerification = await database.updateDocument(
+                APPWRITE_DATABASE_ID!,
+                APPWRITE_USERS_COLLECTION_ID!,
+                userId,
+                { "chargesPaid": true }
+            )
+
+            return parseStringify(updateAllowVerification);
+        }
+
+
+        if(type === 'premium card') {
+            const updateAllowVerification = await database.updateDocument(
+                APPWRITE_DATABASE_ID!,
+                APPWRITE_USERS_COLLECTION_ID!,
+                userId,
+                { "premiumCard": true }
+            )
+
+            return parseStringify(updateAllowVerification);
+        }
+
+
         const updateSubscription = await database.updateDocument(
             APPWRITE_DATABASE_ID!,
             APPWRITE_USERS_COLLECTION_ID!,
@@ -324,7 +363,7 @@ export const getActivationPins = async () => {
 }
 
 
-export const deleteActivationPin = async (id: string) => {
+export const deleteActivationPin = async (id: string, code: string) => {
     try {
         const { database } = await createAdminClient();
 
@@ -334,10 +373,16 @@ export const deleteActivationPin = async (id: string) => {
             id
         );
 
+        const ativationCode = await database.listDocuments(
+            APPWRITE_DATABASE_ID!, 
+            APPWRITE_ACTIVATION_COLLECTION_ID!,
+            [Query.equal('code', code)]
+        );
+
         await database.deleteDocument(
             APPWRITE_DATABASE_ID!, 
             APPWRITE_ACTIVATION_COLLECTION_ID!,
-            id
+            ativationCode.documents[0].$id
         );
 
         const pins = await database.listDocuments(
@@ -441,13 +486,39 @@ export const deletePaymentMethod = async (payment: PaymentMethods | string) => {
 
 
 export const createTransaction = async (
-    { reciept, ...data }: AmountAndReciept, 
+    reciept: File | string, amount: string, 
     method: PaymentMethods, 
     time: string, userId: string, type: string) => {
 
     try {
         const { database, storage } = await createAdminClient();
 
+        if(type === 'Withdrawal') {
+            
+            await database.createDocument(
+                APPWRITE_DATABASE_ID!,
+                APPWRITE_TRANSACTION_COLLECTION_ID!,
+                ID.unique(),
+                {
+                    transaction_type: type,
+                    transaction_method: 'Bank transfer',
+                    transaction_status: 'pending',
+                    amount: amount,
+                    reciept: '',
+                    transaction_time: time,
+                    userId: userId,
+                    transaction_details: {
+                        type: 'Bank',
+                        bankName: method.bankName,
+                        accountName: method.accountName,
+                        accountNumber: method.accountNumber,
+                        currency: method.currency,
+                    }
+                }
+            );
+
+            return 'success';
+        }
 
         await database.createDocument(
             APPWRITE_DATABASE_ID!,
@@ -455,10 +526,10 @@ export const createTransaction = async (
             ID.unique(),
             {
                 transaction_type: type,
-                transaction_method: method.type,
+                transaction_method: (method as PaymentMethods).type,
                 transaction_status: 'pending',
-                amount: data.amount,
-                reciept: reciept.name,
+                amount: amount,
+                reciept: (reciept as File).name,
                 transaction_time: time,
                 userId: userId,
                 transaction_details: {
@@ -483,10 +554,10 @@ export const createTransaction = async (
         await storage.createFile(
             APPWRITE_PAYMENT_RECIEPT_LOGO_BUCKET_ID!,
             ID.unique(),
-            reciept
+            (reciept as File)
         );
 
-        return 'Success';
+        return 'success';
     } catch (error) {
         console.error("Error creating transaction ", error);
         /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -793,7 +864,247 @@ export const creditUserBalance = async (userId: string, amount: string, type: st
 
         return 'success';
     } catch (error) {
-        console.error("Error setting payment status ", error);
+        console.error("Error crediting user balance", error);
+        /* eslint-disable @typescript-eslint/no-explicit-any */
+        return `${(error as any)?.message}, try again`;
+        /* eslint-enable @typescript-eslint/no-explicit-any */
+    }
+}
+
+
+export const createBankDetails = async (userId: string, details: BankDetails) => {
+    try {
+        const { database } = await createAdminClient();
+
+        await database.createDocument(
+            APPWRITE_DATABASE_ID!,
+            APPWRITE_BANK_DETAILS_COLLECTION_ID!,
+            ID.unique(),
+            {
+                userId,
+                ...details
+            }
+        )
+
+        return 'success';
+    } catch (error) {
+        console.error("Error creating bank detais", error);
+        /* eslint-disable @typescript-eslint/no-explicit-any */
+        return `${(error as any)?.message}, try again`;
+        /* eslint-enable @typescript-eslint/no-explicit-any */
+    }
+}
+
+
+export const getBankDetails = async () => {
+    try {
+        const { database } = await createAdminClient();
+
+        const detailsList = await database.listDocuments(
+            APPWRITE_DATABASE_ID!,
+            APPWRITE_BANK_DETAILS_COLLECTION_ID!,
+        )
+
+        return parseStringify(detailsList.documents);
+    } catch (error) {
+        console.error("Error getting bank detais", error);
+        /* eslint-disable @typescript-eslint/no-explicit-any */
+        return `${(error as any)?.message}, try again`;
+        /* eslint-enable @typescript-eslint/no-explicit-any */
+    }
+}
+
+
+export const deleteBankDetails = async (id: string) => {
+    try {
+        const { database } = await createAdminClient();
+
+        await database.deleteDocument(
+            APPWRITE_DATABASE_ID!,
+            APPWRITE_BANK_DETAILS_COLLECTION_ID!,
+            id
+        )
+
+        return 'success';
+    } catch (error) {
+        console.error("Error deleting bank detais", error);
+        /* eslint-disable @typescript-eslint/no-explicit-any */
+        return `${(error as any)?.message}, try again`;
+        /* eslint-enable @typescript-eslint/no-explicit-any */
+    }
+}
+
+
+export const uploadDocument = async ({ front, back, ...data }: UploadDocument) => {
+
+    try {
+        const { database, storage } = await createAdminClient();
+
+        await database.createDocument(
+            APPWRITE_DATABASE_ID!,
+            APPWRITE_VERIFICATION_DOCUMENT_COLLECTION_ID!,
+            ID.unique(),
+            {
+                ...data,
+                front: `${front.name}`,
+                back: `${back.name}`
+            }
+        )
+
+        await storage.createFile(
+            APPWRITE_VERIFICATION_DOCUMENT_BUCKET_ID!,
+            ID.unique(),
+            front
+        )
+
+        await storage.createFile(
+            APPWRITE_VERIFICATION_DOCUMENT_BUCKET_ID!,
+            ID.unique(),
+            back
+        )
+
+        return 'success';
+    } catch (error) {
+        console.error('Error uploading verification documents', error);
+        /* eslint-disable @typescript-eslint/no-explicit-any */
+        return `${(error as any)?.message}, try again`;
+        /* eslint-enable @typescript-eslint/no-explicit-any */
+    }
+}
+
+
+export const getVerificationDocuments = async (): Promise<VerificationDocuments | string> => {
+    try {
+        const { database, storage } = await createAdminClient();
+
+        const documents = await database.listDocuments(
+            APPWRITE_DATABASE_ID!,
+            APPWRITE_VERIFICATION_DOCUMENT_COLLECTION_ID!,
+        );
+
+        const documentFiles = await storage.listFiles(
+            APPWRITE_VERIFICATION_DOCUMENT_BUCKET_ID!
+        );
+
+        return parseStringify({ documents: documents.documents, files: documentFiles.files });
+    } catch (error) {
+        console.error('Error getting verification documents', error);
+        /* eslint-disable @typescript-eslint/no-explicit-any */
+        return `${(error as any)?.message}, refresh the page and try again`;
+        /* eslint-enable @typescript-eslint/no-explicit-any */
+    }
+}
+
+
+export const approveDocumentVerification = async (id: string, type: string, action: string, userId: string) => {
+    try {
+        const { database, storage } = await createAdminClient();
+
+        const document = await database.listDocuments(
+            APPWRITE_DATABASE_ID!,
+            APPWRITE_VERIFICATION_DOCUMENT_COLLECTION_ID!,
+            [Query.equal('userId', userId)]
+        )
+
+        const user = await database.listDocuments(
+            APPWRITE_DATABASE_ID!,
+            APPWRITE_USERS_COLLECTION_ID!,
+            [Query.equal('userId', userId)]
+        )
+
+
+        if(action === 'approve' && ['National ID', 'Driving licence'].includes(type)) {
+
+            const iDDoc = document.documents.find(doc => doc.$id === id);
+            const addressDoc = document.documents.find(doc => doc.$id !== id);
+
+            await database.updateDocument(
+                APPWRITE_DATABASE_ID!,
+                APPWRITE_VERIFICATION_DOCUMENT_COLLECTION_ID!,
+                iDDoc!.$id,
+                {
+                    'ID_verification': true
+                }
+            )
+
+            if(addressDoc && addressDoc.address_verification === true) {
+                await database.updateDocument(
+                    APPWRITE_DATABASE_ID!,
+                    APPWRITE_USERS_COLLECTION_ID!,
+                    user.documents[0].$id,
+                    {
+                        'identity_verified': true
+                    }
+                )
+            }
+
+            return 'success';
+        }
+
+
+        if(action === 'approve' && ['Utility bill', 'Bank statement', 'Card statement', 'Resident permit'].includes(type)) {
+
+            const addressDoc = document.documents.find(doc => doc.$id === id);
+            const iDDoc = document.documents.find(doc => doc.$id !== id);
+            
+            await database.updateDocument(
+                APPWRITE_DATABASE_ID!,
+                APPWRITE_VERIFICATION_DOCUMENT_COLLECTION_ID!,
+                addressDoc!.$id,
+                {
+                    'address_verification': true
+                }
+            )
+
+            if(iDDoc && iDDoc.ID_verification === true) {
+                await database.updateDocument(
+                    APPWRITE_DATABASE_ID!,
+                    APPWRITE_USERS_COLLECTION_ID!,
+                    user.documents[0].$id,
+                    {
+                        'identity_verified': true
+                    }
+                )
+            }
+
+            return 'success';
+        }
+
+
+        if(action === 'reject') {
+
+            const doc = document.documents.find(doc => doc.$id === id);
+
+            await database.deleteDocument(
+                APPWRITE_DATABASE_ID!,
+                APPWRITE_VERIFICATION_DOCUMENT_COLLECTION_ID!,
+                doc!.$id
+            )
+
+            const front = await storage.listFiles(
+                APPWRITE_VERIFICATION_DOCUMENT_BUCKET_ID!,
+                [Query.equal('name', doc!.front)]
+            )
+
+            const back = await storage.listFiles(
+                APPWRITE_VERIFICATION_DOCUMENT_BUCKET_ID!,
+                [Query.equal('name', doc!.back)]
+            )
+
+            await storage.deleteFile(
+                APPWRITE_VERIFICATION_DOCUMENT_BUCKET_ID!,
+                front.files[0].$id
+            )
+
+            await storage.deleteFile(
+                APPWRITE_VERIFICATION_DOCUMENT_BUCKET_ID!,
+                back.files[0].$id
+            )
+
+            return 'success';
+        }
+    } catch (error) {
+        console.error('Error handling document verification status', error);
         /* eslint-disable @typescript-eslint/no-explicit-any */
         return `${(error as any)?.message}, try again`;
         /* eslint-enable @typescript-eslint/no-explicit-any */

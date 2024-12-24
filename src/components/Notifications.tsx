@@ -158,7 +158,11 @@ const Notifications = ({ setShow, type }: NotificationsProps) => {
                                             : not.type === 'stake' ? 'Green apuesta team has just booked a ticket for you'
                                                 : not.type === 'deduct' ? `${not.amount && formatAmount(not.amount)} USD has been deducted from your account for your ticket`
                                                     : not.type === 'ticketWon' ? `You have been credited with ${not.amount && formatAmount(not.amount)} USD from you winning ticket`
-                                                        : ''
+                                                        : not.type === 'Identity verification and approved' ? 'Your identity verification has been approved'
+                                                            : not.type === 'Address verification and approved' ? 'Your address verification has been approved'
+                                                                : not.type === 'Identity verification and rejected' ? 'Your identity verification has been rejected' 
+                                                                    : not.type === 'Address verification and rejected' ? 'Your address verification has been rejected' 
+                                                                        : ''
                                     }
                                     <span className='text-gray-400 text-xs'>{not.date}</span>
                                     <span 

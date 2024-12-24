@@ -110,6 +110,7 @@ const BinanceID = () => {
                 toast({
                     description: res
                 });
+                return;
             } else {
                 toast({
                     description: 'Payment method uploaded'

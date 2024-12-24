@@ -40,7 +40,7 @@ export default function RootLayout({
     return (
       <section className='flex item-center h-screen'>
         <ProfileMenu />
-          <div className="flex flex-col flex-1">
+          <div className="flex flex-col flex-1 overflow-hidden">
               <ProfileHeader />
               {children}
           </div>

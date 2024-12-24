@@ -60,7 +60,7 @@ const Activation = () => {
       
       setIsLoading(true)
       try {
-          const response = await activateSubscription(id, values.activation_pin);
+          const response = await activateSubscription(id, values.activation_pin, '');
 
           if(typeof response === 'string') {
             toast({

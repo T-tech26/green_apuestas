@@ -167,28 +167,31 @@ export type profileParams = {
 
 
 export interface UserData {
-  username: string;
-  firstname: string;
-  lastname: string;
-  phone: string;
-  email: string;
-  dateOfBirth: string;
-  country: string;
-  state: string;
-  city: string;
-  email_verified: boolean;
-  identity_verified: boolean;
-  balance: string;
-  userId: string;
-  subscription: boolean;
-  $id: string;
-  $createdAt?: string;
-  $updatedAt?: string;
+  username: string,
+  firstname: string,
+  lastname: string,
+  phone: string,
+  email: string,
+  dateOfBirth: string,
+  country: string,
+  state: string,
+  city: string,
+  email_verified: boolean,
+  identity_verified: boolean,
+  balance: string,
+  userId: string,
+  subscription: boolean,
+  allowVerification: boolean,
+  chargesPaid: boolean,
+  premiumCard: boolean,
+  $id: string,
+  $createdAt?: string,
+  $updatedAt?: string,
   /* eslint-disable @typescript-eslint/no-explicit-any */
-  $permissions?: any[];
+  $permissions?: any[],
   /* eslint-enable @typescript-eslint/no-explicit-any */
-  $databaseId?: string;
-  $collectionId?: string;
+  $databaseId?: string,
+  $collectionId?: string,
 }
 
 
@@ -309,7 +312,7 @@ export interface Transaction {
   transaction_type: string;
   transaction_method: string;
   transaction_status: string;
-  reciept: string;
+  reciept?: string;
   recieptUrl?: string;
   amount: string;
   transaction_time: string;
@@ -342,7 +345,7 @@ export interface Games {
   $createdAt?: string,
   $updatedAt?: string,
   /* eslint-disable @typescript-eslint/no-explicit-any */
-  $permissions?: any[];
+  $permissions?: any[],
   /* eslint-enable @typescript-eslint/no-explicit-any */
   $databaseId?: string,
   $collectionId?: string
@@ -402,6 +405,57 @@ export interface Notifications {
 export interface Admin {
   name: string,
   label: string[],
+}
+
+
+export interface BankDetails {
+  userId?: string,
+  bankName: string,
+  accountName: string,
+  accountNumber: string,
+  currency: string,
+  $id?: string,
+  $createdAt?: string,
+  $updatedAt?: string,
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+  $permissions?: any[],
+  /* eslint-enable @typescript-eslint/no-explicit-any */
+  $databaseId?: string,
+  $collectionId?: string,
+}
+
+
+export interface UploadDocument {
+  type: string;
+  front: File;
+  back: File;
+  userId: string;
+}
+
+
+export interface VerificationDocument {
+  type: string;
+  front: string;
+  back: string;
+  frontUrl?: string;
+  backUrl?: string;
+  userId: string;
+  ID_verification?: boolean,
+  address_verification?: boolean,
+  $id?: string;
+  $createdAt?: string;
+  $updatedAt?: string;
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+  $permissions?: any[];
+  /* eslint-enable @typescript-eslint/no-explicit-any */
+  $databaseId?: string;
+  $collectionId?: string;
+}
+
+
+export interface VerificationDocuments {
+  documents: VerificationDocument[],
+  files: Files[]
 }
 
 

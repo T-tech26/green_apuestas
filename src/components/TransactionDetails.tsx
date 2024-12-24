@@ -202,7 +202,7 @@ const TransactionDetails = ({ trans, setShowDetails, type }: TransactionDetailsP
                         )}
 
 
-                        {details.transaction_details.bankName && (
+                        {details.transaction_details.bankName && details.transaction_type !== 'Withdrawal' && (
                             <div className='flex items-center justify-between'>
                                 <p className='text-sm text-gray-400'>Rate</p>
                                 <p className='text-sm text-color-60 flex items-center gap-2'>

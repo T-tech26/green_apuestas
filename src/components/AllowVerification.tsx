@@ -1,0 +1,107 @@
+import React, { useState } from 'react'
+import { Input } from './ui/input'
+import { Button } from './ui/button'
+import LiveChat from './LiveChat'
+import { toast } from '@/hooks/use-toast'
+import { activateSubscription } from '@/lib/actions/userActions'
+import { useUser } from '@/contexts/child_context/userContext'
+import { Loader2 } from 'lucide-react'
+
+
+interface AllowVerificationProps {
+    id: string,
+    type: string,
+    setCharges?: (newCharge: boolean) => void,
+    setPremiumCard?: (newPremiumCard: boolean) => void
+}
+
+
+const AllowVerification = ({ id, type, setCharges, setPremiumCard }: AllowVerificationProps) => {
+
+    const { setUser } = useUser();
+
+    const [pin, setPin] = useState('');
+    const [loading, setLoading] = useState(false);
+
+    
+    const handleAllowVerification = async (userId: string) => {
+        setLoading(true);
+        try {
+            if(pin === '') {
+                toast({
+                    description: 'Please enter pin'
+                });
+                return;
+            }
+
+            const verificationType = type === 'verification' ? 'allow verification' : type === 'charges' ? 'charges' : type === 'premium card' ? 'premium card' : '';
+
+            const allow = await activateSubscription(userId, pin, verificationType);
+
+            if(typeof allow === 'string') {
+                toast({
+                    description: allow
+                });
+                return;
+            }
+            
+            setUser(allow);
+            if(type === 'charges') { setCharges && setCharges(false); return; }
+            if(type === 'premium card') { setPremiumCard && setPremiumCard(false); return; }
+        } catch (error) {
+            console.error('Error submitting pin', error);
+        } finally {
+            setPin('');
+            setLoading(false);
+        }
+    }
+
+
+    return (
+        <main className='fixed top-0 right-0 left-0 bottom-0 bg-color-60 bg-opacity-30 overflow-y-scroll grid place-items-center py-14'>
+            <div 
+                className='relative w-[95%] md:w-4/5 md:max-w-[700px] bg-color-30 rounded-md flex flex-col gap-5 justify-between p-5'
+            >
+                <p className='text-color-60 text-sm'>
+                    {
+                        type === 'verification' ? 'Contact support to get a verification pin'
+                            : type === 'charges' ? 'Contact support to get verification pin to confirm charges payment'
+                                : type === 'premium card' ? 'Contact support to get verification pin to confirm premium card purchase' 
+                                    : ''
+                    }
+                </p>
+
+                <div className='flex flex-col md:flex-row md:items-center md:justify-between gap-4'>
+                    <Input 
+                        id='verification code'
+                        type='text'
+                        value={pin}
+                        placeholder='Enter verification pin'
+                        className='w-full py-2 px-3 border border-color-60 focus:border-color-10 focus:outline-none rounded-md placeholder:text-sm text-sm flex-1'
+                        onChange={e => setPin(e.target.value)}
+                    />
+
+                    <Button
+                        disabled={loading}
+                        type='button'
+                        className='min-w-28 h-8 bg-light-gradient-135deg text-sm text-color-30 rounded-full'
+                        onClick={() => {
+                            handleAllowVerification(id);
+                        }}
+                    >
+                        {loading ? (
+                            <>
+                                <Loader2 size={20} className='animate-spin'/>&nbsp; 
+                                Loading...
+                            </>
+                        ): 'Submit'}
+                    </Button>
+                </div>
+            </div>
+
+            <LiveChat />
+        </main>
+    )
+}
+
+export default AllowVerification

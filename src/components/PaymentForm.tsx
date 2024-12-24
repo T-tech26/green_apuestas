@@ -138,7 +138,7 @@ const PaymentForm = ({ methodType, setMethod }: MethodProps) => {
         if(step === 3) {
             setLoading(true);
             try {
-                const response = await createTransaction(data, methodType, transactionTime, userId, 'Deposit');
+                const response = await createTransaction(data.reciept, data.amount, methodType, transactionTime, userId, 'Deposit');
         
                 if(response !== 'Success') {
                     toast({
@@ -151,7 +151,7 @@ const PaymentForm = ({ methodType, setMethod }: MethodProps) => {
                     })
                 }
 
-                await adminNotification((user as UserData).userId, 'deposit', transactionTime, data.amount)
+                await adminNotification(userId, 'deposit', transactionTime, data.amount)
 
                 const res = await getTransactions();
                 if(typeof res === 'string') return;

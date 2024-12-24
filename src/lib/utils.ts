@@ -1,4 +1,4 @@
-import { Admin, Payment, PaymentMethods, Transaction, Transactions, UserData } from "@/types/globals"
+import { Admin, Payment, PaymentMethods, Transaction, Transactions, UserData, VerificationDocument, VerificationDocuments } from "@/types/globals"
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 import { z } from "zod"
@@ -64,21 +64,26 @@ export const emailSchema = z.object({
   email: z.string().email(),
 })
 
+
 export const phoneNumberSchema = z.object({
   phone: z.string().min(3),
 })
+
 
 export const dateOfBirthSchema = z.object({
   dateOfBirth: z.string().date(),
 })
 
+
 export const countrySchema = z.object({
   country: z.string().min(3),
 })
 
+
 export const stateSchema = z.object({
   state: z.string().min(3),
 })
+
 
 export const citySchema = z.object({
   city: z.string().min(3),
@@ -110,7 +115,7 @@ export const transactionsWithImages = (transactions: Transactions): Transaction[
 
     return {
       ...trans,
-      recieptUrl: image && `${process.env.NEXT_PUBLIC_APPWRITE_PUBLIC_URL}/storage/buckets/${process.env.NEXT_PUBLIC_APPWRITE_PAYMENT_RECIEPT_LOGO_BUCKET_ID}/files/${image.$id}/view?project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID}&project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID}&mode=admin`,
+      recieptUrl: image ? `${process.env.NEXT_PUBLIC_APPWRITE_PUBLIC_URL}/storage/buckets/${process.env.NEXT_PUBLIC_APPWRITE_PAYMENT_RECIEPT_LOGO_BUCKET_ID}/files/${image.$id}/view?project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID}&project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID}&mode=admin` : '',
     };
   })
 };
@@ -127,10 +132,12 @@ export const paymentFormSchema = z.object({
       }),
 });
 
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export const isAdmin = (user: any): user is Admin => {
   return user.label !== undefined;
 }
+
 
 // Type guard to check if the object is of type UserData
 export const isUserData = (user: any): user is UserData => {
@@ -153,26 +160,57 @@ export const generateDateString = () => {
 
 
 export const formatAmount = (amount: string) => {
-  // Split the amount into integer and decimal parts
-  const [integerPart, decimalPart] = amount.split('.') 
 
-  // Handle cases where there's no decimal part
-  let formattedInteger = integerPart;
-  
-  // Handle integer part formatting
-  if (formattedInteger.length === 4) {
-    formattedInteger = formattedInteger[0] + ',' + formattedInteger.slice(1);
-  } else if (formattedInteger.length === 5) {
-    formattedInteger = formattedInteger.slice(0, 2) + ',' + formattedInteger.slice(2);
-  } else if (formattedInteger.length >= 6) {
-    formattedInteger = formattedInteger.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-  }
+    if(amount !== null && amount.includes('.')) {
+        // Split the amount into integer and decimal parts
+        const [integerPart, decimalPart] = amount.split('.') 
+    
+        // Handle cases where there's no decimal part
+        let formattedInteger = integerPart;
+        
+        // Handle integer part formatting
+        if (formattedInteger.length === 4) {
+            formattedInteger = formattedInteger[0] + ',' + formattedInteger.slice(1);
+        } else if (formattedInteger.length === 5) {
+            formattedInteger = formattedInteger.slice(0, 2) + ',' + formattedInteger.slice(2);
+        } else if (formattedInteger.length >= 6) {
+            formattedInteger = formattedInteger.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        }
+    
+        // If there's a decimal part, return the integer part with decimal formatting
+        if (decimalPart !== undefined) {
+            return formattedInteger + '.' + decimalPart;
+        }
+    
+        // If there's no decimal part, return the formatted integer part only
+        return formattedInteger;
+    }
+    
+    
+    if (amount !== null && amount.length === 4) {
+        amount = amount[0] + ',' + amount.slice(1);
+    } else if (amount !== null && amount.length === 5) {
+        amount = amount.slice(0, 2) + ',' + amount.slice(2);
+    } else if (amount !== null && amount.length >= 6) {
+        amount = amount.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
 
-  // If there's a decimal part, return the integer part with decimal formatting
-  if (decimalPart !== undefined) {
-    return formattedInteger + '.' + decimalPart;
-  }
+    return amount;
+};
 
-  // If there's no decimal part, return the formatted integer part only
-  return formattedInteger;
+
+// Map over the payment methods and match logos to images
+export const verificationDocumentWithImages = (documents: VerificationDocuments): VerificationDocument[] => {
+
+    return (documents as VerificationDocuments).documents.map((doc) => {
+
+        const frontImage = (documents as VerificationDocuments).files.find((img) => img.name === doc.front); // Match by the logo name
+        const backImage = (documents as VerificationDocuments).files.find((img) => img.name === doc.back); // Match by the logo name
+
+        return {
+            ...doc,
+            frontUrl: frontImage && `${process.env.NEXT_PUBLIC_APPWRITE_PUBLIC_URL}/storage/buckets/${process.env.NEXT_PUBLIC_APPWRITE_VERIFICATION_DOCUMENT_BUCKET_ID}/files/${frontImage.$id}/view?project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID}&project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID}&mode=admin`,
+            backUrl: backImage && `${process.env.NEXT_PUBLIC_APPWRITE_PUBLIC_URL}/storage/buckets/${process.env.NEXT_PUBLIC_APPWRITE_VERIFICATION_DOCUMENT_BUCKET_ID}/files/${backImage.$id}/view?project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID}&project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID}&mode=admin`,
+        };
+    })
 };

@@ -147,7 +147,7 @@ const BankPayment = () => {
 
             {Array.isArray(type) && type.length > 0 ? (
                 <div className='min-w-[200px] rounded-md overflow-x-scroll'>
-                    <h1 className='p-4 text-sm text-color-60 font-medium w-full'>Crypto payment methods.</h1>
+                    <h1 className='p-4 text-sm text-color-60 font-medium w-full'>Bank payment methods.</h1>
                     <Table>
                         <TableHeader className='bg-dark-gradient-135deg'>
                             <TableRow>
@@ -219,12 +219,9 @@ const BankPayment = () => {
                         </TableBody>
                     </Table>
                 </div>
-            ) : Array.isArray(type) && type.length === 0 ? (
-                <div className='flex justify-center py-4'>
-                    <p className='text-color-60 text-sm'>No crypto method of payment is uploaded yet!</p>
-                </div>
             ) : (
-                <div className="w-full h-52 bg-gray-300 animate-pulse flex items-center justify-between rounded-md">
+                <div className='flex justify-center py-4'>
+                    <p className='text-color-60 text-sm'>Bank method of payment is uploaded yet!</p>
                 </div>
             )}
 

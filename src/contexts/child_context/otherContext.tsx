@@ -1,7 +1,7 @@
 'use client'
-import { getAdminNotification, getGameTickets, getPaymentMethods, getTransactions, getUserNotification } from '@/lib/actions/userActions';
-import { paymentMethodsWithImages, transactionsWithImages } from '@/lib/utils';
-import { Notifications, PaymentMethods, Transaction, UserGame } from '@/types/globals';
+import { getAdminNotification, getBankDetails, getGameTickets, getPaymentMethods, getTransactions, getUserNotification, getVerificationDocuments } from '@/lib/actions/userActions';
+import { paymentMethodsWithImages, transactionsWithImages, verificationDocumentWithImages } from '@/lib/utils';
+import { BankDetails, Notifications, PaymentMethods, Transaction, UserGame, VerificationDocument } from '@/types/globals';
 import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react'
 
 
@@ -20,6 +20,12 @@ interface ContextType {
 
     adminNotifications: Notifications[];
     setAdminNotifications: (newAdminNotifications: Notifications[]) => void;
+
+    bankDetails: BankDetails[];
+    setBankDetails: (newBankDetails: BankDetails[]) => void;
+
+    verificationDocuments: VerificationDocument[];
+    setVerificaitonDocuments: (newVerificationDocuments: VerificationDocument[]) => void;
 }
 
 export const OtherContext = createContext<ContextType | undefined>(undefined);
@@ -30,6 +36,8 @@ export const OtherProvider = ({ children } : { children: ReactNode }) => {
     const [userSlips, setUserSlips] = useState<UserGame[]>([]);
     const [userNotifications, setUserNotifications] = useState<Notifications[]>([]);
     const [adminNotifications, setAdminNotifications] = useState<Notifications[]>([]);
+    const [bankDetails, setBankDetails] = useState<BankDetails[]>([]);
+    const [verificationDocuments, setVerificaitonDocuments] = useState<VerificationDocument[]>([]);
 
 
     /* eslint-disable react-hooks/exhaustive-deps */
@@ -117,6 +125,41 @@ export const OtherProvider = ({ children } : { children: ReactNode }) => {
 
         adminNot();
     }, []);
+
+
+    useEffect(() => {
+        const details = async () => {
+            try {
+                const bankDetails = await getBankDetails();
+                
+                if(typeof bankDetails === 'string') return;
+                setBankDetails(bankDetails);
+
+            } catch (error) {
+                console.error("Error fetching users bank details:", error);
+            }
+        };
+
+        details();
+    }, []);
+
+
+    useEffect(() => {
+        const payment = async () => {
+            try {
+                const response = await getVerificationDocuments();
+                
+                if(typeof response === 'string') return;
+                const documents= verificationDocumentWithImages(response);
+                setVerificaitonDocuments(documents);
+
+            } catch (error) {
+                console.error("Error fetching verification documents:", error);
+            }
+        };
+
+        payment();
+    }, []);
     /* eslint-enable react-hooks/exhaustive-deps */
 
 
@@ -124,7 +167,8 @@ export const OtherProvider = ({ children } : { children: ReactNode }) => {
         <OtherContext.Provider value={{
             paymentMethods, setPaymentMethods, transactions, setTransactions,
             userSlips, setUserSlips, userNotifications, setUserNotifications,
-            adminNotifications, setAdminNotifications
+            adminNotifications, setAdminNotifications, bankDetails, setBankDetails,
+            verificationDocuments, setVerificaitonDocuments
         }}>
             {children}
         </OtherContext.Provider>
