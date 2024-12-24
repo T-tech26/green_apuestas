@@ -70,25 +70,23 @@ const UserBetHistory = () => {
     }
 
 
-    const handleShowBet = async (id: string, credit: boolean, userId: string, amount: string) => {
+    const handleShowBet = async (id: string, credit: boolean, userId: string, amount: string, shown: boolean) => {
         const date = generateDateString();
         setLoading(true);
         try {
-
-            const response = await showBetSlip(id, '');
-
-            if(response !== 'success') return;
-
+            // if user has not been credited then credit the user balance and set user credited boolean value to true in slip
             if(credit === false) {
-                const ticketWon = await creditUserBalance(userId, amount, 'ticketWon');
+                const ticketWon = await creditUserBalance(userId, amount, 'credit');
                 
                 if(ticketWon === 'success') {
                     const updatedticketStatus = await showBetSlip(id, 'ticketWon');
 
                     if(updatedticketStatus !== 'success') return;
 
+                    // notify the user that the ticket is won
                     await userNotification(userId, 'ticketWon', date, amount);
 
+                    // get all the slips
                     const slips = await getGameTickets();
                     if(typeof slips === 'string') return;
                     setUserSlips(slips);
@@ -101,12 +99,20 @@ const UserBetHistory = () => {
                 }
             }
 
+            // show bet slip takes in two arguments one the id of the slip two an argument if the ticket is won
+            const response = await showBetSlip(id, '');
+
+            if(response !== 'success') return;
+
+            // get the slips
             const slips = await getGameTickets();
             if(typeof slips === 'string') return;
             setUserSlips(slips);
 
+            const message = shown ? 'Ticket hidden from user.' : 'Ticket shown to user';
+
             toast({
-                description: 'User credited and ticket shown to user'
+                description: message
             })
             
         /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -141,7 +147,8 @@ const UserBetHistory = () => {
                                                     (slip.slip.$id as string), 
                                                     (slip.slip.creditUser as boolean), 
                                                     (slip.slip.userId as string),
-                                                    (slip.slip.payout as string)
+                                                    (slip.slip.payout as string),
+                                                    (slip.slip.showBet as boolean),
                                                 );
                                                 setId((slip.slip.$id as string));
                                             }}

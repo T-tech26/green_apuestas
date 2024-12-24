@@ -38,7 +38,7 @@ const TransactionHistory = () => {
                             return (
                                 <div
                                     key={trans.$id}
-                                    className='bg-white drop-shadow-md px-3 py-2 cursor-pointer hover:bg-gray-50'
+                                    className='bg-white drop-shadow-md rounded-md px-3 py-2 border border-gray-200 hover:bg-gray-50 hover:border-color-10 hover:border'
                                     onClick={() => setShowDetails(trans)}
                                 >
                                     <div className='flex items-center justify-between'>

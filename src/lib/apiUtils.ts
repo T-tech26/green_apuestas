@@ -7,43 +7,43 @@ import { liveScores } from "./api/liveScores";
 export const fetchLeagues = async (
   setLeagues: React.Dispatch<React.SetStateAction<Popular[]>>
 ) => {
-  try {
-    const fetchedData = await leagues();
-    setLeagues(fetchedData);
+    try {
+        const fetchedData = await leagues();
+        setLeagues(fetchedData);
 
-    // Store the leagues in localStorage along with a timestamp
-    const timestamp = Date.now();
-    localStorage.setItem('leagues', JSON.stringify({ leagues: fetchedData, timestamp }));
+        // Store the leagues in localStorage along with a timestamp
+        const timestamp = Date.now();
+        localStorage.setItem('leagues', JSON.stringify({ leagues: fetchedData, timestamp }));
 
-  } catch (err) {
-    console.error(err)
-  }
+    } catch (err) {
+        console.error(err)
+    }
 };
 
 
 export const checkLeaguesInLocalStorage = (
   setLeagues: React.Dispatch<React.SetStateAction<Popular[]>>
 ) => {
-  const storedData = localStorage.getItem('leagues');
+    const storedData = localStorage.getItem('leagues');
 
-  if (storedData) {
-    const { leagues: fetchedData, timestamp }: { leagues: Popular[], timestamp: number } = JSON.parse(storedData);
+    if (storedData) {
+        const { leagues: fetchedData, timestamp }: { leagues: Popular[], timestamp: number } = JSON.parse(storedData);
 
-    // Check if data is older than 24 hours (86400000 ms)
-    const oneDayInMillis = 86400000;
-    const currentTime = Date.now();
+        // Check if data is older than 24 hours (86400000 ms)
+        const oneDayInMillis = 86400000;
+        const currentTime = Date.now();
 
-    if (currentTime - timestamp > oneDayInMillis) {
-        // If more than 24 hours have passed, refetch leagues
-        fetchLeagues(setLeagues);
+        if (currentTime - timestamp > oneDayInMillis) {
+            // If more than 24 hours have passed, refetch leagues
+            fetchLeagues(setLeagues);
+        } else {
+            // If less than 24 hours, use stored leagues
+            setLeagues(fetchedData);
+        }
     } else {
-        // If less than 24 hours, use stored leagues
-        setLeagues(fetchedData);
+        // If no data in localStorage, fetch the leagues
+        fetchLeagues(setLeagues);
     }
-  } else {
-      // If no data in localStorage, fetch the leagues
-      fetchLeagues(setLeagues);
-  }
 }
 
 
@@ -54,59 +54,61 @@ export const fetchAllMatches = async (
   setOtherDayMatches: React.Dispatch<React.SetStateAction<{ matches: Match[] }>>
 ) => {
 
-  if (leagueID === undefined) return;
+    if (leagueID === undefined) return;
 
-  const oneDayInMillis = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
-  const currentTime = Date.now();
+    const oneDayInMillis = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+    const currentTime = Date.now();
 
-  // Check if the matches data is in localStorage
-  const todayData = localStorage.getItem(`today-${leagueID}`);
-  const tomorrowData = localStorage.getItem(`tomorrow-${leagueID}`);
-  const otherDaysData = localStorage.getItem(`other-days-${leagueID}`);
+    // Check if the matches data is in localStorage
+    const todayData = localStorage.getItem(`today-${leagueID}`);
+    const tomorrowData = localStorage.getItem(`tomorrow-${leagueID}`);
+    const otherDaysData = localStorage.getItem(`other-days-${leagueID}`);
 
-  if (todayData && tomorrowData && otherDaysData) {
-    // Parse the data and the timestamp from localStorage
-    const { matches: todayMatches, timestamp: todayTimestamp }: { matches: Match[], timestamp: number } = JSON.parse(todayData);
-    const { matches: tomorrowMatches, timestamp: tomorrowTimestamp }: { matches: Match[], timestamp: number } = JSON.parse(tomorrowData);
-    const { matches: otherDayMatches, timestamp: otherDaysTimestamp }: { matches: Match[], timestamp: number } = JSON.parse(otherDaysData);
+    if (todayData && tomorrowData && otherDaysData) {
+        // Parse the data and the timestamp from localStorage
+        const { matches: todayMatches, timestamp: todayTimestamp }: { matches: Match[], timestamp: number } = JSON.parse(todayData);
+        const { matches: tomorrowMatches, timestamp: tomorrowTimestamp }: { matches: Match[], timestamp: number } = JSON.parse(tomorrowData);
+        const { matches: otherDayMatches, timestamp: otherDaysTimestamp }: { matches: Match[], timestamp: number } = JSON.parse(otherDaysData);
 
-    // Check if the data is older than 24 hours
-    if (currentTime - todayTimestamp < oneDayInMillis && currentTime - tomorrowTimestamp < oneDayInMillis && currentTime - otherDaysTimestamp < oneDayInMillis) {
-      // Data is still valid, use it
-      setTodayMatches({ matches: todayMatches });
-      setTomorrowMatches({ matches: tomorrowMatches });
-      setOtherDayMatches({ matches: otherDayMatches });
-      return; // Skip fetching new data
+        // Check if the data is older than 24 hours
+        if (currentTime - todayTimestamp < oneDayInMillis && currentTime - tomorrowTimestamp < oneDayInMillis && currentTime - otherDaysTimestamp < oneDayInMillis) {
+        // Data is still valid, use it
+        setTodayMatches({ matches: todayMatches });
+        setTomorrowMatches({ matches: tomorrowMatches });
+        setOtherDayMatches({ matches: otherDayMatches });
+        return; // Skip fetching new data
+        }
     }
-  }
 
-  // Data is either not in localStorage or has expired, fetch new data
-  try {
-    const matches = await eventsByLeague(leagueID);
-    const filteredMatches = filterDatesInCurrentMonth(matches);
-    
-    const todayMatches = checkDateStatus(filteredMatches, 'today');
-    const tomorrowMatches = checkDateStatus(filteredMatches, 'tomorrow');
-    const otherDayMatches = checkDateStatus(filteredMatches, 'other days');
+    // Data is either not in localStorage or has expired, fetch new data
+    try {
+        const matches = await eventsByLeague(leagueID);
+        const filteredMatches = filterDatesInCurrentMonth(matches);
+        
+        const todayMatches = checkDateStatus(filteredMatches, 'today');
+        const tomorrowMatches = checkDateStatus(filteredMatches, 'tomorrow');
+        const otherDayMatches = checkDateStatus(filteredMatches, 'other days');
 
-    // Set the fetched matches to state
-    setTodayMatches(todayMatches);
-    setTomorrowMatches(tomorrowMatches);
-    setOtherDayMatches(otherDayMatches);
+        // Set the fetched matches to state
+        setTodayMatches(todayMatches);
+        setTomorrowMatches(tomorrowMatches);
+        setOtherDayMatches(otherDayMatches);
 
-    // Store the fetched data and timestamps in localStorage
-    const timestamp = Date.now();
-    const todayDataToStore = { matches: todayMatches.matches, timestamp };
-    const tomorrowDataToStore = { matches: tomorrowMatches.matches, timestamp };
-    const otherDaysDataToStore = { matches: otherDayMatches.matches, timestamp };
+        // Store the fetched data and timestamps in localStorage
+        const timestamp = Date.now();
+        
+        const todayDataToStore = { matches: todayMatches.matches, timestamp };
+        const tomorrowDataToStore = { matches: tomorrowMatches.matches, timestamp };
+        const otherDaysDataToStore = { matches: otherDayMatches.matches, timestamp };
+        
+        localStorage.setItem(`today-${leagueID}`, JSON.stringify(todayDataToStore));
+        localStorage.setItem(`tomorrow-${leagueID}`, JSON.stringify(tomorrowDataToStore));
+        localStorage.setItem(`other-days-${leagueID}`, JSON.stringify(otherDaysDataToStore));
 
-    localStorage.setItem(`today-${leagueID}`, JSON.stringify(todayDataToStore));
-    localStorage.setItem(`tomorrow-${leagueID}`, JSON.stringify(tomorrowDataToStore));
-    localStorage.setItem(`other-days-${leagueID}`, JSON.stringify(otherDaysDataToStore));
 
-  } catch (err) {
-    console.error('Error fetching matches:', err);
-  }
+    } catch (err) {
+        console.error('Error fetching matches:', err);
+    }
 };
 
 
@@ -115,7 +117,7 @@ export const filterDatesInCurrentMonth = (
 ) => {
     // Get the current date
     const currentDate = new Date();
-
+    
     // Calculate the date 30 days from now
     const endDate = new Date();
     endDate.setDate(currentDate.getDate() + 30); // 30 days from now
@@ -124,19 +126,22 @@ export const filterDatesInCurrentMonth = (
     const filteredLeagues: { matches: Match[] } = { matches: [] };
 
     
-    // Filter the matches for the current league
-    const filteredMatches = matchesByLeague.matches.filter(match => {
-      // Parse the match's UTC time
-      const matchDate = match.status ? new Date(match.status.utcTime) : null;
+    if(matchesByLeague) {
+        // Filter the matches for the current league
+        const filteredMatches = matchesByLeague.matches.filter(match => {
+            // Parse the match's UTC time
+            const matchDate = match.status ? new Date(match.status.utcTime) : null;
+    
+            // Check if the match is within the next 30 days
+            return matchDate && matchDate >= currentDate && matchDate <= endDate;
+        });
 
-      // Check if the match is within the next 30 days
-      return matchDate && matchDate >= currentDate && matchDate <= endDate;
-    });
-
-    // If there are filtered matches, include them in the result
-    if (filteredMatches.length > 0) {
-      filteredLeagues.matches = filteredMatches;
+        // If there are filtered matches, include them in the result
+        if (filteredMatches.length > 0) {
+            filteredLeagues.matches = filteredMatches;
+        }
     }
+
 
     return filteredLeagues; // Return the leagues with only matches within the next 30 days
 };

@@ -15,6 +15,8 @@ const options = {
 export const leagues = async () => {
     try {
         const response = await axios.request(options);
+        console.log(response.data.response)
+        if(!response.data.response) return [];
         return response.data.response.leagues;
     } catch (error) {
         console.error('Error fetching data:', error);

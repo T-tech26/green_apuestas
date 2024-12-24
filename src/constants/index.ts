@@ -8,10 +8,6 @@ export const menuLinks = [
         label: "About"
     },
     {
-        route: "/blog",
-        label: "Blog"
-    },
-    {
         route: "/contact",
         label: "Contact"
     }

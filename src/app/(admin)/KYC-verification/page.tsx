@@ -5,6 +5,7 @@ import { useUser } from '@/contexts/child_context/userContext'
 import { UserData, VerificationDocument } from '@/types/globals'
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
+import KYCLogDetails from '@/components/KYCLogDetails'
 
 
 
@@ -23,6 +24,7 @@ const KYCVerification = () => {
     const [status, setStatus] = useState('pending');
     const [pendingDocuments, setPendingDocuments] = useState<DocWithUser[]>([]);
     const [approvedDocuments, setApprovedDocuments] = useState<DocWithUser[]>([]);
+    const [showDetails, setShowDetails] = useState<DocWithUser | string>('');
 
 
 
@@ -95,6 +97,11 @@ const KYCVerification = () => {
                                         >
                                             <div className='flex items-center justify-between'>
                                                 <p className='text-sm text-color-60 font-semibold'>Verification Type</p>
+
+                                                <p 
+                                                    className='text-xs text-gray-400 hover:text-color-10 hover:underline cursor-pointer'
+                                                    onClick={() => setShowDetails(item)}
+                                                >Show details</p>
 
                                                 <p className='text-xs text-gray-400'>
                                                     {
@@ -181,6 +188,11 @@ const KYCVerification = () => {
                                             <div className='flex items-center justify-between'>
                                                 <p className='text-sm text-color-60 font-semibold'>Verification Type</p>
 
+                                                <p 
+                                                    className='text-xs text-gray-400 hover:text-color-10 hover:underline cursor-pointer'
+                                                    onClick={() => setShowDetails(item)}
+                                                >Show details</p>
+
                                                 <p className='text-xs text-gray-400'>
                                                     {
                                                         item.doc.type === 'National ID' ? 'Identity verification'
@@ -252,6 +264,10 @@ const KYCVerification = () => {
                     </div>
                 )}
             </div>
+
+            {typeof showDetails === 'object' && (
+                <KYCLogDetails logDetails={showDetails} setLogDetails={setShowDetails} />
+            )}
         </main>
     )
 }

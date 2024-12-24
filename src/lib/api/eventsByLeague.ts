@@ -14,17 +14,17 @@ interface Options {
     };
   }
   
-  const createOptions = (leagueid: number | undefined): Options => {
+const createOptions = (leagueid: number | undefined): Options => {
     return {
-      method: 'GET',
-      url: 'https://free-api-live-football-data.p.rapidapi.com/football-get-all-matches-by-league',
-      params: { leagueid },
-      headers: {
-        'x-rapidapi-key': process.env.RAPID_API_KEY!,
-        'x-rapidapi-host': 'free-api-live-football-data.p.rapidapi.com'
-      }
+        method: 'GET',
+        url: 'https://free-api-live-football-data.p.rapidapi.com/football-get-all-matches-by-league',
+        params: { leagueid },
+        headers: {
+            'x-rapidapi-key': process.env.RAPID_API_KEY!,
+            'x-rapidapi-host': 'free-api-live-football-data.p.rapidapi.com'
+        }
     };
-  };
+};
 
 
 export const eventsByLeague = async (id: number | undefined) => {

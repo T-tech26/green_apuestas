@@ -590,7 +590,7 @@ export const getTransactions = async (): Promise<Transactions | string> => {
 }
 
 
-export const depositStatus = async (id: string, status: string) => {
+export const transactionStatus = async (id: string, status: string) => {
     try {
         const { database } = await createAdminClient();
 
@@ -844,10 +844,6 @@ export const creditUserBalance = async (userId: string, amount: string, type: st
         let newBalance: number;
 
         if(type === 'credit') {
-            newBalance = Number(user.documents[0].balance) + Number(amount);
-        }
-
-        if(type === 'ticketWon') {
             newBalance = Number(user.documents[0].balance) + Number(amount);
         }
         

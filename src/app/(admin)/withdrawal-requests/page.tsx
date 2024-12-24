@@ -1,17 +1,17 @@
 'use client'
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/ui/button';
 import { useOtherContext } from '@/contexts/child_context/otherContext';
+import { toast } from '@/hooks/use-toast';
+import { creditUserBalance, getTransactions, transactionStatus, userNotification } from '@/lib/actions/userActions';
+import { formatAmount, generateDateString, transactionsWithImages } from '@/lib/utils';
 import { Transaction } from '@/types/globals';
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image';
 import TransactionDetails from '@/components/TransactionDetails';
-import { toast } from '@/hooks/use-toast';
-import { creditUserBalance, getTransactions, transactionStatus, userNotification } from '@/lib/actions/userActions';
-import { formatAmount, generateDateString, transactionsWithImages } from '@/lib/utils';
 
-const DepositRequests = () => {
 
-    
+const WithdrawalRequest = () => {
+
     const [status, setStatus] = useState('pending');
     const [transactionWithStatus, setTransactionWithStatus] = useState<Transaction[]>([]);
     const [transactionLoading, setTransactionLoading] = useState(true);
@@ -23,12 +23,12 @@ const DepositRequests = () => {
     /* eslint-disable react-hooks/exhaustive-deps */
     useEffect(() => {
         if(transactions.length > 0) {
-            const transStatus = transactions.filter(trans => trans.transaction_status === status && trans.transaction_type === 'Deposit');
+            const transStatus = transactions.filter(trans => trans.transaction_status === status && trans.transaction_type === 'Withdrawal');
             setTransactionWithStatus(transStatus.reverse());
             if(transactionLoading) setTransactionLoading(!transactionLoading);
         }
     }, [status, transactions]);
-     /* eslint-enable react-hooks/exhaustive-deps */
+    /* eslint-enable react-hooks/exhaustive-deps */
 
 
 
@@ -42,16 +42,16 @@ const DepositRequests = () => {
 
             // if transaction status is approved then deduct from balance if withdrawal or add amount to balance if deposit
             if(userId && amount) { 
-                await creditUserBalance(userId, amount, 'credit');
+                await creditUserBalance(userId, amount, 'deduct');
             }   
-        
+            
             if(updated !== 'success') return;
 
             // when transaction status is updated notify user, if approved or rejected
-            await userNotification(userId!, `deposit ${status}`, date, '');
+            await userNotification(userId!, `withdrawal ${status}`, date, '');
 
             toast({
-                description: `Successfully ${status} user deposit`
+                description: `Successfully ${status} user withdrawal`
             });
 
             // get the transactions when all conditions are successfull
@@ -65,7 +65,7 @@ const DepositRequests = () => {
                 description: `${status}ing, try again`
             });
             /* eslint-enable @typescript-eslint/no-explicit-any */
-            console.error(`Error ${status}ing `, error);
+            console.error(`Error ${status} `, error);
         }
     }
 
@@ -74,7 +74,7 @@ const DepositRequests = () => {
     return (
         <main className='flex-1 py-14 overflow-x-hidden overflow-y-scroll'>
             <div className='w-4/5 mx-auto flex flex-col gap-10'>
-                <h1 className='text-lg text-color-60 font-medium'>DEPOSIT REQUEST</h1>
+                <h1 className='text-lg text-color-60 font-medium'>WITHDRAWAL REQUEST</h1>
 
                 <div
                     className='flex items-center flex-wrap py-3'
@@ -138,13 +138,18 @@ const DepositRequests = () => {
                                                 <p className='text-xs text-gray-400 font-medium mb-1'>{
                                                     trans.transaction_details.payId ? 'Binance pay' : trans.transaction_method
                                                 }</p>
-                                                <p className='text-[10px] text-color-60'>{
-                                                    trans.transaction_details.payId ? 'USDT'
-                                                        : trans.transaction_details.cryptoName ? trans.transaction_details.cryptoName
-                                                            : trans.transaction_details.bankName ? 'Bank'
-                                                                : trans.transaction_details.platformName
-                                                    } deposit
-                                                </p>
+
+                                                {trans.transaction_type === 'Withdrawal' ? (
+                                                    <p className='text-[10px] text-color-60'>Bank withdrawal</p>
+                                                )  : (
+                                                    <p className='text-[10px] text-color-60'>{
+                                                        trans.transaction_details.payId ? 'USDT'
+                                                            : trans.transaction_details.cryptoName ? trans.transaction_details.cryptoName
+                                                                : trans.transaction_details.bankName ? 'Bank'
+                                                                    : trans.transaction_details.platformName
+                                                        } deposit
+                                                    </p>
+                                                )}
                                             </div>
 
                                             <div>
@@ -224,4 +229,4 @@ const DepositRequests = () => {
     )
 }
 
-export default DepositRequests
+export default WithdrawalRequest

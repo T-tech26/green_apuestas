@@ -67,6 +67,9 @@ const Notifications = ({ setShow, type }: NotificationsProps) => {
     /* eslint-enable react-hooks/exhaustive-deps */
 
 
+    console.log(adminNotifications)
+
+
     const handleDeleteUseNotifications = async (id: string | undefined) => {
         try {
 
@@ -130,7 +133,9 @@ const Notifications = ({ setShow, type }: NotificationsProps) => {
                                     }`}
                                 >
                                     {
-                                        not.not.type === 'deposit' && `${not.user.firstname} ${not.user.lastname} made a deposit of ${not.not.amount && formatAmount(not.not.amount)} USD`
+                                        not.not.type === 'deposit' ? `${not.user.firstname} ${not.user.lastname} made a deposit of ${not.not.amount && formatAmount(not.not.amount)} USD`
+                                            : not.not.type === 'withdrawal' ? `${not.user.firstname} ${not.user.lastname} just made a withdrawal request of ${not.not.amount && formatAmount(not.not.amount)} USD.`
+                                                : ''
                                     }
                                     <span className='text-gray-400 text-xs'>{not.not.date}</span>
                                     <span 
@@ -154,15 +159,18 @@ const Notifications = ({ setShow, type }: NotificationsProps) => {
                                     }`}
                                 >
                                     {
-                                        not.type === 'credit' ? `Your account has been credited with ${not.amount && formatAmount(not.amount)} USD`
-                                            : not.type === 'stake' ? 'Green apuesta team has just booked a ticket for you'
-                                                : not.type === 'deduct' ? `${not.amount && formatAmount(not.amount)} USD has been deducted from your account for your ticket`
-                                                    : not.type === 'ticketWon' ? `You have been credited with ${not.amount && formatAmount(not.amount)} USD from you winning ticket`
-                                                        : not.type === 'Identity verification and approved' ? 'Your identity verification has been approved'
-                                                            : not.type === 'Address verification and approved' ? 'Your address verification has been approved'
-                                                                : not.type === 'Identity verification and rejected' ? 'Your identity verification has been rejected' 
-                                                                    : not.type === 'Address verification and rejected' ? 'Your address verification has been rejected' 
-                                                                        : ''
+                                        not.type === 'deposit approved' ? `Your account has been credited with ${not.amount && formatAmount(not.amount)} USD.`
+                                            : not.type === 'deposit rejected' ? `Your deposit has been rejected.`
+                                                : not.type === 'stake' ? 'Green apuesta team has just booked a ticket for you.'
+                                                    : not.type === 'deduct' ? `${not.amount && formatAmount(not.amount)} USD has been deducted from your account for your ticket.`
+                                                        : not.type === 'ticketWon' ? `You have been credited with ${not.amount && formatAmount(not.amount)} USD from you winning ticket.`
+                                                            : not.type === 'Identity verification and approved' ? 'Your identity verification has been approved.'
+                                                                : not.type === 'Address verification and approved' ? 'Your address verification has been approved.'
+                                                                    : not.type === 'Identity verification and rejected' ? 'Your identity verification has been rejected.' 
+                                                                        : not.type === 'Address verification and rejected' ? 'Your address verification has been rejected.' 
+                                                                            : not.type === 'withdrawal rejected' ? 'Your withdrawal request was rejected.' 
+                                                                                : not.type === 'withdrawal approved' ? 'Your withdrawal request has been approved and funds have been transfered to your bank.' 
+                                                                                    : ''
                                     }
                                     <span className='text-gray-400 text-xs'>{not.date}</span>
                                     <span 

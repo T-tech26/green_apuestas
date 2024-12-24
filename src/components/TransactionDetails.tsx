@@ -229,7 +229,7 @@ const TransactionDetails = ({ trans, setShowDetails, type }: TransactionDetailsP
                     </div>
                 )}
 
-                {type === 'admin' && (
+                {type === 'admin' && details.transaction_type !== 'Withdrawal' && (
                     <div className='bg-color-30 rounded-md p-5'>
                         {/* eslint-disable @next/next/no-img-element */}
                         <img 
