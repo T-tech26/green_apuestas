@@ -46,8 +46,8 @@ const AllowVerification = ({ id, type, setCharges, setPremiumCard }: AllowVerifi
             }
             
             setUser(allow);
-            if(type === 'charges') { setCharges && setCharges(false); return; }
-            if(type === 'premium card') { setPremiumCard && setPremiumCard(false); return; }
+            if(setCharges && type === 'charges') { setCharges(false); return; }
+            if(setPremiumCard && type === 'premium card') { setPremiumCard(false); return; }
         } catch (error) {
             console.error('Error submitting pin', error);
         } finally {

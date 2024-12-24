@@ -28,13 +28,17 @@ const IdentityVerification = () => {
             const cardStatement = verificationDocuments.filter((doc: VerificationDocument) => doc.type === 'Card statement' && doc.userId === (user as UserData).userId);
             const residentPermit = verificationDocuments.filter((doc: VerificationDocument) => doc.type === 'Resident permit'  && doc.userId === (user as UserData).userId);
 
-            ID.length > 0 ? setIdDocument(ID) : driving.length > 0 ? setIdDocument(driving) : setIdDocument([]);
+            const IDverificaton = ID.length > 0 ? ID : driving.length > 0 ? driving : [];
+
+            setIdDocument(IDverificaton)
             
-            utility.length > 0 ? setAddressDocument(utility)
-                : bankStatement.length > 0 ? setAddressDocument(bankStatement)
-                    : cardStatement.length > 0 ? setAddressDocument(cardStatement)
-                        : residentPermit.length > 0 ? setAddressDocument(residentPermit)
-                            : setAddressDocument([]);
+            const addressVerification = utility.length > 0 ? utility
+                : bankStatement.length > 0 ? bankStatement
+                    : cardStatement.length > 0 ? cardStatement
+                        : residentPermit.length > 0 ? residentPermit
+                            : [];
+
+            setAddressDocument(addressVerification);
 
         }
     }, [verificationDocuments, user])

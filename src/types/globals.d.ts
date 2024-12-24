@@ -276,12 +276,6 @@ export interface Payment {
 };
 
 
-export interface AmountAndReciept {
-  reciept: File,
-  amount: string
-}
-
-
 export interface TransactionDetails {
   type: string;
   payId: string | null;

@@ -3,7 +3,7 @@
 import { ID, Query } from "node-appwrite";
 import { createAdminClient, createSessionClient } from "../appwrite/config";
 import { cookies } from "next/headers";
-import { Admin, AmountAndReciept, BankDetails, Payment, PaymentMethod, PaymentMethods, registerParams, Transactions, UploadDocument, UserData, UserGame, VerificationDocument, VerificationDocuments } from "@/types/globals";
+import { Admin, BankDetails, Payment, PaymentMethod, PaymentMethods, registerParams, Transactions, UploadDocument, UserData, UserGame, VerificationDocuments } from "@/types/globals";
 import { parseStringify } from "../utils";
 
 const { 
