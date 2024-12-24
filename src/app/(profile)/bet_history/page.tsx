@@ -1,6 +1,6 @@
 'use client'
-import { useOtherContext } from '@/contexts/child_context/otherContext';
 import { useUser } from '@/contexts/child_context/userContext'
+import { useUserSlipContext } from '@/contexts/child_context/userSlipContext';
 import { formatAmount } from '@/lib/utils';
 import { UserData, UserGame } from '@/types/globals';
 import React, { useEffect, useState } from 'react'
@@ -8,7 +8,7 @@ import React, { useEffect, useState } from 'react'
 const BetHistory = () => {
 
     const { user } = useUser();
-    const { userSlips } = useOtherContext();
+    const { userSlips } = useUserSlipContext();
 
     const [userWithSlip, setUserWithSlip] = useState<UserGame[]>([]);
     const [showBets, setShowBet] = useState<string | number>('');

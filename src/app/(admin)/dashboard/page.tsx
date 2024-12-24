@@ -13,12 +13,12 @@ import {
 import Image from 'next/image';
 import User from '@/components/User';
 import { formatAmount } from '@/lib/utils';
-import { useOtherContext } from '@/contexts/child_context/otherContext';
+import { useTransactionContext } from '@/contexts/child_context/transactionContext';
 
 const Dashboard = () => {
 
     const { allUsers } = useUser();
-    const { transactions } = useOtherContext();
+    const { transactions } = useTransactionContext()
     const [selectedUser, setSelectedUser] = useState<UserData | string>('');
 
     let balance = 0;

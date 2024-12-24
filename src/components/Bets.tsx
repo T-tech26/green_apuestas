@@ -3,15 +3,15 @@
 import React, { useEffect, useState } from 'react'
 import { Button } from './ui/button'
 import { Input } from './ui/input';
-import { useOtherContext } from '@/contexts/child_context/otherContext';
 import { useUser } from '@/contexts/child_context/userContext';
 import { UserData, UserGame } from '@/types/globals';
 import { formatAmount } from '@/lib/utils';
+import { useUserSlipContext } from '@/contexts/child_context/userSlipContext';
 
 const Bets = () => {
 
   const { user } = useUser();
-  const { userSlips } = useOtherContext();
+  const { userSlips } = useUserSlipContext();
 
   const [selectedButton, setSelectedButton] = useState<string | null>('Open Bets');
   const [openBet, setOpenBet] = useState<UserGame>();

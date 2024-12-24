@@ -1,7 +1,7 @@
 'use client'
 import { MobileHomeMenuLinks } from '@/constants'
-import { useOtherContext } from '@/contexts/child_context/otherContext';
 import { useUser } from '@/contexts/child_context/userContext';
+import { useUserSlipContext } from '@/contexts/child_context/userSlipContext';
 import { UserData, UserGame } from '@/types/globals';
 import Image from 'next/image'
 import Link from 'next/link'
@@ -16,7 +16,7 @@ const MobileHomeMenu = ({selectedLink, setSelectedLink}: MobileMenuProps) => {
 
 
     const { user } = useUser();
-    const { userSlips } = useOtherContext();
+    const { userSlips } = useUserSlipContext();
 
     const [openBet, setOpenBet] = useState<UserGame>();
 

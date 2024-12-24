@@ -5,9 +5,9 @@ import Image from 'next/image'
 import { Input } from './ui/input';
 import { UserData, UserGame } from '@/types/globals';
 import { useUser } from '@/contexts/child_context/userContext';
-import { useOtherContext } from '@/contexts/child_context/otherContext';
 import { Button } from './ui/button';
 import { formatAmount } from '@/lib/utils';
+import { useUserSlipContext } from '@/contexts/child_context/userSlipContext';
 
 interface BetsProps {
     selectedLink: string | null;
@@ -18,7 +18,7 @@ interface BetsProps {
 const MobileBets = ({ selectedLink, setSelectedLink, type }: BetsProps) => {
 
     const { user } = useUser();
-    const { userSlips } = useOtherContext();
+    const { userSlips } = useUserSlipContext();
 
     const [openBet, setOpenBet] = useState<UserGame>();
     const [value, setValue] = useState('');

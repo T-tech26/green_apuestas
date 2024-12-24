@@ -1,9 +1,9 @@
 'use client'
-import { useOtherContext } from '@/contexts/child_context/otherContext';
 import { PaymentMethods } from '@/types/globals';
 import React, { useEffect, useState } from 'react'
 import PaymentProcess from './PaymentProcess';
 import { formatAmount } from '@/lib/utils';
+import { useTransactionContext } from '@/contexts/child_context/transactionContext';
 
 
 interface PaymentMethodProps {
@@ -12,7 +12,7 @@ interface PaymentMethodProps {
 
 const PaymentMethod = ({ id }: PaymentMethodProps) => {
 
-    const { paymentMethods } = useOtherContext();
+    const { paymentMethods } = useTransactionContext();
 
     const [type, setType] = useState<PaymentMethods[] | string>('');
     const [method, setMethod] = useState<PaymentMethods | string>('');

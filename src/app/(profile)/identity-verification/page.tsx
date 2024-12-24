@@ -4,14 +4,14 @@ import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { useUser } from '@/contexts/child_context/userContext'
 import { UserData, VerificationDocument } from '@/types/globals'
-import { useOtherContext } from '@/contexts/child_context/otherContext'
 import DocumentVerificationForm from '@/components/DocumentVerificationForm'
 import AllowVerification from '@/components/AllowVerification'
+import { useUserSlipContext } from '@/contexts/child_context/userSlipContext'
 
 const IdentityVerification = () => {
 
     const { user } = useUser();
-    const { verificationDocuments } = useOtherContext();
+    const { verificationDocuments } = useUserSlipContext();
 
     const [step, setStep] = useState('ID');
     const [idDocument, setIdDocument] = useState<VerificationDocument[]>([]);

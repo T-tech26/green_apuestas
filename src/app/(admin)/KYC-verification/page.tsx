@@ -1,11 +1,11 @@
 'use client'
 import { Button } from '@/components/ui/button'
-import { useOtherContext } from '@/contexts/child_context/otherContext'
 import { useUser } from '@/contexts/child_context/userContext'
 import { UserData, VerificationDocument } from '@/types/globals'
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import KYCLogDetails from '@/components/KYCLogDetails'
+import { useUserSlipContext } from '@/contexts/child_context/userSlipContext'
 
 
 
@@ -19,7 +19,7 @@ interface DocWithUser {
 const KYCVerification = () => {
 
     const { allUsers } = useUser();
-    const { verificationDocuments } = useOtherContext();
+    const { verificationDocuments } = useUserSlipContext();
 
     const [status, setStatus] = useState('pending');
     const [pendingDocuments, setPendingDocuments] = useState<DocWithUser[]>([]);

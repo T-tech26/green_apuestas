@@ -1,6 +1,6 @@
 'use client'
 import TransactionDetails from '@/components/TransactionDetails'
-import { useOtherContext } from '@/contexts/child_context/otherContext'
+import { useTransactionContext } from '@/contexts/child_context/transactionContext'
 import { useUser } from '@/contexts/child_context/userContext'
 import { formatAmount } from '@/lib/utils'
 import { Transaction, UserData } from '@/types/globals'
@@ -13,7 +13,7 @@ const TransactionHistory = () => {
     const [showDetails, setShowDetails] = useState<Transaction | string>('');
     const [transactionLoading, setTransactionLoading] = useState(true);
     const [userTransactions, setUserTransactions] = useState<Transaction[]>([]);
-    const { transactions } = useOtherContext();
+    const { transactions } = useTransactionContext();
     const { user } = useUser();
     
     /* eslint-disable react-hooks/exhaustive-deps */

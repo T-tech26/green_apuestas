@@ -11,10 +11,11 @@ import { useUser } from '@/contexts/child_context/userContext';
 import { formatAmount, generateDateString, transactionsWithImages } from '@/lib/utils';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useOtherContext } from '@/contexts/child_context/otherContext';
 import AllowVerification from './AllowVerification';
 import { toast } from '@/hooks/use-toast';
 import { adminNotification, createTransaction, getTransactions } from '@/lib/actions/userActions';
+import { useUserSlipContext } from '@/contexts/child_context/userSlipContext';
+import { useTransactionContext } from '@/contexts/child_context/transactionContext';
 
 
 interface WithdrawalFormProps {
@@ -27,7 +28,8 @@ interface WithdrawalFormProps {
 const WithdrawalForm = ({ step, setStep, method }: WithdrawalFormProps) => {
 
     const { user } = useUser();
-    const { setTransactions, verificationDocuments } = useOtherContext();
+    const { verificationDocuments } = useUserSlipContext();
+    const { setTransactions } = useTransactionContext();
 
     const [isLoading, setIsLoading] = useState(false);
     const [amountExceeded, setAmountExceeded] = useState(false);

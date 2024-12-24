@@ -9,10 +9,10 @@ import { UserData } from '@/types/globals';
 import { getVerificationDocuments, uploadDocument } from '@/lib/actions/userActions';
 import { verificationDocumentWithImages } from '@/lib/utils';
 import { useUser } from '@/contexts/child_context/userContext';
-import { useOtherContext } from '@/contexts/child_context/otherContext';
 import Image from 'next/image';
 import { Button } from './ui/button';
 import { Loader2 } from 'lucide-react';
+import { useUserSlipContext } from '@/contexts/child_context/userSlipContext';
 
 
 
@@ -25,7 +25,7 @@ const DocumentVerificationForm = ({ type }: DocumentVerificationFormProps) => {
 
 
     const { user } = useUser();
-    const { setVerificaitonDocuments } = useOtherContext();
+    const { setVerificaitonDocuments } = useUserSlipContext();
 
     const frontImgRef = useRef<HTMLInputElement | null>(null);
     const backImgRef = useRef<HTMLInputElement | null>(null);

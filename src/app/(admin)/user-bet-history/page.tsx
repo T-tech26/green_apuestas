@@ -1,7 +1,7 @@
 'use client'
 import { Button } from '@/components/ui/button';
-import { useOtherContext } from '@/contexts/child_context/otherContext';
 import { useUser } from '@/contexts/child_context/userContext'
+import { useUserSlipContext } from '@/contexts/child_context/userSlipContext';
 import { toast } from '@/hooks/use-toast';
 import { creditUserBalance, getGameTickets, showBetSlip, userNotification } from '@/lib/actions/userActions';
 import { formatAmount, generateDateString } from '@/lib/utils';
@@ -19,7 +19,7 @@ interface UserWithSlip {
 const UserBetHistory = () => {
 
     const { allUsers } = useUser();
-    const { userSlips, setUserSlips } = useOtherContext();
+    const { userSlips, setUserSlips } = useUserSlipContext();
 
     const [userWithBetSlip, setUserWithBetSlip] = useState<UserWithSlip[]>([]);
     const [showBets, setShowBet] = useState<string | number>('');

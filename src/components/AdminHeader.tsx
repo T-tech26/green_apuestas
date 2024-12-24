@@ -3,13 +3,13 @@ import React, { useState } from 'react'
 import AdminMobleMenu from './AdminMobleMenu'
 import Image from 'next/image'
 import { useUser } from '@/contexts/child_context/userContext';
-import { useOtherContext } from '@/contexts/child_context/otherContext';
 import Notifications from './Notifications';
+import { useNotificationContext } from '@/contexts/child_context/notificationContext';
 
 const AdminHeader = () => {
 
     const { admin } = useUser();
-    const { adminNotifications } = useOtherContext();
+    const { adminNotifications } = useNotificationContext();
 
     const [showNotification, setShowNotification] = useState(false);
 

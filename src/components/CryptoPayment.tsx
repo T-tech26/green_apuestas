@@ -8,11 +8,11 @@ import { Input } from './ui/input';
 import { Button } from './ui/button';
 import { Loader2 } from 'lucide-react';
 import { PaymentMethods } from '@/types/globals';
-import { useOtherContext } from '@/contexts/child_context/otherContext';
 import { createPaymentMethod, deletePaymentMethod, getPaymentMethods } from '@/lib/actions/userActions';
 import { toast } from '@/hooks/use-toast';
 import { formatAmount, paymentMethodsWithImages } from '@/lib/utils';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from './ui/table';
+import { useTransactionContext } from '@/contexts/child_context/transactionContext';
 
 const CryptoPayment = () => {
 
@@ -23,7 +23,7 @@ const CryptoPayment = () => {
     const [type, setType] = useState<PaymentMethods[] | string>('');
     const [deleteMethod, setDeleteMethod] = useState<string | PaymentMethods>('');
 
-    const { paymentMethods, setPaymentMethods } = useOtherContext();
+    const { paymentMethods, setPaymentMethods } = useTransactionContext();
 
 
     useEffect(() => {

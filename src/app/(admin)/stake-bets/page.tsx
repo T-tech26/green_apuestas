@@ -18,15 +18,15 @@ import { getUserNotification, userNotification } from '@/lib/actions/userActions
 import { toast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
 import UserBetUpload from '@/components/UserBetUpload';
-import { useOtherContext } from '@/contexts/child_context/otherContext';
 import { generateDateString } from '@/lib/utils';
+import { useNotificationContext } from '@/contexts/child_context/notificationContext';
 
 
 
 const StakeBets = () => {
 
     const { allUsers } = useUser();
-    const { setUserNotifications } = useOtherContext();
+    const { setUserNotifications } = useNotificationContext();
 
     const [loading, setLoading] = useState(false);
     const [status, setStatus] = useState<string>('stake');

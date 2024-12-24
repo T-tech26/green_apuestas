@@ -1,5 +1,4 @@
 'use client'
-import { useOtherContext } from '@/contexts/child_context/otherContext';
 import { useUser } from '@/contexts/child_context/userContext';
 import { UserData, VerificationDocument } from '@/types/globals';
 import React, { useEffect, useState } from 'react'
@@ -10,6 +9,8 @@ import { approveDocumentVerification, getUserNotification, getVerificationDocume
 import { toast } from '@/hooks/use-toast';
 import { generateDateString, verificationDocumentWithImages } from '@/lib/utils';
 import { Loader2 } from 'lucide-react';
+import { useUserSlipContext } from '@/contexts/child_context/userSlipContext';
+import { useNotificationContext } from '@/contexts/child_context/notificationContext';
 
 
 
@@ -24,7 +25,8 @@ const KYCLogs = () => {
 
 
     const { allUsers } = useUser();
-    const { setUserNotifications, verificationDocuments, setVerificaitonDocuments } = useOtherContext();
+    const { verificationDocuments, setVerificaitonDocuments } = useUserSlipContext();
+    const { setUserNotifications } = useNotificationContext();
 
     const [pendingDocuments, setPendingDocuments] = useState<DocWithUser[]>([]);
     const [showDetails, setShowDetails] = useState<DocWithUser | string>('');

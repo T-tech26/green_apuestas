@@ -13,14 +13,14 @@ import { Input } from '@/components/ui/input';
 import { Loader2 } from 'lucide-react';
 import { createBankDetails, deleteBankDetails, getBankDetails } from '@/lib/actions/userActions';
 import { useUser } from '@/contexts/child_context/userContext';
-import { useOtherContext } from '@/contexts/child_context/otherContext';
 import WithdrawalForm from '@/components/WithdrawalForm';
+import { useTransactionContext } from '@/contexts/child_context/transactionContext';
 
 
 const Withdrawal = () => {
 
     const { user } = useUser();
-    const { bankDetails, setBankDetails } = useOtherContext();
+    const { bankDetails, setBankDetails } = useTransactionContext();
 
     const [isLoading, setIsLoading] = useState(false);
     const [uploadAnother, setUploadAnother] = useState(false);

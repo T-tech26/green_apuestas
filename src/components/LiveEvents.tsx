@@ -12,9 +12,13 @@ const LiveEvents = ({ selectedEvent }: LiveEventProps) => {
     const [lives, setLives] = useState<LiveMatch[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
+    
+
     useEffect(() => {
         fetchLiveMatches(setLives, setIsLoading);
     }, []);
+
+
 
     return (
         <div>

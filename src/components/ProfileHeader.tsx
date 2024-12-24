@@ -4,14 +4,14 @@ import Image from "next/image";
 import { useUser } from '@/contexts/child_context/userContext';
 import { UserData } from '@/types/globals';
 import ProfileMobleMenu from './ProfileMobleMenu';
-import { useOtherContext } from '@/contexts/child_context/otherContext';
 import Notifications from './Notifications';
 import { formatAmount } from '@/lib/utils';
+import { useNotificationContext } from '@/contexts/child_context/notificationContext';
 
 const ProfileHeader = () => {
 
     const { user } = useUser();
-    const { userNotifications } = useOtherContext();
+    const { userNotifications } = useNotificationContext();
     
     const [showNotification, setShowNotification] = useState(false);
 

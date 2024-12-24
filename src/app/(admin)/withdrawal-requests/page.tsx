@@ -1,6 +1,5 @@
 'use client'
 import { Button } from '@/components/ui/button';
-import { useOtherContext } from '@/contexts/child_context/otherContext';
 import { toast } from '@/hooks/use-toast';
 import { creditUserBalance, getTransactions, transactionStatus, userNotification } from '@/lib/actions/userActions';
 import { formatAmount, generateDateString, transactionsWithImages } from '@/lib/utils';
@@ -8,6 +7,7 @@ import { Transaction } from '@/types/globals';
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image';
 import TransactionDetails from '@/components/TransactionDetails';
+import { useTransactionContext } from '@/contexts/child_context/transactionContext';
 
 
 const WithdrawalRequest = () => {
@@ -17,7 +17,7 @@ const WithdrawalRequest = () => {
     const [transactionLoading, setTransactionLoading] = useState(true);
     const [showDetails, setShowDetails] = useState<Transaction | string>('');
 
-    const { transactions, setTransactions } = useOtherContext();
+    const { transactions, setTransactions } = useTransactionContext();
 
 
     /* eslint-disable react-hooks/exhaustive-deps */

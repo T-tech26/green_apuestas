@@ -1,11 +1,11 @@
 'use client'
-import { useOtherContext } from '@/contexts/child_context/otherContext'
 import { deleteAdminNotification, deleteUserNotification, getAdminNotification, getUserNotification } from '@/lib/actions/userActions'
 import { UserData, Notifications as AdminNotifications } from '@/types/globals'
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { useUser } from '@/contexts/child_context/userContext'
 import { formatAmount } from '@/lib/utils'
+import { useNotificationContext } from '@/contexts/child_context/notificationContext'
 
 interface NotificationsProps {
     setShow: (newShow: boolean) => void,
@@ -23,7 +23,7 @@ const Notifications = ({ setShow, type }: NotificationsProps) => {
 
 
     const { user, allUsers } = useUser();
-    const { userNotifications, setUserNotifications, adminNotifications, setAdminNotifications } = useOtherContext();
+    const { userNotifications, setUserNotifications, adminNotifications, setAdminNotifications } = useNotificationContext();
 
     const [userWithNotification, setUserWithNotification] = useState<AdminNotifications[]>([]);
     const [adminWithNotification, setAdminWithNotification] = useState<UserWithNotify[]>([]);

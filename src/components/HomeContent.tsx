@@ -10,27 +10,30 @@ interface HomeContentProps {
 
 const HomeContent = ({ selectedEvent }: HomeContentProps) => {
 
-  return (
-    <div className='flex flex-col gap-5'>
-        {selectedEvent === 'All' && (
-          <>
-            <LiveEvents selectedEvent={selectedEvent} />
-            <TodayEvents />
-            <TomorrowEvents />
-            <OtherDayEvents />
-          </>
-        )}
-        {selectedEvent === 'Live' && (
-          <LiveEvents selectedEvent={selectedEvent} />
-        )}
-        {selectedEvent === 'Today' && (
-          <TodayEvents />
-        )}
-        {selectedEvent === 'Tomorrow' && (
-          <TomorrowEvents />
-        )}
-    </div>
-  )
+    return (
+        <div className='flex flex-col gap-5'>
+            {selectedEvent === 'All' && (
+                <>
+                    <LiveEvents selectedEvent={selectedEvent} />
+                    <TodayEvents />
+                    <TomorrowEvents />
+                    <OtherDayEvents />
+                </>
+            )}
+
+            {selectedEvent === 'Live' && (
+                <LiveEvents selectedEvent={selectedEvent} />
+            )}
+
+            {selectedEvent === 'Today' && (
+                <TodayEvents />
+            )}
+
+            {selectedEvent === 'Tomorrow' && (
+                <TomorrowEvents />
+            )}
+        </div>
+    )
 }
 
 export default HomeContent

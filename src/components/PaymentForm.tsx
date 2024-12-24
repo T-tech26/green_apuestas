@@ -14,7 +14,7 @@ import { useUser } from '@/contexts/child_context/userContext';
 import { Loader2 } from 'lucide-react';
 import { formatAmount, paymentFormSchema, transactionsWithImages } from '@/lib/utils';
 import PaymentDetails from './PaymentDetails';
-import { useOtherContext } from '@/contexts/child_context/otherContext';
+import { useTransactionContext } from '@/contexts/child_context/transactionContext';
 
 
 
@@ -32,7 +32,7 @@ const PaymentForm = ({ methodType, setMethod }: MethodProps) => {
     const [equivalentAmountInCurrency, setEquivalentAmountInCurrency] = useState<number | string>(0);
 
     const { user } = useUser();
-    const { setTransactions } = useOtherContext();
+    const { setTransactions } = useTransactionContext();
 
 
     /* eslint-disable @typescript-eslint/no-explicit-any */
