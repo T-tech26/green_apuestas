@@ -24,12 +24,13 @@ const MobileLeagues = ({ selectedLink, setSelectedLink }: MobileLeaguesProps) =>
     }, [leagues]);
 
 
-
+    /* eslint-disable react-hooks/exhaustive-deps */
     useEffect(() => {
         const searchedLeague = leagues.filter(league => league.name.includes(searchLeague));
 
         setSearchedLeagues(searchedLeague);
     }, [searchLeague]);
+    /* eslint-enable react-hooks/exhaustive-deps */
 
     
 

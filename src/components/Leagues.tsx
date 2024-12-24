@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
-import { z } from 'zod'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Form, FormControl, FormField, FormMessage } from './ui/form'
 import { Input } from './ui/input'
 import { useLeague } from '@/contexts/child_context/leagueContext'
 import { Loader2 } from 'lucide-react'
@@ -24,12 +20,13 @@ const Leagues = () => {
     }, [leagues]);
 
 
-
+    /* eslint-disable react-hooks/exhaustive-deps */
     useEffect(() => {
         const searchedLeague = leagues.filter(league => league.name.includes(searchLeague));
 
         setSearchedLeagues(searchedLeague);
     }, [searchLeague]);
+    /* eslint-enable react-hooks/exhaustive-deps */
 
 
 
