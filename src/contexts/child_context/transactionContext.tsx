@@ -1,3 +1,4 @@
+'use client'
 import { getBankDetails, getPaymentMethods, getTransactions } from "@/lib/actions/userActions";
 import { paymentMethodsWithImages, transactionsWithImages } from "@/lib/utils";
 import { BankDetails, PaymentMethods, Transaction } from "@/types/globals";
