@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input'
 import { useUser } from '@/contexts/child_context/userContext'
 import { useToast } from '@/hooks/use-toast'
 import { getLoggedInUser, signin } from '@/lib/actions/userActions'
-import { isAdmin, isUserData } from '@/lib/utils'
+import { isAdmin, isUserData, loggedInAdminWithImage, loggedInUserWithImage } from '@/lib/utils'
 import { UserData } from '@/types/globals'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
@@ -28,24 +28,31 @@ const Signin = () => {
 
   /* eslint-disable react-hooks/exhaustive-deps */
     useEffect(() => {
-      const loggIn = async () => {
-        if(!admin.label.length && typeof user !== 'object') {
-          const loggedIn = await getLoggedInUser();
-          
-          if(isAdmin(loggedIn)) { setAdmin(loggedIn); return; }
+        const loggIn = async () => {
+            if(!admin.label.length && typeof user !== 'object') {
+                const loggedIn = await getLoggedInUser();
+                
+                if(isAdmin(loggedIn)) { 
+                    const adminWithImage = loggedInAdminWithImage(loggedIn);
+                    setAdmin(adminWithImage);
+                    return;
+                }
 
-          if(isUserData(loggedIn)) { setUser(loggedIn); return; }
-        } else {
+                if(isUserData(loggedIn)) { 
+                    const userWithImage = loggedInUserWithImage(loggedIn);
+                    setUser(userWithImage); 
+                }
+            } else {
 
-          if((user as UserData)?.subscription === false) { redirect('/subscription'); } 
-  
-          if((user as UserData)?.subscription === true) { redirect('/'); } 
-  
-          if(admin.label.length) { redirect('/dashboard') }
+                if((user as UserData)?.subscription === false) { redirect('/subscription'); } 
+        
+                if((user as UserData)?.subscription === true) { redirect('/'); } 
+        
+                if(admin.label.length) { redirect('/dashboard') }
+            }
         }
-      }
 
-      loggIn()
+        loggIn()
     }, [user, admin])
     /* eslint-enable react-hooks/exhaustive-deps */
     
@@ -90,9 +97,16 @@ const Signin = () => {
 
       const loggedIn = await getLoggedInUser();
 
-      if(isAdmin(loggedIn)) { setAdmin(loggedIn); }
+    if(isAdmin(loggedIn)) { 
+        const adminWithImage = loggedInAdminWithImage(loggedIn);
+        setAdmin(adminWithImage);
+        return;
+    }
 
-      if(isUserData(loggedIn)) { setUser(loggedIn); }
+    if(isUserData(loggedIn)) { 
+        const userWithImage = loggedInUserWithImage(loggedIn);
+        setUser(userWithImage);
+    }
 
     } catch (error) {
       console.error("Error signing in ", error);

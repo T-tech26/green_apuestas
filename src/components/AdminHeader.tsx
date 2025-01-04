@@ -5,6 +5,8 @@ import Image from 'next/image'
 import { useUser } from '@/contexts/child_context/userContext';
 import Notifications from './Notifications';
 import { useNotificationContext } from '@/contexts/child_context/notificationContext';
+import { Admin } from '@/types/globals';
+import ProfileImageForm from './ProfileImageForm';
 
 const AdminHeader = () => {
 
@@ -12,6 +14,8 @@ const AdminHeader = () => {
     const { adminNotifications } = useNotificationContext();
 
     const [showNotification, setShowNotification] = useState(false);
+    const [profile, setProfile] = useState(false);
+
 
     return (
         <>
@@ -20,12 +24,27 @@ const AdminHeader = () => {
                     <AdminMobleMenu />
                     
                     <div className="flex items-center py-1 px-3 rounded-md gap-4">
-                        <Image
-                            src='/profile-icon.svg'
-                            width={40}
-                            height={40}
-                            alt='profile icon'
-                        />
+                        {(admin as Admin).adminImg !== '' ? (
+                            /* eslint-disable @next/next/no-img-element */
+                            <img
+                                src={(admin as Admin).adminImg ? (admin as Admin).adminImg : ''}
+                                width={40}
+                                height={40}
+                                alt='profile image'
+                                className='rounded-full cursor-pointer size-10'
+                                onClick={() => setProfile(!profile)}
+                            />
+                            /* eslint-enable @next/next/no-img-element */
+                        ) : (
+                            <Image
+                                src='/profile-icon.svg'
+                                width={40}
+                                height={40}
+                                alt='profile icon'
+                                className='cursor-pointer'
+                                onClick={() => setProfile(!profile)}
+                            />
+                        )}
 
                         <p className='text-color-60 text-sm'>Welcome, {admin.name}</p>
 
@@ -60,6 +79,10 @@ const AdminHeader = () => {
             {showNotification && (
                 <Notifications setShow={setShowNotification} type='admin' />
             )}
+
+            {profile === true && (
+                <ProfileImageForm setProfile={setProfile} type='admin' />
+            )}  
         </>
     )
 }

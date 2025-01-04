@@ -1,4 +1,4 @@
-import { Admin, Payment, PaymentMethods, Transaction, Transactions, UserData, VerificationDocument, VerificationDocuments } from "@/types/globals"
+import { Admin, AdminDataWithImage, Payment, PaymentMethods, Transaction, Transactions, UserData, UserDataWithImage, VerificationDocument, VerificationDocuments } from "@/types/globals"
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 import { z } from "zod"
@@ -134,14 +134,15 @@ export const paymentFormSchema = z.object({
 
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-export const isAdmin = (user: any): user is Admin => {
-  return user.label !== undefined;
+export const isAdmin = (user: any): user is AdminDataWithImage => {
+    if (user.admin === undefined) { return false };
+  return user.admin.label !== undefined;
 }
 
 
 // Type guard to check if the object is of type UserData
-export const isUserData = (user: any): user is UserData => {
-  return user.userId !== undefined;
+export const isUserData = (user: any): user is UserDataWithImage => {
+  return user.user.userId !== undefined;
 }
 /* eslint-enable @typescript-eslint/no-explicit-any */
 
@@ -213,4 +214,32 @@ export const verificationDocumentWithImages = (documents: VerificationDocuments)
             backUrl: backImage && `${process.env.NEXT_PUBLIC_APPWRITE_PUBLIC_URL}/storage/buckets/${process.env.NEXT_PUBLIC_APPWRITE_VERIFICATION_DOCUMENT_BUCKET_ID}/files/${backImage.$id}/view?project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID}&project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID}&mode=admin`,
         };
     })
+};
+
+
+// Map over the payment methods and match logos to images
+export const loggedInUserWithImage = (user: UserDataWithImage): UserData => {
+  
+    const profileImage = (user as UserDataWithImage).image.name !== undefined ? (user as UserDataWithImage).image.name === (user as UserDataWithImage).user.profileImg : '';
+
+    const { profileImgUrl, ...data } = (user as UserDataWithImage).user;
+
+    return {
+        ...data,
+        profileImgUrl: profileImage !== '' ? `${process.env.NEXT_PUBLIC_APPWRITE_PUBLIC_URL}/storage/buckets/${process.env.NEXT_PUBLIC_APPWRITE_PAYMENT_METHOD_LOGO_BUCKET_ID}/files/${(user as UserDataWithImage).image.$id}/view?project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID}&project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID}&mode=admin` : profileImage,
+    };
+};
+
+
+// Map over the payment methods and match logos to images
+export const loggedInAdminWithImage = (user: AdminDataWithImage): Admin => {
+  
+    const image = (user as AdminDataWithImage).image.name;
+
+    const { adminImg, ...data } = (user as AdminDataWithImage).admin;
+
+    return {
+        ...data,
+        adminImg: image !== undefined ? `${process.env.NEXT_PUBLIC_APPWRITE_PUBLIC_URL}/storage/buckets/${process.env.NEXT_PUBLIC_APPWRITE_PAYMENT_METHOD_LOGO_BUCKET_ID}/files/${(user as AdminDataWithImage).image.$id}/view?project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID}&project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID}&mode=admin` : '',
+    };
 };

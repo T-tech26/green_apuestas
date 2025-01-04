@@ -140,7 +140,7 @@ const PaymentForm = ({ methodType, setMethod }: MethodProps) => {
             try {
                 const response = await createTransaction(data.reciept, data.amount, methodType, transactionTime, userId, 'Deposit');
         
-                if(response !== 'Success') {
+                if(response !== 'success') {
                     toast({
                         description: 'Something went wrong! try again'
                     })

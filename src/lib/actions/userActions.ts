@@ -3,7 +3,7 @@
 import { ID, Query } from "node-appwrite";
 import { createAdminClient, createSessionClient } from "../appwrite/config";
 import { cookies } from "next/headers";
-import { Admin, BankDetails, Payment, PaymentMethod, PaymentMethods, registerParams, Transactions, UploadDocument, UserData, UserGame, VerificationDocuments } from "@/types/globals";
+import { Admin, AdminDataWithImage, BankDetails, LoggedInUser, Payment, PaymentMethod, PaymentMethods, registerParams, Transactions, UploadDocument, UserData, UserDataWithImage, UserGame, VerificationDocuments } from "@/types/globals";
 import { parseStringify } from "../utils";
 
 const { 
@@ -20,7 +20,8 @@ const {
     APPWRITE_ADMIN_NOTIFICATION_COLLECTION_ID,
     APPWRITE_BANK_DETAILS_COLLECTION_ID,
     APPWRITE_VERIFICATION_DOCUMENT_BUCKET_ID,
-    APPWRITE_VERIFICATION_DOCUMENT_COLLECTION_ID
+    APPWRITE_VERIFICATION_DOCUMENT_COLLECTION_ID,
+    APPWRITE_ADMIN_PROFILE_IMAGE_COLLECTION_ID
  } = process.env;
 
 
@@ -123,28 +124,53 @@ export const logOut = async () => {
 };
 
 
-export const getLoggedInUser = async (): Promise<UserData | Admin | string> => {
+export const getLoggedInUser = async (): Promise<UserDataWithImage | AdminDataWithImage | string> => {
     try {
         const { account } = await createSessionClient(); 
-        const { database } = await createAdminClient()
+        const { database, storage } = await createAdminClient()
         const loggedInUser = await account.get();  // Get the logged-in user
         
         let id;
-        
-        /* eslint-disable @typescript-eslint/no-explicit-any */
-        if(loggedInUser && (loggedInUser as any)?.labels[0] === 'admin') {
-        /* eslint-enable @typescript-eslint/no-explicit-any */
+
+
+        if(loggedInUser && (loggedInUser as LoggedInUser)?.labels[0] === 'admin') {
+
+            id = (loggedInUser as LoggedInUser).$id;
+
+            const adminProfileImg = await database.listDocuments(
+                APPWRITE_DATABASE_ID!,
+                APPWRITE_ADMIN_PROFILE_IMAGE_COLLECTION_ID!,
+            )
+
+            if(adminProfileImg.documents.length > 0) {
+                
+                const profileImg = await storage.listFiles(
+                    APPWRITE_PAYMENT_METHOD_LOGO_BUCKET_ID!,
+                )
+
+                
+                const image = profileImg.files.find(img => img.name === adminProfileImg.documents[0].fileName);
+
+                const isAdmin: Admin = {
+                    $id: loggedInUser.$id,
+                    name: loggedInUser.name,
+                    label: loggedInUser.labels,
+                };
+
+                return parseStringify({ admin: isAdmin, image: image });
+            }
+
             const isAdmin: Admin = {
+                $id: loggedInUser.$id,
                 name: loggedInUser.name,
-                label: loggedInUser.labels
+                label: loggedInUser.labels,
             };
 
-            return parseStringify(isAdmin);
+            return parseStringify({ admin: isAdmin, image: {} });
         }
 
-        /* eslint-disable @typescript-eslint/no-explicit-any */
-        if(loggedInUser && (loggedInUser as any)?.$id) id = (loggedInUser as any)?.$id;
-        /* eslint-enable @typescript-eslint/no-explicit-any */
+
+        if(loggedInUser && (loggedInUser as LoggedInUser)?.$id) id = (loggedInUser as any)?.$id;
 
         const user = await database.listDocuments(
             APPWRITE_DATABASE_ID!,
@@ -152,7 +178,17 @@ export const getLoggedInUser = async (): Promise<UserData | Admin | string> => {
             [Query.equal('userId', id)]
         )
 
-        return parseStringify(user.documents[0]);  // Assuming parseStringify formats the user object
+        const profileImg = await storage.listFiles(
+            APPWRITE_PAYMENT_METHOD_LOGO_BUCKET_ID!,
+        )
+
+        const image = profileImg.files.find(img => img.name === user.documents[0].profileImg);
+
+        if(image !== undefined) {
+            return parseStringify({ user: user.documents[0], image: image });  // Assuming parseStringify formats the user object
+        } 
+
+        return parseStringify({ user: user.documents[0], image: {} });  // Assuming parseStringify formats the user object
     } catch (error) {
         console.error("Error getting logged in user", error);
         
@@ -402,21 +438,28 @@ export const createPaymentMethod = async ({ logo, ...data }: PaymentMethod) => {
     try {
         const { database, storage } = await createAdminClient();
 
+        const logoName = Math.floor(Math.random() * 900000000000) + 100000000000;
+
         await database.createDocument(
             APPWRITE_DATABASE_ID!,
             APPWRITE_PAYMENT_METHOD_COLLECTION_ID!,
             ID.unique(),
             {
                 ...data,
-                logo: `${logo.name}`
+                logo: `${logoName}-${logo.name}`
             }
         )
+
+        const { name, type } = logo;
+        
+        const imgWithEditedName = new File([logo], `${logoName}-${name}`, { type });
 
         await storage.createFile(
             APPWRITE_PAYMENT_METHOD_LOGO_BUCKET_ID!,
             ID.unique(),
-            logo
+            imgWithEditedName
         )
+
     } catch (error) {
         console.error('Error creating payment method ', error);
         /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -493,6 +536,8 @@ export const createTransaction = async (
     try {
         const { database, storage } = await createAdminClient();
 
+        const recieptName = Math.floor(Math.random() * 900000000000) + 100000000000;
+
         if(type === 'Withdrawal') {
             
             await database.createDocument(
@@ -529,7 +574,7 @@ export const createTransaction = async (
                 transaction_method: (method as PaymentMethods).type,
                 transaction_status: 'pending',
                 amount: amount,
-                reciept: (reciept as File).name,
+                reciept: `${recieptName}-${(reciept as File).name}`,
                 transaction_time: time,
                 userId: userId,
                 transaction_details: {
@@ -551,10 +596,14 @@ export const createTransaction = async (
             }
         );
 
+        const { name, type: recieptType } = (reciept as File);
+
+        const editedReciept = new File([(reciept as File)], `${recieptName}-${name}`, { type: recieptType });
+
         await storage.createFile(
             APPWRITE_PAYMENT_RECIEPT_LOGO_BUCKET_ID!,
             ID.unique(),
-            (reciept as File)
+            editedReciept
         );
 
         return 'success';
@@ -936,27 +985,39 @@ export const uploadDocument = async ({ front, back, ...data }: UploadDocument) =
     try {
         const { database, storage } = await createAdminClient();
 
+        const docImg = Math.floor(Math.random() * 900000000000) + 100000000000;
+
         await database.createDocument(
             APPWRITE_DATABASE_ID!,
             APPWRITE_VERIFICATION_DOCUMENT_COLLECTION_ID!,
             ID.unique(),
             {
                 ...data,
-                front: `${front.name}`,
-                back: `${back.name}`
+                front: `${docImg}-${front.name}`,
+                back: `${docImg}-${back.name}`
             }
         )
 
+
+        const { name: frontImg, type: frontImgType } = front;
+
+        const { name: backImg, type: backImgType } = back;
+        
+        const forntImgEditedName = new File([front], `${docImg}-${frontImg}`, { type: frontImgType });
+        
+        const backImgEditedName = new File([back], `${docImg}-${backImg}`, { type: backImgType });
+
+
         await storage.createFile(
             APPWRITE_VERIFICATION_DOCUMENT_BUCKET_ID!,
             ID.unique(),
-            front
+            forntImgEditedName
         )
 
         await storage.createFile(
             APPWRITE_VERIFICATION_DOCUMENT_BUCKET_ID!,
             ID.unique(),
-            back
+            backImgEditedName
         )
 
         return 'success';
@@ -1101,6 +1162,130 @@ export const approveDocumentVerification = async (id: string, type: string, acti
         }
     } catch (error) {
         console.error('Error handling document verification status', error);
+        /* eslint-disable @typescript-eslint/no-explicit-any */
+        return `${(error as any)?.message}, try again`;
+        /* eslint-enable @typescript-eslint/no-explicit-any */
+    }
+}
+
+
+export const createProfileImage = async (image: File, userId: string, userType: string) => {
+
+    try {
+        const { database, storage } = await createAdminClient();
+
+        if(userType === 'admin') {
+            const adminImg = await database.listDocuments(
+                APPWRITE_DATABASE_ID!,
+                APPWRITE_ADMIN_PROFILE_IMAGE_COLLECTION_ID!
+            )
+
+            if(adminImg.documents.length > 0) {
+                const img = await storage.listFiles(
+                    APPWRITE_PAYMENT_METHOD_LOGO_BUCKET_ID!,
+                    [Query.equal('name', adminImg.documents[0].fileName)]
+                )
+    
+                if(img.files[0].$id) {
+                    await storage.deleteFile(
+                        APPWRITE_PAYMENT_METHOD_LOGO_BUCKET_ID!,
+                        img.files[0].$id
+                    )
+                }
+
+
+                await database.updateDocument(
+                    APPWRITE_DATABASE_ID!,
+                    APPWRITE_ADMIN_PROFILE_IMAGE_COLLECTION_ID!,
+                    adminImg.documents[0].$id,
+                    { 'fileName': `${userId}-${image.name}` }
+                )
+
+                const { name, type } = image;
+        
+                const imgWithEditedName = new File([image], `${userId}-${name}`, { type })
+
+                await storage.createFile(
+                    APPWRITE_PAYMENT_METHOD_LOGO_BUCKET_ID!,
+                    ID.unique(),
+                    imgWithEditedName
+                )
+
+                return 'success';
+            }
+
+            await database.createDocument(
+                APPWRITE_DATABASE_ID!,
+                APPWRITE_ADMIN_PROFILE_IMAGE_COLLECTION_ID!,
+                ID.unique(),
+                {
+                    userId: userId,
+                    fileName: `${userId}-${image.name}`
+                }
+            )
+
+
+            const { name, type } = image;
+        
+            const imgWithEditedName = new File([image], `${userId}-${name}`, { type })
+
+
+            await storage.createFile(
+                APPWRITE_PAYMENT_METHOD_LOGO_BUCKET_ID!,
+                ID.unique(),
+                imgWithEditedName
+            )
+
+            return 'success';
+        }
+
+
+        const user = await database.listDocuments(
+            APPWRITE_DATABASE_ID!,
+            APPWRITE_USERS_COLLECTION_ID!,
+           [Query.equal('userId', userId)]
+        )
+
+        if(!user.documents.length) return;
+
+        const databasseImage = user.documents[0].profileImg;
+
+        if(databasseImage !== null) {
+            const img = await storage.listFiles(
+                APPWRITE_PAYMENT_METHOD_LOGO_BUCKET_ID!,
+                [Query.equal('name', user.documents[0].profileImg)]
+            )
+
+
+            if(img.files[0].$id) {
+                await storage.deleteFile(
+                    APPWRITE_PAYMENT_METHOD_LOGO_BUCKET_ID!,
+                    img.files[0].$id
+                )
+            }
+        }
+
+        await database.updateDocument(
+            APPWRITE_DATABASE_ID!,
+            APPWRITE_USERS_COLLECTION_ID!,
+            user.documents[0].$id,
+            { 'profileImg': `${userId}-${image.name}` }
+        )
+        
+
+        const { name, type } = image;
+        
+        const imgWithEditedName = new File([image], `${userId}-${name}`, { type });
+
+        await storage.createFile(
+            APPWRITE_PAYMENT_METHOD_LOGO_BUCKET_ID!,
+            ID.unique(),
+            imgWithEditedName
+        )
+
+        return 'success';
+    } catch (error) {
+        console.error('Error creating profile image ', error);
         /* eslint-disable @typescript-eslint/no-explicit-any */
         return `${(error as any)?.message}, try again`;
         /* eslint-enable @typescript-eslint/no-explicit-any */

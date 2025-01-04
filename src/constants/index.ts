@@ -178,7 +178,7 @@ export const AdminSubMenuLinks = [
             },
             {
                 route: '/user-bet-history',
-                icon: '/betSlip-icon.svg',
+                icon: '/betslip-icon.svg',
                 name: 'Bet history'
             }
         ]

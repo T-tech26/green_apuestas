@@ -1,7 +1,7 @@
 'use client'
 
 import { getAllUsers, getLoggedInUser } from '@/lib/actions/userActions';
-import { isAdmin, isUserData } from '@/lib/utils';
+import { isAdmin, isUserData, loggedInAdminWithImage, loggedInUserWithImage } from '@/lib/utils';
 import { Admin, UserData } from '@/types/globals';
 import { ReactNode, createContext, useContext, useEffect, useState } from 'react'
 
@@ -25,7 +25,7 @@ export const UserContext = createContext<UserType | undefined>(undefined);
 export const UserProvider = ({ children }: { children: ReactNode }) => {
     const [user, setUser] = useState<UserData | string>('');
     const [allUsers, setAllUsers] = useState<UserData[] | string>('');
-    const [admin, setAdmin] = useState<Admin>({ name: '', label: [] });
+    const [admin, setAdmin] = useState<Admin>({ $id: '', name: '', label: [] });
     const [isLoading, setIsLoading] = useState(true);
 
 
@@ -38,10 +38,20 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
                 const users = await getAllUsers();
 
                 if (typeof user === "object" && Array.isArray(users)) {
-
-                    if(isAdmin(user)) { setAdmin(user); }
-                    if(isUserData(user)) { setUser(user); }
+                    
                     setAllUsers(users);
+
+                    if(isAdmin(user)) { 
+                        const adminWithImage = loggedInAdminWithImage(user);
+                        setAdmin(adminWithImage); 
+                        setIsLoading(false);
+                        return;
+                    }
+
+                    if(isUserData(user)) { 
+                        const userWithImage = loggedInUserWithImage(user);
+                        setUser(userWithImage); 
+                    }
                     setIsLoading(false);
                 }
 

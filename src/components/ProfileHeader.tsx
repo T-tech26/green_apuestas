@@ -7,6 +7,7 @@ import ProfileMobleMenu from './ProfileMobleMenu';
 import Notifications from './Notifications';
 import { formatAmount } from '@/lib/utils';
 import { useNotificationContext } from '@/contexts/child_context/notificationContext';
+import ProfileImageForm from './ProfileImageForm';
 
 const ProfileHeader = () => {
 
@@ -14,7 +15,10 @@ const ProfileHeader = () => {
     const { userNotifications } = useNotificationContext();
     
     const [showNotification, setShowNotification] = useState(false);
+    const [profile, setProfile] = useState(false);
 
+
+    
     return (
         <>
             {typeof user === 'object' ? (
@@ -22,12 +26,27 @@ const ProfileHeader = () => {
                     <ProfileMobleMenu />
                     
                     <div className="flex items-center py-1 px-3 rounded-md gap-5">
-                        <Image
-                            src='/profile-icon.svg'
-                            width={40}
-                            height={40}
-                            alt='profile icon'
-                        />
+                        {(user as UserData).profileImg !== null ? (
+                            /* eslint-disable @next/next/no-img-element */
+                            <img
+                                src={(user as UserData).profileImgUrl ? (user as UserData).profileImgUrl : ''}
+                                width={40}
+                                height={40}
+                                alt='profile image'
+                                className='rounded-full cursor-pointer size-10'
+                                onClick={() => setProfile(!profile)}
+                            />
+                            /* eslint-enable @next/next/no-img-element */
+                        ) : (
+                            <Image
+                                src='/profile-icon.svg'
+                                width={40}
+                                height={40}
+                                alt='profile icon'
+                                className='cursor-pointer'
+                                onClick={() => setProfile(!profile)}
+                            />
+                        )}
 
                         <div>
                             <p className='text-color-60 text-sm'>{`${(user as UserData)?.lastname} ${(user as UserData)?.firstname}`}</p>
@@ -63,6 +82,10 @@ const ProfileHeader = () => {
             {showNotification && (
                 <Notifications setShow={setShowNotification} type='user' />
             )}
+
+            {profile === true && (
+                <ProfileImageForm setProfile={setProfile} type='user' />
+            )}  
         </>
     )
 }

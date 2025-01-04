@@ -55,7 +55,7 @@ const WithdrawalForm = ({ step, setStep, method }: WithdrawalFormProps) => {
 
 
     const formSchema = z.object({
-        amount: z.string().min(6, { message: 'Pin must be 6 digits' }).max(6, { message: 'Pin must be 6 digits' }),
+        amount: z.string().min(3),
     });
 
 

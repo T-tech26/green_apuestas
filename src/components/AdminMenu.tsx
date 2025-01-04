@@ -20,7 +20,7 @@ const AdminMenu = () => {
         const response = await logOut();
 
         if(response === 'success') {
-            setAdmin({ name: '', label: [] });
+            setAdmin({ $id: '', name: '', label: [] });
             return redirect('/signin');
         }
     }

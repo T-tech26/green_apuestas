@@ -44,14 +44,14 @@ const BetHistory = () => {
                 <h1 className='text-lg text-color-60 font-medium mb-5'>BET HISTORY</h1>
 
                 {userWithSlip.length > 0 ? (
-                    <>
+                    <div className='flex flex-col items-center gap-4'>
                         {userWithSlip.map((slip, index) => {
 
                             if(!slip.showBet) {
                                 return (
                                     <div 
                                         key={slip.$id}
-                                        className={`bg-color-30 rounded-md min-w-[300px] animate-pulse h-[48px] overflow-hidden cursor-pointer ${
+                                        className={`bg-color-30 rounded-md w-[330px] animate-pulse h-[48px] overflow-hidden cursor-pointer ${
                                             showBets === slip.$id ? 'showBets' : 'hideBets'
                                         }`}
                                         onClick={() => handleAnimation((slip.$id as string), index)}
@@ -117,7 +117,7 @@ const BetHistory = () => {
                             return (
                                 <div 
                                     key={slip.$id}
-                                    className={`bg-color-30 rounded-md min-w-[300px] h-[48px] overflow-hidden cursor-pointer ${
+                                    className={`bg-color-30 rounded-md w-[330px] h-[48px] overflow-hidden cursor-pointer ${
                                         showBets === slip.$id ? 'showBets' : 'hideBets'
                                     }`}
                                     onClick={() => handleAnimation((slip.$id as string), index)}
@@ -180,7 +180,7 @@ const BetHistory = () => {
                                 </div>
                             )
                         })}
-                    </>
+                    </div>
                 ) : !userBetsLoading ? (
                     <div className='w-full py-4 flex flex-col items-center justify-center gap-2'>
                         <p className='text-color-60 text-sm font-semibold'>No bets!</p>

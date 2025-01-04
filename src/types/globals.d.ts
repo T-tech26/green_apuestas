@@ -184,6 +184,8 @@ export interface UserData {
   allowVerification: boolean,
   chargesPaid: boolean,
   premiumCard: boolean,
+  profileImg: string | null,
+  profileImgUrl: string,
   $id: string,
   $createdAt?: string,
   $updatedAt?: string,
@@ -397,8 +399,10 @@ export interface Notifications {
 
 
 export interface Admin {
+  $id: string,
   name: string,
   label: string[],
+  adminImg?: string,
 }
 
 
@@ -450,6 +454,51 @@ export interface VerificationDocument {
 export interface VerificationDocuments {
   documents: VerificationDocument[],
   files: Files[]
+}
+
+
+export interface UserDataWithImage {
+  user: UserData,
+  image: Files
+}
+
+
+export interface AdminDataWithImage {
+  admin: Admin,
+  image: Files
+}
+
+
+interface Target {
+  $id: string;
+  $createdAt: string;
+  $updatedAt: string;
+  name: string;
+  userId: string;
+  providerId: string | null;
+  providerType: 'email' | 'sms';
+  identifier: string;
+  expired: boolean;
+}
+
+
+export interface LoggedInUser {
+  $id: string;
+  $createdAt: string;
+  $updatedAt: string;
+  name: string;
+  registration: string;
+  status: boolean;
+  labels: string[];
+  passwordUpdate: string;
+  email: string;
+  phone: string;
+  emailVerification: boolean;
+  phoneVerification: boolean;
+  mfa: boolean;
+  prefs: Record<string, unknown>;
+  targets: Target[];
+  accessedAt: string;
 }
 
 

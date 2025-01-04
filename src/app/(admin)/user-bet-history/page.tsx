@@ -134,9 +134,9 @@ const UserBetHistory = () => {
                     <>
                         {userWithBetSlip.map((slip, index) => {
                             return (
-                                <div key={slip.slip.$id}>
+                                <div key={slip.slip.$id} className='flex flex-col items-center'>
 
-                                    <div className='flex items-center justify-between'>
+                                    <div className='flex items-center justify-between w-[330px]'>
                                         <p className='text-color-10 text-base mb-2 flex-1'>{slip.user.firstname} {slip.user.lastname}</p>
 
                                         <Button
@@ -163,7 +163,7 @@ const UserBetHistory = () => {
                                     </div>
                                     
                                     <div 
-                                        className={`bg-color-30 rounded-md min-w-[300px] h-[48px] overflow-hidden cursor-pointer ${
+                                        className={`bg-color-30 rounded-md w-[330px] h-[48px] overflow-hidden cursor-pointer ${
                                             showBets === slip.slip.$id ? 'showBets' : 'hideBets'
                                         }`}
                                         onClick={() => handleAnimation((slip.slip.$id as string), index)}
