@@ -6,7 +6,7 @@ import FormButton from '@/components/FormButton';
 import LiveChat from '@/components/LiveChat';
 import { Button } from '@/components/ui/button';
 import { getLoggedInUser, register } from '@/lib/actions/userActions';
-import { authFormSchema, isAdmin, isUserData } from '@/lib/utils';
+import { authFormSchema, isAdmin, isUserData, loggedInAdminWithImage, loggedInUserWithImage } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react'
@@ -44,9 +44,16 @@ const Register = () => {
       if(!isAdmin(admin) && !isUserData(user)) {
         const loggedIn = await getLoggedInUser();
         
-        if(isAdmin(loggedIn)) { setAdmin(loggedIn); return; }
+        if(isAdmin(loggedIn)) { 
+            const adminWithImage = loggedInAdminWithImage(loggedIn);
+            setAdmin(adminWithImage);
+            return; 
+        }
 
-        if(isUserData(loggedIn)) { setUser(loggedIn); return; }
+        if(isUserData(loggedIn)) { 
+            const userWithImage = loggedInUserWithImage(loggedIn);
+            setUser(userWithImage); 
+        }
       } else {
 
         if((user as UserData)?.subscription === false) { redirect('/subscription'); } 
@@ -131,12 +138,10 @@ const Register = () => {
             description: 'Account created successfully'
           });
 
-          if(isUserData(response)) { setUser(response); }
+          setUser(response);
         }
 
-        /* eslint-disable @typescript-eslint/no-explicit-any */
-      } catch (error: any) {
-        /* eslint-enable @typescript-eslint/no-explicit-any */
+      } catch (error) {
 
         console.error("Registration error", error);
       } finally {
