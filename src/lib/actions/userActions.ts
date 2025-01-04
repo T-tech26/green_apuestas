@@ -130,12 +130,8 @@ export const getLoggedInUser = async (): Promise<UserDataWithImage | AdminDataWi
         const { database, storage } = await createAdminClient()
         const loggedInUser = await account.get();  // Get the logged-in user
         
-        let id;
-
 
         if(loggedInUser && (loggedInUser as LoggedInUser)?.labels[0] === 'admin') {
-
-            id = (loggedInUser as LoggedInUser).$id;
 
             const adminProfileImg = await database.listDocuments(
                 APPWRITE_DATABASE_ID!,
@@ -144,12 +140,10 @@ export const getLoggedInUser = async (): Promise<UserDataWithImage | AdminDataWi
 
             if(adminProfileImg.documents.length > 0) {
                 
-                const profileImg = await storage.listFiles(
+                const image = await storage.listFiles(
                     APPWRITE_PAYMENT_METHOD_LOGO_BUCKET_ID!,
+                    [Query.equal('name', adminProfileImg.documents[0].fileName)]
                 )
-
-                
-                const image = profileImg.files.find(img => img.name === adminProfileImg.documents[0].fileName);
 
                 const isAdmin: Admin = {
                     $id: loggedInUser.$id,
@@ -170,21 +164,19 @@ export const getLoggedInUser = async (): Promise<UserDataWithImage | AdminDataWi
         }
 
 
-        if(loggedInUser && (loggedInUser as LoggedInUser)?.$id) id = (loggedInUser as any)?.$id;
-
         const user = await database.listDocuments(
             APPWRITE_DATABASE_ID!,
             APPWRITE_USERS_COLLECTION_ID!,
-            [Query.equal('userId', id)]
+            [Query.equal('userId', loggedInUser.$id)]
         )
 
-        const profileImg = await storage.listFiles(
+        const image = await storage.listFiles(
             APPWRITE_PAYMENT_METHOD_LOGO_BUCKET_ID!,
+            [Query.equal('name', user.documents[0].profileImg)]
         )
 
-        const image = profileImg.files.find(img => img.name === user.documents[0].profileImg);
 
-        if(image !== undefined) {
+        if(image.files.length > 0) {
             return parseStringify({ user: user.documents[0], image: image });  // Assuming parseStringify formats the user object
         } 
 

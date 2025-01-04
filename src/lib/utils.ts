@@ -222,10 +222,9 @@ export const loggedInUserWithImage = (user: UserDataWithImage): UserData => {
   
     const profileImage = (user as UserDataWithImage).image.name !== undefined ? (user as UserDataWithImage).image.name === (user as UserDataWithImage).user.profileImg : '';
 
-    const { profileImgUrl, ...data } = (user as UserDataWithImage).user;
 
     return {
-        ...data,
+        ...(user as UserDataWithImage).user,
         profileImgUrl: profileImage !== '' ? `${process.env.NEXT_PUBLIC_APPWRITE_PUBLIC_URL}/storage/buckets/${process.env.NEXT_PUBLIC_APPWRITE_PAYMENT_METHOD_LOGO_BUCKET_ID}/files/${(user as UserDataWithImage).image.$id}/view?project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID}&project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID}&mode=admin` : profileImage,
     };
 };
@@ -236,10 +235,9 @@ export const loggedInAdminWithImage = (user: AdminDataWithImage): Admin => {
   
     const image = (user as AdminDataWithImage).image.name;
 
-    const { adminImg, ...data } = (user as AdminDataWithImage).admin;
 
     return {
-        ...data,
+        ...(user as AdminDataWithImage).admin,
         adminImg: image !== undefined ? `${process.env.NEXT_PUBLIC_APPWRITE_PUBLIC_URL}/storage/buckets/${process.env.NEXT_PUBLIC_APPWRITE_PAYMENT_METHOD_LOGO_BUCKET_ID}/files/${(user as AdminDataWithImage).image.$id}/view?project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID}&project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID}&mode=admin` : '',
     };
 };
