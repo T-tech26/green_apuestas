@@ -48,12 +48,12 @@ export default function RootLayout({
     }, [user, admin, isLoading])
 
 
-    if(isSubscriptionCheck && typeof user !== 'object') {
-      return (
-        <div className="fixed top-0 bottom-0 right-0 left-0 w-full h-full bg-dark-gradient-135deg flex justify-center items-center">
-          <Loader2 size={60} className="animate-spin text-color-30" />
-        </div>
-      );
+    if(isSubscriptionCheck && isLoading) {
+        return (
+            <div className="fixed top-0 bottom-0 right-0 left-0 w-full h-full bg-dark-gradient-135deg flex justify-center items-center">
+                <Loader2 size={60} className="animate-spin text-color-30" />
+            </div>
+        );
     }
 
 

@@ -136,13 +136,14 @@ export const paymentFormSchema = z.object({
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export const isAdmin = (user: any): user is AdminDataWithImage => {
     if (user.admin === undefined) { return false };
-  return user.admin.label !== undefined;
+    return user.admin.label !== undefined;
 }
 
 
 // Type guard to check if the object is of type UserData
 export const isUserData = (user: any): user is UserDataWithImage => {
-  return user.user.userId !== undefined;
+    if(user.user === undefined) { return false };
+    return user.user.userId !== undefined;
 }
 /* eslint-enable @typescript-eslint/no-explicit-any */
 

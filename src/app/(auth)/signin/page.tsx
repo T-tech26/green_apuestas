@@ -7,7 +7,7 @@ import { Form, FormControl, FormField, FormLabel, FormMessage } from '@/componen
 import { Input } from '@/components/ui/input'
 import { useUser } from '@/contexts/child_context/userContext'
 import { useToast } from '@/hooks/use-toast'
-import { getLoggedInUser, signin } from '@/lib/actions/userActions'
+import { getAllUsers, getLoggedInUser, signin } from '@/lib/actions/userActions'
 import { isAdmin, isUserData, loggedInAdminWithImage, loggedInUserWithImage } from '@/lib/utils'
 import { UserData } from '@/types/globals'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -21,7 +21,7 @@ const Signin = () => {
 
     const [isLoading, setIsLoading] = useState(false);
 
-    const { user, setUser, admin, setAdmin } = useUser();
+    const { user, setUser, admin, setAdmin, setAllUsers } = useUser();
 
     const { toast } = useToast();
 
@@ -78,42 +78,44 @@ const Signin = () => {
     
     // 2. Define a submit handler.
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
-      setIsLoading(true)
-      try {
-        const response = await signin(values.email, values.password);
+        setIsLoading(true)
+        try {
+            const response = await signin(values.email, values.password);
 
-        if(typeof response === 'string') {
-          toast({
-            description: response
-          })
-          return;
+            if(typeof response === 'string') {
+                toast({
+                    description: response
+                })
+                return;
+            }
+
+            if(typeof response !== 'string') {
+                toast({
+                    description: 'Login successfully'
+                })
+            }
+
+            const loggedIn = await getLoggedInUser();
+
+        if(isAdmin(loggedIn)) { 
+            const users = await getAllUsers();
+            setAllUsers(users);
+            const adminWithImage = loggedInAdminWithImage(loggedIn);
+            setAdmin(adminWithImage);
+            return;
         }
 
-        if(typeof response !== 'string') {
-          toast({
-            description: 'Login successfully'
-          })
+        if(isUserData(loggedIn)) { 
+            const userWithImage = loggedInUserWithImage(loggedIn);
+            setUser(userWithImage);
         }
 
-        const loggedIn = await getLoggedInUser();
-
-      if(isAdmin(loggedIn)) { 
-          const adminWithImage = loggedInAdminWithImage(loggedIn);
-          setAdmin(adminWithImage);
-          return;
-      }
-
-      if(isUserData(loggedIn)) { 
-          const userWithImage = loggedInUserWithImage(loggedIn);
-          setUser(userWithImage);
-      }
-
-      } catch (error) {
-        console.error("Error signing in ", error);
-      } finally {
-        form.reset();
-        setIsLoading(false)
-      }
+        } catch (error) {
+            console.error("Error signing in ", error);
+        } finally {
+            form.reset();
+            setIsLoading(false)
+        }
     }
 
       

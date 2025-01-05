@@ -184,9 +184,7 @@ export const getLoggedInUser = async (): Promise<UserDataWithImage | AdminDataWi
     } catch (error) {
         console.error("Error getting logged in user", error);
         
-        /* eslint-disable @typescript-eslint/no-explicit-any */
-        return `${(error as any)?.message || "Unknown error"}`;
-        /* eslint-enable @typescript-eslint/no-explicit-any */
+        return 'No session';
     }
 };
   
