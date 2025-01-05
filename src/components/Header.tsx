@@ -1,9 +1,9 @@
 'use client'
-import React from 'react'
+import React, { useState } from 'react'
 import MobileNav from './MobileNav';
 import Link from 'next/link';
 import { LanguageSwitcher } from './LanguageSwitcher';
-import { menuLinks } from '@/constants';
+import { DisplayNames, menuLinks } from '@/constants';
 import { usePathname } from 'next/navigation';
 import LoggedInHeader from './LoggedInHeader';
 import { useUser } from '@/contexts/child_context/userContext';
@@ -15,7 +15,25 @@ const Header = () => {
     const { user } = useUser();
 
     const pathName = usePathname();
+    
+    const [nameIndex, setNameIndex] = useState(0);
+    const [slideName, setSlideName] = useState(false);
+    const [slideStyle, setSlideStyle] = useState('slideOut');
 
+
+    setInterval(() => {
+        if(!slideName) {
+            setSlideStyle('slideIn');
+            const index = Math.floor(Math.random() * 50);
+            setNameIndex(index);
+
+            setTimeout(() => {
+                setSlideName(!slideName);
+                setSlideStyle('slideOut')
+            }, 1000);
+        }
+    }, 7000);
+    
 
     return (
         <>
@@ -24,12 +42,14 @@ const Header = () => {
             ) : (
                 <div className="header">
                     <div className="md:hidden flex items-center justify-between">
-                        <div className="flex items-center">
-                            <h3 className="font-medium text-color-30 tracking-wide pr-2">
-                            Top winners
+                        <div className="flex items-center gap-2 flex-1">
+                            <h3 className="font-medium text-sm text-color-30 border-r tracking-wide pr-2 italic">
+                                Top winners
                             </h3>
-                            <p className="font-light text-xs text-color-30 tracking-wide border-l pl-2">
-                            ArthurMic won $700,000
+                            <p className="font-light text-xs text-color-30 tracking-wide italic relative overflow-hidden flex-1 h-4">
+                                <span className={`absolute left-0 ${slideStyle}`}>
+                                    {DisplayNames[nameIndex].text}
+                                </span>
                             </p>
                         </div>
 

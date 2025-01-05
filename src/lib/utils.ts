@@ -220,12 +220,12 @@ export const verificationDocumentWithImages = (documents: VerificationDocuments)
 // Map over the payment methods and match logos to images
 export const loggedInUserWithImage = (user: UserDataWithImage): UserData => {
   
-    const profileImage = (user as UserDataWithImage).image.name !== undefined ? (user as UserDataWithImage).image.name === (user as UserDataWithImage).user.profileImg : '';
+    const profileImage = user.image.name !== undefined ? user.image.name : '';
 
 
     return {
-        ...(user as UserDataWithImage).user,
-        profileImgUrl: profileImage !== '' ? `${process.env.NEXT_PUBLIC_APPWRITE_PUBLIC_URL}/storage/buckets/${process.env.NEXT_PUBLIC_APPWRITE_PAYMENT_METHOD_LOGO_BUCKET_ID}/files/${(user as UserDataWithImage).image.$id}/view?project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID}&project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID}&mode=admin` : profileImage,
+        ...user.user,
+        profileImgUrl: profileImage !== '' ? `${process.env.NEXT_PUBLIC_APPWRITE_PUBLIC_URL}/storage/buckets/${process.env.NEXT_PUBLIC_APPWRITE_PAYMENT_METHOD_LOGO_BUCKET_ID}/files/${user.image.$id}/view?project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID}&project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID}&mode=admin` : profileImage,
     };
 };
 
@@ -233,11 +233,11 @@ export const loggedInUserWithImage = (user: UserDataWithImage): UserData => {
 // Map over the payment methods and match logos to images
 export const loggedInAdminWithImage = (user: AdminDataWithImage): Admin => {
   
-    const image = (user as AdminDataWithImage).image.name;
+    const image = user.image.name !== undefined ? user.image.name : '';
 
 
     return {
-        ...(user as AdminDataWithImage).admin,
-        adminImg: image !== undefined ? `${process.env.NEXT_PUBLIC_APPWRITE_PUBLIC_URL}/storage/buckets/${process.env.NEXT_PUBLIC_APPWRITE_PAYMENT_METHOD_LOGO_BUCKET_ID}/files/${(user as AdminDataWithImage).image.$id}/view?project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID}&project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID}&mode=admin` : '',
+        ...user.admin,
+        adminImg: image !== '' ? `${process.env.NEXT_PUBLIC_APPWRITE_PUBLIC_URL}/storage/buckets/${process.env.NEXT_PUBLIC_APPWRITE_PAYMENT_METHOD_LOGO_BUCKET_ID}/files/${user.image.$id}/view?project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID}&project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID}&mode=admin` : '',
     };
 };

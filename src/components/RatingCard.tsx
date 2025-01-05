@@ -8,10 +8,10 @@ const RatingCard = () => {
 
     return (
         <>
-            {RateDetails.map((items) => {
+            {RateDetails.map((items, index) => {
                 return (
                     <article 
-                        key={items.name}
+                        key={index}
                         className='bg-color-30 p-7 rounded-tr-[20%] rounded-bl-[20%] border-4 border-color-10 w-[300px]'
                     >
                         <div

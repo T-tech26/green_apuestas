@@ -11,7 +11,7 @@ import { logOut } from '@/lib/actions/userActions';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { useUser } from '@/contexts/child_context/userContext';
-import { ProfileMenuLinks } from '@/constants';
+import { DisplayNames, ProfileMenuLinks } from '@/constants';
 import { UserData } from '@/types/globals';
 import { formatAmount } from '@/lib/utils';
 import ProfileImageForm from './ProfileImageForm';
@@ -20,9 +20,25 @@ import ProfileImageForm from './ProfileImageForm';
 const LoggedInHeader = () => {
 
     const { user, setUser } = useUser();    
-    
-    const [profile, setProfile] = useState(false);
 
+    const [profile, setProfile] = useState(false);
+    const [nameIndex, setNameIndex] = useState(0);
+    const [slideName, setSlideName] = useState(false);
+    const [slideStyle, setSlideStyle] = useState('slideOut');
+
+
+    setInterval(() => {
+        if(!slideName) {
+            setSlideStyle('slideIn');
+            const index = Math.floor(Math.random() * 50);
+            setNameIndex(index);
+
+            setTimeout(() => {
+                setSlideName(!slideName);
+                setSlideStyle('slideOut')
+            }, 1000);
+        }
+    }, 7000);
 
     
     const handleLogOut = async () => {
@@ -39,12 +55,14 @@ const LoggedInHeader = () => {
     return (
         <div className="header">
             <div className="md:hidden flex items-center justify-between">
-                <div className="flex items-center">
-                    <h3 className="font-medium text-sm text-color-30 tracking-wide pr-2 italic">
-                    Top winners
+                <div className="flex items-center gap-2 flex-1">
+                    <h3 className="font-medium text-sm text-color-30 border-r tracking-wide pr-2 italic">
+                        Top winners
                     </h3>
-                    <p className="font-light text-xs text-color-30 tracking-wide border-l pl-2 italic">
-                    ArthurMic won $700,000
+                    <p className="font-light text-xs text-color-30 tracking-wide italic relative overflow-hidden flex-1 h-4">
+                        <span className={`absolute left-0 ${slideStyle}`}>
+                            {DisplayNames[nameIndex].text}
+                        </span>
                     </p>
                 </div>
 
@@ -54,12 +72,14 @@ const LoggedInHeader = () => {
             <div className="flex justify-between items-center gap-5">
                 <h1 className="text-2xl text-color-30 font">Logo</h1>
 
-                <div className="md:flex flex-1 items-center hidden">
-                    <h3 className="font-medium text-sm text-color-30 tracking-wide pr-2 italic">
-                    Top winners
+                <div className="md:flex flex-1 items-center gap-2 hidden">
+                    <h3 className="font-medium text-sm text-color-30 border-r tracking-wide pr-2 italic">
+                        Top winners
                     </h3>
-                    <p className="font-light text-xs text-color-30 tracking-wide border-l pl-2 italic">
-                    ArthurMic won $700,000
+                    <p className="font-light text-xs text-color-30 tracking-wide italic relative overflow-hidden flex-1 h-4">
+                        <span className={`absolute left-0 ${slideStyle}`}>
+                            {DisplayNames[nameIndex].text}
+                        </span>
                     </p>
                 </div>
             

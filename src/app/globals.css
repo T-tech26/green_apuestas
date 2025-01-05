@@ -94,6 +94,33 @@ body {
 }
 
 
+.slideIn {
+  animation-name: slide-in;
+  animation-duration: 0.5s;
+  animation-iteration-count: 1;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+.slideOut {
+  animation-name: slide-out;
+  animation-duration: 0.5s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: 1;
+  animation-timing-function: linear;
+}
+
+@keyframes slide-out {
+  0% { left: -100%; }
+  100% { left: 0%; }
+}
+
+@keyframes slide-in {
+  0% { left: 0%; }
+  100% { left: -100%; }
+}
+
+
 
 @layer utilities {
   .header {
@@ -138,11 +165,11 @@ body {
   }
 
   .mobile-league {
-    @apply fixed top-0 bottom-0 left-0 right-0 w-full h-auto flex-col items-center bg-light-gradient-135deg cursor-pointer lg:hidden overflow-y-scroll py-8
+    @apply fixed top-0 bottom-0 left-0 right-0 w-full h-auto flex-col items-center bg-light-gradient-135deg cursor-pointer lg:hidden overflow-y-scroll py-8 z-50
   }
 
   .bets {
-    @apply absolute top-0 bottom-0 w-full h-auto flex-col justify-center items-center bg-light-gradient-135deg pt-5 cursor-pointer lg:hidden
+    @apply fixed top-0 bottom-0 w-full h-auto flex-col justify-center items-center bg-light-gradient-135deg pt-5 cursor-pointer lg:hidden z-50
   }
 
   .score {

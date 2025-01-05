@@ -129,7 +129,7 @@ export const getLoggedInUser = async (): Promise<UserDataWithImage | AdminDataWi
         const { account } = await createSessionClient(); 
         const { database, storage } = await createAdminClient()
         const loggedInUser = await account.get();  // Get the logged-in user
-        
+
 
         if(loggedInUser && (loggedInUser as LoggedInUser)?.labels[0] === 'admin') {
 
@@ -151,7 +151,7 @@ export const getLoggedInUser = async (): Promise<UserDataWithImage | AdminDataWi
                     label: loggedInUser.labels,
                 };
 
-                return parseStringify({ admin: isAdmin, image: image });
+                return parseStringify({ admin: isAdmin, image: image.files[0] });
             }
 
             const isAdmin: Admin = {
@@ -177,7 +177,7 @@ export const getLoggedInUser = async (): Promise<UserDataWithImage | AdminDataWi
 
 
         if(image.files.length > 0) {
-            return parseStringify({ user: user.documents[0], image: image });  // Assuming parseStringify formats the user object
+            return parseStringify({ user: user.documents[0], image: image.files[0] });  // Assuming parseStringify formats the user object
         } 
 
         return parseStringify({ user: user.documents[0], image: {} });  // Assuming parseStringify formats the user object
