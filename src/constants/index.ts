@@ -30,22 +30,118 @@ export const FooterApiLinks = [
 
 export const RateDetails = [
     {
-        profile: '/first-rater.svg',
-        name: 'Arthur Michael',
-        message: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Unde, culpa ullam, voluptatem odit, sunt veritatis facere accusamus maiores odio assumenda sequi est vero amet impedit hic! Sapiente veritatis totam at?',
-        rates: 4
-    },
-    {
         profile: '/fourth-rater.svg',
-        name: 'Arthur Michael',
-        message: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Unde, culpa ullam, voluptatem odit, sunt veritatis facere accusamus maiores odio assumenda sequi est vero amet impedit hic! Sapiente veritatis totam at?',
+        name: 'Alexander Martin',
+        message: "Green Apuestas's correct score predictions have helped me win some life-changing amounts of money. I'm forever grateful for the expertise and dedication that goes into each prediction.",
         rates: 5
     },
     {
-        profile: '/third-rater.svg',
-        name: 'Arthur Michael',
-        message: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Unde, culpa ullam, voluptatem odit, sunt veritatis facere accusamus maiores odio assumenda sequi est vero amet impedit hic! Sapiente veritatis totam at?',
+        profile: '/9f9b2bb6-ba2b-42bf-9774-93f58555602b.jfif',
+        name: 'Bianca Erickson',
+        message: "Thanks to Green Apuestas, I've been able to achieve my financial goals and live the life I've always wanted. The correct score predictions are incredibly accurate and I'm forever grateful for the expertise and dedication that goes into each prediction",
         rates: 4
+    },
+    {
+        profile: '/71c8d1ca-9fe5-4e4b-a7a3-0221a1acf637.jfif',
+        name: 'Silva Lank',
+        message: "I've been using Green Apuestas's correct score predictions for a few months now and I've never been more confident in my betting decisions. The platform is easy to use and the customer service is top-notch.",
+        rates: 4
+    },
+    {
+        profile: '/third-rater.svg',
+        name: 'Jackson Davis',
+        message: "Green Apuestas has taken my betting to the next level. The correct score predictions are consistently accurate and I've won some significant amounts of money. I highly recommend this platform to anyone looking to win big!",
+        rates: 4
+    },
+    {
+        profile: '/29c834d6-c01c-4091-bc3c-187b6cf06a51.jfif',
+        name: 'Matthieu Laurent',
+        message: "I was struggling to make ends meet, but thanks to Green Apuestas's correct score predictions, I've been able to win some much-needed money. The platform is easy to use and the predictions are incredibly accurate",
+        rates: 3
+    },
+    {
+        profile: '/profile-icon.svg',
+        name: 'Inés Ramirez',
+        message: "Green Apuestas's correct score predictions have helped me win some life-changing amounts of money. I'm forever grateful for the expertise and dedication that goes into each prediction.",
+        rates: 5
+    },
+    {
+        profile: '/b7e84c1f-6b1b-4593-a654-e3866ad07bd0.jfif',
+        name: 'Sylvestre Gonzalez',
+        message: "I've tried many betting platforms before, but Green Apuestas is by far the best. The correct score predictions are spot on and the customer service is top-notch. I'm so glad I found this platform",
+        rates: 5
+    },
+    {
+        profile: '/9c9effff-3061-4e0b-a1d7-f2ae5eb82c5e.jfif',
+        name: 'Jacinta Gabriel',
+        message: "Thanks to Green Apuestas, I've been able to win big and pay off some debts. The correct score predictions are incredibly accurate and I've never been more confident in my betting decisions.",
+        rates: 4
+    },
+    {
+        profile: '/a1a0e7ae-2009-492d-ac60-d9da35ed56da.jfif',
+        name: 'Braga Lopes',
+        message: "I was skeptical at first, but Green Apuestas's correct score predictions have consistently delivered. I've won some significant amounts of money and I'm so grateful for the expertise and hard work that goes into each prediction.",
+        rates: 3
+    },
+    {
+        profile: '/c790b27e-e11b-4fb2-b54f-a530b2c0123f.jfif',
+        name: 'Diego Lecoña',
+        message: "Green Apuestas has been a game-changer for me. I've been using their correct score predictions for a few weeks now and I've won more than I ever thought possible. Keep up the fantastic work!",
+        rates: 4
+    },
+    {
+        profile: '/515e5dc0-34ac-481e-ba75-a51d9171a018.jfif',
+        name: 'kelvin Ramirez',
+        message: "I'm absolutely thrilled with the correct score predictions from Green Apuestas! I won big on the weekend's matches and I couldn't be more grateful. Thanks for the amazing tips.",
+        rates: 3
+    },
+    {
+        profile: '/5a1f4af4-8876-4826-9c23-bf60874d6308.jfif',
+        name: 'Isabella Hernandez',
+        message: "This platform offers games that I have never seen else where, the fixed bets are 100% and also the winning are very good and massive and I'm grateful for that.",
+        rates: 4
+    },
+    {
+        profile: '/60134de5-17fb-4ba5-be8b-93023e2fb2ac.jfif',
+        name: 'Liam Thompson',
+        message: "I'm so grateful I came across this platform, this is 100% good and helpful",
+        rates: 5
+    },
+    {
+        profile: '/de3febf1-980d-4afd-a922-97db4cdaa2cb.jfif',
+        name: 'Leo Owen',
+        message: 'I want to say a big thank you to this platform for everything they have done for me and my family since I joined this platform I have been earning and making profits.',
+        rates: 5
+    },
+    {
+        profile: '/first-rater.svg',
+        name: 'Rodrigo Lopes',
+        message: "A friend recommended me this platform on Facebook and I decided to join and now I've made a lot of money, I really appreciate this platform for making a change in my life.",
+        rates: 4
+    },
+    {
+        profile: '/5030cc18-e556-4199-84e8-2c9dc7f3f147.jfif',
+        name: 'Pâmela Mayara',
+        message: 'This platform has made me have smooth income with faith from the beginning I started, I appreciate it thank you very much ❤️',
+        rates: 3
+    },
+    {
+        profile: '/1df8ead3-7fb5-4d6e-9047-a22eaea03f6f.jfif',
+        name: 'Jonathan Barros',
+        message: 'It has been a win-win for me since I joined this VIP platform, thank you for keeping your word and this platform is a trustworthy platform. This is how a business should be. I will continue to work with this platform because I love the way I win bets everytime.',
+        rates: 4
+    },
+    {
+        profile: '/e026b522-01e7-4513-ba99-2d0f35692345.jfif',
+        name: 'Oscar Rios',
+        message: 'This platform is amazing and I am glad to subscribe to their vip, the platform is very comfortable and good with good bets, I must say that they take time to analyze their bets that is why they always win. 💰💰🥳🤑🤑',
+        rates: 4
+    },
+    {
+        profile: '/1c5f5d92-42b0-4c08-98f7-2c9b111028dc.jfif',
+        name: 'Jaime Rivera',
+        message: 'This platform made me hit my first winnings 112,460$ in my entire life, I am very grateful. I appreciate and I will be forever greatful for changing my life.',
+        rates: 3
     },
 ]
 
