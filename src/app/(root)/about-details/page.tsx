@@ -92,7 +92,7 @@ const AboutDetails = () => {
                     <p
                         className='text-sm text-color-60'
                     >
-                        If you're looking for a reliable and accurate correct score betting platform, look no further than Green apuestas. Our team of experts is dedicated to providing our users with the most accurate correct score predictions, giving them the edge they need to win big. Sign up for a free account today and start enjoying the benefits of using Green apuestas!
+                        If you&apos;re looking for a reliable and accurate correct score betting platform, look no further than Green apuestas. Our team of experts is dedicated to providing our users with the most accurate correct score predictions, giving them the edge they need to win big. Sign up for a free account today and start enjoying the benefits of using Green apuestas!
                     </p>
                 </div>
             </div>
