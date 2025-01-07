@@ -41,7 +41,8 @@ const Register = () => {
   /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     const loggIn = async () => {
-      if(!isAdmin(admin) && !isUserData(user)) {
+
+      if(admin.label.length === 0 && typeof user !== 'object') {
         const loggedIn = await getLoggedInUser();
         
         if(isAdmin(loggedIn)) { 

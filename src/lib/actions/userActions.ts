@@ -5,6 +5,8 @@ import { createAdminClient, createSessionClient } from "../appwrite/config";
 import { cookies } from "next/headers";
 import { Admin, AdminDataWithImage, BankDetails, LoggedInUser, Payment, PaymentMethod, PaymentMethods, registerParams, Transactions, UploadDocument, UserData, UserDataWithImage, UserGame, VerificationDocuments } from "@/types/globals";
 import { parseStringify } from "../utils";
+import { request } from "@arcjet/next";
+import { aj } from "../arcjet/arcjet";
 
 const { 
     APPWRITE_DATABASE_ID, 
@@ -31,6 +33,13 @@ export const register = async ({ password, ...data}: registerParams) => {
 
     try {
         const { account, database } = await createAdminClient();
+
+        const req = await request();
+        const decision = await aj.protect(req, {
+            email: email
+        });
+
+        if(decision.isDenied()) { return 'Email not valid try a valid email' }
 
         const newUserAccount = await account.create(ID.unique(), email, password, `${firstname} ${lastname}`);
 
@@ -170,15 +179,18 @@ export const getLoggedInUser = async (): Promise<UserDataWithImage | AdminDataWi
             [Query.equal('userId', loggedInUser.$id)]
         )
 
-        const image = await storage.listFiles(
-            APPWRITE_PAYMENT_METHOD_LOGO_BUCKET_ID!,
-            [Query.equal('name', user.documents[0].profileImg)]
-        )
+        if(user.documents[0].profileImg !== null) {
+            const image = await storage.listFiles(
+                APPWRITE_PAYMENT_METHOD_LOGO_BUCKET_ID!,
+                [Query.equal('name', user.documents[0].profileImg)]
+            )
+
+            if(image.files.length > 0) {
+                return parseStringify({ user: user.documents[0], image: image.files[0] });  // Assuming parseStringify formats the user object
+            }
+        }
 
 
-        if(image.files.length > 0) {
-            return parseStringify({ user: user.documents[0], image: image.files[0] });  // Assuming parseStringify formats the user object
-        } 
 
         return parseStringify({ user: user.documents[0], image: {} });  // Assuming parseStringify formats the user object
     } catch (error) {
