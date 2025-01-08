@@ -1,4 +1,4 @@
-import { Leagues, LiveMatch, Match, Popular } from "@/types/globals";
+import { Leagues, LiveMatch, Match } from "@/types/globals";
 import { leagues } from "./api/leagues";
 import { eventsByLeague } from "./api/eventsByLeague";
 import { liveScores } from "./api/liveScores";

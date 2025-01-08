@@ -33,7 +33,7 @@ const RatingCard = () => {
 
         const filteredDetails = RateDetails.filter((_,index) => randomNumber.includes(index));
         setSelectedDetails(filteredDetails);
-    }, [RateDetails]);
+    }, []);
 
 
 
