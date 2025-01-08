@@ -49,9 +49,9 @@ const MobileHomeMenu = ({selectedLink, setSelectedLink}: MobileMenuProps) => {
                         onClick={() => setSelectedLink(link.name)}
                     >
                         {link.icon === '0' ? (
-                            <>
-                                {openBet !== undefined ? <span className='text-lg'>1</span> : '0'}
-                            </>
+                            <span className='text-lg'>
+                                {openBet !== undefined ? '1' : '0'}
+                            </span>
                         ) : (
                             <Image
                                 src={link.icon}

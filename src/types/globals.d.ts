@@ -71,12 +71,20 @@ export type Popular = {
 };
 
 
+export interface Leagues {
+  ccode: string,
+  name: string,
+  leagues: Popular[],
+  localizedName: string
+}
+
+
 export interface LeagueType {
   leagueID: number | undefined;
   setLeagueID: (leagueID: number | undefined) => void;
 
-  leagues: Popular[];
-  setLeagues: React.Dispatch<React.SetStateAction<Popular[]>>;
+  leagues: Leagues[];
+  setLeagues: React.Dispatch<React.SetStateAction<Leagues[]>>;
 
   todayMatches: { matches: Match[] };
   setTodayMatches: React.Dispatch<React.SetStateAction<{ matches: Match[] }>>;

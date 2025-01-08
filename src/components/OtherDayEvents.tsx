@@ -10,8 +10,9 @@ const OtherDayEvents = () => {
     const groupedMatches = groupMatchesByDate(otherDayMatches);
 
     return (
-        <div className={`${ !otherDayMatches.matches.length ? 'hidden' : 'block' }`}>
-            {Object.entries(groupedMatches).map(([date, matches]) => (
+        <div>
+            {Object.entries(groupedMatches).length > 0 ? (
+                Object.entries(groupedMatches).map(([date, matches]) => (
                 <div key={date} className='mb-5'>
                     <div className='flex mb-3 pr-4 md:pr-3'>
                         <p className='text-color-30 text-sm italic flex-1'>{date}</p>
@@ -53,7 +54,18 @@ const OtherDayEvents = () => {
                         })}
                     </div>
                 </div>
-            ))}
+            ))) : (
+                <div>
+                    <div
+                        className='flex mb-3 pr-4 md:pr-3'
+                    >
+                        <p className='text-color-30 text-sm italic flex-1'>Upcoming</p>
+                    </div>
+                    <div>
+                        <p className='text-xs text-color-30 text-center py-5'>No upcoming matches</p>
+                    </div>
+                </div>
+            )}
 
         </div>
     )

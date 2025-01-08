@@ -1,11 +1,11 @@
-import { LiveMatch, Match, Popular } from "@/types/globals";
+import { Leagues, LiveMatch, Match, Popular } from "@/types/globals";
 import { leagues } from "./api/leagues";
 import { eventsByLeague } from "./api/eventsByLeague";
 import { liveScores } from "./api/liveScores";
 
 
 export const fetchLeagues = async (
-  setLeagues: React.Dispatch<React.SetStateAction<Popular[]>>
+  setLeagues: React.Dispatch<React.SetStateAction<Leagues[]>>
 ) => {
     try {
         const fetchedData = await leagues();
@@ -22,12 +22,12 @@ export const fetchLeagues = async (
 
 
 export const checkLeaguesInLocalStorage = (
-  setLeagues: React.Dispatch<React.SetStateAction<Popular[]>>
+  setLeagues: React.Dispatch<React.SetStateAction<Leagues[]>>
 ) => {
     const storedData = localStorage.getItem('leagues');
 
     if (storedData) {
-        const { leagues: fetchedData, timestamp }: { leagues: Popular[], timestamp: number } = JSON.parse(storedData);
+        const { leagues: fetchedData, timestamp }: { leagues: Leagues[], timestamp: number } = JSON.parse(storedData);
 
         // Check if data is older than 24 hours (86400000 ms)
         const oneDayInMillis = 86400000;

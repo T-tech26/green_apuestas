@@ -32,6 +32,10 @@ const HomeContent = ({ selectedEvent }: HomeContentProps) => {
             {selectedEvent === 'Tomorrow' && (
                 <TomorrowEvents />
             )}
+
+            {selectedEvent === 'Upcoming' && (
+                <OtherDayEvents />
+            )}
         </div>
     )
 }

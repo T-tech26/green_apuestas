@@ -6,18 +6,16 @@ const TodayEvents = () => {
     const { todayMatches } = useLeague();
 
     return (
-        <div className={`${ !todayMatches.matches.length ? 'hidden' : 'block' }`}>
+        <div>
             <div
                 className='flex mb-3 pr-4 md:pr-3'
             >
                 <p className='text-color-30 text-sm italic flex-1'>Today</p>
-                <p className='text-color-30 text-sm italic w-14 md:w-16 text-center'>Home</p>
-                <p className='text-color-30 text-sm italic w-14 md:w-16 text-center'>Draw</p>
-                <p className='text-color-30 text-sm italic w-14 md:w-16 text-center'>Away</p>
             </div>
 
             <div>
-                {todayMatches.matches.map((data) => {
+                {todayMatches.matches.length > 0 ? (
+                    todayMatches.matches.map((data) => {
 
                     let formattedTime;
                     
@@ -49,7 +47,11 @@ const TodayEvents = () => {
                             </div>
                         </div>  
                     )
-                })}
+                })) : (
+                    <div>
+                        <p className='text-xs text-color-30 text-center py-5'>No today matches</p>
+                    </div>
+                )}
             </div>
         </div>
     )

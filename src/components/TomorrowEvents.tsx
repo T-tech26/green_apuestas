@@ -6,7 +6,7 @@ const TomorrowEvents = () => {
     const { tomorrowMatches } = useLeague();
 
     return (
-        <div className={`${ !tomorrowMatches.matches.length ? 'hidden' : 'block' }`}>
+        <div>
             <div
                 className='mb-3'
             >
@@ -14,7 +14,8 @@ const TomorrowEvents = () => {
             </div>
 
             <div>
-                {tomorrowMatches.matches.map((data) => {
+                {tomorrowMatches.matches.length > 0 ? (
+                    tomorrowMatches.matches.map((data) => {
 
                     let formattedTime;
                                     
@@ -46,7 +47,11 @@ const TomorrowEvents = () => {
                             </div>
                         </div>
                     )
-                })}
+                })) : (
+                    <div>
+                        <p className='text-xs text-color-30 text-center py-5'>No tomorrow matches</p>
+                    </div>
+                )}
             </div>
         </div>
     )

@@ -122,6 +122,36 @@ body {
 
 
 
+.open-league {
+  animation-name: openLeague;
+  animation-duration: .5s;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+}
+
+.close-league {
+  animation-name: closeLeague;
+  animation-duration: .5s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in-out;
+}
+
+
+@keyframes openLeague {
+  0% { height: 48px; }
+  90% { height: 300px; }
+  100% { height: auto; }
+}
+
+@keyframes closeLeague {
+  0% { height: auto; }
+  100% { height: 48px; }
+}
+
+
+
 @layer utilities {
   .header {
     @apply w-full flex flex-col justify-between px-[15px] py-2 md:px-[23px] md:py-4 bg-dark-gradient-180deg gap-2 drop-shadow-drop-box z-50;

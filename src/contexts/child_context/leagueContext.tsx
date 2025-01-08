@@ -1,7 +1,7 @@
 'use client'
 
 import { checkLeaguesInLocalStorage, fetchAllMatches } from "@/lib/apiUtils";
-import { LeagueType, Match, Popular } from "@/types/globals";
+import { Leagues, LeagueType, Match } from "@/types/globals";
 import { createContext, useState, ReactNode, useContext, useEffect } from "react";
 
 export const LeagueContext = createContext<LeagueType | undefined>(undefined);
@@ -9,7 +9,7 @@ export const LeagueContext = createContext<LeagueType | undefined>(undefined);
 
 export const LeagueProvider = ({ children }: { children: ReactNode }) => {
     const [leagueID, setLeagueID] = useState<number | undefined>(undefined);
-    const [leagues, setLeagues] = useState<Popular[]>([]);
+    const [leagues, setLeagues] = useState<Leagues[]>([]);
 
     const [todayMatches, setTodayMatches] = useState<{ matches: Match[] }>({ matches: [] });
     const [tomorrowMatches, setTomorrowMatches] = useState<{ matches: Match[] }>({ matches: [] });
@@ -22,7 +22,7 @@ export const LeagueProvider = ({ children }: { children: ReactNode }) => {
 
     useEffect(() => {
         if(leagues.length > 0) {
-            setLeagueID(leagues[0].id);
+            setLeagueID(leagues[0].leagues[0].id);
         }
     }, [leagues]);
 

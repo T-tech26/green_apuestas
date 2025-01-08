@@ -185,6 +185,10 @@ export const EventMenuLinks = [
        link: '/',
        name: 'Tomorrow' 
     },
+    {
+        link: '/',
+        name: 'Upcoming'
+    }
 ]
 
 export const ProfileMenuLinks = [
