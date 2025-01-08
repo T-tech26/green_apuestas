@@ -337,6 +337,7 @@ export interface Games {
   odd: string,
   homeGoal: string,
   awayGoal: string,
+  matchTime: string,
   $id?: string,
   $createdAt?: string,
   $updatedAt?: string,

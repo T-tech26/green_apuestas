@@ -26,7 +26,7 @@ const About = () => {
           className='bg-dark-gradient-180deg-reverse px-[29px] lg:px-[120px] pb-24 relative flex flex-col justify-between items-center gap-16'
         >
             <div
-                className='bg-color-30 w-[90%] md:w-4/5 lg:w-[935px] -mt-[20%] md:-mt-[10%] flex flex-col justify-center gap-4 px-8 md:px-16 pt-8 pb-9 relative'
+                className='bg-color-30 w-full md:w-4/5 lg:w-[935px] -mt-[20%] md:-mt-[10%] flex flex-col justify-center gap-4 px-6 md:px-16 pt-8 pb-9 relative'
             >
                 <div className='flex flex-col gap-2'>
                     <h3 className='text-color-10 text-base font-medium'>Welcome to Green apuestas - Your Ultimate Correct Score Betting Platform</h3>

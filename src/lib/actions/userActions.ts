@@ -23,7 +23,8 @@ const {
     APPWRITE_BANK_DETAILS_COLLECTION_ID,
     APPWRITE_VERIFICATION_DOCUMENT_BUCKET_ID,
     APPWRITE_VERIFICATION_DOCUMENT_COLLECTION_ID,
-    APPWRITE_ADMIN_PROFILE_IMAGE_COLLECTION_ID
+    APPWRITE_ADMIN_PROFILE_IMAGE_COLLECTION_ID,
+    APPWRITE_GAMES_COLLECTION_ID
  } = process.env;
 
 
@@ -746,6 +747,48 @@ export const createGameTicket = async (data: UserGame) => {
         console.error("Error creating game ticket ", error);
         /* eslint-disable @typescript-eslint/no-explicit-any */
         return `${(error as any)?.message}, try again`;
+        /* eslint-enable @typescript-eslint/no-explicit-any */
+    }
+}
+
+
+export const updateGameTicket = async (data: UserGame) => {
+    try {
+        const { database } = await createAdminClient();
+
+        await database.updateDocument(
+            APPWRITE_DATABASE_ID!,
+            APPWRITE_USER_BETS_COLLECTION_ID!,
+            data.$id!,
+            {
+                'totalOdds': data.totalOdds,
+                'stake': data.stake,
+                'payout': data.payout,
+            }
+        )
+
+        for(let i=0; i<data.games.length; i++) {
+            await database.updateDocument(
+                APPWRITE_DATABASE_ID!,
+                APPWRITE_GAMES_COLLECTION_ID!,
+                data.games[i].$id!,
+                {
+                    'home': data.games[i].home,
+                    'away': data.games[i].away,
+                    'odd': data.games[i].odd,
+                    'homeGoal': data.games[i].homeGoal,
+                    'awayGoal': data.games[i].awayGoal,
+                    'matchTime': !data.games[i].matchTime ? '' : data.games[i].matchTime
+                }
+            )
+        }
+
+        return 'success';
+        
+    } catch (error) {
+        console.error("Error updating game ticket ", error);
+        /* eslint-disable @typescript-eslint/no-explicit-any */
+        return 'Something went wrong, try again';
         /* eslint-enable @typescript-eslint/no-explicit-any */
     }
 }

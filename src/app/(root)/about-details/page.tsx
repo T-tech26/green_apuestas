@@ -3,7 +3,7 @@ import React from 'react'
 const AboutDetails = () => {
     return (
         <main className='flex-1 py-10 bg-dark-gradient-135deg'>
-            <div className='mx-auto bg-color-30 w-4/5 px-10 py-16 rounded-md flex flex-col gap-4'>
+            <div className='mx-auto bg-color-30 w-[90%] px-6 py-8 md:w-4/5 md:px-10 md:py-16 rounded-md flex flex-col gap-4'>
                 <div className='flex flex-col gap-2'>
                     <h3 className='text-color-10 text-base font-medium'>Welcome to Green apuestas - Your Ultimate Correct Score Betting Platform</h3>
                     <p

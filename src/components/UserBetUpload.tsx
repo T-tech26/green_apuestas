@@ -50,6 +50,7 @@ const UserBetUpload = () => {
         stake: z.string().min(2).optional(),
         payout: z.string().min(2).optional(),
         userId: z.string().min(2).optional(),
+        matchTime: z.string().min(3)
     });
 
 
@@ -63,6 +64,7 @@ const UserBetUpload = () => {
             awayGoal: '',
             odd: '',
             totalOdds: '',
+            matchTime: '',
             stake: '',
             payout: '',
             userId: '',
@@ -78,7 +80,8 @@ const UserBetUpload = () => {
             away: form.getValues('away'),
             odd: form.getValues('odd'),
             homeGoal: form.getValues('homeGoal'),
-            awayGoal: form.getValues('awayGoal')
+            awayGoal: form.getValues('awayGoal'),
+            matchTime: form.getValues('matchTime'),
         };
   
         // Update the games array in the state
@@ -158,7 +161,7 @@ const UserBetUpload = () => {
 
             // Validate games array fields
             games.games.forEach((game) => {
-                const gameFields: (keyof Games)[] = ['home', 'away', 'odd', 'homeGoal', 'awayGoal'];
+                const gameFields: (keyof Games)[] = ['home', 'away', 'odd', 'homeGoal', 'awayGoal', 'matchTime'];
                 
                 gameFields.forEach((field) => {
                     if (!(game as Games)[field]) {
@@ -168,7 +171,8 @@ const UserBetUpload = () => {
                                 : field === 'away' ? 'No away team'
                                     : field === 'odd' ? 'No odd'
                                         : field === 'homeGoal' ? 'No home goal'
-                                            : 'No away goal'
+                                            : field === 'awayGoal' ? 'No away goal'
+                                                : 'No match time added'
                         } entered`
                         
                         newMissingFields.push(message)
@@ -226,9 +230,9 @@ const UserBetUpload = () => {
 
 
     return (
-        <div className='flex flex-col gap-10'>
+        <div className='flex flex-col gap-10 items-center'>
             {games.games.length > 0 ? (                    
-                <div className='bg-color-30 rounded-md min-w-[300px]'>
+                <div className='bg-color-30 rounded-md w-[330px]'>
                     <div className='bg-light-gradient-135deg px-5 py-1 rounded-t-md flex justify-between'>
                         <p className='flex flex-col justify-between text-color-30 text-sm font-medium'>
                             <span>Multiple</span>
@@ -256,23 +260,21 @@ const UserBetUpload = () => {
                                     onClick={() => handleDeleteGame(index)}
                                 />
 
-                                <div className='flex items-center justify-evenly py-1 mb-1 relative'>
-                                    <p className='text-left text-color-60 text-xs w-full text-wrap'>{game.home}</p>
-                                    <span className='text-color-60 text-xs absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>vs</span>
-                                    <p className='text-right text-color-60 text-xs w-full text-wrap'>{game.away}</p>
+                                <div className='flex items-center relative gap-2'>
+                                    <p className='text-left text-color-60 text-xs text-wrap'>{game.home}</p>
+                                    <span className='text-color-60 text-xs'>vs</span>
+                                    <p className='text-right text-color-60 text-xs text-wrap'>{game.away}</p>
                                 </div>
 
-                                <div className='py-1'>
-                                    <p className='flex items-center justify-between text-gray-400 text-xs'>
-                                        <span>Market</span> 
-                                        <span>Correct score</span>
-                                    </p>
-                                    <p className='flex items-center justify-between text-color-60 text-xs w-full relative'>
-                                        <span className='text-green-400 font-semibold'>won</span> 
-                                        <span className='text-[10px] text-gray-400 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>{game.odd}</span>
-                                        <span>{game.homeGoal} - {game.awayGoal}</span>
-                                    </p>
-                                </div>
+                                <p className='flex items-center gap-3 text-gray-400 text-xs'>Correct score</p>
+
+                                <p className='text-color-60 text-[10px] font-semibold flex justify-between'>{game.homeGoal} - {game.awayGoal}
+                                    <span>{game.odd}</span>
+                                </p>
+
+                                <p className='text-green-400 text-[11px] font-semibold'>won</p> 
+
+                                <p className='text-[10px] text-gray-400'>{game.matchTime}</p>
                             </div>
                         )
                     })}
@@ -295,23 +297,23 @@ const UserBetUpload = () => {
                     </div>
                 </div>
                 ) : (
-                <div className='bg-color-30 rounded-md min-w-[300px]'>
-                    <div className='bg-light-gradient-135deg px-5 py-1 rounded-t-md flex justify-between'>
-                        <p className='flex flex-col justify-between text-color-30 text-sm font-medium'>
-                            <span>Multiple</span>
-                            <span>Ticket ID: </span>
-                        </p>
+                    <div className='bg-color-30 rounded-md w-[330px]'>
+                        <div className='bg-light-gradient-135deg px-5 py-1 rounded-t-md flex justify-between'>
+                            <p className='flex flex-col justify-between text-color-30 text-sm font-medium'>
+                                <span>Multiple</span>
+                                <span>Ticket ID: </span>
+                            </p>
 
-                        <p className='flex flex-col justify-between text-color-30 text-xs'>
-                            <span>won</span>
-                            <span>Date</span>
-                        </p>
-                    </div>
+                            <p className='flex flex-col justify-between text-color-30 text-xs'>
+                                <span>won</span>
+                                <span>Date</span>
+                            </p>
+                        </div>
 
-                    <div className='flex justify-center items-center border-gray-300 text-color-60 text-xs p-5'>
-                        No games
+                        <div className='flex justify-center items-center border-gray-300 text-color-60 text-xs p-5'>
+                            No games
+                        </div>
                     </div>
-                </div>
                 )}
 
 
@@ -428,6 +430,25 @@ const UserBetUpload = () => {
                                     />
                                 </div>
 
+                                <FormField
+                                    control={form.control}
+                                    name='matchTime'
+                                    render={({ field }) => (
+                                        <div className='w-full'>
+
+                                            <FormControl>
+                                                <Input
+                                                    id='matchTime'
+                                                    placeholder='Enter match date and time e.g 07/01, 09:00'
+                                                    type='text'
+                                                    {...field}
+                                                    className='w-full py-2 px-3 border border-color-60 focus:border-color-10 focus:outline-none rounded-md placeholder:text-sm'
+                                                />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </div>
+                                    )}
+                                />
 
                                 <Button type='button' 
                                     className='w-full bg-light-gradient-135deg text-sm text-color-30 rounded-full'

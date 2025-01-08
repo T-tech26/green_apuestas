@@ -43,11 +43,11 @@ const Header = () => {
                 <div className="header">
                     <div className="md:hidden flex items-center justify-between">
                         <div className="flex items-center gap-2 flex-1">
-                            <h3 className="font-medium text-sm text-color-30 border-r tracking-wide pr-2 italic">
+                           <h3 className="font-medium text-xs text-color-30 border-r tracking-wide pr-2 italic text-wrap w-12 md:w-auto">
                                 Top winners
                             </h3>
-                            <p className="font-light text-xs text-color-30 tracking-wide italic relative overflow-hidden flex-1 h-4">
-                                <span className={`absolute left-0 ${slideStyle}`}>
+                            <p className="font-light text-[10px] leading-[14px] text-color-30 tracking-wide italic relative overflow-hidden flex-1 h-4">
+                                <span className={`absolute left-0 bg-color-60 ${slideStyle}`}>
                                     {DisplayNames[nameIndex].text}
                                 </span>
                             </p>

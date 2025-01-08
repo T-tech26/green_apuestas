@@ -20,13 +20,13 @@ export default function RootLayout({
     useEffect(() => {
       if(admin.label.length) { redirect('/dashboard'); }
 
-      if(!isLoading) {
-        if(typeof user !== 'object') { redirect('/'); }
-      }
     }, [user, admin]);
     /* eslint-enable react-hooks/exhaustive-deps */
-
-
+    
+    
+    if(!isLoading) {
+      if(typeof user !== 'object') { redirect('/'); }
+    }
 
     if(typeof user !== 'object' && !admin.label.length && isLoading) {
       return (

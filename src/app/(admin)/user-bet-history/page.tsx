@@ -1,4 +1,5 @@
 'use client'
+import EditUserTicket from '@/components/EditUserTicket';
 import { Button } from '@/components/ui/button';
 import { useUser } from '@/contexts/child_context/userContext'
 import { useUserSlipContext } from '@/contexts/child_context/userSlipContext';
@@ -26,6 +27,7 @@ const UserBetHistory = () => {
     const [loading, setLoading] = useState(false);
     const [id, setId] = useState('');
     const [userBetsLoading, setUserBetsLoading] = useState(true);
+    const [ticket, setTicket] = useState<UserWithSlip | string>('');
 
 
     /* eslint-disable react-hooks/exhaustive-deps */
@@ -136,8 +138,15 @@ const UserBetHistory = () => {
                             return (
                                 <div key={slip.slip.$id} className='flex flex-col items-center'>
 
-                                    <div className='flex items-center justify-between w-[330px]'>
+                                    <div className='flex items-center justify-between w-[330px] gap-2'>
                                         <p className='text-color-10 text-base mb-2 flex-1'>{slip.user.firstname} {slip.user.lastname}</p>
+
+                                        <Button
+                                            className='h-6 bg-light-gradient-135deg text-xs text-color-30 rounded-full'
+                                            onClick={() => setTicket(slip)}
+                                        >
+                                            Edit ticket
+                                        </Button>
 
                                         <Button
                                             disabled={loading && id === slip.slip.$id}
@@ -168,8 +177,8 @@ const UserBetHistory = () => {
                                         }`}
                                         onClick={() => handleAnimation((slip.slip.$id as string), index)}
                                     >
-                                        <div className='bg-light-gradient-135deg px-5 py-1 rounded-t-md flex justify-between'>
-                                            <p className='flex flex-col justify-between text-color-30 text-sm font-medium'>
+                                        <div className='bg-light-gradient-135deg px-5 py-2 rounded-t-md flex justify-between'>
+                                            <p className='flex flex-col justify-between text-color-30 text-xs font-medium'>
                                                 <span>Multiple</span>
                                                 <span>Ticket ID: {slip.slip.$id && slip.slip.$id.slice(0, 8)}</span>
                                             </p>
@@ -186,23 +195,23 @@ const UserBetHistory = () => {
                                                     key={index} 
                                                     className='px-5 py-1 border-b border-gray-300 relative'
                                                 >
-                                                    <div className='flex items-center justify-evenly py-1 mb-1 relative'>
-                                                        <p className='text-left text-color-60 text-xs w-full text-wrap'>{game.home}</p>
-                                                        <span className='text-color-60 text-xs absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>vs</span>
-                                                        <p className='text-right text-color-60 text-xs w-full text-wrap'>{game.away}</p>
+                                                    <div className='flex items-center relative gap-2'>
+                                                        <p className='text-left text-color-60 text-xs text-wrap'>{game.home}</p>
+                                                        <span className='text-color-60 text-xs'>vs</span>
+                                                        <p className='text-right text-color-60 text-xs text-wrap'>{game.away}</p>
                                                     </div>
         
-                                                    <div className='py-1'>
-                                                        <p className='flex items-center justify-between text-gray-400 text-xs'>
-                                                            <span>Market</span> 
-                                                            <span>Correct score</span>
-                                                        </p>
-                                                        <p className='flex items-center justify-between text-color-60 text-xs w-full relative'>
-                                                            <span className='text-green-400 font-semibold'>won</span> 
-                                                            <span className='text-[10px] text-gray-400 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>{game.odd}</span>
-                                                            <span>{game.homeGoal} - {game.awayGoal}</span>
-                                                        </p>
-                                                    </div>
+                                                    <p className='flex items-center gap-3 text-gray-400 text-xs'>Correct score</p>
+
+                                                    <p className='text-color-60 text-[10px] font-semibold flex justify-between'>{game.homeGoal} - {game.awayGoal}
+                                                        <span>{game.odd}</span>
+                                                    </p>
+
+                                                    {slip.slip.showBet === true && (
+                                                        <p className='text-green-400 text-[11px] font-semibold'>won</p> 
+                                                    )}
+
+                                                    <p className='text-[10px] text-gray-400'>{game.matchTime}</p>
                                                 </div>
                                             )
                                         })}
@@ -258,6 +267,10 @@ const UserBetHistory = () => {
                     </>
                 )}
             </div>
+
+            {ticket !== '' && (
+                <EditUserTicket ticket={ticket} setTicket={setTicket} />
+            )}
         </main>
     )
 }

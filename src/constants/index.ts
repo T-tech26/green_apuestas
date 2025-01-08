@@ -365,7 +365,7 @@ export const DisplayNames = [
         text: 'Charles Bérenger won $44,352'
     },
     {
-        text: 'Alain Aldéric Gaultier won $39,348'
+        text: 'Alain Aldéric won $39,348'
     },
     {
         text: 'Alexandre Aloïs won $12,745'
@@ -377,13 +377,13 @@ export const DisplayNames = [
         text: 'Zacharie Fabien won $23,983'
     },
     {
-        text: 'Noël Gilles Pascal won $19,463'
+        text: 'Noël Gilles won $19,463'
     },
     {
-        text: 'Sylvestre Gonzalez Gomez won $7,425'
+        text: 'Sylvestre Gomez won $7,425'
     },
     {
-        text: 'García Santos Pereira won $10,493'
+        text: 'García Santos won $10,493'
     },
     {
         text: 'João won $21,003'
