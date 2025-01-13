@@ -4,9 +4,9 @@ import { toast } from '@/hooks/use-toast';
 import { verifyUserEmail } from '@/lib/actions/userActions';
 import { Loader2 } from 'lucide-react';
 import { redirect, useSearchParams } from 'next/navigation'
-import React, { useState } from 'react'
+import React, { Suspense, useState } from 'react'
 
-const VerifyEmail = () => {
+const Page = () => {
 
     const params = useSearchParams();
 
@@ -63,6 +63,14 @@ const VerifyEmail = () => {
                 </Button>
             </div>
         </section>
+    )
+}
+
+const VerifyEmail = () => {
+    return (
+        <Suspense>
+            <Page />
+        </Suspense>
     )
 }
 
