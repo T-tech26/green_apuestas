@@ -1,4 +1,5 @@
 'use client'
+import LiveChat from '@/components/LiveChat'
 import PaymentMethod from '@/components/PaymentMethod'
 import { Button } from '@/components/ui/button'
 import { PaymentMethods } from '@/constants'
@@ -40,6 +41,8 @@ const Deposit = () => {
 
                 <PaymentMethod id={paymentMethod} />
             </div>
+
+            <LiveChat />
         </main>
     )
 }

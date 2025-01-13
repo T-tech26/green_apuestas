@@ -6,8 +6,8 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from '@/hooks/use-toast';
 import { UserData } from '@/types/globals';
-import { getVerificationDocuments, uploadDocument } from '@/lib/actions/userActions';
-import { verificationDocumentWithImages } from '@/lib/utils';
+import { adminNotification, getVerificationDocuments, uploadDocument } from '@/lib/actions/userActions';
+import { generateDateString, verificationDocumentWithImages } from '@/lib/utils';
 import { useUser } from '@/contexts/child_context/userContext';
 import Image from 'next/image';
 import { Button } from './ui/button';
@@ -90,6 +90,7 @@ const DocumentVerificationForm = ({ type }: DocumentVerificationFormProps) => {
 
     // 2. Define a submit handler.
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
+        const date = generateDateString();
         setIsLoading(true)
         try {
             if(documentType === '') {
@@ -117,6 +118,8 @@ const DocumentVerificationForm = ({ type }: DocumentVerificationFormProps) => {
                 toast({
                     description: 'Documents uploaded'
                 });
+
+                await adminNotification((user as UserData).userId, documentType, date, '');
             }
 
             const files = await getVerificationDocuments();

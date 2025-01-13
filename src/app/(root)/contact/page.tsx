@@ -9,6 +9,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Form} from '@/components/ui/form';
 import FormButton from '@/components/FormButton';
 import ContactForm from '@/components/ContactForm';
+import { sendContactEmail } from '@/lib/actions/userActions';
+import { toast } from '@/hooks/use-toast';
 
 const Contact = () => {
 
@@ -22,24 +24,33 @@ const Contact = () => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-        firstname: '',
-        lastname: '',
-        email: '',
-        phone: '',
-        message: '',
+            firstname: '',
+            lastname: '',
+            email: '',
+            phone: '',
+            message: '',
         },
     })
 
 
     
     // 2. Define a submit handler.
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
+    const onSubmit = async (values: z.infer<typeof formSchema>) => {
         setIsLoading(true)
-        console.log(values)
-        form.reset();
-        setIsLoading(false)
+        try {
+            const response = await sendContactEmail(values);
+
+            if(response === 'success') {
+                toast({
+                    description: 'Message sent successfully'
+                });
+            }
+        } catch (error) {
+            console.error('Error sending contact email', error);
+        } finally {
+            form.reset();
+            setIsLoading(false)
+        }
     }
 
 
@@ -63,10 +74,11 @@ const Contact = () => {
         </div>
 
         <div
-            className='w-full h-full flex flex-col lg:justify-between lg:flex-row py-16 px-[29px] lg:px-[68px] xl:px-[160px] bg-dark-gradient-180deg' 
+            className='w-full h-full flex flex-co lg:justify-between lg:flex-row py-16 px-[29px] lg:px-[68px] xl:px-[160px] bg-dark-gradient-180deg' 
         >
             <div className='md:w-[65%] lg:w-1/2 md:mx-auto lg:mx-0'>
             <div className="flex flex-col justify-center gap-10 mx-auto">
+                <p className='text-color-60'></p>
 
                 <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -83,13 +95,13 @@ const Contact = () => {
             </div>
 
             <div className='lg:w-1/2 hidden lg:block'>
-            <Image
-                src='/contact-illustration.svg'
-                width={100}
-                height={100}
-                alt='contact illustration'
-                className='w-[90%] h-auto mx-auto'
-            />
+                <Image
+                    src='/contact-illustration.svg'
+                    width={100}
+                    height={100}
+                    alt='contact illustration'
+                    className='w-[90%] h-auto mx-auto'
+                />
             </div>
         </div>
         </main>

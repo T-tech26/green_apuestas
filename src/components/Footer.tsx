@@ -23,9 +23,8 @@ const Footer = () => {
 
                     <h3 className='text-color-30 text-nowrap text-base font-medium'>Email us</h3>
                     <Link 
-                        // href='https://mail.google.com/mail/?view=cm&fs=1&to=me@gmail.com' 
-                        href='/' 
-                        // target='_blank'
+                        href='https://mail.google.com/mail/?view=cm&fs=1&to=teamgreenapuestas@gmail.com' 
+                        target='_blank'
                         className='text-color-30 text-nowrap text-sm flex gap-1 items-center mb-3 hover:text-color-10'
                     >
                         <Image 

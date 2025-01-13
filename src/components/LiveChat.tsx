@@ -5,6 +5,7 @@ import Image from 'next/image'
 const LiveChat = () => {
     return (
         <Link
+            target='_blank'
             href='https://wa.me/34651024934'
             className='fixed bottom-8 right-8'
         >

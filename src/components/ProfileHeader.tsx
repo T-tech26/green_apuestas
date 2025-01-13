@@ -1,8 +1,8 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Image from "next/image";
 import { useUser } from '@/contexts/child_context/userContext';
-import { UserData } from '@/types/globals';
+import { UserData, Notifications as userNotifications } from '@/types/globals'
 import ProfileMobleMenu from './ProfileMobleMenu';
 import Notifications from './Notifications';
 import { formatAmount } from '@/lib/utils';
@@ -16,7 +16,18 @@ const ProfileHeader = () => {
     
     const [showNotification, setShowNotification] = useState(false);
     const [profile, setProfile] = useState(false);
+    const [userWithNotification, setUserWithNotification] = useState<userNotifications[]>([]);
 
+
+    /* eslint-disable react-hooks/exhaustive-deps */
+    useEffect(() => {
+        if(userNotifications.length > 0) {
+            const mappedUserWithNotification: userNotifications[] = userNotifications.filter(notify => notify.userId === (user as UserData).userId)
+
+            setUserWithNotification(mappedUserWithNotification);   
+        }
+    }, [userNotifications]);
+    /* eslint-enable react-hooks/exhaustive-deps */
 
     
     return (
@@ -63,10 +74,10 @@ const ProfileHeader = () => {
                             />
 
                             <span className='text-color-30 text-xs absolute top-[-5px] right-0 bg-color-10 px-1 rounded-full z-50'>
-                                {userNotifications.length > 0 && (
+                                {userWithNotification.length > 0 && (
                                     <span className='absolute top-0 -right-[3px] bg-color-10 rounded-full size-5 -z-50 animate-ping'></span>
                                 )}
-                                {userNotifications.length}
+                                {userWithNotification.length}
                             </span>
                         </div>
                     </div>

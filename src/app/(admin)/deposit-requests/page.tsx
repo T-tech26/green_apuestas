@@ -8,6 +8,7 @@ import { toast } from '@/hooks/use-toast';
 import { creditUserBalance, getTransactions, transactionStatus, userNotification } from '@/lib/actions/userActions';
 import { formatAmount, generateDateString, transactionsWithImages } from '@/lib/utils';
 import { useTransactionContext } from '@/contexts/child_context/transactionContext';
+import { Loader2 } from 'lucide-react';
 
 const DepositRequests = () => {
 
@@ -16,6 +17,9 @@ const DepositRequests = () => {
     const [transactionWithStatus, setTransactionWithStatus] = useState<Transaction[]>([]);
     const [transactionLoading, setTransactionLoading] = useState(true);
     const [showDetails, setShowDetails] = useState<Transaction | string>('');
+    const [isLoading, setIsLoading] = useState(false);
+    const [id, setId] = useState<number>(0);
+    const [buttonAction, setButtonAction] = useState('');
 
     const { transactions, setTransactions } = useTransactionContext();
 
@@ -31,11 +35,16 @@ const DepositRequests = () => {
      /* eslint-enable react-hooks/exhaustive-deps */
 
 
+    const handleLoading = (index: number, action: string) => {
+        setId(index);
+        setButtonAction(action);
+    }
+
 
     const handleStatus = async (id: string, status: string, userId?: string, amount?: string) => {
 
         const date = generateDateString();
-
+        setIsLoading(true);
         try {
             // update the transaction status
             const updated = await transactionStatus(id, status);
@@ -48,7 +57,7 @@ const DepositRequests = () => {
             if(updated !== 'success') return;
 
             // when transaction status is updated notify user, if approved or rejected
-            await userNotification(userId!, `deposit ${status}`, date, '');
+            await userNotification(userId!, `deposit ${status}`, date, amount!);
 
             toast({
                 description: `Successfully ${status} user deposit`
@@ -66,6 +75,8 @@ const DepositRequests = () => {
             });
             /* eslint-enable @typescript-eslint/no-explicit-any */
             console.error(`Error ${status}ing `, error);
+        } finally {
+            setIsLoading(false);
         }
     }
 
@@ -116,7 +127,7 @@ const DepositRequests = () => {
                 <div className='w-full mx-auto flex flex-col gap-1'>
                     {transactionWithStatus.length > 0 ? (
                         <>
-                            {transactionWithStatus.map(trans => {
+                            {transactionWithStatus.map((trans, index) => {
                                 return (
                                     <div
                                         key={trans.$id}
@@ -182,19 +193,37 @@ const DepositRequests = () => {
                                             {trans.transaction_status === 'pending' && (
                                                 <div className='flex flex-col md:flex-row items-center gap-2'>
                                                     <Button 
+                                                        disabled={isLoading && id === index && buttonAction === 'approve'}
                                                         type='button'
                                                         className='w-20 h-6 text-xs text-color-30 bg-light-gradient-135deg px-0 py-0 rounded-full focus:outline-none'
-                                                        onClick={() => handleStatus(trans.$id, 'approved', trans.userId, trans.amount)}
+                                                        onClick={() => {
+                                                            handleLoading(index, 'approve')
+                                                            handleStatus(trans.$id, 'approved', trans.userId, trans.amount);
+                                                        }}
                                                     >
-                                                        Approve
+                                                        {isLoading && id === index && buttonAction === 'approve' ? (
+                                                            <>
+                                                                <Loader2 size={20} className='animate-spin'/>&nbsp; 
+                                                                Loading...
+                                                            </>
+                                                        ): 'Approve'}
                                                     </Button>
 
                                                     <Button 
+                                                        disabled={isLoading && id === index && buttonAction === 'reject'}
                                                         type='button'
                                                         className='w-20 h-6 text-xs text-color-30 bg-light-gradient-135deg px-0 py-0 rounded-full focus:outline-none'
-                                                        onClick={() => handleStatus(trans.$id, 'rejected', trans.userId)}
+                                                        onClick={() => {
+                                                            handleLoading(index, 'reject')
+                                                            handleStatus(trans.$id, 'rejected', trans.userId);
+                                                        }}
                                                     >
-                                                        Reject
+                                                        {isLoading && id === index && buttonAction === 'reject' ? (
+                                                            <>
+                                                                <Loader2 size={20} className='animate-spin'/>&nbsp; 
+                                                                Loading...
+                                                            </>
+                                                        ): 'Reject'}
                                                     </Button>
                                                 </div>
                                             )}                                                            

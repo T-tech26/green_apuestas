@@ -1,4 +1,5 @@
 'use client'
+import LiveChat from '@/components/LiveChat';
 import { useUser } from '@/contexts/child_context/userContext'
 import { useUserSlipContext } from '@/contexts/child_context/userSlipContext';
 import { formatAmount } from '@/lib/utils';
@@ -197,6 +198,8 @@ const BetHistory = () => {
                     </>
                 )}
             </div>
+
+            <LiveChat />
         </main>
     )
 }

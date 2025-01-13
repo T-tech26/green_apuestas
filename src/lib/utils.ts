@@ -59,12 +59,6 @@ export const lastNameSchema = z.object({
   lastname: z.string().min(3),
 })
 
-
-export const emailSchema = z.object({
-  email: z.string().email(),
-})
-
-
 export const phoneNumberSchema = z.object({
   phone: z.string().min(3),
 })

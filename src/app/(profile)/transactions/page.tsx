@@ -1,4 +1,5 @@
 'use client'
+import LiveChat from '@/components/LiveChat'
 import TransactionDetails from '@/components/TransactionDetails'
 import { useTransactionContext } from '@/contexts/child_context/transactionContext'
 import { useUser } from '@/contexts/child_context/userContext'
@@ -38,7 +39,7 @@ const TransactionHistory = () => {
                             return (
                                 <div
                                     key={trans.$id}
-                                    className='bg-white drop-shadow-md rounded-md px-3 py-2 border border-gray-200 hover:bg-gray-50 hover:border-color-10 hover:border'
+                                    className='bg-white drop-shadow-md cursor-pointer rounded-md px-3 py-2 border border-gray-200 hover:bg-gray-50 hover:border-color-10 hover:border'
                                     onClick={() => setShowDetails(trans)}
                                 >
                                     <div className='flex items-center justify-between'>
@@ -118,6 +119,8 @@ const TransactionHistory = () => {
             {typeof showDetails === 'object' && (
                 <TransactionDetails trans={showDetails} setShowDetails={setShowDetails} type='user' />
             )}
+
+            <LiveChat />
         </main>
     )
 }

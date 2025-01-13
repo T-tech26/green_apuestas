@@ -14,20 +14,16 @@ import { logOut } from '@/lib/actions/userActions'
 import { redirect, usePathname } from 'next/navigation'
 import { ProfileMenuLinks } from '@/constants'
 import { cn } from '@/lib/utils'
-import { useUser } from '@/contexts/child_context/userContext'
 
 const ProfileMobleMenu = () => {
 
     const pathName = usePathname();
 
-    const { setUser } = useUser();
-
     const handleLogOut = async () => {
         const response = await logOut();
 
         if(response === 'success') {
-            setUser('');
-            return redirect('/signin');
+            window.location.reload();
         }
     }
     

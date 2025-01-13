@@ -16,6 +16,7 @@ import { toast } from '@/hooks/use-toast';
 import { adminNotification, createTransaction, getTransactions } from '@/lib/actions/userActions';
 import { useUserSlipContext } from '@/contexts/child_context/userSlipContext';
 import { useTransactionContext } from '@/contexts/child_context/transactionContext';
+import LiveChat from './LiveChat';
 
 
 interface WithdrawalFormProps {
@@ -120,13 +121,13 @@ const WithdrawalForm = ({ step, setStep, method }: WithdrawalFormProps) => {
 
             if(premiumCard === false && chargesNotPaid === false && identityNotVerified === false) {
 
-                const message = `Amount ${formatAmount(amount)} USD requested for withdrawal is too big, please contact the management via support to process withdrawal with the necessary legal documents for wire transfer.`;
+                const message = `Amount ${formatAmount(amount)} USD requested for withdrawal is too big, please contact the management via support to process withdrawal with the necessary legal documents for a wire transfer.`;
 
                 setWireTransferMessage(message);
                 
                 setTimeout(() => {
                     setWireTransferMessage('');
-                }, 8000);
+                }, 15000);
             }
 
         } catch (error) {
@@ -289,6 +290,8 @@ const WithdrawalForm = ({ step, setStep, method }: WithdrawalFormProps) => {
                     </div>
                 </div>
             )}
+
+            <LiveChat />
         </main>
     )
 }

@@ -4,7 +4,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { toast } from '@/hooks/use-toast';
 import { BankDetails, UserData } from '@/types/globals';
 import { zodResolver } from '@hookform/resolvers/zod';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import Image from 'next/image';
@@ -15,6 +15,7 @@ import { createBankDetails, deleteBankDetails, getBankDetails } from '@/lib/acti
 import { useUser } from '@/contexts/child_context/userContext';
 import WithdrawalForm from '@/components/WithdrawalForm';
 import { useTransactionContext } from '@/contexts/child_context/transactionContext';
+import LiveChat from '@/components/LiveChat';
 
 
 const Withdrawal = () => {
@@ -27,6 +28,16 @@ const Withdrawal = () => {
     const [selectedDetails, setSelectedDetails] = useState<BankDetails>();
     const [step, setStep] = useState(1);
     const [nameNotMatch, setNameNotMatch] = useState(false);
+    const [bankDetailsWithUser, setBankDetailsWithUser] = useState<BankDetails[]>([]);
+
+
+    useEffect(() => {
+        if(bankDetails.length > 0) {
+            const filteredBankDetails: BankDetails[] = bankDetails.filter(detail => detail.userId === (user as UserData).userId);
+
+            setBankDetailsWithUser(filteredBankDetails.reverse());
+        }
+    }, [bankDetails])
 
 
 
@@ -156,7 +167,7 @@ const Withdrawal = () => {
 
 
                 <section className='py-5'>
-                    {bankDetails.length > 0 ? (
+                    {bankDetailsWithUser.length > 0 ? (
                         <div className='min-w-[200px] rounded-md overflow-x-scroll'>
                             <h1 className='p-4 text-sm text-color-60 font-medium w-full'>Bank withdrawal details.</h1>
                             
@@ -172,7 +183,7 @@ const Withdrawal = () => {
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
-                                    {(bankDetails as BankDetails[]).map((method, index) => {
+                                    {bankDetailsWithUser.map((method, index) => {
 
                                         return (
                                             <TableRow 
@@ -218,7 +229,7 @@ const Withdrawal = () => {
                     )}
 
 
-                    {bankDetails.length > 0 && (
+                    {bankDetailsWithUser.length > 0 && (
                         <div className='flex gap-5 items-center justify-between py-3 mt-5'>
                             <Button type='button' 
                                 className='w-full bg-light-gradient-135deg text-sm text-color-30 rounded-full'
@@ -242,7 +253,7 @@ const Withdrawal = () => {
                         </div>
                     )}
                     
-                    {bankDetails.length === 0 && (
+                    {bankDetailsWithUser.length === 0 && (
                         <Form {...form}>
                             <form onSubmit={form.handleSubmit(onSubmit)}>
                                 
@@ -350,7 +361,7 @@ const Withdrawal = () => {
                         </Form>
                     )}
                     
-                    {bankDetails.length > 0 && uploadAnother && (
+                    {bankDetailsWithUser.length > 0 && uploadAnother && (
                         <Form {...form}>
                             <form onSubmit={form.handleSubmit(onSubmit)}>
                                 
@@ -459,6 +470,8 @@ const Withdrawal = () => {
                     )}
                 </section>
             </div>
+
+            <LiveChat />
         </main>
     )
 }

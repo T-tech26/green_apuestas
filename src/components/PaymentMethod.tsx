@@ -95,7 +95,7 @@ const PaymentMethod = ({ id }: PaymentMethodProps) => {
                     </>
                 ) : Array.isArray(type) && type.length === 0 ? (
                     <div className='flex justify-center py-4'>
-                        <p className='text-color-60 text-sm'>No Binance Pay payment method!</p>
+                        <p className='text-color-60 text-sm'>No international payment method!</p>
                     </div>
                 ) : (
                     <div className="w-full animate-pulse">
@@ -166,7 +166,7 @@ const PaymentMethod = ({ id }: PaymentMethodProps) => {
                     </>
                 ) : Array.isArray(type) && type.length === 0 ? (
                     <div className='flex justify-center py-4'>
-                        <p className='text-color-60 text-sm'>No Binance Pay payment method!</p>
+                        <p className='text-color-60 text-sm'>No Bank payment method!</p>
                     </div>
                 ) : (
                     <div className="w-full animate-pulse">
@@ -230,7 +230,7 @@ const PaymentMethod = ({ id }: PaymentMethodProps) => {
                     </>
                 ) : Array.isArray(type) && type.length === 0 ? (
                     <div className='flex justify-center py-4'>
-                        <p className='text-color-60 text-sm'>No Binance Pay payment method!</p>
+                        <p className='text-color-60 text-sm'>No crypto payment method!</p>
                     </div>
                 ) : (
                     <div className="w-full animate-pulse">

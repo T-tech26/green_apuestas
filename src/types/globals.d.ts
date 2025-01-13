@@ -511,5 +511,14 @@ export interface LoggedInUser {
 }
 
 
+export interface ContactEmailType {
+    firstname: string,
+    lastname: string,
+    email: string,
+    phone: string,
+    message: string
+}
+
+
 
 export {};

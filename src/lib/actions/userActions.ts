@@ -3,10 +3,12 @@
 import { ID, Query } from "node-appwrite";
 import { createAdminClient, createSessionClient } from "../appwrite/config";
 import { cookies } from "next/headers";
-import { Admin, AdminDataWithImage, BankDetails, LoggedInUser, Payment, PaymentMethod, PaymentMethods, registerParams, Transactions, UploadDocument, UserData, UserDataWithImage, UserGame, VerificationDocuments } from "@/types/globals";
-import { parseStringify } from "../utils";
-import { request } from "@arcjet/next";
-import { aj } from "../arcjet/arcjet";
+import { Admin, AdminDataWithImage, BankDetails, ContactEmailType, LoggedInUser, Payment, PaymentMethod, PaymentMethods, registerParams, Transactions, UploadDocument, UserData, UserDataWithImage, UserGame, VerificationDocuments } from "@/types/globals";
+import { formatAmount, parseStringify } from "../utils";
+import { transporter } from "../email/email";
+import * as handlebars from 'handlebars'
+import { WelcomeEmailTemplate, WithdrawalEmailTemplate, approvedVerificationEmailTemplate, rejectedVerificationEmailTemplate, contactEmailTemplate } from "../email/template";
+import ZeroBounceSDK from '@zerobounce/zero-bounce-sdk';
 
 const { 
     APPWRITE_DATABASE_ID, 
@@ -24,23 +26,26 @@ const {
     APPWRITE_VERIFICATION_DOCUMENT_BUCKET_ID,
     APPWRITE_VERIFICATION_DOCUMENT_COLLECTION_ID,
     APPWRITE_ADMIN_PROFILE_IMAGE_COLLECTION_ID,
-    APPWRITE_GAMES_COLLECTION_ID
+    APPWRITE_GAMES_COLLECTION_ID,
+    ZEROBOUNCE_API_KEY
  } = process.env;
+
+
+const zeroBounce = new ZeroBounceSDK();
+zeroBounce.init(ZEROBOUNCE_API_KEY!);
 
 
 export const register = async ({ password, ...data}: registerParams) => {
 
     const { firstname, lastname, email } = data;
+    const template = handlebars.compile(WelcomeEmailTemplate);
 
     try {
         const { account, database } = await createAdminClient();
 
-        const req = await request();
-        const decision = await aj.protect(req, {
-            email: email
-        });
+        const response = await zeroBounce.validateEmail(email);
 
-        if(decision.isDenied()) { return 'Email not valid try a valid email' }
+        if(response.status === 'invalid') { return 'Email is not valid, please try a valid email address'; }
 
         const newUserAccount = await account.create(ID.unique(), email, password, `${firstname} ${lastname}`);
 
@@ -58,6 +63,7 @@ export const register = async ({ password, ...data}: registerParams) => {
 
         const session = await account.createEmailPasswordSession(email, password);
 
+
         (await cookies()).set("appwrite-session", session.secret, {
             path: "/",
             httpOnly: true,
@@ -65,17 +71,27 @@ export const register = async ({ password, ...data}: registerParams) => {
             secure: true,
         });
 
+
+        const emailBody = template({
+            name: `${firstname} ${lastname}`,
+        })
+
+
+        const mailOptions = {
+            from: 'Green apuestas <no-reply@greenapuestas.com>',
+            to: email,
+            subject: 'Welcome To Green Apuestas',
+            text: emailBody,
+            html: emailBody
+        };
+
+        await transporter.sendMail(mailOptions);
+
         return parseStringify(user);
 
-        /* eslint-disable @typescript-eslint/no-explicit-any */
-    } catch (error: any) {
-        /* eslint-enable @typescript-eslint/no-explicit-any */
-
-        if(error?.code === 409) {
-            return 'User already exists';
-        }
-
+    } catch (error) {
         console.error("Error creating user", error);
+        return 'Something went wrong';
     }
 };
 
@@ -198,27 +214,6 @@ export const getLoggedInUser = async (): Promise<UserDataWithImage | AdminDataWi
         console.error("Error getting logged in user", error);
         
         return 'No session';
-    }
-};
-  
-
-export const getUser = async (userId: string) => {
-    try {
-        const { database } = await createAdminClient();
-
-        const userExist = await database.listDocuments(
-            APPWRITE_DATABASE_ID!, 
-            APPWRITE_USERS_COLLECTION_ID!, 
-            [Query.equal('userId', userId)]
-        )
-        
-        /* eslint-disable @typescript-eslint/no-explicit-any */
-        if(!(userExist as any)?.documents.length) return 'User not found';
-        /* eslint-enable @typescript-eslint/no-explicit-any */
-        
-        return parseStringify(userExist);
-    } catch (error) {
-        console.error(error);
     }
 };
 
@@ -536,6 +531,8 @@ export const createTransaction = async (
     method: PaymentMethods, 
     time: string, userId: string, type: string) => {
 
+    const template = handlebars.compile(WithdrawalEmailTemplate);
+
     try {
         const { database, storage } = await createAdminClient();
 
@@ -543,6 +540,7 @@ export const createTransaction = async (
 
         if(type === 'Withdrawal') {
             
+
             await database.createDocument(
                 APPWRITE_DATABASE_ID!,
                 APPWRITE_TRANSACTION_COLLECTION_ID!,
@@ -564,6 +562,32 @@ export const createTransaction = async (
                     }
                 }
             );
+
+
+            const userEmail = await database.listDocuments(
+                APPWRITE_DATABASE_ID!,
+                APPWRITE_USERS_COLLECTION_ID!,
+                [Query.equal('userId', userId)]
+            )
+
+            const withdrawalAmount = formatAmount(amount);
+
+
+            const emailBody = template({
+                name: `${userEmail.documents[0].firstname} ${userEmail.documents[0].lastname}`,
+                amount: withdrawalAmount
+            })
+    
+            const mailOptions = {
+                from: 'Green apuestas <no-reply@greenapuestas.com>',
+                to: userEmail.documents[0].email,
+                subject: 'Withdrawal request',
+                text: emailBody,
+                html: emailBody
+            };
+    
+            await transporter.sendMail(mailOptions);
+
 
             return 'success';
         }
@@ -1334,5 +1358,180 @@ export const createProfileImage = async (image: File, userId: string, userType: 
         /* eslint-disable @typescript-eslint/no-explicit-any */
         return `${(error as any)?.message}, try again`;
         /* eslint-enable @typescript-eslint/no-explicit-any */
+    }
+}
+
+
+export const sendContactEmail = async (data: ContactEmailType) => {
+
+    const template = handlebars.compile(contactEmailTemplate);
+
+    try {
+        
+        const response = await zeroBounce.validateEmail(data.email);
+
+        if(response.status === 'invalid') { return 'Please provide a valid email address'; }
+
+        const emailBody = template({
+            name: `${data.firstname} ${data.lastname}`,
+            email: `${data.email}`,
+            phone: `${data.phone}`,
+            message: `${data.message}`
+        })
+
+        const mailOptions = {
+            from: 'Green apuestas <no-reply@greenapuestas.com>',
+            to: 'teamgreenapuestas@gmail.com',
+            subject: 'Message from website visitor',
+            text: data.message,
+            html: emailBody
+        };
+
+        await transporter.sendMail(mailOptions);
+
+        return 'success';
+    } catch (error) {
+        console.log('Error sending contact email', error);
+    }
+}
+
+
+export const sendVerificationEmail = async () => {
+    try {
+        const { account } = await createSessionClient();
+
+        await account.createVerification('https://greenapuestas.com/verifyEmail');
+        
+        return 'success';
+    } catch (error) {
+        console.log(error);
+        return 'Something went wrong';
+    }
+}
+
+
+export const verifyUserEmail = async (secret: string, userId: string) => {
+    try {
+        const { account } = await createSessionClient();
+        const { database } = await createAdminClient();
+
+        const user = await database.listDocuments(
+            APPWRITE_DATABASE_ID!,
+            APPWRITE_USERS_COLLECTION_ID!,
+           [Query.equal('userId', userId)]
+        );
+
+        if(!user.documents.length) { return 'User not found' }
+
+        await database.updateDocument(
+            APPWRITE_DATABASE_ID!,
+            APPWRITE_USERS_COLLECTION_ID!,
+            user.documents[0].$id,
+            { 'email_verified': true }
+        );
+
+        await account.updateVerification(userId, secret);
+        
+        return 'success';
+    } catch (error) {
+        console.log(error);
+        return 'Something went wrong'
+    }
+}
+
+
+export const accountVerificationEmail = async (name: string, type: string, action: string, email: string) => {
+    const approveTemplate = handlebars.compile(approvedVerificationEmailTemplate);
+    const rejectTemplate = handlebars.compile(rejectedVerificationEmailTemplate);
+    try {
+
+        if(['National ID', 'Driving licence'].includes(type)) {
+
+            if(action === 'approve') {
+                const emailBody = approveTemplate({
+                    subject: `Identity verification approved`,
+                    text: 'identity verification',
+                    name: name,
+                    type: type,
+                    action: `approved`
+                })
+
+                const mailOptions = {
+                    from: 'Green apuestas <no-reply@greenapuestas.com>',
+                    to: email,
+                    subject: `Identity verification approved`,
+                    text: emailBody,
+                    html: emailBody
+                };
+    
+                await transporter.sendMail(mailOptions);
+
+                return;
+            }
+
+            const emailBody = rejectTemplate({
+                subject: `Identity verification rejected`,
+                text: 'identity verification',
+                name: name,
+                type: type,
+                action: `rejected`
+            })
+
+            const mailOptions = {
+                from: 'Green apuestas <no-reply@greenapuestas.com>',
+                to: email,
+                subject: `Identity verification rejected`,
+                text: emailBody,
+                html: emailBody
+            };
+
+            await transporter.sendMail(mailOptions);
+
+            return;
+        }
+
+        if(action === 'approve') {
+            const emailBody = approveTemplate({
+                subject: 'Address verification approved',
+                text: 'address verification',
+                name: name,
+                type: type,
+                action: 'approved'
+            })
+
+            const mailOptions = {
+                from: 'Green apuestas <no-reply@greenapuestas.com>',
+                to: email,
+                subject: 'Address verification approved',
+                text: emailBody,
+                html: emailBody
+            };
+    
+            await transporter.sendMail(mailOptions);
+
+            return;
+        }
+
+        const emailBody = rejectTemplate({
+            subject: 'Address verification rejected',
+            text: 'address verification',
+            name: name,
+            type: type,
+            action: 'rejected'
+        })
+
+
+        const mailOptions = {
+            from: 'Green apuestas <no-reply@greenapuestas.com>',
+            to: email,
+            subject: 'Address verification rejected',
+            text: emailBody,
+            html: emailBody
+        };
+
+        await transporter.sendMail(mailOptions);
+        
+    } catch (error) {
+        console.error('Error send account verification email', error);
     }
 }

@@ -138,12 +138,11 @@ const Register = () => {
           toast({
             description: 'Account created successfully'
           });
-
+          
           setUser(response);
         }
 
       } catch (error) {
-
         console.error("Registration error", error);
       } finally {
         form.reset()

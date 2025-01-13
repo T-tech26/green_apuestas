@@ -1,4 +1,5 @@
 'use client'
+import LiveChat from '@/components/LiveChat'
 import CityForm from '@/components/profileForms/CityForm'
 import CountryForm from '@/components/profileForms/CountryForm'
 import DateOfBirthForm from '@/components/profileForms/DateOfBirthForm'
@@ -32,7 +33,6 @@ const Profile = () => {
 
         <EmailForm
           user={user}
-          setUser={setUser}
         />
 
         <PhoneNumberForm
@@ -61,6 +61,8 @@ const Profile = () => {
         />
 
       </div>
+
+      <LiveChat />
     </main>
   )
 }

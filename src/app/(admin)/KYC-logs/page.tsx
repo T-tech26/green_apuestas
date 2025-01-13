@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react'
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import KYCLogDetails from '@/components/KYCLogDetails';
-import { approveDocumentVerification, getUserNotification, getVerificationDocuments, userNotification } from '@/lib/actions/userActions';
+import { accountVerificationEmail, approveDocumentVerification, getUserNotification, getVerificationDocuments, userNotification } from '@/lib/actions/userActions';
 import { toast } from '@/hooks/use-toast';
 import { generateDateString, verificationDocumentWithImages } from '@/lib/utils';
 import { Loader2 } from 'lucide-react';
@@ -59,7 +59,7 @@ const KYCLogs = () => {
 
 
 
-    const handleStatus = async (id: string, type: string, action: string, userId: string) => {
+    const handleStatus = async (id: string, type: string, action: string, userId: string, name: string, email: string) => {
         const date = generateDateString();
 
         setLoading(true);
@@ -73,6 +73,10 @@ const KYCLogs = () => {
                 })
                 return;
             }
+
+
+            await accountVerificationEmail(name, type, action, email);
+
 
             toast({
                 description: `User verification ${action === 'approve' ? 'approved' : 'rejected'}`
@@ -169,7 +173,7 @@ const KYCLogs = () => {
                                                     type='button'
                                                     className='w-20 h-6 text-xs text-color-30 bg-light-gradient-135deg px-0 py-0 rounded-full focus:outline-none'
                                                     onClick={() => {
-                                                        handleStatus(item.doc.$id!, item.doc.type, 'approve', item.user.userId);
+                                                        handleStatus(item.doc.$id!, item.doc.type, 'approve', item.user.userId, `${item.user.firstname} ${item.user.lastname}`, item.user.email);
                                                         setLoadingId(`${item.doc.$id!} approve`);
                                                     }}
                                                 >
@@ -186,7 +190,7 @@ const KYCLogs = () => {
                                                     type='button'
                                                     className='w-20 h-6 text-xs text-color-30 bg-light-gradient-135deg px-0 py-0 rounded-full focus:outline-none'
                                                     onClick={() => {
-                                                        handleStatus(item.doc.$id!, item.doc.type, 'reject', item.user.userId);
+                                                        handleStatus(item.doc.$id!, item.doc.type, 'reject', item.user.userId, `${item.user.firstname} ${item.user.lastname}`, item.user.email);
                                                         setLoadingId(`${item.doc.$id!} reject`);
                                                     }}
                                                 >

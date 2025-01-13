@@ -133,7 +133,9 @@ const Notifications = ({ setShow, type }: NotificationsProps) => {
                                     {
                                         not.not.type === 'deposit' ? `${not.user.firstname} ${not.user.lastname} made a deposit of ${not.not.amount && formatAmount(not.not.amount)} USD`
                                             : not.not.type === 'withdrawal' ? `${not.user.firstname} ${not.user.lastname} just made a withdrawal request of ${not.not.amount && formatAmount(not.not.amount)} USD.`
-                                                : ''
+                                                : ['National ID', 'Driving licence'].includes(not.not.type) ? `${not.user.firstname} ${not.user.lastname} just uploaded identity verification documents, with type ${not.not.type}` 
+                                                    : ['Utility bill', 'Bank statement', 'Card statement', 'Resident permit'].includes(not.not.type) ? `${not.user.firstname} ${not.user.lastname} just uploaded address verification documents, with type ${not.not.type}`
+                                                        : ''
                                     }
                                     <span className='text-gray-400 text-xs'>{not.not.date}</span>
                                     <span 
@@ -157,8 +159,8 @@ const Notifications = ({ setShow, type }: NotificationsProps) => {
                                     }`}
                                 >
                                     {
-                                        not.type === 'deposit approved' ? `Your account has been credited with ${not.amount && formatAmount(not.amount)} USD.`
-                                            : not.type === 'deposit rejected' ? `Your deposit has been rejected.`
+                                        not.type === 'deposit approved' ? `Your deposit of ${not.amount && formatAmount(not.amount)} USD has been approved, and your account has been credited with ${not.amount && formatAmount(not.amount)} USD.`
+                                            : not.type === 'deposit rejected' ? `Your deposit of ${not.amount && formatAmount(not.amount)} USD has been rejected.`
                                                 : not.type === 'stake' ? 'Green apuesta team has just booked a ticket for you.'
                                                     : not.type === 'deduct' ? `${not.amount && formatAmount(not.amount)} USD has been deducted from your account for your ticket.`
                                                         : not.type === 'ticketWon' ? `You have been credited with ${not.amount && formatAmount(not.amount)} USD from your winning ticket.`
