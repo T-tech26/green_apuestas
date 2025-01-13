@@ -1400,7 +1400,7 @@ export const sendVerificationEmail = async () => {
     try {
         const { account } = await createSessionClient();
 
-        await account.createVerification('https://www.greenapuestas.com/verifyEmail');
+        await account.createVerification('https://appwrite.greenapuestas.com/verifyEmail');
         
         return 'success';
     } catch (error) {
