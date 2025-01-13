@@ -11,7 +11,7 @@ import {
 import Link from 'next/link'
 import { Button } from './ui/button'
 import { logOut } from '@/lib/actions/userActions'
-import { redirect, usePathname } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import { ProfileMenuLinks } from '@/constants'
 import { cn } from '@/lib/utils'
 

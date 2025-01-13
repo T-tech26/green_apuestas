@@ -1,9 +1,8 @@
 'use client'
 
-import { sendVerificationEmail, updateUserProfile } from '@/lib/actions/userActions';
+import { sendVerificationEmail } from '@/lib/actions/userActions';
 import { UserData } from '@/types/globals'
 import React, { useState } from 'react'
-import { FormLabel } from '../ui/form';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { Loader2 } from 'lucide-react';

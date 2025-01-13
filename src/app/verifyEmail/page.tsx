@@ -2,7 +2,6 @@
 import { Button } from '@/components/ui/button';
 import { toast } from '@/hooks/use-toast';
 import { verifyUserEmail } from '@/lib/actions/userActions';
-import { createSessionClient } from '@/lib/appwrite/config';
 import { Loader2 } from 'lucide-react';
 import { redirect, useSearchParams } from 'next/navigation'
 import React, { useState } from 'react'
