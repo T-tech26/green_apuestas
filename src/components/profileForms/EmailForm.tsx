@@ -53,8 +53,8 @@ const EmailForm = ({ user }: EmailFormProps) => {
                         />
 
                         <p
-                            className={`flex items-center justify-between text-xs text-red-300 rounded-full pl-2 pr-6 py-[2px] bg-red-50 ${
-                                (user as UserData)?.email_verified ? 'bg-green-300 text-green-300' : ''
+                            className={`flex items-center justify-between text-xs rounded-full pl-2 pr-6 py-[2px] ${
+                                (user as UserData)?.email_verified ? 'bg-green-50 text-green-300' : 'text-red-300 bg-red-50'
                             }`}
                         >
                             <Image
@@ -71,7 +71,7 @@ const EmailForm = ({ user }: EmailFormProps) => {
 
             <div className='self-end flex gap-2'>
                 <Button type='button' 
-                    disabled={verifyPending}
+                    disabled={verifyPending || (user as UserData)?.email_verified}
                     className='bg-light-gradient-135deg text-xs text-color-30 rounded-full self-end h-7 px-6'
                     onClick={() => verifyEmail()}
                 >
