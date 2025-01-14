@@ -4,7 +4,7 @@ import { toast } from '@/hooks/use-toast';
 import { verifyUserEmail } from '@/lib/actions/userActions';
 import { Loader2 } from 'lucide-react';
 import { redirect, useSearchParams } from 'next/navigation'
-import React, { useState } from 'react'
+import React, { Suspense, useState } from 'react'
 
 const VerifyEmail = () => {
 
@@ -19,9 +19,9 @@ const VerifyEmail = () => {
         setIsLoading(true);
         try {
             
-            if(!secret || !userId) {
+            if (!secret || !userId) {
                 toast({
-                    description: 'An unknown error occured'
+                    description: 'An unknown error occurred'
                 });
                 return;
             }
@@ -42,7 +42,6 @@ const VerifyEmail = () => {
             setIsLoading(false);
         }
     };
-
 
     return (
         <section className='w-full h-screen grid place-items-center'>
@@ -66,4 +65,13 @@ const VerifyEmail = () => {
     )
 }
 
-export default VerifyEmail
+// Wrap your page component inside Suspense
+const SuspenseWrapper = () => {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <VerifyEmail />
+        </Suspense>
+    );
+}
+
+export default SuspenseWrapper;
