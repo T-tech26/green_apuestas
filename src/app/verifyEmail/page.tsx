@@ -4,16 +4,25 @@ import { toast } from '@/hooks/use-toast';
 import { verifyUserEmail } from '@/lib/actions/userActions';
 import { Loader2 } from 'lucide-react';
 import { redirect, useSearchParams } from 'next/navigation'
-import React, { Suspense, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 
 const VerifyEmail = () => {
 
     const params = useSearchParams();
 
     const [isLoading, setIsLoading] = useState(false);
+    const [isVerified, setIsVerified] = useState(false);
 
     const secret = params.get('secret');
     const userId = params.get('userId');
+
+
+    useEffect(() => {
+        if (isVerified) {
+            redirect('/login'); // Redirect once email is verified
+        }
+    }, [isVerified]);
+
 
     const emailVerification = async () => {
         setIsLoading(true);
@@ -32,7 +41,7 @@ const VerifyEmail = () => {
                 description: 'Email verified'
             });
 
-            redirect('/login');
+            setIsVerified(true);
         } catch (error) {
             console.log("Error verifying user email", error);
             toast({
