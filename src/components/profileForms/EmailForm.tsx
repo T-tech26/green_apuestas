@@ -30,7 +30,7 @@ const EmailForm = ({ user }: EmailFormProps) => {
             }
 
             toast({
-                description: 'An email has been sent to your provided email address'
+                description: 'An email has been sent from appwrite'
             });
         } catch (error) {
             console.log('Error verifying email', error);
