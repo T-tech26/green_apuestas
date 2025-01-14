@@ -19,7 +19,7 @@ const VerifyEmail = () => {
 
     useEffect(() => {
         if (isVerified) {
-            redirect('/login'); // Redirect once email is verified
+            redirect('/signin'); // Redirect once email is verified
         }
     }, [isVerified]);
 

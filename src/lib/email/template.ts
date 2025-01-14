@@ -70,7 +70,7 @@ export const WelcomeEmailTemplate = `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.
             </tr>
 
             <tr>
-                <td style="height: 100px; padding-left: 30px; text-align: center;">
+                <td style="height: 100px; text-align: center;">
                     <a href="https://greenapuestas.com/deposit">
                         <button style="
                             padding-top: 10px;
