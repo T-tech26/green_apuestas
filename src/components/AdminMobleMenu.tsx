@@ -3,7 +3,7 @@ import { useUser } from '@/contexts/child_context/userContext';
 import { logOut } from '@/lib/actions/userActions';
 import { redirect, usePathname } from 'next/navigation';
 import React from 'react'
-import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from './ui/sheet';
+import { Sheet, SheetClose, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from './ui/sheet';
 import Image from 'next/image';
 import { Button } from './ui/button';
 import { cn } from '@/lib/utils';

@@ -31,6 +31,7 @@ const Withdrawal = () => {
     const [bankDetailsWithUser, setBankDetailsWithUser] = useState<BankDetails[]>([]);
 
 
+    /* eslint-disable react-hooks/exhaustive-deps */
     useEffect(() => {
         if(bankDetails.length > 0) {
             const filteredBankDetails: BankDetails[] = bankDetails.filter(detail => detail.userId === (user as UserData).userId);
@@ -38,6 +39,7 @@ const Withdrawal = () => {
             setBankDetailsWithUser(filteredBankDetails.reverse());
         }
     }, [bankDetails])
+    /* eslint-enable react-hooks/exhaustive-deps */
 
 
 
