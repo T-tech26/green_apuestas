@@ -70,7 +70,13 @@ const LoggedInHeader = () => {
             </div>
 
             <div className="flex justify-between items-center gap-5">
-                <h1 className="text-2xl text-color-30 font">Logo</h1>
+                                    
+                <Image
+                    src='/logo-light.png'
+                    width={100}
+                    height={100}
+                    alt='light version logo'
+                />
 
                 <div className="md:flex flex-1 items-center gap-2 hidden">
                     <h3 className="font-medium text-sm text-color-30 border-r tracking-wide pr-2 italic">

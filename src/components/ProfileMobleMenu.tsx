@@ -5,7 +5,9 @@ import {
   Sheet,
   SheetClose,
   SheetContent,
-  SheetFooter,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet'
 import Link from 'next/link'
@@ -45,9 +47,23 @@ const ProfileMobleMenu = () => {
 
                 <SheetContent
                     side='left'
-                    className='bg-dark-gradient-135deg h-screen flex flex-col justify-between item-center pb-7 py-5'
+                    className='bg-dark-gradient-135deg flex flex-col justify-between item-center pb-7 py-5 overflow-y-scroll'
                 >
-                    <div className='w-full pt-10'>
+                    <Image
+                        src='/logo-light.png'
+                        width={100}
+                        height={100}
+                        alt='light version logo'
+                    />
+
+                    <div className='hidden'>
+                        <SheetHeader>
+                            <SheetTitle></SheetTitle>
+                            <SheetDescription></SheetDescription>
+                        </SheetHeader>
+                    </div>
+
+                    <div className='w-full flex-1'>
                         {ProfileMenuLinks.map((link) => {
 
                             const isActive = pathName === link.route || pathName.startsWith(`&{link.route}/`);
@@ -72,23 +88,21 @@ const ProfileMobleMenu = () => {
                         })}
                     </div>
                 
-                    <SheetFooter>
-                        <SheetClose asChild>
-                            <Button
-                                className='w-full bg-transparent rounded-none border-t-2 border-color-10 hover:bg-light-gradient-135deg cursor-pointer flex gap-2 items-center text-sm'
-                                onClick={() => handleLogOut()}
-                            >
-                                <Image
-                                    src='/logout.svg'
-                                    width={20}
-                                    height={20}
-                                    alt='logout icon'
-                                    className='cursor-pointer'
-                                />
-                                Logout
-                            </Button>
-                        </SheetClose>
-                    </SheetFooter>
+                    <SheetClose asChild>
+                        <Button
+                            className='w-full bg-transparent rounded-none border-t-2 border-color-10 hover:bg-light-gradient-135deg cursor-pointer flex gap-2 items-center text-sm'
+                            onClick={() => handleLogOut()}
+                        >
+                            <Image
+                                src='/logout.svg'
+                                width={20}
+                                height={20}
+                                alt='logout icon'
+                                className='cursor-pointer'
+                            />
+                            Logout
+                        </Button>
+                    </SheetClose>
                 </SheetContent>
 
             </Sheet>

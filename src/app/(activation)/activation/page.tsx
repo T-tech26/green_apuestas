@@ -15,6 +15,7 @@ import { Loader2 } from 'lucide-react'
 import { useToast } from '@/hooks/use-toast'
 import { useUser } from '@/contexts/child_context/userContext'
 import { UserData } from '@/types/globals'
+import Image from 'next/image'
 
 
 const Activation = () => {
@@ -91,7 +92,12 @@ const Activation = () => {
       ): (
         <>
           <header className="w-full h-auto px-[15px] md:px-20 pt-7 flex justify-between item-center">
-            <h1 className='text-color-30 text-xl'>LOGO</h1>
+            <Image
+                src='/logo-light.png'
+                width={100}
+                height={100}
+                alt='light version logo'
+            />
 
             <LanguageSwitcher />
           </header>

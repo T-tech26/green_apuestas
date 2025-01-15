@@ -27,8 +27,16 @@ const AdminMenu = () => {
 
     return (
         <aside
-            className='hidden md:flex bg-dark-gradient-135deg h-screen w-64 lg:w-72 flex-col item-center pt-10 pb-5 px-7 overflow-y-scroll'
+            className='md:relative hidden md:flex bg-dark-gradient-135deg h-screen w-64 lg:w-72 flex-col item-center pt-5 pb-5 px-7 overflow-y-scroll'
         >
+            <Image
+                src='/logo-light.png'
+                width={100}
+                height={100}
+                alt='light version logo'
+                className='mb-5'
+            />
+
             {AdminMainMenuLinks.map((link) => {
 
                 const isActive = pathName === link.route || pathName.startsWith(`&{link.route}/`);

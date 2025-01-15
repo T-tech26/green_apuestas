@@ -10,7 +10,12 @@ const Subscritpion = () => {
         className='bg-color-60 bg-opacity-30 w-full h-full flex flex-col'
       >
         <header className="w-full h-auto px-[15px] md:px-20 pt-7 flex justify-between item-center">
-          <h1 className='text-color-30 text-xl'>LOGO</h1>
+          <Image
+              src='/logo-dark.png'
+              width={100}
+              height={100}
+              alt='light version logo'
+          />
 
           <LanguageSwitcher />
         </header>

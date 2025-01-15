@@ -10,11 +10,18 @@ const Footer = () => {
         <footer
             className='bg-color-10 flex flex-col'
         >
-            <div className='py-3 px-[29px] lg:px-[160px]'>
-                <h1 className='text-color-30'>LOGO</h1>
+            <div className='py-3 px-[29px] xl:px-[160px]'>
+                                    
+                <Image
+                    src='/logo-dark.png'
+                    width={100}
+                    height={100}
+                    alt='light version logo'
+                />
+
             </div>
 
-            <div className="bg-dark-gradient-180deg-reverse flex flex-wrap py-10 px-[29px] lg:px-[160px] justify-evenly gap-10 lg:gap-32">
+            <div className="bg-dark-gradient-180deg-reverse flex flex-wrap py-10 px-[29px] xl:px-[160px] justify-evenly gap-10 lg:gap-32">
 
                 <div className='flex-1'>
                     <h2 className='text-color-10 text-nowrap text-lg font-medium mb-2'>

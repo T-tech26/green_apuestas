@@ -7,6 +7,7 @@ import { DisplayNames, menuLinks } from '@/constants';
 import { usePathname } from 'next/navigation';
 import LoggedInHeader from './LoggedInHeader';
 import { useUser } from '@/contexts/child_context/userContext';
+import Image from 'next/image';
 
 
 
@@ -57,7 +58,13 @@ const Header = () => {
                     </div>
 
                     <div className="flex justify-between items-center">
-                    <h1 className="text-2xl text-color-30 font">Logo</h1>
+                    
+                    <Image
+                        src='/logo-light.png'
+                        width={100}
+                        height={100}
+                        alt='light version logo'
+                    />
                     
                     <div className="hidden md:flex justify-center items-center gap-5">
                         {menuLinks.map((item) => {

@@ -41,7 +41,7 @@ const Notifications = ({ setShow, type }: NotificationsProps) => {
 
     
     useEffect(() => {
-        if (adminNotifications.length > 0) {
+        if (adminNotifications.length > 0 && Array.isArray(allUsers)) {
 
             const mappedUserWithNotify: UserWithNotify[] = adminNotifications.map((not: AdminNotifications) => {
                 
@@ -63,7 +63,7 @@ const Notifications = ({ setShow, type }: NotificationsProps) => {
             // Update the state with the userWithSlip data
             setAdminWithNotification(mappedUserWithNotify.reverse());
         }
-    }, [adminNotifications])
+    }, [adminNotifications, allUsers]);
     /* eslint-enable react-hooks/exhaustive-deps */
 
 

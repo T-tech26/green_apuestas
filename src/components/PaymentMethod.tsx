@@ -50,7 +50,7 @@ const PaymentMethod = ({ id }: PaymentMethodProps) => {
         return (
             <main className='py-7'>
                 {Array.isArray(type) && type.length > 0 ? (
-                    <>
+                    <div className='overflow-x-scroll address'>
                         {type.map((method, index) => {
                             const logo = method.logoUrl;
     
@@ -58,7 +58,7 @@ const PaymentMethod = ({ id }: PaymentMethodProps) => {
                             return (
                                 <div 
                                     key={method.$id}
-                                    className={`flex items-center justify-between py-2 px-4 bg-gray-50 hover:bg-light-gradient-135deg border-b border-color-10 cursor-pointer ${
+                                    className={`min-w-[500px] gap-5 flex items-center justify-between py-2 px-4 bg-gray-50 hover:bg-light-gradient-135deg border-b border-color-10 cursor-pointer ${
                                         index === 0 ? 'rounded-t-md' : ''
                                     } ${ isLastIndex ? 'border-none rounded-b-md' : ''}`}
                                     onClick={() => setMethod(method)}
@@ -92,7 +92,7 @@ const PaymentMethod = ({ id }: PaymentMethodProps) => {
                                 </div>
                             )
                         })}
-                    </>
+                    </div>
                 ) : Array.isArray(type) && type.length === 0 ? (
                     <div className='flex justify-center py-4'>
                         <p className='text-color-60 text-sm'>No international payment method!</p>
@@ -114,7 +114,7 @@ const PaymentMethod = ({ id }: PaymentMethodProps) => {
         return (
             <main className='py-7'>
                 {Array.isArray(type) && type.length > 0 ? (
-                    <>
+                    <div className='overflow-x-scroll address'>
                         {type.map((method, index) => {
                             const logo = method.logoUrl;
     
@@ -122,7 +122,7 @@ const PaymentMethod = ({ id }: PaymentMethodProps) => {
                             return (
                                 <div 
                                     key={method.$id}
-                                    className={`flex items-center justify-between py-2 px-4 bg-gray-50 hover:bg-light-gradient-135deg border-b border-color-10 cursor-pointer ${
+                                    className={`min-w-[500px] gap-5 flex items-center justify-between py-2 px-4 bg-gray-50 hover:bg-light-gradient-135deg border-b border-color-10 cursor-pointer ${
                                         index === 0 ? 'rounded-t-md' : ''
                                     } ${ isLastIndex ? 'border-none rounded-b-md' : ''}`}
                                     onClick={() => setMethod(method)}
@@ -163,7 +163,7 @@ const PaymentMethod = ({ id }: PaymentMethodProps) => {
                                 </div>
                             )
                         })}
-                    </>
+                    </div>
                 ) : Array.isArray(type) && type.length === 0 ? (
                     <div className='flex justify-center py-4'>
                         <p className='text-color-60 text-sm'>No Bank payment method!</p>
@@ -185,7 +185,7 @@ const PaymentMethod = ({ id }: PaymentMethodProps) => {
         return (
             <main className='py-7'>
                 {Array.isArray(type) && type.length > 0 ? (
-                    <>
+                    <div className='overflow-x-scroll address'>
                         {type.map((method, index) => {
                             const logo = method.logoUrl;
     
@@ -193,7 +193,7 @@ const PaymentMethod = ({ id }: PaymentMethodProps) => {
                             return (
                                 <div 
                                     key={method.$id}
-                                    className={`flex items-center justify-between py-2 px-4 bg-gray-50 hover:bg-light-gradient-135deg border-b border-color-10 cursor-pointer ${
+                                    className={`min-w-[500px] flex justify-between gap-5 items-center py-2 px-4 bg-gray-50 hover:bg-light-gradient-135deg border-b border-color-10 cursor-pointer ${
                                         index === 0 ? 'rounded-t-md' : ''
                                     } ${ isLastIndex ? 'border-none rounded-b-md' : ''}`}
                                     onClick={() => setMethod(method)}
@@ -227,7 +227,7 @@ const PaymentMethod = ({ id }: PaymentMethodProps) => {
                                 </div>
                             )
                         })}
-                    </>
+                    </div>
                 ) : Array.isArray(type) && type.length === 0 ? (
                     <div className='flex justify-center py-4'>
                         <p className='text-color-60 text-sm'>No crypto payment method!</p>
@@ -248,7 +248,7 @@ const PaymentMethod = ({ id }: PaymentMethodProps) => {
     return (
         <main className='py-7'>
             {Array.isArray(type) && type.length > 0 ? (
-                <>
+                <div className='overflow-x-scroll address'>
                     {type.map((method, index) => {
                         const logo = method.logoUrl;
 
@@ -256,7 +256,7 @@ const PaymentMethod = ({ id }: PaymentMethodProps) => {
                         return (
                             <div 
                                 key={method.$id}
-                                className={`flex items-center justify-between py-2 px-4 bg-gray-50 hover:bg-light-gradient-135deg border-b border-color-10 cursor-pointer ${
+                                className={`min-w-[500px] flex justify-between items-center gap-5 py-2 px-4 bg-gray-50 hover:bg-light-gradient-135deg border-b border-color-10 cursor-pointer ${
                                     index === 0 ? 'rounded-t-md' : ''
                                 } ${ isLastIndex ? 'border-none rounded-b-md' : ''}`}
                                 onClick={() => setMethod(method)}
@@ -290,7 +290,7 @@ const PaymentMethod = ({ id }: PaymentMethodProps) => {
                             </div>
                         )
                     })}
-                </>
+                </div>
             ) : Array.isArray(type) && type.length === 0 ? (
                 <div className='flex justify-center py-4'>
                     <p className='text-color-60 text-sm'>No Binance Pay payment method!</p>
