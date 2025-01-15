@@ -14,13 +14,14 @@ const AdminMobleMenu = () => {
     
     const pathName = usePathname();
 
-    const { setUser } = useUser();
+    const { setAdmin } = useUser();
 
     const handleLogOut = async () => {
         const response = await logOut();
 
         if(response === 'success') {
-            setUser('');
+
+            setAdmin({ $id: '', name: '', label: [] });
             return redirect('/signin');
         }
     }
