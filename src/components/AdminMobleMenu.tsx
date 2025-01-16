@@ -1,7 +1,6 @@
 'use client'
-import { useUser } from '@/contexts/child_context/userContext';
 import { logOut } from '@/lib/actions/userActions';
-import { redirect, usePathname } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import React from 'react'
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from './ui/sheet';
 import Image from 'next/image';
@@ -14,15 +13,11 @@ const AdminMobleMenu = () => {
     
     const pathName = usePathname();
 
-    const { setAdmin } = useUser();
-
     const handleLogOut = async () => {
         const response = await logOut();
 
         if(response === 'success') {
-
-            setAdmin({ $id: '', name: '', label: [] });
-            return redirect('/signin');
+            window.location.reload();
         }
     }
     

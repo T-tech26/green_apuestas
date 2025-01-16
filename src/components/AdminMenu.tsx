@@ -1,9 +1,8 @@
 'use client'
 import { AdminMainMenuLinks, AdminSubMenuLinks } from '@/constants';
-import { useUser } from '@/contexts/child_context/userContext';
 import { logOut } from '@/lib/actions/userActions';
 import Link from 'next/link';
-import { redirect, usePathname } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import React from 'react'
 import Image from 'next/image';
 import { Button } from './ui/button';
@@ -14,14 +13,11 @@ const AdminMenu = () => {
   
     const pathName = usePathname();
 
-    const { setAdmin } = useUser();
-
     const handleLogOut = async () => {
         const response = await logOut();
 
         if(response === 'success') {
-            setAdmin({ $id: '', name: '', label: [] });
-            return redirect('/signin');
+            window.location.reload();
         }
     }
 
