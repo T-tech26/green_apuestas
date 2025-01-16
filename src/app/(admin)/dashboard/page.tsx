@@ -117,12 +117,12 @@ const Dashboard = () => {
                                             className={`hover:bg-light-gradient-135deg cursor-pointer ${index % 2 === 1 ? 'bg-gray-50' : ''}`}
                                             onClick={() => setSelectedUser(user)}
                                         >
-                                            <TableCell className="font-medium flex gap-1 items-center">
+                                            <TableCell className="font-medium flex gap-1 items-center min-w-48">
                                                 {/* eslint-disable @next/next/no-img-element */}
                                                 <img
                                                     src={user.profileImg ? user.profileImgUrl : '/profile-icon.svg'}
-                                                    width={40}
-                                                    height={40}
+                                                    width={50}
+                                                    height={50}
                                                     alt='menu icons'
                                                     className='cursor-pointer'
                                                 />
