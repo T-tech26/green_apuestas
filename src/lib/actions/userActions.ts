@@ -3,7 +3,7 @@
 import { ID, Query } from "node-appwrite";
 import { createAdminClient, createSessionClient } from "../appwrite/config";
 import { cookies } from "next/headers";
-import { Admin, AdminDataWithImage, BankDetails, ContactEmailType, LoggedInUser, Payment, PaymentMethod, PaymentMethods, registerParams, Transactions, UploadDocument, UserData, UserDataWithImage, UserGame, UsersAndImages, VerificationDocuments } from "@/types/globals";
+import { Admin, AdminDataWithImage, BankDetails, ContactEmailType, LoggedInUser, Payment, PaymentMethod, PaymentMethods, registerParams, Transactions, UploadDocument, UserData, UserDataWithImage, UserGame, VerificationDocuments } from "@/types/globals";
 import { formatAmount, parseStringify } from "../utils";
 import { transporter } from "../email/email";
 import * as handlebars from 'handlebars'

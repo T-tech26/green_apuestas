@@ -1,7 +1,6 @@
 'use client'
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormMessage } from '@/components/ui/form';
-import { UserData } from '@/types/globals';
 import { zodResolver } from '@hookform/resolvers/zod';
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';

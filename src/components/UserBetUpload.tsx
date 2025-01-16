@@ -1,7 +1,7 @@
 import { useUser } from '@/contexts/child_context/userContext';
 import { toast } from '@/hooks/use-toast';
 import { createGameTicket, creditUserBalance, userNotification } from '@/lib/actions/userActions';
-import { Games, UserData, UserGame } from '@/types/globals';
+import { Games, UserGame } from '@/types/globals';
 import { zodResolver } from '@hookform/resolvers/zod';
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
