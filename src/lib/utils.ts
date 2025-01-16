@@ -1,4 +1,4 @@
-import { Admin, AdminDataWithImage, Payment, PaymentMethods, Transaction, Transactions, UserData, UserDataWithImage, VerificationDocument, VerificationDocuments } from "@/types/globals"
+import { Admin, AdminDataWithImage, Payment, PaymentMethods, Transaction, Transactions, UserData, UserDataWithImage, UsersAndImages, VerificationDocument, VerificationDocuments } from "@/types/globals"
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 import { z } from "zod"
@@ -235,4 +235,18 @@ export const loggedInAdminWithImage = (user: AdminDataWithImage): Admin => {
         ...user.admin,
         adminImg: image !== '' ? `${process.env.NEXT_PUBLIC_APPWRITE_PUBLIC_URL}/storage/buckets/${process.env.NEXT_PUBLIC_APPWRITE_PAYMENT_METHOD_LOGO_BUCKET_ID}/files/${user.image.$id}/view?project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID}&project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID}&mode=admin` : '',
     };
+};
+
+
+export const allUsersWithImages = (users: UsersAndImages): UserData[] => {
+
+  return (users as UsersAndImages).users.map((user) => {
+
+    const image = (users as UsersAndImages).images.find((img) => img.name === user.profileImg); // Match by the logo name
+
+    return {
+      ...user,
+      profileImgUrl: image ? `${process.env.NEXT_PUBLIC_APPWRITE_PUBLIC_URL}/storage/buckets/${process.env.NEXT_PUBLIC_APPWRITE_PAYMENT_METHOD_LOGO_BUCKET_ID}/files/${image.$id}/view?project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID}&project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID}&mode=admin` : '',
+    };
+  })
 };

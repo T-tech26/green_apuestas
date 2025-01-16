@@ -13,7 +13,6 @@ const BetHistory = () => {
 
     const [userWithSlip, setUserWithSlip] = useState<UserGame[]>([]);
     const [showBets, setShowBet] = useState<string | number>('');
-    const [userBetsLoading, setUserBetsLoading] = useState(true);
 
 
     /* eslint-disable react-hooks/exhaustive-deps */
@@ -21,7 +20,6 @@ const BetHistory = () => {
         if(userSlips.length > 0) {
             const filteredUserWithSlip: UserGame[] = userSlips.filter(slip => slip.userId === (user as UserData).userId);
             setUserWithSlip(filteredUserWithSlip.reverse());
-            if(userBetsLoading) setUserBetsLoading(!userBetsLoading);
         }
     }, [userSlips]);
     /* eslint-enable react-hooks/exhaustive-deps */
@@ -180,22 +178,10 @@ const BetHistory = () => {
                             )
                         })}
                     </div>
-                ) : !userBetsLoading ? (
+                ) : (
                     <div className='w-full py-4 flex flex-col items-center justify-center gap-2'>
                         <p className='text-color-60 text-sm font-semibold'>No bets!</p>
                     </div>
-                ) : (
-                    <>
-                        <div className="animate-pulse">
-                            <div className='w-full h-12 bg-gray-300 rounded-md'></div>
-                        </div>
-                        <div className="animate-pulse">
-                            <div className='w-full h-12 bg-gray-300 rounded-md'></div>
-                        </div>
-                        <div className="animate-pulse">
-                            <div className='w-full h-12 bg-gray-300 rounded-md'></div>
-                        </div>
-                    </>
                 )}
             </div>
 

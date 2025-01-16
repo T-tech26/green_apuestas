@@ -3,7 +3,7 @@
 import { ID, Query } from "node-appwrite";
 import { createAdminClient, createSessionClient } from "../appwrite/config";
 import { cookies } from "next/headers";
-import { Admin, AdminDataWithImage, BankDetails, ContactEmailType, LoggedInUser, Payment, PaymentMethod, PaymentMethods, registerParams, Transactions, UploadDocument, UserData, UserDataWithImage, UserGame, VerificationDocuments } from "@/types/globals";
+import { Admin, AdminDataWithImage, BankDetails, ContactEmailType, LoggedInUser, Payment, PaymentMethod, PaymentMethods, registerParams, Transactions, UploadDocument, UserData, UserDataWithImage, UserGame, UsersAndImages, VerificationDocuments } from "@/types/globals";
 import { formatAmount, parseStringify } from "../utils";
 import { transporter } from "../email/email";
 import * as handlebars from 'handlebars'
@@ -220,14 +220,18 @@ export const getLoggedInUser = async (): Promise<UserDataWithImage | AdminDataWi
 
 export const getAllUsers = async () => {
     try {
-        const { database } = await createAdminClient();
+        const { database, storage } = await createAdminClient();
 
         const allUsers = await database.listDocuments(
             APPWRITE_DATABASE_ID!, 
             APPWRITE_USERS_COLLECTION_ID!, 
-        )
+        );
+
+        const profileImages = await storage.listFiles(
+            APPWRITE_PAYMENT_METHOD_LOGO_BUCKET_ID!,
+        );
        
-        return parseStringify(allUsers.documents);
+        return parseStringify({ users: allUsers.documents, images: profileImages.files });
     } catch (error) {
         console.error(error);
     }

@@ -41,7 +41,7 @@ export const WelcomeEmailTemplate = `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.
         <thead>
             <tr style="height: 50px; background: #f6f4f1;">
                 <th style="text-align: left; width: 100%; padding-left: 30px; vertical-align: middle;">
-                    <img src="https://imagizer.imageshack.com/img922/1339/HmQ4eq.jpg" alt="" style="width: 100px;">
+                    <img src="https://imagizer.imageshack.com/img924/892/sB9sUs.png" alt="logo" style="width: 100px;">
                 </th>
             </tr>
         </thead>
@@ -201,7 +201,7 @@ export const WithdrawalEmailTemplate = `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML
         <thead>
             <tr style="height: 50px; background: #f6f4f1;">
                 <th style="text-align: left; width: 100%; padding-left: 30px; vertical-align: middle;">
-                    <img src="https://imagizer.imageshack.com/img922/1339/HmQ4eq.jpg" alt="" style="width: 100px;">
+                    <img src="https://imagizer.imageshack.com/img924/892/sB9sUs.png" alt="logo" style="width: 100px;">
                 </th>
             </tr>
         </thead>
@@ -286,7 +286,7 @@ export const approvedVerificationEmailTemplate = `<!DOCTYPE html PUBLIC "-//W3C/
         <thead>
             <tr style="height: 50px; background: #f6f4f1;">
                 <th style="text-align: left; width: 100%; padding-left: 30px; vertical-align: middle;">
-                    <img src="https://imagizer.imageshack.com/img922/1339/HmQ4eq.jpg" alt="" style="width: 100px;">
+                    <img src="https://imagizer.imageshack.com/img924/892/sB9sUs.png" alt="logo" style="width: 100px;">
                 </th>
             </tr>
         </thead>
@@ -372,7 +372,7 @@ export const rejectedVerificationEmailTemplate = `<!DOCTYPE html PUBLIC "-//W3C/
         <thead>
             <tr style="height: 50px; background: #f6f4f1;">
                 <th style="text-align: left; width: 100%; padding-left: 30px; vertical-align: middle;">
-                    <img src="https://imagizer.imageshack.com/img922/1339/HmQ4eq.jpg" alt="" style="width: 100px;">
+                    <img src="https://imagizer.imageshack.com/img924/892/sB9sUs.png" alt="logo" style="width: 100px;">
                 </th>
             </tr>
         </thead>
@@ -458,7 +458,7 @@ export const contactEmailTemplate = `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.
         <thead>
             <tr style="height: 50px; background: #f6f4f1;">
                 <th style="text-align: left; width: 100%; padding-left: 30px; vertical-align: middle;">
-                    <img src="https://imagizer.imageshack.com/img922/1339/HmQ4eq.jpg" alt="" style="width: 100px;">
+                    <img src="https://imagizer.imageshack.com/img924/892/sB9sUs.png" alt="logo" style="width: 100px;">
                 </th>
             </tr>
         </thead>

@@ -221,7 +221,7 @@ const BankPayment = () => {
                 </div>
             ) : (
                 <div className='flex justify-center py-4'>
-                    <p className='text-color-60 text-sm'>Bank method of payment is uploaded yet!</p>
+                    <p className='text-color-60 text-sm'>No bank payment method is uploaded yet!</p>
                 </div>
             )}
 

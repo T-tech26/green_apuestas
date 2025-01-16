@@ -520,5 +520,11 @@ export interface ContactEmailType {
 }
 
 
+export interface UsersAndImages {
+  users: UserData[],
+  images: Files[]
+}
+
+
 
 export {};

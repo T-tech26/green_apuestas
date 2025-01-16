@@ -231,12 +231,9 @@ const IntlPayment = () => {
                         </TableBody>
                     </Table>
                 </div>
-            ) : Array.isArray(type) && type.length === 0 ? (
-                <div className='flex justify-center py-4'>
-                    <p className='text-color-60 text-sm'>No crypto method of payment is uploaded yet!</p>
-                </div>
             ) : (
-                <div className="w-full h-52 bg-gray-300 animate-pulse flex items-center justify-between rounded-md">
+                <div className='flex justify-center py-4'>
+                    <p className='text-color-60 text-sm'>No international payment method is uploaded yet!</p>
                 </div>
             )}
 

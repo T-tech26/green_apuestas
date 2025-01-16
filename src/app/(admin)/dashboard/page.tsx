@@ -10,7 +10,6 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
-import Image from 'next/image';
 import User from '@/components/User';
 import { formatAmount } from '@/lib/utils';
 import { useTransactionContext } from '@/contexts/child_context/transactionContext';
@@ -47,7 +46,7 @@ const Dashboard = () => {
     
 
     if(allUsers.length > 0) {
-        balance = (allUsers as UserData[]).reduce((total, user) => {
+        balance = allUsers.reduce((total, user) => {
             return total = total + Number(user.balance);
         }, 0);
     }
@@ -55,7 +54,7 @@ const Dashboard = () => {
 
     return (
         <>
-            {Array.isArray(allUsers) && (
+            {allUsers.length > 0 && (
                 <main className='flex-1 py-14 overflow-x-hidden overflow-y-scroll'>
                     <div className='w-4/5 mx-auto flex flex-col gap-10'>
                         <h1 className='text-lg text-color-60 font-medium'>Dashboard</h1>
@@ -112,20 +111,22 @@ const Dashboard = () => {
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
-                                    {allUsers.length && (allUsers as UserData[]).map((user, index) => (
+                                    {allUsers.length && allUsers.map((user, index) => (
                                         <TableRow 
                                             key={user.userId} 
                                             className={`hover:bg-light-gradient-135deg cursor-pointer ${index % 2 === 1 ? 'bg-gray-50' : ''}`}
                                             onClick={() => setSelectedUser(user)}
                                         >
                                             <TableCell className="font-medium flex gap-1 items-center">
-                                                <Image
-                                                    src='/profile-icon.svg'
-                                                    width={30}
-                                                    height={30}
+                                                {/* eslint-disable @next/next/no-img-element */}
+                                                <img
+                                                    src={user.profileImg ? user.profileImgUrl : '/profile-icon.svg'}
+                                                    width={40}
+                                                    height={40}
                                                     alt='menu icons'
                                                     className='cursor-pointer'
                                                 />
+                                                {/* eslint-enable @next/next/no-img-element */}
                                                 {`${user.lastname} ${user.firstname}`}
                                             </TableCell>
                                             <TableCell>{user.email}</TableCell>

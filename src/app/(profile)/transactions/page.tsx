@@ -12,7 +12,6 @@ import React, { useEffect, useState } from 'react'
 const TransactionHistory = () => {
 
     const [showDetails, setShowDetails] = useState<Transaction | string>('');
-    const [transactionLoading, setTransactionLoading] = useState(true);
     const [userTransactions, setUserTransactions] = useState<Transaction[]>([]);
     const { transactions } = useTransactionContext();
     const { user } = useUser();
@@ -22,7 +21,6 @@ const TransactionHistory = () => {
         if(transactions.length > 0) {
             const userTransaction = transactions.filter(userTrans => userTrans.userId === (user as UserData).userId);
             setUserTransactions(userTransaction.reverse());
-            if(transactionLoading) setTransactionLoading(!transactionLoading);
         }
     }, [transactions]);
     /* eslint-enable react-hooks/exhaustive-deps */
@@ -102,16 +100,10 @@ const TransactionHistory = () => {
                             )
                         })}
                     </div>
-                ) : !transactionLoading ? (
+                ) : (
                     <div className='w-full py-4 flex flex-col items-center justify-center gap-2'>
                         <p className='text-color-60 text-sm font-semibold'>You have no transactions yet</p>
                         <Link href='/deposit' className='text-color-30 text-xs bg-light-gradient-135deg py-2 px-5 rounded-full'>Make a Deposit</Link>
-                    </div>
-                ) : (
-                    <div className="w-full animate-pulse flex flex-col gap-1">
-                        <div className='w-full h-16 bg-gray-300'></div>
-                        <div className='w-full h-16 bg-gray-300'></div>
-                        <div className='w-full h-16 bg-gray-300'></div>
                     </div>
                 )}
             </div>

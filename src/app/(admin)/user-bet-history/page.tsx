@@ -26,7 +26,6 @@ const UserBetHistory = () => {
     const [showBets, setShowBet] = useState<string | number>('');
     const [loading, setLoading] = useState(false);
     const [id, setId] = useState('');
-    const [userBetsLoading, setUserBetsLoading] = useState(true);
     const [ticket, setTicket] = useState<UserWithSlip | string>('');
 
 
@@ -37,7 +36,7 @@ const UserBetHistory = () => {
             // Map over the userSlips and find the user associated with each slip
             const mappedUserWithSlip: UserWithSlip[] = userSlips.map((slip: UserGame) => {
                 // Find the user that matches the userId in the slip
-                const user = (allUsers as UserData[]).find(user => user.userId === slip.userId);
+                const user = allUsers.find(user => user.userId === slip.userId);
         
                 if (user) {
                     // Return an object with both slip and user properties
@@ -54,7 +53,6 @@ const UserBetHistory = () => {
 
             // Update the state with the userWithSlip data
             setUserWithBetSlip(mappedUserWithSlip.reverse());
-            if(userBetsLoading) setUserBetsLoading(!userBetsLoading);
         }
 
     }, [allUsers, userSlips]);
@@ -237,34 +235,10 @@ const UserBetHistory = () => {
                             )
                         })}
                     </>
-                ) : !userBetsLoading ? (
+                ) : (
                     <div className='w-full py-4 flex flex-col items-center justify-center gap-2'>
                         <p className='text-color-60 text-sm font-semibold'>No user slips!</p>
                     </div>
-                ) : (
-                    <>
-                        <div className="animate-pulse">
-                            <div className='flex items-center justify-between'>
-                                <p className='w-28 h-5 mb-2 bg-gray-300 rounded-md'></p>
-                                <p className='w-20 h-6 mb-2 bg-gray-300 rounded-full'></p>
-                            </div>
-                            <div className='w-full h-12 bg-gray-300 rounded-md'></div>
-                        </div>
-                        <div className="animate-pulse">
-                            <div className='flex items-center justify-between'>
-                                <p className='w-28 h-5 mb-2 bg-gray-300 rounded-md'></p>
-                                <p className='w-20 h-6 mb-2 bg-gray-300 rounded-full'></p>
-                            </div>
-                            <div className='w-full h-12 bg-gray-300 rounded-md'></div>
-                        </div>
-                        <div className="animate-pulse">
-                            <div className='flex items-center justify-between'>
-                                <p className='w-28 h-5 mb-2 bg-gray-300 rounded-md'></p>
-                                <p className='w-20 h-6 mb-2 bg-gray-300 rounded-full'></p>
-                            </div>
-                            <div className='w-full h-12 bg-gray-300 rounded-md'></div>
-                        </div>
-                    </>
                 )}
             </div>
 

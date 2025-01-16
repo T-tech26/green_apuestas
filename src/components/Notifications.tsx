@@ -41,11 +41,11 @@ const Notifications = ({ setShow, type }: NotificationsProps) => {
 
     
     useEffect(() => {
-        if (adminNotifications.length > 0 && Array.isArray(allUsers)) {
+        if (adminNotifications.length > 0 && allUsers.length > 0) {
 
             const mappedUserWithNotify: UserWithNotify[] = adminNotifications.map((not: AdminNotifications) => {
                 
-                const user = (allUsers as UserData[]).find(user => user.userId === not.userId);
+                const user = allUsers.find(user => user.userId === not.userId);
         
                 if (user) {
                     // Return an object with both slip and user properties

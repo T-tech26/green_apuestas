@@ -549,7 +549,7 @@ const UserBetUpload = () => {
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent className=''>
-                                            {(allUsers as UserData[]).length > 0 && (allUsers as UserData[]).map(user => {
+                                            {allUsers.length > 0 && allUsers.map(user => {
                                                 return (
                                                     <SelectItem className='cursor-pointer' key={user.$id} value={user.userId}>
                                                         {user.firstname} {user.lastname}

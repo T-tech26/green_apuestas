@@ -39,7 +39,7 @@ const KYCLogs = () => {
         if(verificationDocuments.length > 0) {
             const userWithIdDocument: DocWithUser[] = verificationDocuments.map((doc: VerificationDocument) => {
 
-                const user = (allUsers as UserData[]).find(user => user.userId === doc.userId);
+                const user = allUsers.find(user => user.userId === doc.userId);
                 
                 if(user) {
                     return {

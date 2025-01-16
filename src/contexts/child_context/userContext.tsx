@@ -1,7 +1,7 @@
 'use client'
 
 import { getAllUsers, getLoggedInUser } from '@/lib/actions/userActions';
-import { isAdmin, isUserData, loggedInAdminWithImage, loggedInUserWithImage } from '@/lib/utils';
+import { allUsersWithImages, isAdmin, isUserData, loggedInAdminWithImage, loggedInUserWithImage } from '@/lib/utils';
 import { Admin, UserData } from '@/types/globals';
 import { ReactNode, createContext, useContext, useEffect, useState } from 'react'
 
@@ -12,8 +12,8 @@ interface UserType {
     admin: Admin,
     setAdmin: (newAdmin: Admin) => void,
 
-    allUsers: UserData[] | string,
-    setAllUsers: (newUser: UserData[] | string) => void,
+    allUsers: UserData[],
+    setAllUsers: (newUser: UserData[]) => void,
 
     isLoading: boolean,
     setIsLoading: (newIsLoading: boolean) => void,
@@ -24,7 +24,7 @@ export const UserContext = createContext<UserType | undefined>(undefined);
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
     const [user, setUser] = useState<UserData | string>('');
-    const [allUsers, setAllUsers] = useState<UserData[] | string>('');
+    const [allUsers, setAllUsers] = useState<UserData[]>([]);
     const [admin, setAdmin] = useState<Admin>({ $id: '', name: '', label: [] });
     const [isLoading, setIsLoading] = useState(true);
 
@@ -37,9 +37,10 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
                 const user = await getLoggedInUser();
                 const users = await getAllUsers();
 
-                if (typeof user === "object" && Array.isArray(users)) {
+                if (typeof user === "object" && typeof users === 'object') {
                     
-                    setAllUsers(users);
+                    const usersWithImage = allUsersWithImages(users);
+                    setAllUsers(usersWithImage);
 
                     if(isAdmin(user)) { 
                         const adminWithImage = loggedInAdminWithImage(user);

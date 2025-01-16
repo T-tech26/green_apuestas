@@ -24,7 +24,7 @@ const TransactionDetails = ({ trans, setShowDetails, type }: TransactionDetailsP
     /* eslint-disable react-hooks/exhaustive-deps */
     useEffect(() => {
         if(allUsers.length > 0) {
-            const transactionUser = (allUsers as UserData[]).filter(user => user.userId === (trans as Transaction).userId);
+            const transactionUser = allUsers.filter(user => user.userId === (trans as Transaction).userId);
             setUser(transactionUser[0]);
         }
     }, [allUsers]);
