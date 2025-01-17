@@ -1553,7 +1553,7 @@ export const sendPasswordRecoveryEmail = async (email: string) => {
     try {
         const { account } = await createAdminClient();
 
-        await account.createRecovery(email, 'http://localhost:3000/forgot-password');
+        await account.createRecovery(email, 'http://greenapuestas.com/forgot-password');
         
         return 'success';
     } catch (error) {
