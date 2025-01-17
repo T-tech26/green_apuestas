@@ -51,7 +51,7 @@ const Register = () => {
     
           if(admin.label.length) { redirect('/dashboard') }
       }
-  }, [loginUserLoading]);
+  }, [loginUserLoading, user, admin]);
   /* eslint-enable react-hooks/exhaustive-deps */
 
 

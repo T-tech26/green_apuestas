@@ -35,8 +35,6 @@ const Activation = () => {
       }
 
       if((admin.label.length || typeof user === 'object') && !loginUserLoading) {
-          if((user as UserData)?.subscription === false) { redirect('/subscription'); } 
-    
           if((user as UserData)?.subscription === true) { redirect('/'); } 
     
           if(admin.label.length) { redirect('/dashboard') }
@@ -47,7 +45,7 @@ const Activation = () => {
         redirect('/signin'); 
       }
       
-  }, [loginUserLoading]);
+  }, [loginUserLoading, user]);
   /* eslint-enable react-hooks/exhaustive-deps */
 
 
