@@ -33,6 +33,7 @@ const Profile = () => {
 
         <EmailForm
           user={user}
+          setUser={setUser}
         />
 
         <PhoneNumberForm

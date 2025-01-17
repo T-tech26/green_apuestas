@@ -265,10 +265,6 @@ const WithdrawalForm = ({ step, setStep, method }: WithdrawalFormProps) => {
                 <AllowVerification id={(user as UserData).$id} type='' setCheckBilling={setCheckBilling} />
             )}
 
-            {/* {premiumCard === true && chargesNotPaid === false && identityNotVerified === false && (
-                <AllowVerification id={(user as UserData).$id} type='premium card' setPremiumCard={setPremiumCard} />
-            )} */}
-
             {wireTransferMessage !== '' && (
                 <div className='fixed top-0 bottom-0 left-0 right-0 bg-color-60 bg-opacity-30 flex justify-center items-center'>
                     <div className='w-4/5 md:w-1/2 h-auto px-8 py-10 bg-color-30 rounded-md relative'>

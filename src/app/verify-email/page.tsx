@@ -74,10 +74,19 @@ const VerifyEmail = () => {
     )
 }
 
+
+const Loading = () => {
+    return (
+        <div className="fixed top-0 bottom-0 right-0 left-0 w-full h-full bg-dark-gradient-135deg flex justify-center items-center">
+          <Loader2 size={60} className="animate-spin text-color-30" />
+        </div>
+    )
+}
+
 // Wrap your page component inside Suspense
 const SuspenseWrapper = () => {
     return (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<Loading />}>
             <VerifyEmail />
         </Suspense>
     );

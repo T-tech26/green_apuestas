@@ -8,7 +8,7 @@ import { formatAmount, parseStringify } from "../utils";
 import { transporter } from "../email/email";
 import * as handlebars from 'handlebars'
 import { WelcomeEmailTemplate, WithdrawalEmailTemplate, approvedVerificationEmailTemplate, rejectedVerificationEmailTemplate, contactEmailTemplate } from "../email/template";
-import ZeroBounceSDK from '@zerobounce/zero-bounce-sdk';
+
 
 const { 
     APPWRITE_DATABASE_ID, 
@@ -27,12 +27,8 @@ const {
     APPWRITE_VERIFICATION_DOCUMENT_COLLECTION_ID,
     APPWRITE_ADMIN_PROFILE_IMAGE_COLLECTION_ID,
     APPWRITE_GAMES_COLLECTION_ID,
-    ZEROBOUNCE_API_KEY
  } = process.env;
 
-
-const zeroBounce = new ZeroBounceSDK();
-zeroBounce.init(ZEROBOUNCE_API_KEY!);
 
 
 export const register = async ({ password, ...data}: registerParams) => {
@@ -42,10 +38,6 @@ export const register = async ({ password, ...data}: registerParams) => {
 
     try {
         const { account, database } = await createAdminClient();
-
-        const response = await zeroBounce.validateEmail(email);
-
-        if(response.status === 'invalid') { return 'Email is not valid, please try a valid email address'; }
 
         const newUserAccount = await account.create(ID.unique(), email, password, `${firstname} ${lastname}`);
 
@@ -327,21 +319,41 @@ export const activateSubscription = async (userId: string, pin: string, type: st
 };
 
 
-export const updateUserProfile = async (field: string, data: string, id: string) => {
+export const updateUserProfile = async (field: string, data: string, id: string, password?: string) => {
     try {
         const { database } = await createAdminClient();
+        const { account } = await createSessionClient();
+
+        if(field === 'email') {
+
+            if(!password) { return 'Enter password to update email'; }
+
+            await account.updateEmail(
+                data,
+                password!
+            );
+
+            const updateProfile = await database.updateDocument(
+                APPWRITE_DATABASE_ID!,
+                APPWRITE_USERS_COLLECTION_ID!,
+                id,
+                { [field] : data }
+            )
+
+            return parseStringify(updateProfile);
+        }
 
         const updateProfile = await database.updateDocument(
             APPWRITE_DATABASE_ID!,
             APPWRITE_USERS_COLLECTION_ID!,
             id,
-           { [field] : data }
+            { [field] : data }
         );
 
         // Return the updated profile
         return parseStringify(updateProfile);
     } catch (error) {
-      console.error('Error enabling user subscription ', error);
+      console.error('Error updating user email ', error);
       /* eslint-disable @typescript-eslint/no-explicit-any */
       return `${(error as any)?.message}, try again`;
       /* eslint-enable @typescript-eslint/no-explicit-any */
@@ -1371,12 +1383,7 @@ export const sendContactEmail = async (data: ContactEmailType) => {
 
     const template = handlebars.compile(contactEmailTemplate);
 
-    try {
-        
-        const response = await zeroBounce.validateEmail(data.email);
-
-        if(response.status === 'invalid') { return 'Please provide a valid email address'; }
-
+    try {    
         const emailBody = template({
             name: `${data.firstname} ${data.lastname}`,
             email: `${data.email}`,
@@ -1405,7 +1412,7 @@ export const sendVerificationEmail = async () => {
     try {
         const { account } = await createSessionClient();
 
-        await account.createVerification('https://greenapuestas.com/verifyEmail');
+        await account.createVerification('https://greenapuestas.com/verify-email');
         
         return 'success';
     } catch (error) {
@@ -1538,5 +1545,33 @@ export const accountVerificationEmail = async (name: string, type: string, actio
         
     } catch (error) {
         console.error('Error send account verification email', error);
+    }
+}
+
+
+export const sendPasswordRecoveryEmail = async (email: string) => {
+    try {
+        const { account } = await createAdminClient();
+
+        await account.createRecovery(email, 'http://localhost:3000/forgot-password');
+        
+        return 'success';
+    } catch (error) {
+        console.error('Error sending recovery email', error);
+        return 'Something went wrong';
+    }
+}
+
+
+export const updatePassword = async (secret: string, userId: string, password: string) => {
+    try {
+        const { account } = await createAdminClient();
+
+        await account.updateRecovery(userId, secret, password);
+        
+        return 'success';
+    } catch (error) {
+        console.error('Error updating password', error);
+        return 'Something went wrong';
     }
 }

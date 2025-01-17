@@ -63,8 +63,8 @@ export const WelcomeEmailTemplate = `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.
 
             <tr>
                 <td style="height: 150px; padding-left: 30px; padding-right: 30px; vertical-align: bottom;">
-                    <h3 style="color: #1089ff;  font-weight: 200; width: 100%; text-align: left;">Welcome To</h3>
-                    <h1 style="color: #1089ff;  font-weight: 200; width: 100%; text-align: left;">Green Apuestas</h1>
+                    <h3 style="color: #1089ff;  width: 100%; text-align: left;">Welcome To</h3>
+                    <h1 style="color: #1089ff;  width: 100%; text-align: left;">Green Apuestas</h1>
                     <p style="text-align: left; margin-top: 10px; color: #281a3a; font-size: 14px; letter-spacing: 1px;">Hi {{name}}, welcome to green apuestas, where your dream of sports betting is achieved. <a href="htttps://greenapuestas.com/login" style="color: #1089ff;">Login</a> to your account, make a deposit and start making profits with our expert team.</p>
                 </td>
             </tr>
@@ -108,7 +108,7 @@ export const WelcomeEmailTemplate = `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.
                             text-align: justify;
                             letter-spacing: 1px;
                         "
-                    ><Strong style="font-weight: 200;">Correct Score Predictions:</Strong> Our platform provides accurate and reliable correct score predictions for soccer games from around the world.</p>
+                    ><Strong>Correct Score Predictions:</Strong> Our platform provides accurate and reliable correct score predictions for soccer games from around the world.</p>
                 </td>
             </tr>
 
@@ -123,7 +123,7 @@ export const WelcomeEmailTemplate = `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.
                             text-align: justify;
                             letter-spacing: 1px;
                         "
-                    ><Strong style="font-weight: 200;">Advanced Statistical Models:</Strong> Our team uses advanced statistical models to analyze team performance, player injuries, and other factors that can impact the outcome of a game.</p>
+                    ><Strong>Advanced Statistical Models:</Strong> Our team uses advanced statistical models to analyze team performance, player injuries, and other factors that can impact the outcome of a game.</p>
                 </td>
             </tr>
 
@@ -138,7 +138,7 @@ export const WelcomeEmailTemplate = `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.
                             text-align: justify;
                             letter-spacing: 1px;
                         "
-                    ><Strong style="font-weight: 200;">Expert Analysis:</Strong> Our team of experienced soccer analysts provides expert analysis and insights to help inform our correct score predictions.</p>
+                    ><Strong>Expert Analysis:</Strong> Our team of experienced soccer analysts provides expert analysis and insights to help inform our correct score predictions.</p>
                 </td>
             </tr>
 
