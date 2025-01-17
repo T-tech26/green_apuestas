@@ -58,7 +58,7 @@ const EmailForm = ({ user, setUser }: EmailFormProps) => {
             
             if(response === 'success') {
                 toast({
-                    description: 'An email has been sent from appwrite to your email address'
+                    description: 'An email will be sent from appwrite to your email address'
                 });
             }
         } catch (error) {

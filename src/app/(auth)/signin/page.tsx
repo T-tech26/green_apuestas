@@ -75,7 +75,7 @@ const Signin = () => {
 
             if(emailSent !== 'success') { toast({ description: emailSent }); return; }
 
-            toast({ description: 'A password recovery email has been sent to your email.' });
+            toast({ description: 'A password recovery email will be sent to your email.' });
             setForgotPassword(false);
         } catch (error) {
             console.error('Error sending password recovery email', error);
