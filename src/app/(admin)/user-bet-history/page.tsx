@@ -247,7 +247,7 @@ const UserBetHistory = () => {
                             )
                         })}
                     </>
-                ) : userSlipsLoading ? (
+                ) : userSlipsLoading && !userWithBetSlip.length ? (
                     <>
                         <div className="animate-pulse">
                             <div className='mx-auto flex items-center justify-between w-[330px]'>
