@@ -43,11 +43,13 @@ const StakeBets = () => {
     }, []);
 
 
+    /* eslint-disable react-hooks/exhaustive-deps */
     useEffect(() => {
         if(!allUsers.length) {
             getUsers();
         }
     }, []);
+    /* eslint-enable react-hooks/exhaustive-deps */
 
 
     const formSchema = z.object({

@@ -27,6 +27,7 @@ const Dashboard = () => {
     let pending = 0;
 
 
+    /* eslint-disable react-hooks/exhaustive-deps */
     useEffect(() => {
         if(!allUsers.length) {
             getUsers();
@@ -36,7 +37,7 @@ const Dashboard = () => {
             getAllTransactions();
         } 
     }, []);
-    
+    /* eslint-enable react-hooks/exhaustive-deps */
 
 
     if(allUsers.length > 0 && transactions.length > 0) {

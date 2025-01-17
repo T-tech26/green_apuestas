@@ -27,7 +27,7 @@ const KYCVerification = () => {
     const [showDetails, setShowDetails] = useState<DocWithUser | string>('');
 
 
-
+    /* eslint-disable react-hooks/exhaustive-deps */
     useEffect(() => {
         if(verificationDocuments.length > 0 && allUsers.length > 0) {
             const userWithIdDocument: DocWithUser[] = verificationDocuments.map((doc: VerificationDocument) => {
@@ -55,8 +55,6 @@ const KYCVerification = () => {
     }, [verificationDocuments, allUsers]);
 
 
-
-    /* eslint-disable react-hooks/exhaustive-deps */
     useEffect(() => {
         if(!verificationDocuments.length) {
             getAllVerification();

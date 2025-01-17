@@ -16,6 +16,7 @@ export default function RootLayout({
     const { user, allUsers, admin, loginUserLoading, loginUser } = useUser();
 
 
+    /* eslint-disable react-hooks/exhaustive-deps */
     useEffect(() => {
       if(!admin.label.length && typeof user !== 'object') {
         loginUser();
@@ -24,7 +25,7 @@ export default function RootLayout({
         if(typeof user === 'object') { redirect('/'); }
         if(typeof user !== 'object' && !loginUserLoading && !admin.label.length) { redirect('/'); }
     }, [loginUserLoading]);
-
+    /* eslint-enable react-hooks/exhaustive-deps */
 
 
     if(!admin.label.length && !allUsers.length && loginUserLoading) {

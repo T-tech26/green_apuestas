@@ -2,7 +2,7 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Loader2 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useUser } from "@/contexts/child_context/userContext";
 import { UserData } from "@/types/globals";
 import { toast } from "@/hooks/use-toast";
@@ -18,6 +18,7 @@ export default function RootLayout({
     const { user, admin, loginUserLoading, loginUser } = useUser();
 
 
+    /* eslint-disable react-hooks/exhaustive-deps */
     useEffect(() => {
       if(!admin.label.length || typeof user !== 'object') {
         loginUser();
@@ -39,6 +40,7 @@ export default function RootLayout({
         if(admin.label.length) { redirect('/dashboard') }
       }
     }, [loginUserLoading]);
+    /* eslint-enable react-hooks/exhaustive-deps */
 
 
     if((!admin.label.length || typeof user !== 'object') && loginUserLoading) {

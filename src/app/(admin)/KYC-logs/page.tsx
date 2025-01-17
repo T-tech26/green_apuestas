@@ -33,8 +33,8 @@ const KYCLogs = () => {
     const [loading, setLoading] = useState(false);
     const [loadingId, setLoadingId] = useState('');
 
-
-
+    
+    /* eslint-disable react-hooks/exhaustive-deps */
     useEffect(() => {
         if(verificationDocuments.length > 0 && allUsers.length > 0) {
             const userWithIdDocument: DocWithUser[] = verificationDocuments.map((doc: VerificationDocument) => {
@@ -60,8 +60,7 @@ const KYCLogs = () => {
         }
     }, [verificationDocuments, allUsers]);
 
-
-    /* eslint-disable react-hooks/exhaustive-deps */
+    
     useEffect(() => {
         if(!verificationDocuments.length) {
             getAllVerification();

@@ -11,7 +11,7 @@ import { Loader2 } from 'lucide-react'
 const Subscritpion = () => {
 
 
-  const { admin, user, setUser, loginUser, loginUserLoading } = useUser();
+  const { admin, user, loginUser, loginUserLoading } = useUser();
 
 
   /* eslint-disable react-hooks/exhaustive-deps */

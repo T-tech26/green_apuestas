@@ -3,7 +3,7 @@
 import { getAllUsers, getLoggedInUser } from '@/lib/actions/userActions';
 import { allUsersWithImages, isAdmin, isUserData, loggedInAdminWithImage, loggedInUserWithImage } from '@/lib/utils';
 import { Admin, UserData } from '@/types/globals';
-import { ReactNode, createContext, useContext, useEffect, useState } from 'react'
+import { ReactNode, createContext, useContext, useState } from 'react'
 
 interface UserType {
     user: UserData | string,

@@ -5,8 +5,8 @@ import Footer from '@/components/Footer';
 import FormButton from '@/components/FormButton';
 import LiveChat from '@/components/LiveChat';
 import { Button } from '@/components/ui/button';
-import { getLoggedInUser, register } from '@/lib/actions/userActions';
-import { authFormSchema, isAdmin, isUserData, loggedInAdminWithImage, loggedInUserWithImage } from '@/lib/utils';
+import { register } from '@/lib/actions/userActions';
+import { authFormSchema } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react'

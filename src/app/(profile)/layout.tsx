@@ -4,7 +4,7 @@ import ProfileMenu from "@/components/ProfileMenu";
 import { useUser } from "@/contexts/child_context/userContext";
 import { Loader2 } from "lucide-react";
 import { redirect } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 export default function RootLayout({
     children,

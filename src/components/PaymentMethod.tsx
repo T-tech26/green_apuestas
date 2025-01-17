@@ -18,6 +18,7 @@ const PaymentMethod = ({ id }: PaymentMethodProps) => {
     const [method, setMethod] = useState<PaymentMethods | string>('');
     
 
+    /* eslint-disable react-hooks/exhaustive-deps */
     useEffect(() => {
         if(id === '1') {
             if(paymentMethods.length > 0) {
@@ -49,7 +50,7 @@ const PaymentMethod = ({ id }: PaymentMethodProps) => {
         }
     }, [paymentMethods, id]);
 
-    /* eslint-disable react-hooks/exhaustive-deps */
+
     useEffect(() => {
         if(!paymentMethods.length) { 
             getAllPaymentMethods();

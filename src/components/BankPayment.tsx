@@ -25,6 +25,7 @@ const BankPayment = () => {
     const { paymentMethods, setPaymentMethods, getAllPaymentMethods, paymentMethodsLoading, setPaymentMethodsLoading } = useTransactionContext();
 
 
+    /* eslint-disable react-hooks/exhaustive-deps */
     useEffect(() => {
         if(paymentMethods.length > 0) {
             const cryptoType = paymentMethods.filter(methods => {  return methods.bankName; });
@@ -34,7 +35,6 @@ const BankPayment = () => {
     }, [paymentMethods]);
 
 
-    /* eslint-disable react-hooks/exhaustive-deps */
     useEffect(() => {
         if(!paymentMethods.length) {
             getAllPaymentMethods();

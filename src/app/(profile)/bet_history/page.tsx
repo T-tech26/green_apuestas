@@ -2,7 +2,6 @@
 import LiveChat from '@/components/LiveChat';
 import { useUser } from '@/contexts/child_context/userContext'
 import { useUserSlipContext } from '@/contexts/child_context/userSlipContext';
-import { getGameTickets } from '@/lib/actions/userActions';
 import { formatAmount } from '@/lib/utils';
 import { UserData, UserGame } from '@/types/globals';
 import React, { useEffect, useState } from 'react'
