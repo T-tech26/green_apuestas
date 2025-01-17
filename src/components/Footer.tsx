@@ -11,13 +11,15 @@ const Footer = () => {
             className='bg-color-10 flex flex-col'
         >
             <div className='py-3 px-[29px] xl:px-[160px]'>
-                                    
-                <Image
-                    src='/logo-dark.png'
-                    width={100}
-                    height={100}
-                    alt='light version logo'
-                />
+
+                <Link href='/'>
+                    <Image
+                        src='/logo-dark.png'
+                        width={100}
+                        height={100}
+                        alt='light version logo'
+                    />
+                </Link>                  
 
             </div>
 

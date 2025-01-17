@@ -16,6 +16,7 @@ import { useToast } from '@/hooks/use-toast'
 import { useUser } from '@/contexts/child_context/userContext'
 import { UserData } from '@/types/globals'
 import Image from 'next/image'
+import Link from 'next/link'
 
 
 const Activation = () => {
@@ -106,12 +107,14 @@ const Activation = () => {
       ) : (
         <>
           <header className="w-full h-auto px-[15px] md:px-20 pt-7 flex justify-between item-center">
-            <Image
-                src='/logo-light.png'
-                width={100}
-                height={100}
-                alt='light version logo'
-            />
+            <Link href='/'>
+              <Image
+                  src='/logo-light.png'
+                  width={100}
+                  height={100}
+                  alt='light version logo'
+              />
+            </Link>
 
             <LanguageSwitcher />
           </header>

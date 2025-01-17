@@ -48,7 +48,7 @@ const Header = () => {
                                 Top winners
                             </h3>
                             <p className="font-light text-[10px] leading-[14px] text-color-30 tracking-wide italic relative overflow-hidden flex-1 h-4">
-                                <span className={`absolute left-0 bg-color-60 ${slideStyle}`}>
+                                <span className={`absolute left-0 bg-color-60 ${slideStyle}`} translate='no'>
                                     {DisplayNames[nameIndex].text}
                                 </span>
                             </p>
@@ -59,12 +59,16 @@ const Header = () => {
 
                     <div className="flex justify-between items-center">
                     
-                    <Image
-                        src='/logo-light.png'
-                        width={100}
-                        height={100}
-                        alt='light version logo'
-                    />
+                    <Link
+                        href='/'
+                    >
+                        <Image
+                            src='/logo-light.png'
+                            width={100}
+                            height={100}
+                            alt='light version logo'
+                        />
+                    </Link>
                     
                     <div className="hidden md:flex justify-center items-center gap-5">
                         {menuLinks.map((item) => {

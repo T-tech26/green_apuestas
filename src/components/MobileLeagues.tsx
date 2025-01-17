@@ -115,6 +115,7 @@ const MobileLeagues = ({ selectedLink, setSelectedLink }: MobileLeaguesProps) =>
                                 className={`overflow-hidden w-[300px] cursor-pointer ${
                                     openCountryLeague === item.ccode ? 'open-league bg-color-60' : 'close-league'
                                 }`}
+                                translate='no'
                             >
                                 <p
                                     className={`text-left py-[13px] px-3 text-color-30 text-sm hover:border-color-60 hover:border-b cursor-pointer ${

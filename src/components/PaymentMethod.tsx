@@ -76,6 +76,7 @@ const PaymentMethod = ({ id }: PaymentMethodProps) => {
                                         index === 0 ? 'rounded-t-md' : ''
                                     } ${ isLastIndex ? 'border-none rounded-b-md' : ''}`}
                                     onClick={() => setMethod(method)}
+                                    translate='no'
                                 >
                                     <div className='flex items-center gap-2 text-sm text-color-60'>
                                         {/* eslint-disable @next/next/no-img-element */}
@@ -141,6 +142,7 @@ const PaymentMethod = ({ id }: PaymentMethodProps) => {
                                         index === 0 ? 'rounded-t-md' : ''
                                     } ${ isLastIndex ? 'border-none rounded-b-md' : ''}`}
                                     onClick={() => setMethod(method)}
+                                    translate='no'
                                 >
                                     <div className='flex items-center gap-2 text-sm text-color-60'>
                                         {/* eslint-disable @next/next/no-img-element */}
@@ -213,6 +215,7 @@ const PaymentMethod = ({ id }: PaymentMethodProps) => {
                                         index === 0 ? 'rounded-t-md' : ''
                                     } ${ isLastIndex ? 'border-none rounded-b-md' : ''}`}
                                     onClick={() => setMethod(method)}
+                                    translate='no'
                                 >
                                     <div className='flex items-center gap-2 text-sm text-color-60'>
                                         {/* eslint-disable @next/next/no-img-element */}
@@ -277,6 +280,7 @@ const PaymentMethod = ({ id }: PaymentMethodProps) => {
                                     index === 0 ? 'rounded-t-md' : ''
                                 } ${ isLastIndex ? 'border-none rounded-b-md' : ''}`}
                                 onClick={() => setMethod(method)}
+                                translate='no'
                             >
                                 <div className='flex items-center gap-2 text-sm text-color-60'>
                                     {/* eslint-disable @next/next/no-img-element */}

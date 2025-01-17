@@ -101,6 +101,7 @@ const Leagues = () => {
                             className={`overflow-hidden cursor-pointer ${
                                 openCountryLeague === item.ccode ? 'open-league bg-color-60' : 'close-league'
                             }`}
+                            translate='no'
                         >
                             <p
                                 className={`bg-opacity-90 text-wrap flex gap-1 items-center px-1 py-3 text-color-30 text-sm hover:border-color-60 hover:border-b cursor-pointer mb-1 ${selectedLeague.includes(item.ccode) ? 'bg-color-60' : ''}`}

@@ -2,6 +2,7 @@
 import Bets from '@/components/Bets';
 import HomeMain from '@/components/HomeMain';
 import Leagues from '@/components/Leagues';
+import LiveChat from '@/components/LiveChat';
 import MobileBets from '@/components/MobileBets';
 import MobileHomeMenu from '@/components/MobileHomeMenu';
 import MobileLeagues from '@/components/MobileLeagues';
@@ -19,6 +20,7 @@ const Home = () => {
             <MobileLeagues selectedLink={selectedLink} setSelectedLink={setSelectedLink} />
             <MobileBets selectedLink={selectedLink} setSelectedLink={setSelectedLink} type="Betslip" />
             <MobileBets selectedLink={selectedLink} setSelectedLink={setSelectedLink} type="Bets" />
+            <LiveChat />
         </main>
     );
 };

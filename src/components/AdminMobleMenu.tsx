@@ -41,12 +41,14 @@ const AdminMobleMenu = () => {
                     side='left'
                     className='bg-dark-gradient-135deg flex flex-col justify-between item-center pb-7 py-5 overflow-y-scroll'
                 >
-                    <Image
-                        src='/logo-light.png'
-                        width={100}
-                        height={100}
-                        alt='light version logo'
-                    />
+                    <Link href='/'>
+                        <Image
+                            src='/logo-light.png'
+                            width={100}
+                            height={100}
+                            alt='light version logo'
+                        />
+                    </Link>
 
                     <div className='hidden'>
                         <SheetHeader>

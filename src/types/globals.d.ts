@@ -11,11 +11,14 @@ export interface GoogleTranslationConfig {
 
 // Augment the global `window` object
 declare global {
-  interface Window {
-    __GOOGLE_TRANSLATION_CONFIG__: GoogleTranslationConfig;
-    google: unknown;  // You can narrow this type down further if needed
+  namespace globalThis {
+    var __GOOGLE_TRANSLATION_CONFIG__: {
+      languages: LanguageDescriptor[];
+      defaultLanguage: string;
+    };
   }
 }
+
 
 export interface FormButtonProps {
   loading: boolean,
