@@ -2,6 +2,7 @@
 import LiveChat from '@/components/LiveChat';
 import { useUser } from '@/contexts/child_context/userContext'
 import { useUserSlipContext } from '@/contexts/child_context/userSlipContext';
+import { getGameTickets } from '@/lib/actions/userActions';
 import { formatAmount } from '@/lib/utils';
 import { UserData, UserGame } from '@/types/globals';
 import React, { useEffect, useState } from 'react'
@@ -9,7 +10,7 @@ import React, { useEffect, useState } from 'react'
 const BetHistory = () => {
 
     const { user } = useUser();
-    const { userSlips } = useUserSlipContext();
+    const { userSlips, getUserSlips, userSlipsLoading, setUserSlipsLoading } = useUserSlipContext();
 
     const [userWithSlip, setUserWithSlip] = useState<UserGame[]>([]);
     const [showBets, setShowBet] = useState<string | number>('');
@@ -20,8 +21,15 @@ const BetHistory = () => {
         if(userSlips.length > 0) {
             const filteredUserWithSlip: UserGame[] = userSlips.filter(slip => slip.userId === (user as UserData).userId);
             setUserWithSlip(filteredUserWithSlip.reverse());
-        }
+            setUserSlipsLoading(false);
+        }   
     }, [userSlips]);
+
+    useEffect(() => {
+        if(!userSlips.length) {
+            getUserSlips();
+        }
+    }, []);
     /* eslint-enable react-hooks/exhaustive-deps */
 
 
@@ -178,6 +186,18 @@ const BetHistory = () => {
                             )
                         })}
                     </div>
+                ) : userSlipsLoading ? (
+                    <>
+                        <div className="animate-pulse">
+                            <div className='h-12 bg-gray-300 rounded-md w-[330px] mx-auto'></div>
+                        </div>
+                        <div className="animate-pulse">
+                            <div className='h-12 bg-gray-300 rounded-md w-[330px] mx-auto'></div>
+                        </div>
+                        <div className="animate-pulse">
+                            <div className='h-12 bg-gray-300 rounded-md w-[330px] mx-auto'></div>
+                        </div>
+                    </>
                 ) : (
                     <div className='w-full py-4 flex flex-col items-center justify-center gap-2'>
                         <p className='text-color-60 text-sm font-semibold'>No bets!</p>

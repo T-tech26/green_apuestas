@@ -21,7 +21,7 @@ import LiveChat from '@/components/LiveChat';
 const Withdrawal = () => {
 
     const { user } = useUser();
-    const { bankDetails, setBankDetails } = useTransactionContext();
+    const { bankDetails, setBankDetails, getAllBankDetails, bankDetailsLoading, setBankDetailsLoading } = useTransactionContext();
 
     const [isLoading, setIsLoading] = useState(false);
     const [uploadAnother, setUploadAnother] = useState(false);
@@ -37,8 +37,16 @@ const Withdrawal = () => {
             const filteredBankDetails: BankDetails[] = bankDetails.filter(detail => detail.userId === (user as UserData).userId);
 
             setBankDetailsWithUser(filteredBankDetails.reverse());
+            setBankDetailsLoading(false);
         }
-    }, [bankDetails])
+    }, [bankDetails]);
+
+
+    useEffect(() => {
+        if(!bankDetails.length) { 
+            getAllBankDetails();
+        }
+    }, []);
     /* eslint-enable react-hooks/exhaustive-deps */
 
 
@@ -100,7 +108,7 @@ const Withdrawal = () => {
         setIsLoading(true)
         try {
 
-            const name = `${(user as UserData).lastname} ${(user as UserData).firstname}`
+            const name = `${(user as UserData).lastname.trimEnd()} ${(user as UserData).firstname.trimEnd()}`
 
             if(values.accountName !== name) { 
                 setNameNotMatch(true);
@@ -223,6 +231,11 @@ const Withdrawal = () => {
                                     })}
                                 </TableBody>
                             </Table>
+                        </div>
+                    ) : bankDetailsLoading ? (
+                        <div className="w-full animate-pulse">
+                            <div className='w-full h-16 bg-gray-300 rounded-t-md border-b border-color-10'></div>
+                            <div className='w-full h-16 bg-gray-300 rounded-b-md'></div>
                         </div>
                     ) : (
                         <div className='flex justify-center py-4'>

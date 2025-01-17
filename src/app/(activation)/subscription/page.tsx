@@ -1,56 +1,95 @@
-import React from 'react'
+'use client'
+import React, { useEffect } from 'react'
 import { LanguageSwitcher } from '@/components/LanguageSwitcher'
 import Link from 'next/link'
 import Image from 'next/image'
+import { useUser } from '@/contexts/child_context/userContext'
+import { UserData } from '@/types/globals'
+import { redirect } from 'next/navigation'
+import { Loader2 } from 'lucide-react'
 
 const Subscritpion = () => {
+
+
+  const { admin, user, setUser, loginUser, loginUserLoading } = useUser();
+
+
+  /* eslint-disable react-hooks/exhaustive-deps */
+  useEffect(() => {
+      if(!admin.label.length && typeof user !== 'object') {
+          loginUser();
+      }
+
+      if((admin.label.length || typeof user === 'object') && !loginUserLoading) {
+          if((user as UserData)?.subscription === true) { redirect('/'); } 
+    
+          if(admin.label.length) { redirect('/dashboard') }
+      }
+
+
+      if (typeof user !== 'object' && !loginUserLoading) {
+        redirect('/signin'); 
+      }
+      
+  }, [loginUserLoading]);
+  /* eslint-enable react-hooks/exhaustive-deps */
+
+
   return (
-    <section className='w-full h-screen bg-subscription-bg bg-no-repeat bg-center bg-cover'>
-      <div
-        className='bg-color-60 bg-opacity-30 w-full h-full flex flex-col'
-      >
-        <header className="w-full h-auto px-[15px] md:px-20 pt-7 flex justify-between item-center">
-          <Image
-              src='/logo-dark.png'
-              width={100}
-              height={100}
-              alt='light version logo'
-          />
-
-          <LanguageSwitcher />
-        </header>
-
-        <main className="flex-1 flex flex-col items-center justify-center gap-5">
-          <Link
-            href='/activation'
-            className='subscription-btn'
-            >
-            Weekly Subscription
-
-            <Image
-              src='/arrow_right_alt.svg'
-              alt='arrow right'
-              width={24}
-              height={24}
-            />
-          </Link>
-
-          <Link
-            href='/activation'
-            className='subscription-btn'
+    <>
+      {typeof user !== 'object' ? (
+        <div className="fixed top-0 bottom-0 right-0 left-0 w-full h-full bg-dark-gradient-135deg flex justify-center items-center">
+          <Loader2 size={60} className="animate-spin text-color-30" />
+        </div>
+      ) : (
+        <section className='w-full h-screen bg-subscription-bg bg-no-repeat bg-center bg-cover'>
+          <div
+            className='bg-color-60 bg-opacity-30 w-full h-full flex flex-col'
           >
-            Monthly Subscription
+            <header className="w-full h-auto px-[15px] md:px-20 pt-7 flex justify-between item-center">
+              <Image
+                  src='/logo-dark.png'
+                  width={100}
+                  height={100}
+                  alt='light version logo'
+              />
 
-            <Image
-              src='/arrow_right_alt.svg'
-              alt='arrow right'
-              width={24}
-              height={24}
-            />
-          </Link>
-        </main>
-      </div>
-    </section>
+              <LanguageSwitcher />
+            </header>
+
+            <main className="flex-1 flex flex-col items-center justify-center gap-5">
+              <Link
+                href='/activation'
+                className='subscription-btn'
+                >
+                Weekly Subscription
+
+                <Image
+                  src='/arrow_right_alt.svg'
+                  alt='arrow right'
+                  width={24}
+                  height={24}
+                />
+              </Link>
+
+              <Link
+                href='/activation'
+                className='subscription-btn'
+              >
+                Monthly Subscription
+
+                <Image
+                  src='/arrow_right_alt.svg'
+                  alt='arrow right'
+                  width={24}
+                  height={24}
+                />
+              </Link>
+            </main>
+          </div>
+        </section>
+      )}
+    </>
   )
 }
 

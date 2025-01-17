@@ -10,19 +10,29 @@ import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 
 const TransactionHistory = () => {
+    
+    const { transactions, getAllTransactions, transactionsLoading, setTransactionsLoading } = useTransactionContext();
+    const { user } = useUser();
 
     const [showDetails, setShowDetails] = useState<Transaction | string>('');
     const [userTransactions, setUserTransactions] = useState<Transaction[]>([]);
-    const { transactions } = useTransactionContext();
-    const { user } = useUser();
+    
     
     /* eslint-disable react-hooks/exhaustive-deps */
     useEffect(() => {
         if(transactions.length > 0) {
             const userTransaction = transactions.filter(userTrans => userTrans.userId === (user as UserData).userId);
             setUserTransactions(userTransaction.reverse());
+            setTransactionsLoading(false);
         }
     }, [transactions]);
+
+
+    useEffect(() => {
+        if(!transactions.length) {
+            getAllTransactions();
+        }
+    }, []);
     /* eslint-enable react-hooks/exhaustive-deps */
 
 
@@ -99,6 +109,12 @@ const TransactionHistory = () => {
                                 </div>
                             )
                         })}
+                    </div>
+                ) : transactionsLoading ? (
+                    <div className="w-full animate-pulse flex flex-col gap-1">
+                        <div className='w-full h-16 bg-gray-300'></div>
+                        <div className='w-full h-16 bg-gray-300'></div>
+                        <div className='w-full h-16 bg-gray-300'></div>
                     </div>
                 ) : (
                     <div className='w-full py-4 flex flex-col items-center justify-center gap-2'>

@@ -16,7 +16,7 @@ const WithdrawalRequest = () => {
     const [transactionWithStatus, setTransactionWithStatus] = useState<Transaction[]>([]);
     const [showDetails, setShowDetails] = useState<Transaction | string>('');
 
-    const { transactions, setTransactions } = useTransactionContext();
+    const { transactions, setTransactions, getAllTransactions, transactionsLoading, setTransactionsLoading } = useTransactionContext();
 
 
     /* eslint-disable react-hooks/exhaustive-deps */
@@ -24,8 +24,16 @@ const WithdrawalRequest = () => {
         if(transactions.length > 0) {
             const transStatus = transactions.filter(trans => trans.transaction_status === status && trans.transaction_type === 'Withdrawal');
             setTransactionWithStatus(transStatus.reverse());
+            setTransactionsLoading(false);
         }
     }, [status, transactions]);
+
+
+    useEffect(() => {
+        if(!transactions.length) {
+            getAllTransactions();
+        }
+    }, []);
     /* eslint-enable react-hooks/exhaustive-deps */
 
 
@@ -206,6 +214,12 @@ const WithdrawalRequest = () => {
                                 )
                             })}
                         </>
+                    ) : transactionsLoading ? (
+                        <div className="w-full animate-pulse flex flex-col gap-1">
+                            <div className='w-full h-16 bg-gray-300'></div>
+                            <div className='w-full h-16 bg-gray-300'></div>
+                            <div className='w-full h-16 bg-gray-300'></div>
+                        </div>
                     ) : (
                         <div className='w-full py-4 flex flex-col items-center justify-center gap-2'>
                             <p className='text-color-60 text-sm font-semibold'>No user withdrawals yet!</p>

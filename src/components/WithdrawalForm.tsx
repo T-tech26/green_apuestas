@@ -35,8 +35,7 @@ const WithdrawalForm = ({ step, setStep, method }: WithdrawalFormProps) => {
     const [isLoading, setIsLoading] = useState(false);
     const [amountExceeded, setAmountExceeded] = useState(false);
     const [identityNotVerified, setIdentityNotVerified] = useState(false);
-    const [chargesNotPaid, setChargesNotPaid] = useState(false);
-    const [premiumCard, setPremiumCard] = useState(false);
+    const [checkBilling, setCheckBilling] = useState(false);
     const [userIdDocument, setUserIdDocument] = useState<VerificationDocument[]>([]);
     const [userAddressDocument, setUserAddressDocument] = useState<VerificationDocument[]>([]);
     const [wireTransferMessage, setWireTransferMessage] = useState('');
@@ -92,8 +91,7 @@ const WithdrawalForm = ({ step, setStep, method }: WithdrawalFormProps) => {
         try {
 
             if((user as UserData).identity_verified === false) { setIdentityNotVerified(true); return; }
-            if((user as UserData).chargesPaid === false) { setChargesNotPaid(true); return; }
-            if((user as UserData).premiumCard === false) { setPremiumCard(true); return; }
+            if(!(user as UserData).chargesPaid) { setCheckBilling(true); return; }
 
 
             const response = await createTransaction('', amount, (method as PaymentMethods), transactionTime, userId, 'Withdrawal');
@@ -119,7 +117,7 @@ const WithdrawalForm = ({ step, setStep, method }: WithdrawalFormProps) => {
             setTransactions(trans);
 
 
-            if(premiumCard === false && chargesNotPaid === false && identityNotVerified === false) {
+            if((user as UserData).chargesPaid && (user as UserData).premiumCard && identityNotVerified === false) {
 
                 const message = `Amount ${formatAmount(amount)} USD requested for withdrawal is too big, please contact the management via support to process withdrawal with the necessary legal documents for a wire transfer.`;
 
@@ -263,13 +261,13 @@ const WithdrawalForm = ({ step, setStep, method }: WithdrawalFormProps) => {
                 </div>
             )}
 
-            {chargesNotPaid === true && identityNotVerified === false && (
-                <AllowVerification id={(user as UserData).$id} type='charges' setCharges={setChargesNotPaid} />
+            {checkBilling === true && (
+                <AllowVerification id={(user as UserData).$id} type='' setCheckBilling={setCheckBilling} />
             )}
 
-            {premiumCard === true && chargesNotPaid === false && identityNotVerified === false && (
+            {/* {premiumCard === true && chargesNotPaid === false && identityNotVerified === false && (
                 <AllowVerification id={(user as UserData).$id} type='premium card' setPremiumCard={setPremiumCard} />
-            )}
+            )} */}
 
             {wireTransferMessage !== '' && (
                 <div className='fixed top-0 bottom-0 left-0 right-0 bg-color-60 bg-opacity-30 flex justify-center items-center'>

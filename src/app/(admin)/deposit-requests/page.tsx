@@ -20,7 +20,7 @@ const DepositRequests = () => {
     const [id, setId] = useState<number>(0);
     const [buttonAction, setButtonAction] = useState('');
 
-    const { transactions, setTransactions } = useTransactionContext();
+    const { transactions, setTransactions, transactionsLoading, setTransactionsLoading, getAllTransactions } = useTransactionContext();
 
 
     /* eslint-disable react-hooks/exhaustive-deps */
@@ -28,8 +28,16 @@ const DepositRequests = () => {
         if(transactions.length > 0) {
             const transStatus = transactions.filter(trans => trans.transaction_status === status && trans.transaction_type === 'Deposit');
             setTransactionWithStatus(transStatus.reverse());
+            setTransactionsLoading(false);
         }
     }, [status, transactions]);
+
+
+    useEffect(() => {
+        if(!transactions.length) {
+            getAllTransactions();
+        }
+    }, []);
      /* eslint-enable react-hooks/exhaustive-deps */
 
 
@@ -230,6 +238,12 @@ const DepositRequests = () => {
                                 )
                             })}
                         </>
+                    ) : transactionsLoading ? (
+                        <div className="w-full animate-pulse flex flex-col gap-1">
+                            <div className='w-full h-16 bg-gray-300'></div>
+                            <div className='w-full h-16 bg-gray-300'></div>
+                            <div className='w-full h-16 bg-gray-300'></div>
+                        </div>
                     ) : (
                         <div className='w-full py-4 flex flex-col items-center justify-center gap-2'>
                             <p className='text-color-60 text-sm font-semibold'>No user deposits yet!</p>

@@ -12,7 +12,7 @@ interface PaymentMethodProps {
 
 const PaymentMethod = ({ id }: PaymentMethodProps) => {
 
-    const { paymentMethods } = useTransactionContext();
+    const { paymentMethods, getAllPaymentMethods, paymentMethodsLoading, setPaymentMethodsLoading } = useTransactionContext();
 
     const [type, setType] = useState<PaymentMethods[] | string>('');
     const [method, setMethod] = useState<PaymentMethods | string>('');
@@ -23,27 +23,40 @@ const PaymentMethod = ({ id }: PaymentMethodProps) => {
             if(paymentMethods.length > 0) {
                 const cryptoType = paymentMethods.filter(methods => {  return methods.payId; });
                 setType(cryptoType);
+                setPaymentMethodsLoading(false);
             }
         }
         if(id === '2') {
             if(paymentMethods.length > 0) {
                 const cryptoType = paymentMethods.filter(methods => {  return methods.cryptoName; });
                 setType(cryptoType);
+                setPaymentMethodsLoading(false);
             }
         }
         if(id === '3') {
             if(paymentMethods.length > 0) {
                 const cryptoType = paymentMethods.filter(methods => {  return methods.bankName; });
                 setType(cryptoType);
+                setPaymentMethodsLoading(false);
             }
         }
         if(id === '4') {
             if(paymentMethods.length > 0) {
                 const cryptoType = paymentMethods.filter(methods => {  return methods.email; });
                 setType(cryptoType);
+                setPaymentMethodsLoading(false);
             }
         }
     }, [paymentMethods, id]);
+
+    /* eslint-disable react-hooks/exhaustive-deps */
+    useEffect(() => {
+        if(!paymentMethods.length) { 
+            getAllPaymentMethods();
+        }
+    }, []);
+    /* eslint-enable react-hooks/exhaustive-deps */
+
     
 
     if(id === '4') {
@@ -92,6 +105,12 @@ const PaymentMethod = ({ id }: PaymentMethodProps) => {
                                 </div>
                             )
                         })}
+                    </div>
+                )  : paymentMethodsLoading ? (
+                    <div className="w-full animate-pulse flex flex-col gap-1">
+                        <div className='w-full h-16 bg-gray-300'></div>
+                        <div className='w-full h-16 bg-gray-300'></div>
+                        <div className='w-full h-16 bg-gray-300'></div>
                     </div>
                 ) : (
                     <div className='flex justify-center py-4'>
@@ -159,6 +178,12 @@ const PaymentMethod = ({ id }: PaymentMethodProps) => {
                             )
                         })}
                     </div>
+                )  : paymentMethodsLoading ? (
+                    <div className="w-full animate-pulse flex flex-col gap-1">
+                        <div className='w-full h-16 bg-gray-300'></div>
+                        <div className='w-full h-16 bg-gray-300'></div>
+                        <div className='w-full h-16 bg-gray-300'></div>
+                    </div>
                 ) : (
                     <div className='flex justify-center py-4'>
                         <p className='text-color-60 text-sm'>No Bank payment method!</p>
@@ -218,6 +243,12 @@ const PaymentMethod = ({ id }: PaymentMethodProps) => {
                             )
                         })}
                     </div>
+                )  : paymentMethodsLoading ? (
+                    <div className="w-full animate-pulse flex flex-col gap-1">
+                        <div className='w-full h-16 bg-gray-300'></div>
+                        <div className='w-full h-16 bg-gray-300'></div>
+                        <div className='w-full h-16 bg-gray-300'></div>
+                    </div>
                 ) : (
                     <div className='flex justify-center py-4'>
                         <p className='text-color-60 text-sm'>No crypto payment method!</p>
@@ -275,6 +306,12 @@ const PaymentMethod = ({ id }: PaymentMethodProps) => {
                             </div>
                         )
                     })}
+                </div>
+            ) : paymentMethodsLoading ? (
+                <div className="w-full animate-pulse flex flex-col gap-1">
+                    <div className='w-full h-16 bg-gray-300'></div>
+                    <div className='w-full h-16 bg-gray-300'></div>
+                    <div className='w-full h-16 bg-gray-300'></div>
                 </div>
             ) : (
                 <div className='flex justify-center py-4'>

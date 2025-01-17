@@ -19,8 +19,8 @@ interface UserWithSlip {
 
 const UserBetHistory = () => {
 
-    const { allUsers } = useUser();
-    const { userSlips, setUserSlips } = useUserSlipContext();
+    const { allUsers, getUsers } = useUser();
+    const { userSlips, setUserSlips, getUserSlips, userSlipsLoading, setUserSlipsLoading } = useUserSlipContext();
 
     const [userWithBetSlip, setUserWithBetSlip] = useState<UserWithSlip[]>([]);
     const [showBets, setShowBet] = useState<string | number>('');
@@ -32,7 +32,7 @@ const UserBetHistory = () => {
     /* eslint-disable react-hooks/exhaustive-deps */
     useEffect(() => {
 
-        if (userSlips.length > 0) {
+        if (userSlips.length > 0 && allUsers.length > 0) {
             // Map over the userSlips and find the user associated with each slip
             const mappedUserWithSlip: UserWithSlip[] = userSlips.map((slip: UserGame) => {
                 // Find the user that matches the userId in the slip
@@ -53,9 +53,21 @@ const UserBetHistory = () => {
 
             // Update the state with the userWithSlip data
             setUserWithBetSlip(mappedUserWithSlip.reverse());
+            setUserSlipsLoading(false);
         }
 
     }, [allUsers, userSlips]);
+
+    
+    useEffect(() => {
+        if(!userSlips.length) {
+            getUserSlips();
+        }
+
+        if(!allUsers.length) {
+            getUsers();
+        }
+    }, []);
     /* eslint-enable react-hooks/exhaustive-deps */
     
     
@@ -234,6 +246,30 @@ const UserBetHistory = () => {
                                 </div>
                             )
                         })}
+                    </>
+                ) : userSlipsLoading ? (
+                    <>
+                        <div className="animate-pulse">
+                            <div className='mx-auto flex items-center justify-between w-[330px]'>
+                                <p className='w-28 h-5 mb-2 bg-gray-300 rounded-md'></p>
+                                <p className='w-20 h-6 mb-2 bg-gray-300 rounded-full'></p>
+                            </div>
+                            <div className='mx-auto h-12 bg-gray-300 rounded-md w-[330px]'></div>
+                        </div>
+                        <div className="animate-pulse">
+                            <div className='mx-auto flex items-center justify-between w-[330px]'>
+                                <p className='w-28 h-5 mb-2 bg-gray-300 rounded-md'></p>
+                                <p className='w-20 h-6 mb-2 bg-gray-300 rounded-full'></p>
+                            </div>
+                            <div className='mx-auto h-12 bg-gray-300 rounded-md w-[330px]'></div>
+                        </div>
+                        <div className="animate-pulse">
+                            <div className='mx-auto flex items-center justify-between w-[330px]'>
+                                <p className='w-28 h-5 mb-2 bg-gray-300 rounded-md'></p>
+                                <p className='w-20 h-6 mb-2 bg-gray-300 rounded-full'></p>
+                            </div>
+                            <div className='mx-auto h-12 bg-gray-300 rounded-md w-[330px]'></div>
+                        </div>
                     </>
                 ) : (
                     <div className='w-full py-4 flex flex-col items-center justify-center gap-2'>

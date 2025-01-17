@@ -22,15 +22,25 @@ const BankPayment = () => {
     const [type, setType] = useState<PaymentMethods[] | string>('');
     const [deleteMethod, setDeleteMethod] = useState<string | PaymentMethods>('');
 
-    const { paymentMethods, setPaymentMethods } = useTransactionContext();
+    const { paymentMethods, setPaymentMethods, getAllPaymentMethods, paymentMethodsLoading, setPaymentMethodsLoading } = useTransactionContext();
 
 
     useEffect(() => {
         if(paymentMethods.length > 0) {
             const cryptoType = paymentMethods.filter(methods => {  return methods.bankName; });
             setType(cryptoType);
+            setPaymentMethodsLoading(false);
         }
     }, [paymentMethods]);
+
+
+    /* eslint-disable react-hooks/exhaustive-deps */
+    useEffect(() => {
+        if(!paymentMethods.length) {
+            getAllPaymentMethods();
+        }
+    }, []);
+    /* eslint-enable react-hooks/exhaustive-deps */
 
 
     const deletePayment = async () => {
@@ -218,6 +228,17 @@ const BankPayment = () => {
                             })}
                         </TableBody>
                     </Table>
+                </div>
+            ) : paymentMethodsLoading ? (
+                <div className='flex flex-col gap-1'>
+                    <div className="w-full animate-pulse">
+                        <div className='w-full h-14 bg-gray-300 border-b border-color-60'></div>
+                        <div className='w-full h-16 bg-gray-300'></div>
+                    </div>
+                    <div className="w-full animate-pulse">
+                        <div className='w-full h-14 bg-gray-300 border-b border-color-60'></div>
+                        <div className='w-full h-16 bg-gray-300'></div>
+                    </div>
                 </div>
             ) : (
                 <div className='flex justify-center py-4'>

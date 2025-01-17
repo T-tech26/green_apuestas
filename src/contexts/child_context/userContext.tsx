@@ -15,8 +15,15 @@ interface UserType {
     allUsers: UserData[],
     setAllUsers: (newUser: UserData[]) => void,
 
-    isLoading: boolean,
-    setIsLoading: (newIsLoading: boolean) => void,
+    allUsersLoading: boolean,
+    setAllUsersLoading: (newUser: boolean) => void,
+
+    loginUserLoading: boolean,
+    setLoginUserLoading: (newIsLoading: boolean) => void,
+
+    getUsers: () => void,
+
+    loginUser: () => void,
 }
 
 export const UserContext = createContext<UserType | undefined>(undefined);
@@ -25,53 +32,65 @@ export const UserContext = createContext<UserType | undefined>(undefined);
 export const UserProvider = ({ children }: { children: ReactNode }) => {
     const [user, setUser] = useState<UserData | string>('');
     const [allUsers, setAllUsers] = useState<UserData[]>([]);
+    const [allUsersLoading, setAllUsersLoading] = useState(true);
     const [admin, setAdmin] = useState<Admin>({ $id: '', name: '', label: [] });
-    const [isLoading, setIsLoading] = useState(true);
+    const [loginUserLoading, setLoginUserLoading] = useState(true);
 
 
-    /* eslint-disable react-hooks/exhaustive-deps */
-    useEffect(() => {
-        const login = async () => {
-            // Fetch logged-in user and all users only if needed
-            try {
-                const user = await getLoggedInUser();
-                const users = await getAllUsers();
 
-                if (typeof user === "object" && typeof users === 'object') {
-                    
-                    const usersWithImage = allUsersWithImages(users);
-                    setAllUsers(usersWithImage);
+    const loginUser = async () => {
+        // Fetch logged-in user and all users only if needed
+        try {
+            const user = await getLoggedInUser();
 
-                    if(isAdmin(user)) { 
-                        const adminWithImage = loggedInAdminWithImage(user);
-                        setAdmin(adminWithImage); 
-                        setIsLoading(false);
-                        return;
-                    }
+            if (typeof user === "object") {
 
-                    if(isUserData(user)) { 
-                        const userWithImage = loggedInUserWithImage(user);
-                        setUser(userWithImage); 
-                    }
-                    setIsLoading(false);
+                if(isAdmin(user)) { 
+                    const adminWithImage = loggedInAdminWithImage(user);
+                    setAdmin(adminWithImage); 
+                    setLoginUserLoading(false);
+                    return;
                 }
 
-                if(user === 'No session') { setIsLoading(false); }
+                if(isUserData(user)) { 
+                    const userWithImage = loggedInUserWithImage(user);
+                    setUser(userWithImage); 
+                }
+
+                setLoginUserLoading(false);
+            }
+
+            if(user === 'No session') { setLoginUserLoading(false); }
+        } catch (error) {
+            console.error("Error fetching user data:", error)
+        }
+    };
+
+
+    const getUsers = async () => {
+        // Fetch logged-in user and all users only if needed
+        if(!allUsers.length) {
+            try {
+                const users = await getAllUsers();
+
+                const usersWithImage = allUsersWithImages(users);
+                setAllUsers(usersWithImage);
             } catch (error) {
                 console.error("Error fetching user data:", error)
+            } finally {
+                if(!allUsers.length) {
+                    setAllUsersLoading(false);
+                }
             }
-        };
-
-        // Call the login function
-        login();
-    }, []);
-    /* eslint-enable react-hooks/exhaustive-deps */
+        }
+    };
 
 
     return (
         <UserContext.Provider value={{
             user, setUser, allUsers, setAllUsers,
-            admin, setAdmin, isLoading, setIsLoading
+            admin, setAdmin, loginUserLoading, setLoginUserLoading, 
+            getUsers, allUsersLoading, setAllUsersLoading, loginUser
         }}>
             {children}
         </UserContext.Provider>

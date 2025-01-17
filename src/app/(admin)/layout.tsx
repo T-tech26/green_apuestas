@@ -13,17 +13,21 @@ export default function RootLayout({
   }>) {
 
 
-    const { user, allUsers, admin, isLoading } = useUser();
+    const { user, allUsers, admin, loginUserLoading, loginUser } = useUser();
 
 
     useEffect(() => {
+      if(!admin.label.length && typeof user !== 'object') {
+        loginUser();
+      }
+
         if(typeof user === 'object') { redirect('/'); }
-        if(typeof user !== 'object' && !isLoading && !admin.label.length) { redirect('/'); }
-    }, [user, isLoading, admin]);
+        if(typeof user !== 'object' && !loginUserLoading && !admin.label.length) { redirect('/'); }
+    }, [loginUserLoading]);
 
 
 
-    if(!admin.label.length && !allUsers.length && isLoading) {
+    if(!admin.label.length && !allUsers.length && loginUserLoading) {
       return (
         <div className="fixed top-0 bottom-0 right-0 left-0 w-full h-full bg-dark-gradient-135deg flex justify-center items-center">
           <Loader2 size={60} className="animate-spin text-color-30" />

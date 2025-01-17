@@ -15,45 +15,38 @@ export default function RootLayout({
   }>) {
 
 
-    const [isSubscriptionCheck, setIsSubscriptionCheck] = useState(true);
-    
-    const { user, admin, isLoading } = useUser();
+    const { user, admin, loginUserLoading, loginUser } = useUser();
 
 
     useEffect(() => {
-      const loggIn = async () => {
-        if(admin.label.length || typeof user === 'object') {
-          
-          if((user as UserData)?.subscription === false) { 
-
-            setIsSubscriptionCheck(false);
-
-            toast({
-              description: 'You are not on subscription, please go and subscribe',
-            });
-    
-            setTimeout(() => {
-              redirect('/subscription');
-            }, 4000);
-          } 
-  
-          if(admin.label.length) { redirect('/dashboard') }
-
-          setIsSubscriptionCheck(false);
-        }
-        if(!isLoading) setIsSubscriptionCheck(false);
+      if(!admin.label.length || typeof user !== 'object') {
+        loginUser();
       }
 
-      loggIn()
-    }, [user, admin, isLoading])
+      if(admin.label.length || typeof user === 'object') {
+  
+        if((user as UserData)?.subscription === false) { 
+  
+          toast({
+            description: 'You are not on subscription, please go and subscribe',
+          });
+  
+          setTimeout(() => {
+            redirect('/subscription');
+          }, 4000);
+        } 
+        
+        if(admin.label.length) { redirect('/dashboard') }
+      }
+    }, [loginUserLoading]);
 
 
-    if(isSubscriptionCheck && isLoading) {
-        return (
-            <div className="fixed top-0 bottom-0 right-0 left-0 w-full h-full bg-dark-gradient-135deg flex justify-center items-center">
-                <Loader2 size={60} className="animate-spin text-color-30" />
-            </div>
-        );
+    if((!admin.label.length || typeof user !== 'object') && loginUserLoading) {
+      return (
+        <div className="fixed top-0 bottom-0 right-0 left-0 w-full h-full bg-dark-gradient-135deg flex justify-center items-center">
+          <Loader2 size={60} className="animate-spin text-color-30" />
+        </div>
+      )
     }
 
 

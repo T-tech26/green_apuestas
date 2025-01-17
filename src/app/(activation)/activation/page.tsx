@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { LanguageSwitcher } from '@/components/LanguageSwitcher'
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -23,16 +23,32 @@ const Activation = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showHelpMessage, setShowHelpMessage] = useState(false);
 
-  const { user, setUser } = useUser();
+  const { admin, user, setUser, loginUser, loginUserLoading } = useUser();
 
   const { toast } = useToast();
 
 
-  if(typeof user === 'object') {
-    if((user as UserData)?.subscription === true) redirect('/');
-  } else if (typeof user !== 'object') {
-    redirect('/signin'); 
-  }
+  /* eslint-disable react-hooks/exhaustive-deps */
+  useEffect(() => {
+      if(!admin.label.length && typeof user !== 'object') {
+          loginUser();
+      }
+
+      if((admin.label.length || typeof user === 'object') && !loginUserLoading) {
+          if((user as UserData)?.subscription === false) { redirect('/subscription'); } 
+    
+          if((user as UserData)?.subscription === true) { redirect('/'); } 
+    
+          if(admin.label.length) { redirect('/dashboard') }
+      }
+
+
+      if (typeof user !== 'object' && !loginUserLoading) {
+        redirect('/signin'); 
+      }
+      
+  }, [loginUserLoading]);
+  /* eslint-enable react-hooks/exhaustive-deps */
 
 
 
@@ -41,7 +57,7 @@ const Activation = () => {
   })
 
 
-
+  
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -86,10 +102,10 @@ const Activation = () => {
     <section className='w-full h-screen bg-dark-gradient-135deg flex flex-col'>
       
       {typeof user !== 'object' ? (
-        <div className='w-full h-full flex justify-center items-center'>
-          <Loader2 size={60} className='animate-spin text-color-30'/>
+        <div className="fixed top-0 bottom-0 right-0 left-0 w-full h-full bg-dark-gradient-135deg flex justify-center items-center">
+          <Loader2 size={60} className="animate-spin text-color-30" />
         </div>
-      ): (
+      ) : (
         <>
           <header className="w-full h-auto px-[15px] md:px-20 pt-7 flex justify-between item-center">
             <Image

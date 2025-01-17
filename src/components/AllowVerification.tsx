@@ -6,22 +6,26 @@ import { toast } from '@/hooks/use-toast'
 import { activateSubscription } from '@/lib/actions/userActions'
 import { useUser } from '@/contexts/child_context/userContext'
 import { Loader2 } from 'lucide-react'
+import { UserData } from '@/types/globals'
 
 
 interface AllowVerificationProps {
     id: string,
     type: string,
-    setCharges?: (newCharge: boolean) => void,
-    setPremiumCard?: (newPremiumCard: boolean) => void
+    setCheckBilling?: (newBilling: boolean) => void,
 }
 
 
-const AllowVerification = ({ id, type, setCharges, setPremiumCard }: AllowVerificationProps) => {
+const AllowVerification = ({ id, type, setCheckBilling }: AllowVerificationProps) => {
 
-    const { setUser } = useUser();
+    const { user, setUser } = useUser();
 
     const [pin, setPin] = useState('');
     const [loading, setLoading] = useState(false);
+
+
+    if((user as UserData).chargesPaid && (user as UserData).premiumCard && setCheckBilling) { setCheckBilling(false); }
+
 
     
     const handleAllowVerification = async (userId: string) => {
@@ -34,7 +38,7 @@ const AllowVerification = ({ id, type, setCharges, setPremiumCard }: AllowVerifi
                 return;
             }
 
-            const verificationType = type === 'verification' ? 'allow verification' : type === 'charges' ? 'charges' : type === 'premium card' ? 'premium card' : '';
+            const verificationType = type === 'verification' ? 'allow verification' : !(user as UserData).chargesPaid ? 'charges' : !(user as UserData).premiumCard ? 'premium card' : '';
 
             const allow = await activateSubscription(userId, pin, verificationType);
 
@@ -46,8 +50,6 @@ const AllowVerification = ({ id, type, setCharges, setPremiumCard }: AllowVerifi
             }
             
             setUser(allow);
-            if(setCharges && type === 'charges') { setCharges(false); return; }
-            if(setPremiumCard && type === 'premium card') { setPremiumCard(false); return; }
         } catch (error) {
             console.error('Error submitting pin', error);
         } finally {
@@ -62,14 +64,23 @@ const AllowVerification = ({ id, type, setCharges, setPremiumCard }: AllowVerifi
             <div 
                 className='relative w-[95%] md:w-4/5 md:max-w-[700px] bg-color-30 rounded-md flex flex-col gap-5 justify-between p-5'
             >
-                <p className='text-color-60 text-sm'>
-                    {
-                        type === 'verification' ? 'Contact support to get a verification pin'
-                            : type === 'charges' ? 'Contact support to get verification pin to confirm charges payment'
-                                : type === 'premium card' ? 'Contact support to get verification pin to confirm premium card purchase' 
-                                    : ''
-                    }
-                </p>
+                {type === 'verification' && (
+                    <p className='text-color-60 text-sm'>
+                        Contact support to get pin for <span className='font-semibold'>accout verification.</span>
+                    </p>
+                )}
+
+                {type === '' && !(user as UserData).chargesPaid && (
+                    <p className='text-color-60 text-sm'>
+                        Contact support to get pin for <span className='font-semibold'>withdrawal charges.</span>
+                    </p>
+                )}
+
+                {(user as UserData).chargesPaid && !(user as UserData).premiumCard && (
+                    <p className='text-color-60 text-sm'>
+                        <span className='font-semibold'>Premium card pin.</span>
+                    </p>
+                )}
 
                 <div className='flex flex-col md:flex-row md:items-center md:justify-between gap-4'>
                     <Input 

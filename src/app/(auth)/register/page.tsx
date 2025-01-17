@@ -34,39 +34,24 @@ const Register = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [step, setStep] = useState<number>(1);
 
-  const { user, setUser, admin, setAdmin } = useUser();
+  const { user, setUser, admin, loginUser, loginUserLoading } = useUser();
   const { toast } = useToast();
 
 
   /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
-    const loggIn = async () => {
-
-      if(admin.label.length === 0 && typeof user !== 'object') {
-        const loggedIn = await getLoggedInUser();
-        
-        if(isAdmin(loggedIn)) { 
-            const adminWithImage = loggedInAdminWithImage(loggedIn);
-            setAdmin(adminWithImage);
-            return; 
-        }
-
-        if(isUserData(loggedIn)) { 
-            const userWithImage = loggedInUserWithImage(loggedIn);
-            setUser(userWithImage); 
-        }
-      } else {
-
-        if((user as UserData)?.subscription === false) { redirect('/subscription'); } 
-
-        if((user as UserData)?.subscription === true) { redirect('/'); } 
-
-        if(admin.label[0] === 'admin') { redirect('/dashboard') }
+      if(!admin.label.length && typeof user !== 'object') {
+          loginUser();
       }
-    }
-  
-    loggIn()
-  }, [user, admin])
+
+      if((admin.label.length || typeof user === 'object') && !loginUserLoading) {
+          if((user as UserData)?.subscription === false) { redirect('/subscription'); } 
+    
+          if((user as UserData)?.subscription === true) { redirect('/'); } 
+    
+          if(admin.label.length) { redirect('/dashboard') }
+      }
+  }, [loginUserLoading]);
   /* eslint-enable react-hooks/exhaustive-deps */
 
 

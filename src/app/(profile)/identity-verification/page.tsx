@@ -52,61 +52,69 @@ const IdentityVerification = () => {
                 <h1 className='text-lg text-color-60 font-medium mb-5'>IDENTITY VERIFICATION</h1>
 
                 <div className='flex items-center gap-5'>
-                    <p 
-                        className={`w-full py-12 flex items-center justify-center gap-3 border rounded-lg ${
+                    <div 
+                        className={`w-full py-12 flex flex-col lg:flex-row lg:items-center lg:justify-center gap-3 border rounded-lg ${
                                 idDocument.length > 0 && idDocument[0].ID_verification ? 'bg-green-50 border-green-300' : 'bg-red-50 border-red-300'
                             }`}
                     >
-                        Identity verification 
-                        
-                        {
-                            idDocument.length > 0 && idDocument[0].ID_verification ? <span className='text-xs text-green-300'>Approved</span> 
-                                : idDocument.length > 0 && idDocument[0].ID_verification === false ? <span className='text-xs text-red-300'>pending</span> : ''
-                        }
+                        <p className='text-center'>
+                            Identity verification 
+                        </p>
 
-                        {idDocument.length > 0 && idDocument[0].ID_verification ? (
-                            <Image
-                                src='green-dot-icon.svg'
-                                width={15}
-                                height={15}
-                                alt='identity not verified icon'
-                            />                            
-                        ) : (
-                            <Image
-                                src='red-dot-icon.svg'
-                                width={15}
-                                height={15}
-                                alt='identity not verified icon'
-                            />                            
-                        )}
-                    </p>
+                        <p className='flex justify-center gap-3 items-center'>
+                            {
+                                idDocument.length > 0 && idDocument[0].ID_verification ? <span className='text-xs text-green-300'>Approved</span> 
+                                    : idDocument.length > 0 && idDocument[0].ID_verification === false ? <span className='text-xs text-red-300'>pending</span> : ''
+                            }
+
+                            {idDocument.length > 0 && idDocument[0].ID_verification ? (
+                                <Image
+                                    src='green-dot-icon.svg'
+                                    width={15}
+                                    height={15}
+                                    alt='identity not verified icon'
+                                />                            
+                            ) : (
+                                <Image
+                                    src='red-dot-icon.svg'
+                                    width={15}
+                                    height={15}
+                                    alt='identity not verified icon'
+                                />                            
+                            )}
+                        </p>
+                    </div>
 
                     <p 
-                        className={`w-full py-12 flex items-center justify-center gap-3 border rounded-lg ${
+                        className={`w-full py-12 flex flex-col lg:flex-row lg:items-center lg:justify-center gap-3 border rounded-lg ${
                             addressDocument.length > 0 && addressDocument[0].address_verification ? 'bg-green-50 border-green-300' : 'bg-red-50 border-red-300'
                         }`}
                     >
-                        Proof of address 
+                        <p className='text-center'>
+                            Proof of address 
+                        </p> 
 
-                        {
-                            addressDocument.length > 0 && addressDocument[0].address_verification ? <span className='text-xs text-green-300'>Approved</span> : addressDocument.length > 0 && addressDocument[0].address_verification === false ? <span className='text-xs text-red-300'>pending</span> : ''
-                        }
+                        <p className='flex items-center justify-center gap-3'>
+                            {
+                                addressDocument.length > 0 && addressDocument[0].address_verification ? <span className='text-xs text-green-300'>Approved</span> : addressDocument.length > 0 && addressDocument[0].address_verification === false ? <span className='text-xs text-red-300'>pending</span> : ''
+                            }
 
-                        {addressDocument.length > 0 && addressDocument[0].address_verification ? (
-                            <Image
-                                src='green-dot-icon.svg'
-                                width={15}
-                                height={15}
-                                alt='identity not verified icon'
-                            />                            
-                        ) : (
-                            <Image
-                                src='red-dot-icon.svg'
-                                width={15}
-                                height={15}
-                                alt='identity not verified icon'
-                            />                            
-                        )}                         
+                            {addressDocument.length > 0 && addressDocument[0].address_verification ? (
+                                <Image
+                                    src='green-dot-icon.svg'
+                                    width={15}
+                                    height={15}
+                                    alt='identity not verified icon'
+                                />                            
+                            ) : (
+                                <Image
+                                    src='red-dot-icon.svg'
+                                    width={15}
+                                    height={15}
+                                    alt='identity not verified icon'
+                                />                            
+                            )}                         
+                        </p>
                     </p>
                 </div>
 

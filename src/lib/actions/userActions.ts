@@ -796,6 +796,10 @@ export const updateGameTicket = async (data: UserGame) => {
         )
 
         for(let i=0; i<data.games.length; i++) {
+
+            console.log(data.games[i].$id!);
+
+
             await database.updateDocument(
                 APPWRITE_DATABASE_ID!,
                 APPWRITE_GAMES_COLLECTION_ID!,
@@ -806,7 +810,7 @@ export const updateGameTicket = async (data: UserGame) => {
                     'odd': data.games[i].odd,
                     'homeGoal': data.games[i].homeGoal,
                     'awayGoal': data.games[i].awayGoal,
-                    'matchTime': !data.games[i].matchTime ? '' : data.games[i].matchTime
+                    'matchTime': data.games[i].matchTime
                 }
             )
         }

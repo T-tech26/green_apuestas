@@ -18,9 +18,9 @@ interface DocWithUser {
 
 const KYCVerification = () => {
 
-    const { allUsers } = useUser();
-    const { verificationDocuments } = useUserSlipContext();
-
+    const { allUsers, getUsers, setAllUsersLoading } = useUser();
+    const { verificationDocuments, verificationDocumentsLoading, setVerificationDocumentsLoading, getAllVerification } = useUserSlipContext();
+        
     const [status, setStatus] = useState('pending');
     const [pendingDocuments, setPendingDocuments] = useState<DocWithUser[]>([]);
     const [approvedDocuments, setApprovedDocuments] = useState<DocWithUser[]>([]);
@@ -29,7 +29,7 @@ const KYCVerification = () => {
 
 
     useEffect(() => {
-        if(verificationDocuments.length > 0) {
+        if(verificationDocuments.length > 0 && allUsers.length > 0) {
             const userWithIdDocument: DocWithUser[] = verificationDocuments.map((doc: VerificationDocument) => {
 
                 const user = allUsers.find(user => user.userId === doc.userId);
@@ -49,8 +49,23 @@ const KYCVerification = () => {
 
             setPendingDocuments(pending);
             setApprovedDocuments(approved);
+            setVerificationDocumentsLoading(false);
+            setAllUsersLoading(false);
         }
     }, [verificationDocuments, allUsers]);
+
+
+
+    /* eslint-disable react-hooks/exhaustive-deps */
+    useEffect(() => {
+        if(!verificationDocuments.length) {
+            getAllVerification();
+        }
+        if(!allUsers.length) {
+            getUsers();
+        }
+    }, []);
+    /* eslint-enable react-hooks/exhaustive-deps */
 
 
 
@@ -166,6 +181,12 @@ const KYCVerification = () => {
                                     )
                                 })}
                             </>
+                        ) : verificationDocumentsLoading ? (
+                            <div className="w-full animate-pulse flex flex-col gap-1">
+                                <div className='w-full h-16 bg-gray-300'></div>
+                                <div className='w-full h-16 bg-gray-300'></div>
+                                <div className='w-full h-16 bg-gray-300'></div>
+                            </div>
                         ) : (
                             <div className='w-full py-4 flex flex-col items-center justify-center gap-2'>
                                 <p className='text-color-60 text-sm font-semibold'>No pending verification request</p>
@@ -256,6 +277,12 @@ const KYCVerification = () => {
                                     )
                                 })}
                             </>
+                        ) : verificationDocumentsLoading ? (
+                            <div className="w-full animate-pulse flex flex-col gap-1">
+                                <div className='w-full h-16 bg-gray-300'></div>
+                                <div className='w-full h-16 bg-gray-300'></div>
+                                <div className='w-full h-16 bg-gray-300'></div>
+                            </div>
                         ) : (
                             <div className='w-full py-4 flex flex-col items-center justify-center gap-2'>
                                 <p className='text-color-60 text-sm font-semibold'>No approved identity and address verifications</p>
