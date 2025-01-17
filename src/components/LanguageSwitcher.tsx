@@ -8,7 +8,7 @@ const COOKIE_NAME = 'googtrans';
 
 const LanguageSwitcher = () => {
 
-    const [currentLanguage, setCurrentLanguage] = useState<string>();
+    const [currentLanguage, setCurrentLanguage] = useState<string | null>(null);
     const [languageConfig, setLanguageConfig] = useState<GoogleTranslationConfig | null>(null);
 
     // Initialize translation engine
@@ -17,7 +17,7 @@ const LanguageSwitcher = () => {
         const cookies = parseCookies();
         const existingLanguageCookieValue = cookies[COOKIE_NAME];
 
-        let languageValue;
+        let languageValue: string | undefined;
 
         if (existingLanguageCookieValue) {
             // 2. If the cookie is defined, extract a language nickname from there.
@@ -50,9 +50,15 @@ const LanguageSwitcher = () => {
 
     // The following function switches the current language
     const switchLanguage = (lang: string) => {
-        // We just need to set the related cookie and reload the page
-        // "/auto/" prefix is Google's definition as far as a cookie name
-        setCookie(null, COOKIE_NAME, '/auto/' + lang);
+        // 1. Set the language in the cookie with the correct domain and path
+        setCookie(null, COOKIE_NAME, '/auto/' + lang, {
+            path: '/', // Ensure the cookie is available site-wide
+            sameSite: 'Lax', // Cross-origin cookie handling
+        });
+
+        // 2. Update the language state immediately, avoiding a full page reload
+        setCurrentLanguage(lang);
+
         window.location.reload();
     };
 
