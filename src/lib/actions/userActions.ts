@@ -797,6 +797,7 @@ export const updateGameTicket = async (data: UserGame) => {
 
         for(let i=0; i<data.games.length; i++) {
 
+            console.log(i);
             console.log(data.games[i].$id!);
 
 
