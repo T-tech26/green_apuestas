@@ -24,13 +24,15 @@ const ProfileMenu = () => {
         <aside
             className='hidden md:flex bg-dark-gradient-135deg h-screen w-64 lg:w-72 flex-col justify-center item-center pt-5 pb-5 px-7'
         >
-            <Image
-                src='/logo-light.png'
-                width={100}
-                height={100}
-                alt='light version logo'
-                className='mb-5'
-            />
+            <Link href='/'>
+                <Image
+                    src='/logo-light.png'
+                    width={100}
+                    height={100}
+                    alt='light version logo'
+                    className='mb-5'
+                />
+            </Link>
 
             {ProfileMenuLinks.map((link) => {
 

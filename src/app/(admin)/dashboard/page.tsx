@@ -151,7 +151,7 @@ const Dashboard = () => {
                                                         width={50}
                                                         height={50}
                                                         alt='menu icons'
-                                                        className='cursor-pointer'
+                                                        className='cursor-pointer rounded-full size-10'
                                                     />
                                                     {/* eslint-enable @next/next/no-img-element */}
                                                     {`${user.lastname} ${user.firstname}`}
