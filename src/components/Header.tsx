@@ -2,7 +2,6 @@
 import React, { useState } from 'react'
 import MobileNav from './MobileNav';
 import Link from 'next/link';
-import { LanguageSwitcher } from './LanguageSwitcher';
 import { DisplayNames, menuLinks } from '@/constants';
 import { usePathname } from 'next/navigation';
 import LoggedInHeader from './LoggedInHeader';
@@ -53,8 +52,6 @@ const Header = () => {
                                 </span>
                             </p>
                         </div>
-
-                        <LanguageSwitcher />
                     </div>
 
                     <div className="flex justify-between items-center">
@@ -88,10 +85,6 @@ const Header = () => {
                     </div>
 
                     <div className="flex justify-between items-center gap-3">
-
-                        <div className="md:flex justify-between gap-1 items-center hidden">
-                        <LanguageSwitcher />
-                        </div>
 
                         <Link href='/signin' className="loginbtn">Login</Link>
                         <Link href='/register' className="registerbtn">Register</Link>

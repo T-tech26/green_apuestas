@@ -60,8 +60,8 @@ const ProfileHeader = () => {
                         )}
 
                         <div>
-                            <p className='text-color-60 text-sm'>{`${(user as UserData)?.lastname} ${(user as UserData)?.firstname}`}</p>
-                            <p className='text-color-60 text-xs tracking-wide'>{`${formatAmount((user as UserData)?.balance)}`} USD</p>
+                            <p className='text-color-60 text-sm' translate='no'>{`${(user as UserData)?.lastname} ${(user as UserData)?.firstname}`}</p>
+                            <p className='text-color-60 text-xs tracking-wide' translate='no'>{`${formatAmount((user as UserData)?.balance)}`} USD</p>
                         </div>
 
                         <div className='relative cursor-pointer' onClick={() => setShowNotification(true)}>

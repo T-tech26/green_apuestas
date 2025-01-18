@@ -50,7 +50,7 @@ const MobileHomeMenu = ({selectedLink, setSelectedLink}: MobileMenuProps) => {
                     >
                         {link.icon === '0' ? (
                             <span className='text-lg'>
-                                {openBet !== undefined ? '1' : '0'}
+                                {openBet !== undefined ? <span className='relative'>1 <span className='absolute -top-5 -right-5 bg-color-10 rounded-full size-8 -z-50 animate-ping'></span></span> : <span>0</span>}
                             </span>
                         ) : (
                             <Image

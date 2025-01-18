@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { LanguageSwitcher } from './LanguageSwitcher';
 import Image from 'next/image';
 import {
     DropdownMenu,
@@ -65,8 +64,6 @@ const LoggedInHeader = () => {
                         </span>
                     </p>
                 </div>
-
-                <LanguageSwitcher />
             </div>
 
             <div className="flex justify-between items-center gap-5">
@@ -92,10 +89,6 @@ const LoggedInHeader = () => {
                 </div>
             
                 <div className="flex justify-between items-center gap-3">
-                    <div className="md:flex justify-between gap-1 items-center hidden">
-                        <LanguageSwitcher />
-                    </div>
-
                     <div
                         className='flex gap-3 justify-between items-center max:w-52'
                     >

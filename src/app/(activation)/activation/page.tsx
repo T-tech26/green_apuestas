@@ -1,7 +1,6 @@
 "use client"
 
 import React, { useEffect, useState } from 'react'
-import { LanguageSwitcher } from '@/components/LanguageSwitcher'
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -115,8 +114,6 @@ const Activation = () => {
                   alt='light version logo'
               />
             </Link>
-
-            <LanguageSwitcher />
           </header>
 
           <main className="flex-1 flex flex-col items-center justify-center gap-5">

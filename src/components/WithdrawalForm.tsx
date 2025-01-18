@@ -150,16 +150,16 @@ const WithdrawalForm = ({ step, setStep, method }: WithdrawalFormProps) => {
             <div className='w-4/5 mx-auto flex flex-col gap-10'>
                 <div className='bg-dark-gradient-135deg rounded-md p-5 flex flex-col gap-3'>
                 <p className='flex items-center justify-between border border-color-10 rounded-md px-4 py-2 text-color-30 text-sm'>
-                    <span className='font-semibold tracking-wide'>Bank name</span> {method.bankName}
+                    <span className='font-semibold tracking-wide'>Bank name</span> <span translate='no'>{method.bankName}</span>
                 </p>
                 <p className='flex items-center justify-between border border-color-10 rounded-md px-4 py-2 text-color-30 text-sm'>
-                    <span className='font-semibold tracking-wide'>Account name</span> {method.accountName}
+                    <span className='font-semibold tracking-wide'>Account name</span> <span translate='no'>{method.accountName}</span>
                 </p>
                 <p className='flex items-center justify-between border border-color-10 rounded-md px-4 py-2 text-color-30 text-sm'>
-                    <span className='font-semibold tracking-wide'>Account number</span> {method.accountNumber}
+                    <span className='font-semibold tracking-wide'>Account number</span> <span translate='no'>{method.accountNumber}</span>
                 </p>
                 <p className='flex items-center justify-between border border-color-10 rounded-md px-4 py-2 text-color-30 text-sm'>
-                    <span className='font-semibold tracking-wide'>Account currency</span> {method.currency}
+                    <span className='font-semibold tracking-wide'>Account currency</span> <span translate='no'>{method.currency}</span>
                 </p>
                 </div>
 

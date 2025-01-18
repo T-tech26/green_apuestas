@@ -127,6 +127,7 @@ const BetHistory = () => {
                                         showBets === slip.$id ? 'showBets' : 'hideBets'
                                     }`}
                                     onClick={() => handleAnimation((slip.$id as string), index)}
+                                    translate='no'
                                 >
                                     <div className='bg-light-gradient-135deg px-5 py-2 rounded-t-md flex justify-between'>
                                         <p className='flex flex-col justify-between text-color-30 text-xs font-medium'>

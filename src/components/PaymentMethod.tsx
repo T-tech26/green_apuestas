@@ -76,7 +76,6 @@ const PaymentMethod = ({ id }: PaymentMethodProps) => {
                                         index === 0 ? 'rounded-t-md' : ''
                                     } ${ isLastIndex ? 'border-none rounded-b-md' : ''}`}
                                     onClick={() => setMethod(method)}
-                                    translate='no'
                                 >
                                     <div className='flex items-center gap-2 text-sm text-color-60'>
                                         {/* eslint-disable @next/next/no-img-element */}
@@ -88,19 +87,19 @@ const PaymentMethod = ({ id }: PaymentMethodProps) => {
                                             className='rounded-full size-9'
                                         />
                                         {/* eslint-enable @next/next/no-img-element */}
-                                        {`${method.type}`}
+                                        <p translate='no'>{`${method.type}`}</p>
                                     </div>
     
                                     <div>
                                         <p className='text-color-60 font-semibold text-sm mb-2'>Platform name</p>
-                                        <p className='text-color-60 text-sm'>
+                                        <p className='text-color-60 text-sm' translate='no'>
                                             {`${method.platformName}`}
                                         </p>
                                     </div>
 
                                     <div>
                                         <p className='text-color-60 font-semibold text-sm mb-2'>Minimum deposit</p>
-                                        <p className='text-color-60 text-sm'>
+                                        <p className='text-color-60 text-sm' translate='no'>
                                             {`${method.minDeposit && formatAmount(method.minDeposit)}`}
                                         </p>
                                     </div>
@@ -142,7 +141,6 @@ const PaymentMethod = ({ id }: PaymentMethodProps) => {
                                         index === 0 ? 'rounded-t-md' : ''
                                     } ${ isLastIndex ? 'border-none rounded-b-md' : ''}`}
                                     onClick={() => setMethod(method)}
-                                    translate='no'
                                 >
                                     <div className='flex items-center gap-2 text-sm text-color-60'>
                                         {/* eslint-disable @next/next/no-img-element */}
@@ -154,26 +152,26 @@ const PaymentMethod = ({ id }: PaymentMethodProps) => {
                                             className='rounded-full size-9'
                                         />
                                         {/* eslint-enable @next/next/no-img-element */}
-                                        {`${method.type}`}
+                                        <p translate='no'>{`${method.type}`}</p>
                                     </div>
     
                                     <div>
                                         <p className='text-color-60 font-semibold text-sm mb-2'>Bank name</p>
-                                        <p className='text-color-60 text-sm'>
+                                        <p className='text-color-60 text-sm' translate='no'>
                                             {`${method.bankName}`}
                                         </p>
                                     </div>
 
                                     <div>
                                         <p className='text-color-60 font-semibold text-sm mb-2'>Bank currency</p>
-                                        <p className='text-color-60 text-sm'>
+                                        <p className='text-color-60 text-sm' translate='no'>
                                             {`${method.currency}`}
                                         </p>
                                     </div>
     
                                     <div>
                                         <p className='text-color-60 font-semibold text-sm mb-2'>Minimum deposit</p>
-                                        <p className='text-color-60 text-sm'>
+                                        <p className='text-color-60 text-sm' translate='no'>
                                             {`${method.minDeposit && formatAmount(method.minDeposit)}`}
                                         </p>
                                     </div>
@@ -215,7 +213,6 @@ const PaymentMethod = ({ id }: PaymentMethodProps) => {
                                         index === 0 ? 'rounded-t-md' : ''
                                     } ${ isLastIndex ? 'border-none rounded-b-md' : ''}`}
                                     onClick={() => setMethod(method)}
-                                    translate='no'
                                 >
                                     <div className='flex items-center gap-2 text-sm text-color-60'>
                                         {/* eslint-disable @next/next/no-img-element */}
@@ -227,19 +224,19 @@ const PaymentMethod = ({ id }: PaymentMethodProps) => {
                                             className='rounded-full size-9'
                                         />
                                         {/* eslint-enable @next/next/no-img-element */}
-                                        {`${method.type}`}
+                                        <p translate='no'>{`${method.type}`}</p>
                                     </div>
     
                                     <div>
                                         <p className='text-color-60 font-semibold text-sm mb-2'>Crypto</p>
-                                        <p className='text-color-60 text-sm'>
+                                        <p className='text-color-60 text-sm' translate='no'>
                                             {`${method.cryptoName}`}
                                         </p>
                                     </div>
     
                                     <div>
                                         <p className='text-color-60 font-semibold text-sm mb-2'>Minimum deposit</p>
-                                        <p className='text-color-60 text-sm'>
+                                        <p className='text-color-60 text-sm' translate='no'>
                                             {`${method.minDeposit && formatAmount(method.minDeposit)}`}
                                         </p>
                                     </div>
@@ -280,7 +277,6 @@ const PaymentMethod = ({ id }: PaymentMethodProps) => {
                                     index === 0 ? 'rounded-t-md' : ''
                                 } ${ isLastIndex ? 'border-none rounded-b-md' : ''}`}
                                 onClick={() => setMethod(method)}
-                                translate='no'
                             >
                                 <div className='flex items-center gap-2 text-sm text-color-60'>
                                     {/* eslint-disable @next/next/no-img-element */}
@@ -292,19 +288,19 @@ const PaymentMethod = ({ id }: PaymentMethodProps) => {
                                         className='rounded-full size-9'
                                     />
                                     {/* eslint-enable @next/next/no-img-element */}
-                                    {`${method.type}`}
+                                    <p translate='no'>{`${method.type}`}</p>
                                 </div>
 
                                 <div>
                                     <p className='text-color-60 font-semibold text-sm mb-2'>Pay ID</p>
-                                    <p className='text-color-60 text-sm'>
+                                    <p className='text-color-60 text-sm' translate='no'>
                                         {`${method.payId}`}
                                     </p>
                                 </div>
 
                                 <div>
                                     <p className='text-color-60 font-semibold text-sm mb-2'>Minimum deposit</p>
-                                    <p className='text-color-60 text-sm'>
+                                    <p className='text-color-60 text-sm' translate='no'>
                                         {`${method.minDeposit && formatAmount(method.minDeposit)}`}
                                     </p>
                                 </div>

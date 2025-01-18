@@ -4,6 +4,7 @@ import { Transaction, UserData } from '@/types/globals';
 import { toast } from '@/hooks/use-toast';
 import { useUser } from '@/contexts/child_context/userContext';
 import { formatAmount } from '@/lib/utils';
+import Link from 'next/link';
 
 
 interface TransactionDetailsProps {
@@ -61,13 +62,20 @@ const TransactionDetails = ({ trans, setShowDetails, type }: TransactionDetailsP
                 />
 
                 <div className='flex flex-col gap-2 justify-center items-center bg-color-30 rounded-md py-5'>
-                    <h1>LOGO</h1>
+                    <Link href='/'>
+                        <Image
+                            src='/logo-light-bg.png'
+                            width={100}
+                            height={100}
+                            alt='light version logo'
+                        />
+                    </Link>  
 
                     {type === 'admin' && (
-                        <p>{(user as UserData).firstname} {(user as UserData).lastname}</p>
+                        <p translate='no'>{(user as UserData).firstname} {(user as UserData).lastname}</p>
                     )}
 
-                    <p className='text-color-60 text-sm font-semibold'>USD {formatAmount(details.amount)}</p>
+                    <p className='text-color-60 text-sm font-semibold' translate='no'>USD {formatAmount(details.amount)}</p>
 
                     <p 
                         className={`text-[10px] flex items-center gap-1 drop-shadow-md rounded-full pl-2 pr-3 ${
@@ -114,39 +122,39 @@ const TransactionDetails = ({ trans, setShowDetails, type }: TransactionDetailsP
                     {details.transaction_details.payId && (
                         <div className='flex items-center justify-between'>
                             <p className='text-sm text-gray-400'>Binance pay ID</p>
-                            <p className='text-sm text-color-60'>{details.transaction_details.payId}</p>
+                            <p className='text-sm text-color-60' translate='no'>{details.transaction_details.payId}</p>
                         </div>
                     )}
 
                     {details.transaction_details.cryptoName && (
                         <div className='flex items-center justify-between'>
                             <p className='text-sm text-gray-400'>Crypto</p>
-                            <p className='text-sm text-color-60'>{details.transaction_details.cryptoName}</p>
+                            <p className='text-sm text-color-60' translate='no'>{details.transaction_details.cryptoName}</p>
                         </div>
                     )}
 
                     {details.transaction_details.bankName && (
                         <div className='flex items-center justify-between'>
                             <p className='text-sm text-gray-400'>Bank</p>
-                            <p className='text-sm text-color-60'>{details.transaction_details.bankName}</p>
+                            <p className='text-sm text-color-60' translate='no'>{details.transaction_details.bankName}</p>
                         </div>
                     )}
 
                     {details.transaction_details.email && (
                         <div className='flex items-center justify-between'>
                             <p className='text-sm text-gray-400'>Platform</p>
-                            <p className='text-sm text-color-60'>{details.transaction_details.platformName}</p>
+                            <p className='text-sm text-color-60' translate='no'>{details.transaction_details.platformName}</p>
                         </div>
                     )}
 
                     <div className='flex items-center justify-between'>
                         <p className='text-sm text-gray-400'>Transactions Date</p>
-                        <p className='text-sm text-color-60'>{details.transaction_time}</p>
+                        <p className='text-sm text-color-60' translate='no'>{details.transaction_time}</p>
                     </div>
 
                     <div className='flex items-center justify-between'>
                         <p className='text-sm text-gray-400'>Transactions ticket</p>
-                        <p className='text-sm text-color-60 flex items-center gap-2'>
+                        <p className='text-sm text-color-60 flex items-center gap-2' translate='no'>
                             {type === 'user' && (<Image
                                 src='/copy-content-icon.svg'
                                 width={15}
@@ -165,14 +173,14 @@ const TransactionDetails = ({ trans, setShowDetails, type }: TransactionDetailsP
                         {details.transaction_details.cryptoName && (
                             <div className='flex items-center justify-between'>
                                 <p className='text-sm text-gray-400'>Network</p>
-                                <p className='text-sm text-color-60'>{details.transaction_details.network}</p>
+                                <p className='text-sm text-color-60' translate='no'>{details.transaction_details.network}</p>
                             </div>
                         )}
 
                         {details.transaction_details.cryptoName && (
                             <div className='flex items-center justify-between'>
                                 <p className='text-sm text-gray-400'>Address</p>
-                                <p className='text-sm text-color-60 tracking-wide'>{
+                                <p className='text-sm text-color-60 tracking-wide' translate='no'>{
                                     details.transaction_details.address && details.transaction_details.address.length > 20 ?
                                         details.transaction_details.address.slice(0, 26).padEnd(30, '.')
                                             : details.transaction_details.address
@@ -190,14 +198,14 @@ const TransactionDetails = ({ trans, setShowDetails, type }: TransactionDetailsP
                         {details.transaction_details.bankName && (
                             <div className='flex items-center justify-between'>
                                 <p className='text-sm text-gray-400'>Account number</p>
-                                <p className='text-sm text-color-60'>{details.transaction_details.accountNumber}</p>
+                                <p className='text-sm text-color-60' translate='no'>{details.transaction_details.accountNumber}</p>
                             </div>
                         )}
 
                         {details.transaction_details.bankName && (
                             <div className='flex items-center justify-between'>
                                 <p className='text-sm text-gray-400'>Bank currency</p>
-                                <p className='text-sm text-color-60'>{details.transaction_details.currency}</p>
+                                <p className='text-sm text-color-60' translate='no'>{details.transaction_details.currency}</p>
                             </div>
                         )}
 
@@ -205,7 +213,7 @@ const TransactionDetails = ({ trans, setShowDetails, type }: TransactionDetailsP
                         {details.transaction_details.bankName && details.transaction_type !== 'Withdrawal' && (
                             <div className='flex items-center justify-between'>
                                 <p className='text-sm text-gray-400'>Rate</p>
-                                <p className='text-sm text-color-60 flex items-center gap-2'>
+                                <p className='text-sm text-color-60 flex items-center gap-2' translate='no'>
                                     <span>1 USD</span>
 
                                     <Image
@@ -223,7 +231,7 @@ const TransactionDetails = ({ trans, setShowDetails, type }: TransactionDetailsP
                         {details.transaction_details.email && (
                             <div className='flex items-center justify-between'>
                                 <p className='text-sm text-gray-400'>Payment Email/ID</p>
-                                <p className='text-sm text-color-60'>{details.transaction_details.email}</p>
+                                <p className='text-sm text-color-60' translate='no'>{details.transaction_details.email}</p>
                             </div>
                         )}
                     </div>

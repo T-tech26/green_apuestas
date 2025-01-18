@@ -52,7 +52,7 @@ const TransactionHistory = () => {
                                 >
                                     <div className='flex items-center justify-between'>
                                         <p className='text-sm text-color-60 font-semibold'>{trans.transaction_type}</p>
-                                        <p className='text-xs text-gray-400'>{trans.transaction_time}</p>
+                                        <p className='text-xs text-gray-400' translate='no'>{trans.transaction_time}</p>
                                     </div>
 
                                     <div className='flex items-center justify-between border-t border-gray-300 py-3'>
@@ -76,7 +76,7 @@ const TransactionHistory = () => {
 
                                         <div>
                                             <p className='text-xs text-gray-400 font-medium mb-1'>Amount</p>
-                                            <p className='text-[10px] text-color-60'>{formatAmount(trans.amount)} USD</p>
+                                            <p className='text-[10px] text-color-60' translate='no'>{formatAmount(trans.amount)} USD</p>
                                         </div>
 
                                         <div className='flex flex-col gap-1 items-center'>

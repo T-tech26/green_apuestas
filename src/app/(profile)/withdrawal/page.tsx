@@ -27,7 +27,6 @@ const Withdrawal = () => {
     const [uploadAnother, setUploadAnother] = useState(false);
     const [selectedDetails, setSelectedDetails] = useState<BankDetails>();
     const [step, setStep] = useState(1);
-    const [nameNotMatch, setNameNotMatch] = useState(false);
     const [bankDetailsWithUser, setBankDetailsWithUser] = useState<BankDetails[]>([]);
 
 
@@ -107,17 +106,6 @@ const Withdrawal = () => {
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         setIsLoading(true)
         try {
-
-            const name = `${(user as UserData).lastname.trimEnd()} ${(user as UserData).firstname.trimEnd()}`
-
-            if(values.accountName !== name) { 
-                setNameNotMatch(true);
-
-                setTimeout(() => {
-                    setNameNotMatch(false);
-                }, 5000);
-                return; 
-            }
 
             const response = await createBankDetails((user as UserData).userId, values);
 
@@ -199,6 +187,7 @@ const Withdrawal = () => {
                                             <TableRow 
                                                 key={method.$id} 
                                                 className={`${index % 2 === 1 ? 'bg-gray-50' : ''}`}
+                                                translate='no'
                                             >
                                                 <TableCell>
                                                     <Input
@@ -309,7 +298,6 @@ const Withdrawal = () => {
                                                             {...field}
                                                             className='w-full py-2 px-3 border border-color-60 focus:border-color-10 focus:outline-none rounded-md'
                                                         />
-                                                        {nameNotMatch && <p className='text-xs text-red-300'>Bank account name must match name in your account</p>}
                                                     </div>
                                                 </FormControl>
                                                 <FormMessage />
@@ -417,7 +405,6 @@ const Withdrawal = () => {
                                                             {...field}
                                                             className='w-full py-2 px-3 border border-color-60 focus:border-color-10 focus:outline-none rounded-md'
                                                         />
-                                                        {nameNotMatch && <p className='text-xs text-red-300'>Bank account name must match name in your account</p>}
                                                     </div>
                                                 </FormControl>
                                                 <FormMessage />

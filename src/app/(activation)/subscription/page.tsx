@@ -1,6 +1,5 @@
 'use client'
 import React, { useEffect } from 'react'
-import { LanguageSwitcher } from '@/components/LanguageSwitcher'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useUser } from '@/contexts/child_context/userContext'
@@ -55,8 +54,6 @@ const Subscritpion = () => {
                     alt='light version logo'
                 />
               </Link>
-
-              <LanguageSwitcher />
             </header>
 
             <main className="flex-1 flex flex-col items-center justify-center gap-5">

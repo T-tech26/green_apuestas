@@ -54,12 +54,12 @@ const PaymentDetails = ({ methodType, step, setStep }: MethodProps) => {
                         className='rounded-full size-9'
                     />
                     {/* eslint-enable @next/next/no-img-element */}
-                    {`${methodType.type}`}
+                    <p translate='no'>{`${methodType.type}`}</p>
                 </div>
 
                 <div className='flex items-center justify-between w-full border border-color-60 rounded-md py-1 px-2'>
                     <p className='font-semibold text-base text-color-60'>Platform name</p>
-                    <p className='text-sm text-color-60'>{methodType.platformName}</p>
+                    <p className='text-sm text-color-60' translate='no'>{methodType.platformName}</p>
                 </div>
     
                 <div className='flex items-center justify-between w-full border border-color-60 rounded-md py-1 px-2'>
@@ -67,6 +67,7 @@ const PaymentDetails = ({ methodType, step, setStep }: MethodProps) => {
                     <p 
                         className='text-sm text-color-60 flex items-center gap-3'
                         onClick={() => handleCopyClick(methodType.email ? methodType.email : '')}
+                        translate='no'
                     >
                         <Image
                             src='/copy-content-icon.svg'
@@ -82,7 +83,7 @@ const PaymentDetails = ({ methodType, step, setStep }: MethodProps) => {
     
                 <div className='flex items-center justify-between w-full border border-color-60 rounded-md py-1 px-2'>
                     <p className='font-semibold text-base text-color-60'>Minimum deposit</p>
-                    <p className='text-sm text-color-60'>{methodType.minDeposit && formatAmount(methodType.minDeposit)} USD</p>
+                    <p className='text-sm text-color-60' translate='no'>{methodType.minDeposit && formatAmount(methodType.minDeposit)} USD</p>
                 </div>
     
                 <Button
@@ -110,17 +111,17 @@ const PaymentDetails = ({ methodType, step, setStep }: MethodProps) => {
                         className='rounded-full size-9'
                     />
                     {/* eslint-enable @next/next/no-img-element */}
-                    {`${methodType.type}`}
+                    <p translate='no'>{`${methodType.type}`}</p>
                 </div>
 
                 <div className='flex items-center justify-between w-full border border-color-60 rounded-md py-1 px-2'>
                     <p className='font-semibold text-base text-color-60'>Bank name</p>
-                    <p className='text-sm text-color-60'>{methodType.bankName}</p>
+                    <p className='text-sm text-color-60' translate='no'>{methodType.bankName}</p>
                 </div>
 
                 <div className='flex items-center justify-between w-full border border-color-60 rounded-md py-1 px-2'>
                     <p className='font-semibold text-base text-color-60'>Account name</p>
-                    <p className='text-sm text-color-60'>{methodType.accountName}</p>
+                    <p className='text-sm text-color-60' translate='no'>{methodType.accountName}</p>
                 </div>
     
                 <div className='flex items-center justify-between w-full border border-color-60 rounded-md py-1 px-2'>
@@ -128,6 +129,7 @@ const PaymentDetails = ({ methodType, step, setStep }: MethodProps) => {
                     <p 
                         className='text-sm text-color-60 flex items-center gap-3'
                         onClick={() => handleCopyClick(methodType.accountNumber ? methodType.accountNumber : '')}
+                        translate='no'
                     >
                         <Image
                             src='/white-copy-conten-icon.svg'
@@ -143,12 +145,12 @@ const PaymentDetails = ({ methodType, step, setStep }: MethodProps) => {
 
                 <div className='flex items-center justify-between w-full border border-color-60 rounded-md py-1 px-2'>
                     <p className='font-semibold text-base text-color-60'>Bank currency</p>
-                    <p className='text-sm text-color-60'>{methodType.currency}</p>
+                    <p className='text-sm text-color-60' translate='no'>{methodType.currency}</p>
                 </div>
 
                 <div className='flex items-center justify-between w-full border border-color-60 rounded-md py-1 px-2'>
                     <p className='font-semibold text-base text-color-60'>Rate</p>
-                    <p className='text-sm text-color-60 flex items-center gap-4'>
+                    <p className='text-sm text-color-60 flex items-center gap-4' translate='no'>
                         <span>1 USD</span>
                         <Image
                             src='/white-rate-icon.svg'
@@ -162,7 +164,7 @@ const PaymentDetails = ({ methodType, step, setStep }: MethodProps) => {
     
                 <div className='flex items-center justify-between w-full border border-color-60 rounded-md py-1 px-2'>
                     <p className='font-semibold text-base text-color-60'>Minimum deposit</p>
-                    <p className='text-sm text-color-60'>{methodType.minDeposit && formatAmount(methodType.minDeposit)} USD</p>
+                    <p className='text-sm text-color-60' translate='no'>{methodType.minDeposit && formatAmount(methodType.minDeposit)} USD</p>
                 </div>
     
                 <Button
@@ -190,17 +192,17 @@ const PaymentDetails = ({ methodType, step, setStep }: MethodProps) => {
                         className='rounded-full size-9'
                     />
                     {/* eslint-enable @next/next/no-img-element */}
-                    {`${methodType.type}`}
+                    <p translate='no'>{`${methodType.type}`}</p>
                 </div>
 
                 <div className='flex items-center justify-between w-full border border-color-60 rounded-md py-1 px-2'>
                     <p className='font-semibold text-base text-color-60'>Crypto</p>
-                    <p className='text-sm text-color-60'>{methodType.cryptoName}</p>
+                    <p className='text-sm text-color-60' translate='no'>{methodType.cryptoName}</p>
                 </div>
 
                 <div className='flex items-center justify-between w-full border border-color-60 rounded-md py-1 px-2'>
                     <p className='font-semibold text-base text-color-60'>Network</p>
-                    <p className='text-sm text-color-60'>{methodType.network}</p>
+                    <p className='text-sm text-color-60' translate='no'>{methodType.network}</p>
                 </div>
     
                 <div className='flex items-center justify-between w-full border border-color-60 rounded-md py-1 px-2'>
@@ -208,6 +210,7 @@ const PaymentDetails = ({ methodType, step, setStep }: MethodProps) => {
                     <p 
                         className='text-sm text-color-60 flex items-center gap-3'
                         onClick={() => handleCopyClick(methodType.address ? methodType.address : '')}
+                        translate='no'
                     >
                         <Image
                             src='/white-copy-conten-icon.svg'
@@ -223,7 +226,7 @@ const PaymentDetails = ({ methodType, step, setStep }: MethodProps) => {
     
                 <div className='flex items-center justify-between w-full border border-color-60 rounded-md py-1 px-2'>
                     <p className='font-semibold text-base text-color-60'>Minimum deposit</p>
-                    <p className='text-sm text-color-60'>{methodType.minDeposit && formatAmount(methodType.minDeposit)} USD</p>
+                    <p className='text-sm text-color-60' translate='no'>{methodType.minDeposit && formatAmount(methodType.minDeposit)} USD</p>
                 </div>
     
                 <Button
@@ -250,7 +253,7 @@ const PaymentDetails = ({ methodType, step, setStep }: MethodProps) => {
                     className='rounded-full size-9'
                 />
                 {/* eslint-enable @next/next/no-img-element */}
-                {`${methodType.type}`}
+                <p translate='no'>{`${methodType.type}`}</p>
             </div>
 
             <div className='flex items-center justify-between w-full border border-color-60 rounded-md py-1 px-2'>
@@ -258,6 +261,7 @@ const PaymentDetails = ({ methodType, step, setStep }: MethodProps) => {
                 <p 
                     className='text-sm text-color-60 flex items-center gap-3'
                     onClick={() => handleCopyClick(methodType.payId ? methodType.payId : '')}
+                    translate='no'
                 >
                     <Image
                         src='/copy-content-icon.svg'
@@ -273,7 +277,7 @@ const PaymentDetails = ({ methodType, step, setStep }: MethodProps) => {
 
             <div className='flex items-center justify-between w-full border border-color-60 rounded-md py-1 px-2'>
                 <p className='font-semibold text-base text-color-60'>Minimum deposit</p>
-                <p className='text-sm text-color-60'>{methodType.minDeposit && formatAmount(methodType.minDeposit)} USD</p>
+                <p className='text-sm text-color-60' translate='no'>{methodType.minDeposit && formatAmount(methodType.minDeposit)} USD</p>
             </div>
 
             <Button
