@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import Script from "next/script";
 import { GlobalProvider } from "@/contexts/GlobalContext";
 import { Toaster } from "@/components/ui/toaster";
 
