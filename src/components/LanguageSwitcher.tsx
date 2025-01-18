@@ -28,8 +28,8 @@ const LanguageSwitcher = () => {
         }
 
         // 3. If __GOOGLE_TRANSLATION_CONFIG__ is defined and we still not decided about languageValue - use default one
-        if (window.__GOOGLE_TRANSLATION_CONFIG__ && !languageValue) {
-            languageValue = window.__GOOGLE_TRANSLATION_CONFIG__.defaultLanguage;
+        if (global.__GOOGLE_TRANSLATION_CONFIG__ && !languageValue) {
+            languageValue = global.__GOOGLE_TRANSLATION_CONFIG__.defaultLanguage;
         }
 
         if (languageValue) {
@@ -38,8 +38,8 @@ const LanguageSwitcher = () => {
         }
 
         // 5. Set the language config.
-        if (window.__GOOGLE_TRANSLATION_CONFIG__) {
-            setLanguageConfig(window.__GOOGLE_TRANSLATION_CONFIG__);
+        if (global.__GOOGLE_TRANSLATION_CONFIG__) {
+            setLanguageConfig(global.__GOOGLE_TRANSLATION_CONFIG__);
         }
     }, []);
 

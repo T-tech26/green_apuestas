@@ -22,7 +22,7 @@ body {
 
 /* hiding the google translate widget */
 .skiptranslate iframe {
-  display: none !important;
+  margin-top: -500px !important;
 }
 
 ::-webkit-scrollbar {

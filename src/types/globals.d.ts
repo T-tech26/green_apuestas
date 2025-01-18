@@ -9,10 +9,10 @@ export interface GoogleTranslationConfig {
   defaultLanguage: string;
 }
 
-// Augment the global `window` object
+// eslint-disable-next-line no-var
 declare global {
-  interface Window {
-    __GOOGLE_TRANSLATION_CONFIG__: {
+  namespace globalThis {
+    var __GOOGLE_TRANSLATION_CONFIG__: {
       languages: LanguageDescriptor[];
       defaultLanguage: string;
     };
