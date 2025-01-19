@@ -94,10 +94,10 @@ const ActivationPin = () => {
     return (
         <main className='flex-1 py-14 overflow-x-hidden overflow-y-scroll'>
             <div className='w-4/5 mx-auto flex flex-col gap-10'>
-                <h1 className='text-lg text-color-60 font-medium'>Subscription</h1>
+                <h1 className='text-lg text-color-60 font-medium uppercase'>Subscription</h1>
 
                 <div
-                    className='w-full px-5 py-3 border border-color-10 rounded-md flex items-center justify-between'
+                    className='w-full px-5 py-3 border border-color-10 rounded-md flex flex-col-reverse gap-2 md:flex-row items-center justify-between'
                 >
                     {typeof pin === 'object' ? (
                         <div className='flex justify-between items-center w-16'>

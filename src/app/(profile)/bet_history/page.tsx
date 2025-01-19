@@ -45,19 +45,19 @@ const BetHistory = () => {
 
 
     return (
-        <main className='flex-1 py-14 overflow-y-scroll'>
-            <div className='w-4/5 mx-auto flex flex-col gap-4'>
+        <main className='flex-1 pt-14 md:py-14 overflow-x-hidden overflow-y-scroll'>
+            <div className='w-4/5 mx-auto flex flex-col gap-5 overflow-x-scroll md:overflow-x-hidden address pb-14 md:pb-0'>
                 <h1 className='text-lg text-color-60 font-medium mb-5'>BET HISTORY</h1>
 
                 {userWithSlip.length > 0 ? (
-                    <div className='flex flex-col items-center gap-4'>
+                    <div className='mx-auto'>
                         {userWithSlip.map((slip, index) => {
 
                             if(!slip.showBet) {
                                 return (
                                     <div 
                                         key={slip.$id}
-                                        className={`bg-color-30 rounded-md w-[330px] animate-pulse h-[48px] overflow-hidden cursor-pointer ${
+                                        className={`bg-color-30 rounded-md mb-4 w-[330px] animate-pulse h-[48px] overflow-hidden cursor-pointer ${
                                             showBets === slip.$id ? 'showBets' : 'hideBets'
                                         }`}
                                         onClick={() => handleAnimation((slip.$id as string), index)}
@@ -123,7 +123,7 @@ const BetHistory = () => {
                             return (
                                 <div 
                                     key={slip.$id}
-                                    className={`bg-color-30 rounded-md w-[330px] h-[48px] overflow-hidden cursor-pointer ${
+                                    className={`bg-color-30 rounded-md mb-4 w-[330px] h-[48px] overflow-hidden cursor-pointer ${
                                         showBets === slip.$id ? 'showBets' : 'hideBets'
                                     }`}
                                     onClick={() => handleAnimation((slip.$id as string), index)}

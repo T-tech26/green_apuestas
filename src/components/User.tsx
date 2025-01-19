@@ -12,7 +12,7 @@ const User = ({ user, setUser }: User) => {
         <section
             className='fixed w-full h-screen top-0 right-0 bg-color-60 bg-opacity-30 flex justify-center items-center'
         >
-            <div className='relative flex flex-col gap-10 w-4/5 h-4/5 overflow-y-scroll bg-dark-gradient-135deg p-5 md:p-10'>
+            <div className='relative flex flex-col gap-10 w-4/5 h-4/5 overflow-y-scroll bg-dark-gradient-135deg p-5 md:p-10 rounded-lg'>
                 
                 <Image
                     src='/close.svg'
@@ -42,11 +42,11 @@ const User = ({ user, setUser }: User) => {
                 <div className='flex flex-col justify-between md:flex-row gap-5'>
                     <div className='w-full'>
                         <h3 className='text-color-30 text-base mb-2'>Email Address</h3>
-                        <p className='text-color-30 text-sm px-3 py-2 border border-color-10 rounded-md flex justify-between items-center'>
+                        <p className='text-color-30 text-sm px-3 py-2 border border-color-10 rounded-md flex flex-col lg:flex-row gap-2 justify-between items-center'>
                             <span>{(user as UserData).email}</span> 
 
                             <span 
-                                className={`flex items-center justify-between text-xs text-red-300 rounded-full pl-2 pr-6 py-[2px] bg-red-50 ${
+                                className={`flex items-center justify-between text-xs text-red-300 rounded-full pl-2 pr-5 py-[2px] bg-red-50 ${
                                     (user as UserData)?.email_verified ? 'bg-green-300 text-green-300' : ''
                                 }`}
                             >

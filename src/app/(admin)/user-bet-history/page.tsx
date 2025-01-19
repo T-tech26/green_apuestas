@@ -138,15 +138,15 @@ const UserBetHistory = () => {
 
 
     return (
-        <main className='flex-1 py-14 overflow-x-hidden overflow-y-scroll'>
-            <div className='w-4/5 mx-auto flex flex-col gap-5'>
-                <h1 className='text-lg text-color-60 font-medium mb-5'>USER BETS HISTORY</h1>
+        <main className='flex-1 pt-14 md:py-14 overflow-x-hidden overflow-y-scroll'>
+            <div className='w-4/5 mx-auto flex flex-col gap-5 overflow-x-scroll md:overflow-x-hidden address pb-14 md:pb-0'>
+                <h1 className='text-lg text-color-60 font-medium mb-5 uppercase'>User bets history</h1>
 
                 {userWithBetSlip.length > 0 ? (
                     <>
                         {userWithBetSlip.map((slip, index) => {
                             return (
-                                <div key={slip.slip.$id} className='flex flex-col items-center'>
+                                <div key={slip.slip.$id} className='mx-auto'>
 
                                     <div className='flex items-center justify-between w-[330px] gap-2'>
                                         <p className='text-color-10 text-base mb-2 flex-1'>{slip.user.firstname} {slip.user.lastname}</p>

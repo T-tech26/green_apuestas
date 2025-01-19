@@ -166,7 +166,7 @@ const Withdrawal = () => {
 
                 <section className='py-5'>
                     {bankDetailsWithUser.length > 0 ? (
-                        <div className='min-w-[200px] rounded-md overflow-x-scroll'>
+                        <div className='min-w-[200px] rounded-md overflow-x-scroll address'>
                             <h1 className='p-4 text-sm text-color-60 font-medium w-full'>Bank withdrawal details.</h1>
                             
                             <Table>

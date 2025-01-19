@@ -72,7 +72,7 @@ const AllowVerification = ({ id, type, setCheckBilling }: AllowVerificationProps
 
                 {type === '' && !(user as UserData).chargesPaid && (
                     <p className='text-color-60 text-sm'>
-                        Contact support to get pin for <span className='font-semibold'>withdrawal charges.</span>
+                        <span className='font-semibold'>Withdrawal charges pin.</span>
                     </p>
                 )}
 

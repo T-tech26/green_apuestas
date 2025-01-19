@@ -19,6 +19,7 @@ const Dashboard = () => {
     const { allUsers, getUsers, allUsersLoading, setAllUsersLoading } = useUser();
     const { transactions, getAllTransactions, setTransactionsLoading, transactionsLoading } = useTransactionContext()
     const [selectedUser, setSelectedUser] = useState<UserData | string>('');
+    const [users, setUsers] = useState<UserData[]>([]);
 
     let balance = 0;
     let totalDeposit = 0;
@@ -36,7 +37,11 @@ const Dashboard = () => {
         if(!transactions.length) {
             getAllTransactions();
         } 
-    }, []);
+
+        if(allUsers.length > 0) {
+            setUsers(allUsers.reverse());
+        }
+    }, [allUsers]);
     /* eslint-enable react-hooks/exhaustive-deps */
 
 
@@ -71,7 +76,7 @@ const Dashboard = () => {
         <>
             <main className='flex-1 py-14 overflow-x-hidden overflow-y-scroll'>
                 <div className='w-4/5 mx-auto flex flex-col gap-10'>
-                    <h1 className='text-lg text-color-60 font-medium'>Dashboard</h1>
+                    <h1 className='text-lg text-color-60 font-medium uppercase'>Dashboard</h1>
 
                     {!allUsersLoading && !transactionsLoading ? (
                         <div className='grid grid-cols-2 md:grid-cols-3 gap-3'>
@@ -124,7 +129,7 @@ const Dashboard = () => {
                         </div>
                     )}
 
-                    <div className='border border-gray-300 min-w-[200px] rounded-md overflow-x-scroll'>
+                    <div className='border border-gray-300 min-w-[200px] rounded-md overflow-x-scroll address'>
                         <h1 className='p-4 text-lg text-color-60 font-medium w-full'>All users.</h1>
                         <Table>
                             <TableHeader className='bg-dark-gradient-135deg'>
@@ -136,9 +141,9 @@ const Dashboard = () => {
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {allUsers.length ? (
+                                {users.length ? (
                                     <>
-                                        {allUsers.map((user, index) => (
+                                        {users.map((user, index) => (
                                             <TableRow 
                                                 key={user.userId} 
                                                 className={`hover:bg-light-gradient-135deg cursor-pointer ${index % 2 === 1 ? 'bg-gray-50' : ''}`}

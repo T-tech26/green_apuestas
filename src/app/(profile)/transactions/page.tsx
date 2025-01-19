@@ -37,17 +37,17 @@ const TransactionHistory = () => {
 
 
     return (
-        <main className='flex-1 py-14 overflow-y-scroll'>
-            <div className='w-4/5 mx-auto flex flex-col gap-10'>
+        <main className='flex-1 pt-14 md:py-14 overflow-x-hidden overflow-y-scroll'>
+            <div className='w-4/5 mx-auto flex flex-col gap-5 overflow-x-scroll md:overflow-x-hidden address pb-14 md:pb-0'>
                 <h1 className='text-lg text-color-60 font-medium'>TRANSACTION HISTORY</h1>
 
                 {userTransactions.length > 0 ? (
-                    <div className='w-full mx-auto flex flex-col gap-1'>
+                    <div className='min-w-[400px] mx-auto'>
                         {userTransactions.map(trans => {
                             return (
                                 <div
                                     key={trans.$id}
-                                    className='bg-white drop-shadow-md cursor-pointer rounded-md px-3 py-2 border border-gray-200 hover:bg-gray-50 hover:border-color-10 hover:border'
+                                    className='bg-white drop-shadow-md cursor-pointer mb-1 rounded-md px-3 py-2 border border-gray-200 hover:bg-gray-50 hover:border-color-10 hover:border'
                                     onClick={() => setShowDetails(trans)}
                                 >
                                     <div className='flex items-center justify-between'>

@@ -151,7 +151,7 @@ const BinanceID = () => {
         <main className='py-5'>
 
             {Array.isArray(type) && type.length > 0 ? (
-                    <div className='min-w-[200px] rounded-md overflow-x-scroll'>
+                    <div className='min-w-[200px] rounded-md overflow-x-scroll address'>
                         <h1 className='p-4 text-sm text-color-60 font-medium w-full'>Crypto payment methods.</h1>
                         <Table>
                             <TableHeader className='bg-dark-gradient-135deg'>
@@ -225,7 +225,7 @@ const BinanceID = () => {
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)}>
                 
-                <div className='mt-6'>
+                <div className="min-w-[300px] mx-auto">
 
                     <FormField
                         control={form.control}

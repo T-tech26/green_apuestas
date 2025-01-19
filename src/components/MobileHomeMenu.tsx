@@ -16,12 +16,16 @@ const MobileHomeMenu = ({selectedLink, setSelectedLink}: MobileMenuProps) => {
 
 
     const { user } = useUser();
-    const { userSlips } = useUserSlipContext();
+    const { userSlips, getUserSlips } = useUserSlipContext();
 
     const [openBet, setOpenBet] = useState<UserGame>();
 
 
     useEffect(() => {
+        if(!userSlips.length) {
+            getUserSlips();
+        }
+
         if(userSlips.length) {
             const userBet = userSlips.filter(slip => slip.userId === (user as UserData).userId);
         
@@ -49,8 +53,13 @@ const MobileHomeMenu = ({selectedLink, setSelectedLink}: MobileMenuProps) => {
                         onClick={() => setSelectedLink(link.name)}
                     >
                         {link.icon === '0' ? (
-                            <span className='text-lg'>
-                                {openBet !== undefined ? <span className='relative'>1 <span className='absolute -top-5 -right-5 bg-color-10 rounded-full size-8 -z-50 animate-ping'></span></span> : <span>0</span>}
+                            <span className='text-color-30 text-base bg-color-10 px-2 rounded-full relative'>
+                                    {openBet !== undefined ? (
+                                        <>
+                                            <span>1</span>
+                                            <span className='absolute top-0 right-0 bg-color-10 rounded-full size-6 -z-50 animate-ping'></span>
+                                        </>
+                                    ) : <span>0</span>}
                             </span>
                         ) : (
                             <Image
