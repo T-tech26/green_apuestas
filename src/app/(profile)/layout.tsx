@@ -2,6 +2,7 @@
 import ProfileHeader from "@/components/ProfileHeader";
 import ProfileMenu from "@/components/ProfileMenu";
 import { useUser } from "@/contexts/child_context/userContext";
+import { UserData } from "@/types/globals";
 import { Loader2 } from "lucide-react";
 import { redirect } from "next/navigation";
 import { useEffect } from "react";
@@ -24,6 +25,10 @@ export default function RootLayout({
 
       if((admin.label.length || typeof user !== 'object') && !loginUserLoading) {
         if(typeof user !== 'object') { redirect('/'); }
+
+        if(typeof user === 'object' && (user as UserData).subscription === false) {
+          redirect('/subscription');
+        }
   
         if(admin.label.length) { redirect('/dashboard'); }
       }
