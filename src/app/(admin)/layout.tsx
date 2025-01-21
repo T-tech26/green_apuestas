@@ -22,11 +22,9 @@ export default function RootLayout({
         loginUser();
       }
 
-        if(typeof user === 'object') { redirect('/'); }
+        if(typeof user === 'object' && loginUserLoading === false) { redirect('/'); }
 
-        if(typeof user !== 'object' && !loginUserLoading) { redirect('/') }
-
-        if(!admin.label.length && !loginUserLoading) { redirect('/'); }
+        if(!admin.label.length && typeof user !== 'object' && loginUserLoading === false) { redirect('/'); }
     }, [loginUserLoading, user, admin]);
     /* eslint-enable react-hooks/exhaustive-deps */
 
