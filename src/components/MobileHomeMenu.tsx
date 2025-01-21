@@ -21,6 +21,7 @@ const MobileHomeMenu = ({selectedLink, setSelectedLink}: MobileMenuProps) => {
     const [openBet, setOpenBet] = useState<UserGame>();
 
 
+    /* eslint-disable react-hooks/exhaustive-deps */
     useEffect(() => {
         if(!userSlips.length) {
             getUserSlips();
@@ -34,6 +35,7 @@ const MobileHomeMenu = ({selectedLink, setSelectedLink}: MobileMenuProps) => {
             setOpenBet(bet);
         }
     }, [user, userSlips]);
+    /* eslint-enable react-hooks/exhaustive-deps */
 
 
     return (

@@ -1,7 +1,7 @@
 'use client'
 import { getAdminNotification, getUserNotification } from "@/lib/actions/userActions";
 import { Notifications } from "@/types/globals";
-import { createContext, ReactNode, useContext, useEffect, useState } from "react";
+import { createContext, ReactNode, useContext, useState } from "react";
 
 
 

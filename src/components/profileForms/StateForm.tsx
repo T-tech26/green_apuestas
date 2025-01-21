@@ -1,7 +1,6 @@
 import { UserData } from '@/types/globals'
 import React, { useState } from 'react'
 import { Button } from '../ui/button';
-import { Loader2 } from 'lucide-react';
 import { Form, FormControl, FormField, FormLabel } from '../ui/form';
 import { Input } from '../ui/input';
 import { toast } from '@/hooks/use-toast';

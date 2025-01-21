@@ -19,7 +19,7 @@ const IdentityVerification = () => {
     const [addressDocument, setAddressDocument] = useState<VerificationDocument[]>([]);
 
 
-    
+    /* eslint-disable react-hooks/exhaustive-deps */
     useEffect(() => {
         if(!verificationDocuments.length && verificationDocumentsLoading) {
             getAllVerification();
@@ -47,7 +47,7 @@ const IdentityVerification = () => {
 
         }
     }, [verificationDocuments, user, verificationDocumentsLoading])
-
+    /* eslint-enable react-hooks/exhaustive-deps */
 
 
     return (

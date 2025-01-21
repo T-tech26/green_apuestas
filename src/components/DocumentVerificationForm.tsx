@@ -11,7 +11,6 @@ import { generateDateString, verificationDocumentWithImages } from '@/lib/utils'
 import { useUser } from '@/contexts/child_context/userContext';
 import Image from 'next/image';
 import { Button } from './ui/button';
-import { Loader2 } from 'lucide-react';
 import { useUserSlipContext } from '@/contexts/child_context/userSlipContext';
 
 
