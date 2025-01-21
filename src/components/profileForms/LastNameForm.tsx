@@ -9,19 +9,20 @@ import { z } from 'zod';
 import { Form, FormControl, FormField, FormLabel } from '../ui/form';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
-import { Loader2 } from 'lucide-react';
 import Image from 'next/image';
+import { useUser } from '@/contexts/child_context/userContext';
 
 interface LastNameProps {
     user: UserData | string,
-    setUser: (user: UserData | string) => void
 }
 
 
-const LastNameForm = ({user, setUser}: LastNameProps) => {
+const LastNameForm = ({ user }: LastNameProps) => {
     
     const [isLoading, setIsLoading] = useState(false);
     const [edit, setEdit] = useState(true);
+
+    const { loginUser } = useUser();
 
 
     const userData = {
@@ -55,9 +56,14 @@ const LastNameForm = ({user, setUser}: LastNameProps) => {
                 toast({
                 description: response
                 })
+                return;
             }
+
+            toast({ description: 'Last name updated' });
             
-            if(typeof response === 'object' && typeof response !== null) setUser(response);
+            if(typeof response === 'object' && typeof response !== null) {
+                loginUser();
+            }
             
         } catch (error) {
             console.error("Error submitting activation code ", error);
@@ -109,13 +115,9 @@ const LastNameForm = ({user, setUser}: LastNameProps) => {
 
                 <Button type='submit' 
                     disabled={isLoading}
-                    className='bg-light-gradient-135deg text-xs text-color-30 rounded-full self-end h-7 px-8'                            >
-                    {isLoading ? (
-                    <>
-                        <Loader2 size={20} className='animate-spin'/> &nbsp; 
-                        Loading...
-                    </>
-                    ): 'Update'}
+                    className='bg-light-gradient-135deg text-xs text-color-30 rounded-full self-end h-7 px-8'
+                >
+                    {isLoading ? 'Loading' : 'Update'}
                 </Button>
 
             </div>

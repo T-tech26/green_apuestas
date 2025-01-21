@@ -5,24 +5,25 @@ import { UserData } from '@/types/globals'
 import React, { useState } from 'react'
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
-import { Loader2 } from 'lucide-react';
 import Image from 'next/image';
 import { toast } from '@/hooks/use-toast';
 import { Form, FormControl, FormField, FormLabel } from '../ui/form';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { useUser } from '@/contexts/child_context/userContext';
 
 interface EmailFormProps {
     user: UserData | string,
-    setUser: (user: UserData | string) => void
 }
 
-const EmailForm = ({ user, setUser }: EmailFormProps) => {
+const EmailForm = ({ user }: EmailFormProps) => {
 
     const [isLoading, setIsLoading] = useState(false);
     const [edit, setEdit] = useState(true);
     const [type, setType] = useState('');
+
+    const { loginUser } = useUser();
     
     const userData = {
         email: (user as UserData)?.email,
@@ -87,7 +88,9 @@ const EmailForm = ({ user, setUser }: EmailFormProps) => {
 
             toast({ description: 'Email updated' });
             
-            if(typeof response === 'object' && typeof response !== null) setUser(response);
+            if(typeof response === 'object' && typeof response !== null) {
+                loginUser();
+            }
             setEdit(false);
             
         } catch (error) {
@@ -175,12 +178,7 @@ const EmailForm = ({ user, setUser }: EmailFormProps) => {
                             className='bg-light-gradient-135deg text-xs text-color-30 rounded-full self-end h-7 px-8'
                             onClick={() => setType('update')}
                         >
-                            {isLoading && type === 'update' ? (
-                            <>
-                                <Loader2 size={20} className='animate-spin'/> &nbsp; 
-                                Loading...
-                            </>
-                            ): 'Update'}
+                            {isLoading && type === 'update' ? 'Loading' : 'Update'}
                         </Button>
                         <Button type='button' 
                             disabled={isLoading && type === 'verifiy'}
@@ -190,12 +188,7 @@ const EmailForm = ({ user, setUser }: EmailFormProps) => {
                                 verifyEmail();
                             }}
                         >
-                            {isLoading && type === 'verify' ? (
-                            <>
-                                <Loader2 size={20} className='animate-spin'/> &nbsp; 
-                                Loading...
-                            </>
-                            ): 'Verify email'}
+                            {isLoading && type === 'verify' ? 'Loading' : 'Verify email'}
                         </Button>
                     </div>
                 </div>

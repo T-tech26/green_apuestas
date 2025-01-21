@@ -11,16 +11,18 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import Image from 'next/image';
+import { useUser } from '@/contexts/child_context/userContext';
 
 interface StateFormProps {
     user: UserData | string,
-    setUser: (user: UserData | string) => void
 }
 
-const StateForm = ({ user, setUser }: StateFormProps) => {
+const StateForm = ({ user }: StateFormProps) => {
 
     const [isLoading, setIsLoading] = useState(false);
     const [edit, setEdit] = useState(true);
+
+    const { loginUser } = useUser();
 
 
     const userData = {
@@ -54,9 +56,14 @@ const StateForm = ({ user, setUser }: StateFormProps) => {
                 toast({
                 description: response
                 })
+                return;
             }
+
+            toast({ description: 'State or province updated' });
             
-            if(typeof response === 'object' && typeof response !== null) setUser(response);
+            if(typeof response === 'object' && typeof response !== null) {
+                loginUser();
+            }
             
         } catch (error) {
             console.error("Error submitting activation code ", error);
@@ -108,13 +115,9 @@ const StateForm = ({ user, setUser }: StateFormProps) => {
 
                 <Button type='submit' 
                     disabled={isLoading}
-                    className='bg-light-gradient-135deg text-xs text-color-30 rounded-full self-end h-7 px-8'                            >
-                    {isLoading ? (
-                    <>
-                        <Loader2 size={20} className='animate-spin'/> &nbsp; 
-                        Loading...
-                    </>
-                    ): 'Update'}
+                    className='bg-light-gradient-135deg text-xs text-color-30 rounded-full self-end h-7 px-8'
+                >
+                    {isLoading ? 'Loading' : 'Update'}
                 </Button>
 
             </div>

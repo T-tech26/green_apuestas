@@ -1,7 +1,6 @@
 import { UserData } from '@/types/globals'
 import React, { useState } from 'react'
 import { Button } from '../ui/button';
-import { Loader2 } from 'lucide-react';
 import { Form, FormControl, FormField, FormLabel } from '../ui/form';
 import { toast } from '@/hooks/use-toast';
 import { updateUserProfile } from '@/lib/actions/userActions';
@@ -12,16 +11,19 @@ import Image from 'next/image';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { countries } from '@/lib/countries';
 import { countrySchema } from '@/lib/utils';
+import { useUser } from '@/contexts/child_context/userContext';
 
 interface CountryFormProps {
     user: UserData | string,
-    setUser: (user: UserData | string) => void
 }
 
-const CountryForm = ({ user, setUser }: CountryFormProps) => {
+const CountryForm = ({ user }: CountryFormProps) => {
 
     const [isLoading, setIsLoading] = useState(false);
     const [edit, setEdit] = useState(true);
+
+
+    const { loginUser } = useUser();
 
 
     const userData = {
@@ -55,9 +57,14 @@ const CountryForm = ({ user, setUser }: CountryFormProps) => {
                 toast({
                 description: response
                 })
+                return;
             }
+
+            toast({ description: 'City updated' });
             
-            if(typeof response === 'object' && typeof response !== null) setUser(response);
+            if(typeof response === 'object' && typeof response !== null) {
+                loginUser();
+            }
             
         } catch (error) {
             console.error("Error submitting activation code ", error);
@@ -71,7 +78,7 @@ const CountryForm = ({ user, setUser }: CountryFormProps) => {
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
             
-            <div className="h-auto flex flex-col justify-center item-center gap-1">
+            <div className="h-auto flex flex-col justify-center item-center gap-1" translate='no'>
 
                 <FormField
                     control={form.control}
@@ -79,7 +86,7 @@ const CountryForm = ({ user, setUser }: CountryFormProps) => {
                     render={({ field }) => (
 
                         <div className='flex flex-col gap-1'>
-                            <FormLabel className='text-color-60 text-sm'>Country</FormLabel>
+                            <FormLabel className='text-color-60 text-sm' translate='yes'>Country</FormLabel>
                             <div className='flex gap-2 w-full relative'>
                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                                     <FormControl>
@@ -117,12 +124,7 @@ const CountryForm = ({ user, setUser }: CountryFormProps) => {
                     disabled={isLoading}
                     className='bg-light-gradient-135deg text-xs text-color-30 rounded-full self-end h-7 px-8'
                 >
-                    {isLoading ? (
-                    <>
-                        <Loader2 size={20} className='animate-spin'/> &nbsp; 
-                        Loading...
-                    </>
-                    ): 'Update'}
+                    {isLoading ? 'Loading' : 'Update'}
                 </Button>
 
             </div>

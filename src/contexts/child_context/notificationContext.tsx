@@ -11,6 +11,10 @@ interface ContextType {
 
     adminNotifications: Notifications[];
     setAdminNotifications: (newAdminNotifications: Notifications[]) => void;
+
+    getAlladminNotification: () => void;
+
+    getAllUserNotification: () => void;
 }
 
 
@@ -24,46 +28,36 @@ export const NotificationProvider = ({ children } : { children: ReactNode }) => 
     const [adminNotifications, setAdminNotifications] = useState<Notifications[]>([]);
 
 
-    /* eslint-disable react-hooks/exhaustive-deps */
-    useEffect(() => {
-        const notification = async () => {
-            try {
-                const userNotifications = await getUserNotification();
+    const getAllUserNotification = async () => {
+        try {
+            const userNotifications = await getUserNotification();
 
-                if(typeof userNotifications === 'string') return;
-                setUserNotifications(userNotifications);
+            if(typeof userNotifications === 'string') return;
+            setUserNotifications(userNotifications);
 
-            } catch (error) {
-                console.error("Error fetching user notification data:", error);
-            }
-        };
-
-        notification();
-    }, []);
+        } catch (error) {
+            console.error("Error fetching user notification data:", error);
+        }
+    };
 
 
-    useEffect(() => {
-        const adminNot = async () => {
-            try {
-                const adminNotification = await getAdminNotification();
-                
-                if(typeof adminNotification === 'string') return;
-                setAdminNotifications(adminNotification);
+    const getAlladminNotification = async () => {
+        try {
+            const adminNotification = await getAdminNotification();
+            
+            if(typeof adminNotification === 'string') return;
+            setAdminNotifications(adminNotification);
 
-            } catch (error) {
-                console.error("Error fetching admin notification data:", error);
-            }
-        };
-
-        adminNot();
-    }, []);
-    /* eslint-enable react-hooks/exhaustive-deps */
+        } catch (error) {
+            console.error("Error fetching admin notification data:", error);
+        }
+    };
 
 
     return (
         <NotificationContext.Provider value={{
-            userNotifications, setUserNotifications,
-            adminNotifications, setAdminNotifications
+            userNotifications, setUserNotifications, getAllUserNotification,
+            adminNotifications, setAdminNotifications, getAlladminNotification
         }}>
             {children}
         </NotificationContext.Provider>

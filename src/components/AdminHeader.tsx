@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import AdminMobleMenu from './AdminMobleMenu'
 import Image from 'next/image'
 import { useUser } from '@/contexts/child_context/userContext';
@@ -11,14 +11,23 @@ import ProfileImageForm from './ProfileImageForm';
 const AdminHeader = () => {
 
     const { admin } = useUser();
-    const { adminNotifications } = useNotificationContext();
+    const { adminNotifications, getAlladminNotification } = useNotificationContext();
 
     const [showNotification, setShowNotification] = useState(false);
     const [profile, setProfile] = useState(false);
 
 
+    /* eslint-disable react-hooks/exhaustive-deps */
+    useEffect(() => {
+        if(!adminNotifications.length) {
+            getAlladminNotification();
+        }
+    }, []);
+    /* eslint-enable react-hooks/exhaustive-deps */
+
+
     return (
-        <>
+        <div>
             {typeof admin === 'object' ? (
                 <div className="flex items-center justify-between md:justify-end w-full px-5 py-1 bg-white drop-shadow-md">
                     <AdminMobleMenu />
@@ -57,14 +66,18 @@ const AdminHeader = () => {
                                 onClick={() => setShowNotification(true)}
                             />
 
-                            
-
-                            <span className='text-color-30 text-xs absolute top-[-5px] right-0 bg-color-10 px-1 rounded-full z-50'>
-                                {adminNotifications.length > 0 && (
+                            {adminNotifications.length > 0 && (
+                                <span className='text-color-30 text-xs absolute top-[-5px] right-0 bg-color-10 px-1 rounded-full z-50'>
                                     <span className='absolute top-0 -right-[3px] bg-color-10 rounded-full size-5 -z-50 animate-ping'></span>
-                                )}
-                                {adminNotifications.length}
-                            </span>
+                                    {adminNotifications.length}
+                                </span>
+                            )}
+                            
+                            {adminNotifications.length === 0 && (
+                                <span className='text-color-30 text-xs absolute top-[-5px] right-0 bg-color-10 px-1 rounded-full z-50'>
+                                    {adminNotifications.length}
+                                </span>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -83,7 +96,7 @@ const AdminHeader = () => {
             {profile === true && (
                 <ProfileImageForm setProfile={setProfile} type='admin' />
             )}  
-        </>
+        </div>
     )
 }
 

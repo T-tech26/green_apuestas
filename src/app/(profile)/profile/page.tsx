@@ -14,7 +14,7 @@ import React from 'react'
 
 const Profile = () => {
 
-  const { user, setUser } = useUser();
+  const { user } = useUser();
     
   return (
     <main className='flex-1 py-14 overflow-y-scroll'>
@@ -23,42 +23,34 @@ const Profile = () => {
         
         <FirstNameForm
           user={user}
-          setUser={setUser}
         />
     
         <LastNameForm
           user={user}
-          setUser={setUser}
         />
 
         <EmailForm
           user={user}
-          setUser={setUser}
         />
 
         <PhoneNumberForm
           user={user}
-          setUser={setUser}
         />
 
         <DateOfBirthForm
           user={user}
-          setUser={setUser}
         />
 
         <CountryForm
           user={user}
-          setUser={setUser}
         />
 
         <StateForm
           user={user}
-          setUser={setUser}
         />
 
         <CityForm
           user={user}
-          setUser={setUser}
         />
 
       </div>

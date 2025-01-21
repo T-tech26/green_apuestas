@@ -5,7 +5,6 @@ import LiveChat from './LiveChat'
 import { toast } from '@/hooks/use-toast'
 import { activateSubscription } from '@/lib/actions/userActions'
 import { useUser } from '@/contexts/child_context/userContext'
-import { Loader2 } from 'lucide-react'
 import { UserData } from '@/types/globals'
 
 
@@ -18,7 +17,7 @@ interface AllowVerificationProps {
 
 const AllowVerification = ({ id, type, setCheckBilling }: AllowVerificationProps) => {
 
-    const { user, setUser } = useUser();
+    const { user, loginUser } = useUser();
 
     const [pin, setPin] = useState('');
     const [loading, setLoading] = useState(false);
@@ -49,7 +48,7 @@ const AllowVerification = ({ id, type, setCheckBilling }: AllowVerificationProps
                 return;
             }
             
-            setUser(allow);
+            loginUser();
         } catch (error) {
             console.error('Error submitting pin', error);
         } finally {
@@ -100,12 +99,7 @@ const AllowVerification = ({ id, type, setCheckBilling }: AllowVerificationProps
                             handleAllowVerification(id);
                         }}
                     >
-                        {loading ? (
-                            <>
-                                <Loader2 size={20} className='animate-spin'/>&nbsp; 
-                                Loading...
-                            </>
-                        ): 'Submit'}
+                        {loading ? 'Loading' : 'Submit'}
                     </Button>
                 </div>
             </div>

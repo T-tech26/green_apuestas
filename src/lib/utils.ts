@@ -13,17 +13,17 @@ export function cn(...inputs: ClassValue[]) {
 export const authFormSchema = z.object({
   password: z.string().min(8, { message: "Password must be at least 8 characters long with uppercase letter, and number" }),
 
-  firstname: z.string().min(3).max(18, { message: "Firt name must be at least 3 characters" }),
+  firstname: z.string().min(3, { message: "Firt name must be at least 3 characters" }),
 
-  lastname: z.string().min(3).max(18, { message: "Last name must be at least 3 characters" }),
+  lastname: z.string().min(3, { message: "Last name must be at least 3 characters" }),
 
   email: z.string().email({ message: "Enter a valid email address" }),
 
-  phone: z.string().min(10).max(13, { message: "Enter a valid phone number" }),
+  phone: z.string().min(10, { message: "Enter a valid phone number" }),
 
   dateOfBirth: z.string().date(),
 
-  country: z.string().max(20),
+  country: z.string().min(3),
 
   state: z.string().min(3),
 
@@ -157,7 +157,7 @@ export const generateDateString = () => {
 
 export const formatAmount = (amount: string) => {
 
-    if(amount !== null && amount.includes('.')) {
+    if(amount !== undefined && amount.includes('.')) {
         // Split the amount into integer and decimal parts
         const [integerPart, decimalPart] = amount.split('.') 
     
@@ -183,11 +183,11 @@ export const formatAmount = (amount: string) => {
     }
     
     
-    if (amount !== null && amount.length === 4) {
+    if (amount !== undefined && amount.length === 4) {
         amount = amount[0] + ',' + amount.slice(1);
-    } else if (amount !== null && amount.length === 5) {
+    } else if (amount !== undefined && amount.length === 5) {
         amount = amount.slice(0, 2) + ',' + amount.slice(2);
-    } else if (amount !== null && amount.length >= 6) {
+    } else if (amount !== undefined && amount.length >= 6) {
         amount = amount.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     }
 

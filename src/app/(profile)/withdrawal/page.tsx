@@ -10,7 +10,6 @@ import { z } from 'zod';
 import Image from 'next/image';
 import { Form, FormControl, FormField, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Loader2 } from 'lucide-react';
 import { createBankDetails, deleteBankDetails, getBankDetails } from '@/lib/actions/userActions';
 import { useUser } from '@/contexts/child_context/userContext';
 import WithdrawalForm from '@/components/WithdrawalForm';
@@ -352,12 +351,7 @@ const Withdrawal = () => {
                                         disabled={isLoading}
                                         className='w-full bg-light-gradient-135deg text-sm text-color-30 rounded-full'
                                     >
-                                        {isLoading ? (
-                                        <>
-                                            <Loader2 size={20} className='animate-spin'/>&nbsp; 
-                                            Loading...
-                                        </>
-                                        ): 'Upload'}
+                                        {isLoading ? 'Loading' : 'Upload'}
                                     </Button>
                                 </div>
                             </form>
@@ -459,12 +453,7 @@ const Withdrawal = () => {
                                         disabled={isLoading}
                                         className='w-full bg-light-gradient-135deg text-sm text-color-30 rounded-full'
                                     >
-                                        {isLoading ? (
-                                        <>
-                                            <Loader2 size={20} className='animate-spin'/>&nbsp; 
-                                            Loading...
-                                        </>
-                                        ): 'Upload'}
+                                        {isLoading ? 'Loading' : 'Upload'}
                                     </Button>
                                 </div>
                             </form>

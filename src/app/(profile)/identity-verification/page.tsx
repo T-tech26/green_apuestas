@@ -12,7 +12,7 @@ import LiveChat from '@/components/LiveChat'
 const IdentityVerification = () => {
 
     const { user } = useUser();
-    const { verificationDocuments } = useUserSlipContext();
+    const { verificationDocuments, getAllVerification, verificationDocumentsLoading } = useUserSlipContext();
 
     const [step, setStep] = useState('ID');
     const [idDocument, setIdDocument] = useState<VerificationDocument[]>([]);
@@ -21,6 +21,10 @@ const IdentityVerification = () => {
 
     
     useEffect(() => {
+        if(!verificationDocuments.length && verificationDocumentsLoading) {
+            getAllVerification();
+        }
+
         if(verificationDocuments.length > 0) {
             const ID = verificationDocuments.filter((doc: VerificationDocument) => doc.type === 'National ID' && doc.userId === (user as UserData).userId);
             const driving = verificationDocuments.filter((doc: VerificationDocument) => doc.type === 'Driving licence'  && doc.userId === (user as UserData).userId);
@@ -42,7 +46,7 @@ const IdentityVerification = () => {
             setAddressDocument(addressVerification);
 
         }
-    }, [verificationDocuments, user])
+    }, [verificationDocuments, user, verificationDocumentsLoading])
 
 
 

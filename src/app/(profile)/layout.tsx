@@ -23,16 +23,18 @@ export default function RootLayout({
         loginUser();
       }
 
-      if((admin.label.length || typeof user !== 'object') && !loginUserLoading) {
-        if(typeof user !== 'object') { redirect('/'); }
-
+      
+      if(typeof user === 'object') {
         if(typeof user === 'object' && (user as UserData).subscription === false) {
           redirect('/subscription');
         }
-  
-        if(admin.label.length) { redirect('/dashboard'); }
+        return;
       }
-    }, [loginUserLoading]);
+
+      if(typeof user !== 'object' && !loginUserLoading) { redirect('/'); }
+
+      if(admin.label.length) { redirect('/dashboard'); }
+    }, [loginUserLoading, user, admin]);
     /* eslint-enable react-hooks/exhaustive-deps */
     
 

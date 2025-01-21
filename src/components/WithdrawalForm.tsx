@@ -6,7 +6,6 @@ import { z } from 'zod';
 import { Form, FormControl, FormField, FormMessage } from './ui/form';
 import { Input } from './ui/input';
 import { Button } from './ui/button';
-import { Loader2 } from 'lucide-react';
 import { useUser } from '@/contexts/child_context/userContext';
 import { formatAmount, generateDateString, transactionsWithImages } from '@/lib/utils';
 import Link from 'next/link';
@@ -213,12 +212,7 @@ const WithdrawalForm = ({ step, setStep, method }: WithdrawalFormProps) => {
                                 disabled={isLoading}
                                 className='w-full bg-light-gradient-135deg text-sm text-color-30 rounded-full'
                             >
-                                {isLoading ? (
-                                <>
-                                    <Loader2 size={20} className='animate-spin'/>&nbsp; 
-                                    Loading...
-                                </>
-                                ): 'Request'}
+                                {isLoading ? 'Loading' : 'Request'}
                             </Button>
                             </div>
                         </div>

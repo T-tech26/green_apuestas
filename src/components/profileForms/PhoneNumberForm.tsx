@@ -9,18 +9,19 @@ import { z } from 'zod';
 import { Form, FormControl, FormField, FormLabel } from '../ui/form';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
-import { Loader2 } from 'lucide-react';
 import Image from 'next/image';
+import { useUser } from '@/contexts/child_context/userContext';
 
 interface PhoneNumberProps {
     user: UserData | string,
-    setUser: (user: UserData | string) => void
 }
 
-const PhoneNumberForm = ({ user, setUser }: PhoneNumberProps) => {
+const PhoneNumberForm = ({ user }: PhoneNumberProps) => {
     
     const [isLoading, setIsLoading] = useState(false);
     const [edit, setEdit] = useState(true);
+
+    const { loginUser } = useUser();
 
 
     const userData = {
@@ -54,9 +55,14 @@ const PhoneNumberForm = ({ user, setUser }: PhoneNumberProps) => {
                 toast({
                 description: response
                 })
+                return;
             }
+
+            toast({ description: 'Phone number updated' });
             
-            if(typeof response === 'object' && typeof response !== null) setUser(response);
+            if(typeof response === 'object' && typeof response !== null) {
+                loginUser();
+            };
             
         } catch (error) {
             console.error("Error submitting activation code ", error);
@@ -108,13 +114,9 @@ const PhoneNumberForm = ({ user, setUser }: PhoneNumberProps) => {
 
                 <Button type='submit' 
                     disabled={isLoading}
-                    className='bg-light-gradient-135deg text-xs text-color-30 rounded-full self-end h-7 px-8'                            >
-                    {isLoading ? (
-                    <>
-                        <Loader2 size={20} className='animate-spin'/> &nbsp; 
-                        Loading...
-                    </>
-                    ): 'Update'}
+                    className='bg-light-gradient-135deg text-xs text-color-30 rounded-full self-end h-7 px-8'
+                >
+                    {isLoading ? 'Loading' : 'Update'}
                 </Button>
 
             </div>

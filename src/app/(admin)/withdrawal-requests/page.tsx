@@ -119,7 +119,7 @@ const WithdrawalRequest = () => {
                     </Button>
                 </div>
 
-                <div className='min-w-[400px] mx-auto'>
+                <div className='w-full min-w-[400px] mx-auto'>
                     {transactionWithStatus.length > 0 ? (
                         <>
                             {transactionWithStatus.map(trans => {

@@ -15,7 +15,7 @@ const PaymentMethod = ({ id }: PaymentMethodProps) => {
     const { paymentMethods, getAllPaymentMethods, paymentMethodsLoading, setPaymentMethodsLoading } = useTransactionContext();
 
     const [type, setType] = useState<PaymentMethods[] | string>('');
-    const [method, setMethod] = useState<PaymentMethods | string>('');
+    const [method, setMethod] = useState<PaymentMethods | null>(null);
     
 
     /* eslint-disable react-hooks/exhaustive-deps */
@@ -119,7 +119,9 @@ const PaymentMethod = ({ id }: PaymentMethodProps) => {
                     </div>
                 )}
     
-                <PaymentProcess method={method} setMethod={setMethod} />
+                {method !== null && (
+                    <PaymentProcess method={method} setMethod={setMethod} />
+                )}
             </main>
         )
     }
@@ -191,7 +193,9 @@ const PaymentMethod = ({ id }: PaymentMethodProps) => {
                     </div>
                 )}
     
-                <PaymentProcess method={method} setMethod={setMethod} />
+                {method !== null && (
+                    <PaymentProcess method={method} setMethod={setMethod} />
+                )}
             </main>
         )
     }
@@ -256,7 +260,9 @@ const PaymentMethod = ({ id }: PaymentMethodProps) => {
                     </div>
                 )}
     
-                <PaymentProcess method={method} setMethod={setMethod} />
+                {method !== null && (
+                    <PaymentProcess method={method} setMethod={setMethod} />
+                )}
             </main>
         )
     }
@@ -320,7 +326,9 @@ const PaymentMethod = ({ id }: PaymentMethodProps) => {
                 </div>
             )}
 
-            <PaymentProcess method={method} setMethod={setMethod} />
+            {method !== null && (
+                <PaymentProcess method={method} setMethod={setMethod} />
+            )}
         </main>
     )
 }

@@ -11,7 +11,6 @@ import { FormControl, FormField, FormMessage } from './ui/form';
 import { Input } from './ui/input';
 import { adminNotification, createTransaction, getTransactions } from '@/lib/actions/userActions';
 import { useUser } from '@/contexts/child_context/userContext';
-import { Loader2 } from 'lucide-react';
 import { formatAmount, paymentFormSchema, transactionsWithImages } from '@/lib/utils';
 import PaymentDetails from './PaymentDetails';
 import { useTransactionContext } from '@/contexts/child_context/transactionContext';
@@ -20,7 +19,7 @@ import { useTransactionContext } from '@/contexts/child_context/transactionConte
 
 interface MethodProps {
     methodType: PaymentMethods;
-    setMethod: (newMethod: PaymentMethods | string) => void;
+    setMethod: (newMethod: PaymentMethods | null) => void;
 }
 
 const PaymentForm = ({ methodType, setMethod }: MethodProps) => {
@@ -166,7 +165,7 @@ const PaymentForm = ({ methodType, setMethod }: MethodProps) => {
                 setImg('');
                 form.reset();
                 setStep(1);
-                setMethod('');
+                setMethod(null);
             }
         }
     };
@@ -188,7 +187,7 @@ const PaymentForm = ({ methodType, setMethod }: MethodProps) => {
                     setImg('');
                     setLoading(false);
                     setStep(1);
-                    setMethod('');
+                    setMethod(null);
                 }}
             />
             <FormProvider {...form}>
@@ -320,12 +319,7 @@ const PaymentForm = ({ methodType, setMethod }: MethodProps) => {
                                     disabled={loading}
                                     className='bg-dark-gradient-135deg w-full'
                                 >
-                                    {loading ? (
-                                        <>
-                                            <Loader2 size={20} className='animate-spin'/> &nbsp; 
-                                            Loading...
-                                        </>
-                                    ): 'Submit'}
+                                    {loading ? 'Loading' : 'Submit'}
                                 </Button>
                             </>
                         )}

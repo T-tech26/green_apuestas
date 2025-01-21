@@ -1,7 +1,6 @@
 'use client'
 
 import Footer from '@/components/Footer'
-import FormButton from '@/components/FormButton'
 import LiveChat from '@/components/LiveChat'
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormLabel, FormMessage } from '@/components/ui/form'
@@ -12,7 +11,6 @@ import { getAllUsers, getLoggedInUser, sendPasswordRecoveryEmail, signin } from 
 import { isAdmin, isUserData, loggedInAdminWithImage, loggedInUserWithImage } from '@/lib/utils'
 import { UserData } from '@/types/globals'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Loader2 } from 'lucide-react'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
@@ -35,14 +33,17 @@ const Signin = () => {
     useEffect(() => {
         if(!admin.label.length && typeof user !== 'object') {
             loginUser();
+            return;
         }
         
-        if((admin.label.length || typeof user === 'object') && !loginUserLoading) {
-            if((user as UserData)?.subscription === false) { redirect('/subscription'); } 
+        if(typeof user === 'object') {
+            if((user as UserData)?.subscription === false) { redirect('/subscription'); return; } 
     
-            if((user as UserData)?.subscription === true) { redirect('/'); } 
-    
-            if(admin.label.length) { redirect('/dashboard') }
+            if((user as UserData)?.subscription === true) { redirect('/'); return; } 
+        }
+
+        if(admin.label.length) {
+            if(admin.label.length) { redirect('/dashboard'); }
         }
     }, [loginUserLoading, user, admin]);
     /* eslint-enable react-hooks/exhaustive-deps */
@@ -102,7 +103,7 @@ const Signin = () => {
             if(typeof response !== 'string') {
                 toast({
                     description: 'Login successfully'
-                })
+                });
             }
 
             const loggedIn = await getLoggedInUser();
@@ -130,7 +131,7 @@ const Signin = () => {
 
 
     return (
-      <>
+      <section>
         <main className='flex flex-col justify-center items-center w-full h-screen bg-dark-gradient-135deg'>
           
             <h1 className='text-color-30 text-2xl md:text-3xl mb-8'>Login to your account</h1>
@@ -192,7 +193,13 @@ const Signin = () => {
                             )}
                         />
 
-                        <FormButton loading={isLoading}  text='Sigin'/>
+                        
+                        <Button type='submit' 
+                            disabled={isLoading}
+                            className='bg-light-gradient-135deg text-lg text-color-30 rounded-full'
+                        >
+                            {isLoading ? 'Loading' : 'Signin'}
+                        </Button>
 
                         </div>
                     </form>
@@ -244,12 +251,7 @@ const Signin = () => {
                                 sendRecoveryEmail();
                             }}
                         >
-                            {inputEmailLoading ? (
-                                <>
-                                    <Loader2 size={20} className='animate-spin'/>&nbsp; 
-                                    Loading...
-                                </>
-                            ): 'Submit'}
+                            {inputEmailLoading ? 'Loading' : 'Submit'}
                         </Button>
                     </div>
                 </div>
@@ -259,7 +261,7 @@ const Signin = () => {
         <Footer />
 
         <LiveChat />
-      </>
+      </section>
     )
 }
 

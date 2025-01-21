@@ -42,14 +42,14 @@ const DocumentVerificationForm = ({ type }: DocumentVerificationFormProps) => {
             .refine((file) => file.size <= 5 * 1024 * 1024, {
             message: 'File size must be less than or equal to 5MB',
             })
-            .refine((file) => ['image/png', 'image/jpeg'].includes(file.type), {
+            .refine((file) => ['image/png', 'image/jpeg', 'image/jpg'].includes(file.type), {
             message: 'File must be PNG or JPEG',
             }),
         back: z.instanceof(File)
             .refine((file) => file.size <= 5 * 1024 * 1024, {
             message: 'File size must be less than or equal to 5MB',
             })
-            .refine((file) => ['image/png', 'image/jpeg'].includes(file.type), {
+            .refine((file) => ['image/png', 'image/jpeg', 'image/jpg'].includes(file.type), {
             message: 'File must be PNG or JPEG',
             }),
     });
@@ -346,12 +346,7 @@ const DocumentVerificationForm = ({ type }: DocumentVerificationFormProps) => {
                             disabled={isLoading}
                             className='w-full bg-light-gradient-135deg text-lg text-color-30 rounded-full'
                         >
-                            {isLoading ? (
-                            <>
-                                <Loader2 size={20} className='animate-spin'/>&nbsp; 
-                                Loading...
-                            </>
-                            ): 'Upload'}
+                            {isLoading ? 'Loading' : 'Upload'}
                         </Button>
                     </div>
                 </form>

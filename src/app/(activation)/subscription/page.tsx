@@ -4,13 +4,15 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useUser } from '@/contexts/child_context/userContext'
 import { UserData } from '@/types/globals'
-import { redirect } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { Loader2 } from 'lucide-react'
 
 const Subscritpion = () => {
 
 
   const { admin, user, loginUser, loginUserLoading } = useUser();
+
+  const router = useRouter();
 
 
   /* eslint-disable react-hooks/exhaustive-deps */
@@ -20,14 +22,14 @@ const Subscritpion = () => {
       }
 
       if((admin.label.length || typeof user === 'object') && !loginUserLoading) {
-          if((user as UserData)?.subscription === true) { redirect('/'); } 
+          if((user as UserData)?.subscription === true) { router.push('/'); } 
     
-          if(admin.label.length) { redirect('/dashboard') }
+          if(admin.label.length) { router.push('/dashboard') }
       }
 
 
       if (typeof user !== 'object' && !loginUserLoading) {
-        redirect('/signin'); 
+        router.push('/signin'); 
       }
       
   }, [loginUserLoading]);

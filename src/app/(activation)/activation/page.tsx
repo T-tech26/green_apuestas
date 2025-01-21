@@ -9,16 +9,18 @@ import LiveChat from '@/components/LiveChat'
 import FormButton from '@/components/FormButton'
 import { Input } from '@/components/ui/input'
 import { activateSubscription } from '@/lib/actions/userActions'
-import { redirect } from 'next/navigation'
-import { Loader2 } from 'lucide-react'
+import { redirect, useRouter } from 'next/navigation'
 import { useToast } from '@/hooks/use-toast'
 import { useUser } from '@/contexts/child_context/userContext'
 import { UserData } from '@/types/globals'
 import Image from 'next/image'
 import Link from 'next/link'
+import { Loader2 } from 'lucide-react'
 
 
 const Activation = () => {
+
+  const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
   const [showHelpMessage, setShowHelpMessage] = useState(false);
@@ -35,14 +37,14 @@ const Activation = () => {
       }
 
       if((admin.label.length || typeof user === 'object') && !loginUserLoading) {
-          if((user as UserData)?.subscription === true) { redirect('/'); } 
+          if((user as UserData)?.subscription === true) { router.push('/'); } 
     
-          if(admin.label.length) { redirect('/dashboard') }
+          if(admin.label.length) { router.push('/dashboard') }
       }
 
 
-      if (typeof user !== 'object' && !loginUserLoading) {
-        redirect('/signin'); 
+      if (typeof user !== 'object' && !loginUserLoading && !admin.label.length) {
+        router.push('/signin'); 
       }
       
   }, [loginUserLoading, user]);

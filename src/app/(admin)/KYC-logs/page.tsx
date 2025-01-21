@@ -130,7 +130,7 @@ const KYCLogs = () => {
             <div className='w-4/5 mx-auto flex flex-col gap-5 overflow-x-scroll md:overflow-x-hidden address pb-14 md:pb-0'>
                 <h1 className='text-lg text-color-60 font-medium uppercase'>KYC logs</h1>
 
-                <div className='min-w-[400px] mx-auto'>
+                <div className='w-full min-w-[400px] mx-auto'>
                     {pendingDocuments.length > 0 ? (
                         <>
                             {pendingDocuments.map(item => {

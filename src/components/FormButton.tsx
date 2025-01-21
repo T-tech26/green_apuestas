@@ -1,6 +1,5 @@
 import React from 'react'
 import { Button } from './ui/button'
-import { Loader2 } from 'lucide-react'
 import { FormButtonProps } from '@/types/globals'
 
 const FormButton = ({ loading, text }: FormButtonProps ) => {
@@ -9,12 +8,7 @@ const FormButton = ({ loading, text }: FormButtonProps ) => {
             disabled={loading}
             className='bg-light-gradient-135deg text-lg text-color-30 rounded-full'
         >
-            {loading ? (
-            <>
-                <Loader2 size={20} className='animate-spin'/> &nbsp; 
-                Loading...
-            </>
-            ): text}
+            {loading ? 'Loading' : `${text}`}
         </Button>
     )
 }

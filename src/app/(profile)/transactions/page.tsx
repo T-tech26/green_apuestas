@@ -42,7 +42,7 @@ const TransactionHistory = () => {
                 <h1 className='text-lg text-color-60 font-medium'>TRANSACTION HISTORY</h1>
 
                 {userTransactions.length > 0 ? (
-                    <div className='min-w-[400px] mx-auto'>
+                    <div className='w-full min-w-[400px] mx-auto'>
                         {userTransactions.map(trans => {
                             return (
                                 <div

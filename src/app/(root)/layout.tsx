@@ -24,7 +24,7 @@ export default function RootLayout({
         loginUser();
       }
 
-      if(admin.label.length || typeof user === 'object') {
+      if(typeof user === 'object' && !loginUserLoading) {
   
         if((user as UserData)?.subscription === false) { 
   
@@ -32,14 +32,14 @@ export default function RootLayout({
             description: 'You are not on subscription, please go and subscribe',
           });
   
-          setTimeout(() => {
-            redirect('/subscription');
-          }, 4000);
+          redirect('/subscription');
         } 
         
-        if(admin.label.length) { redirect('/dashboard') }
       }
-    }, [loginUserLoading]);
+
+      if(admin.label.length && !loginUserLoading) { redirect('/dashboard') }
+
+    }, [loginUserLoading, user, admin]);
     /* eslint-enable react-hooks/exhaustive-deps */
 
 

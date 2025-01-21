@@ -12,17 +12,18 @@ import { Form, FormControl, FormField, FormLabel } from '../ui/form'
 import { Input } from '../ui/input'
 import Image from 'next/image'
 import { Button } from '../ui/button'
-import { Loader2 } from 'lucide-react'
+import { useUser } from '@/contexts/child_context/userContext'
 
 interface FirstNameProps {
     user: UserData | string,
-    setUser: (user: UserData | string) => void
 }
 
-const FirstNameForm = ({user, setUser}: FirstNameProps) => {
+const FirstNameForm = ({ user }: FirstNameProps) => {
 
     const [isLoading, setIsLoading] = useState(false);
     const [edit, setEdit] = useState(true);
+
+    const { loginUser } = useUser();
 
     const userData = {
         firstname: (user as UserData)?.firstname,
@@ -55,9 +56,14 @@ const FirstNameForm = ({user, setUser}: FirstNameProps) => {
                 toast({
                 description: response
                 })
+                return;
             }
+
+            toast({ description: 'First name updated' });
             
-            if(typeof response === 'object' && typeof response !== null) setUser(response);
+            if(typeof response === 'object' && typeof response !== null) {
+                loginUser();
+            }
             
         } catch (error) {
             console.error("Error submitting activation code ", error);
@@ -110,12 +116,7 @@ const FirstNameForm = ({user, setUser}: FirstNameProps) => {
                     disabled={isLoading}
                     className='bg-light-gradient-135deg text-xs text-color-30 rounded-full self-end h-7 px-8'
                 >
-                    {isLoading ? (
-                    <>
-                        <Loader2 size={20} className='animate-spin'/> &nbsp; 
-                        Loading...
-                    </>
-                    ): 'Update'}
+                    {isLoading ? 'Loading' : 'Update'}
                 </Button>
 
             </div>

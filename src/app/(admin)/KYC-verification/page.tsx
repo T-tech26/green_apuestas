@@ -99,7 +99,7 @@ const KYCVerification = () => {
                 </div>
 
                 {status === 'pending' && (
-                    <div className='min-w-[400px] mx-auto'>
+                    <div className='w-full min-w-[400px] mx-auto'>
                         {pendingDocuments.length > 0 ? (
                             <>
                                 {pendingDocuments.map(item => {
@@ -195,7 +195,7 @@ const KYCVerification = () => {
 
 
                 {status === 'approved' && (
-                    <div className='min-w-[400px] mx-auto'>
+                    <div className='w-full min-w-[400px] mx-auto'>
                         {approvedDocuments.length > 0 ? (
                             <>
                                 {approvedDocuments.map(item => {

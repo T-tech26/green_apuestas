@@ -12,7 +12,7 @@ import ProfileImageForm from './ProfileImageForm';
 const ProfileHeader = () => {
 
     const { user } = useUser();
-    const { userNotifications } = useNotificationContext();
+    const { userNotifications, getAllUserNotification } = useNotificationContext();
     
     const [showNotification, setShowNotification] = useState(false);
     const [profile, setProfile] = useState(false);
@@ -27,68 +27,75 @@ const ProfileHeader = () => {
             setUserWithNotification(mappedUserWithNotification);   
         }
     }, [userNotifications]);
+
+    
+    useEffect(() => {
+        if(!userNotifications.length) {
+            getAllUserNotification();
+        }
+    }, []);
     /* eslint-enable react-hooks/exhaustive-deps */
+
+
 
     
     return (
         <>
-            {typeof user === 'object' ? (
-                <div className="flex items-center justify-between md:justify-end w-full px-5 py-1 bg-white drop-shadow-md">
-                    <ProfileMobleMenu />
-                    
-                    <div className="flex items-center py-1 px-3 rounded-md gap-5">
-                        {(user as UserData).profileImg !== null ? (
-                            /* eslint-disable @next/next/no-img-element */
-                            <img
-                                src={(user as UserData).profileImgUrl ? (user as UserData).profileImgUrl : ''}
-                                width={40}
-                                height={40}
-                                alt='profile image'
-                                className='rounded-full cursor-pointer size-10'
-                                onClick={() => setProfile(!profile)}
-                            />
-                            /* eslint-enable @next/next/no-img-element */
-                        ) : (
-                            <Image
-                                src='/profile-icon.svg'
-                                width={40}
-                                height={40}
-                                alt='profile icon'
-                                className='cursor-pointer'
-                                onClick={() => setProfile(!profile)}
-                            />
-                        )}
+            <div className="flex items-center justify-between md:justify-end w-full px-5 py-1 bg-white drop-shadow-md">
+                <ProfileMobleMenu />
+                
+                <div className="flex items-center py-1 px-3 rounded-md gap-5">
+                    {(user as UserData).profileImg !== null ? (
+                        /* eslint-disable @next/next/no-img-element */
+                        <img
+                            src={(user as UserData).profileImgUrl ? (user as UserData).profileImgUrl : ''}
+                            width={40}
+                            height={40}
+                            alt='profile image'
+                            className='rounded-full cursor-pointer size-10'
+                            onClick={() => setProfile(!profile)}
+                        />
+                        /* eslint-enable @next/next/no-img-element */
+                    ) : (
+                        <Image
+                            src='/profile-icon.svg'
+                            width={40}
+                            height={40}
+                            alt='profile icon'
+                            className='cursor-pointer'
+                            onClick={() => setProfile(!profile)}
+                        />
+                    )}
 
-                        <div>
-                            <p className='text-color-60 text-sm' translate='no'>{`${(user as UserData)?.lastname} ${(user as UserData)?.firstname}`}</p>
-                            <p className='text-color-60 text-xs tracking-wide' translate='no'>{`${formatAmount((user as UserData)?.balance)}`} USD</p>
-                        </div>
+                    <div>
+                        <p className='text-color-60 text-sm' translate='no'>{`${(user as UserData)?.lastname} ${(user as UserData)?.firstname}`}</p>
+                        <p className='text-color-60 text-xs tracking-wide' translate='no'>{`${formatAmount((user as UserData)?.balance)}`} USD</p>
+                    </div>
 
-                        <div className='relative cursor-pointer' onClick={() => setShowNotification(true)}>
-                            <Image
-                                src='/notifications-icon.svg'
-                                width={30}
-                                height={30}
-                                alt='notifications icon'
-                                onClick={() => setShowNotification(true)}
-                            />
+                    <div className='relative cursor-pointer' onClick={() => setShowNotification(true)}>
+                        <Image
+                            src='/notifications-icon.svg'
+                            width={30}
+                            height={30}
+                            alt='notifications icon'
+                            onClick={() => setShowNotification(true)}
+                        />
 
+                        {userWithNotification.length > 0 && (
                             <span className='text-color-30 text-xs absolute top-[-5px] right-0 bg-color-10 px-1 rounded-full z-50'>
-                                {userWithNotification.length > 0 && (
-                                    <span className='absolute top-0 -right-[3px] bg-color-10 rounded-full size-5 -z-50 animate-ping'></span>
-                                )}
+                                <span className='absolute top-0 -right-[3px] bg-color-10 rounded-full size-5 -z-50 animate-ping'></span>
                                 {userWithNotification.length}
                             </span>
-                        </div>
+                        )}
+
+                        {userWithNotification.length === 0 && (
+                            <span className='text-color-30 text-xs absolute top-[-5px] right-0 bg-color-10 px-1 rounded-full z-50'>
+                                {userWithNotification.length}
+                            </span>
+                        )}
                     </div>
                 </div>
-            ) : (
-                <div className="animate-pulse flex items-center h-[56px] justify-between md:justify-end w-full px-5 py-1 bg-white drop-shadow-md">
-                    <div className='w-10 h-9 md:hidden bg-gray-300 rounded-md'></div>
-
-                    <div className='w-64 h-9 bg-gray-300 rounded-md'></div>
-                </div>
-            )}
+            </div>
 
             {showNotification && (
                 <Notifications setShow={setShowNotification} type='user' />
