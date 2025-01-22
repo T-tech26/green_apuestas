@@ -52,10 +52,10 @@ const LanguageSwitcher = () => {
     const switchLanguage = (lang: string) => {
 
         // 1. Delete the existing googtrans cookie by directly manipulating document.cookie
-        document.cookie = `${COOKIE_NAME}=; path=/; domain=.greenapuestas.com; expires=Thu, 01 Jan 1970 00:00:00 GMT;`;
+        document.cookie = `${COOKIE_NAME}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT;`;
 
         // 2. Set the new language cookie using document.cookie
-        document.cookie = `${COOKIE_NAME}=/auto/${lang}; path=/; domain=.greenapuestas.com; SameSite=None; Secure`;
+        document.cookie = `${COOKIE_NAME}=/auto/${lang}; path=/; SameSite=None; Secure`;
 
         // 2. Update the language state immediately, avoiding a full page reload
         setCurrentLanguage(lang);
