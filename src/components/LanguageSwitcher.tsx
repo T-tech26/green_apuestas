@@ -37,8 +37,7 @@ const LanguageSwitcher = () => {
             setCurrentLanguage(languageValue);
         }
 
-        // 5. Set the language config.
-        if (global.__GOOGLE_TRANSLATION_CONFIG__) {
+        if (typeof global !== 'undefined' && global.__GOOGLE_TRANSLATION_CONFIG__) {
             setLanguageConfig(global.__GOOGLE_TRANSLATION_CONFIG__);
         }
     }, []);
@@ -53,13 +52,14 @@ const LanguageSwitcher = () => {
         // 1. Set the language in the cookie with the correct domain and path
         setCookie(null, COOKIE_NAME, '/auto/' + lang, {
             path: '/', // Ensure the cookie is available site-wide
-            sameSite: 'Lax', // Cross-origin cookie handling
+            sameSite: 'None', // Cross-origin cookie handling
+            secure: true
         });
 
         // 2. Update the language state immediately, avoiding a full page reload
         setCurrentLanguage(lang);
 
-        window.location.reload();
+        // window.location.reload();
     };
 
     return (
