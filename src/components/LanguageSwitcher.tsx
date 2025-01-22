@@ -59,7 +59,9 @@ const LanguageSwitcher = () => {
         // 2. Update the language state immediately, avoiding a full page reload
         setCurrentLanguage(lang);
 
-        window.location.reload();
+        setTimeout(() => {
+            window.location.reload();
+        }, 5000);
     };
 
     return (
