@@ -11,7 +11,7 @@ const LanguageSwitcher = () => {
     const [currentLanguage, setCurrentLanguage] = useState<string>('');
     const [languageConfig, setLanguageConfig] = useState<GoogleTranslationConfig>();
 
-    //Initialize translation engine
+    // Initialize translation engine
     useEffect(() => {
         // 1. Read the cookie
         const cookies = parseCookies();
@@ -27,16 +27,17 @@ const LanguageSwitcher = () => {
             }
         }
 
-        // 3. If __GOOGLE_TRANSLATION_CONFIG__ is defined and we still not decided about languageValue - use default one
-        if (global.__GOOGLE_TRANSLATION_CONFIG__ && !languageValue) {
+        // 3. If __GOOGLE_TRANSLATION_CONFIG__ is defined and we still don't have a languageValue - use default one
+        if (typeof global !== 'undefined' && global.__GOOGLE_TRANSLATION_CONFIG__ && !languageValue) {
             languageValue = global.__GOOGLE_TRANSLATION_CONFIG__.defaultLanguage;
         }
 
+        // 4. Set the current language if we have a related decision.
         if (languageValue) {
-            // 4. Set the current language if we have a related decision.
             setCurrentLanguage(languageValue);
         }
 
+        // 5. Set the language config if available
         if (typeof global !== 'undefined' && global.__GOOGLE_TRANSLATION_CONFIG__) {
             setLanguageConfig(global.__GOOGLE_TRANSLATION_CONFIG__);
         }
@@ -53,15 +54,16 @@ const LanguageSwitcher = () => {
         setCookie(null, COOKIE_NAME, '/auto/' + lang, {
             path: '/', // Ensure the cookie is available site-wide
             sameSite: 'None', // Cross-origin cookie handling
-            secure: true
+            secure: true, // Only works over HTTPS
         });
 
         // 2. Update the language state immediately, avoiding a full page reload
         setCurrentLanguage(lang);
 
-        setTimeout(() => {
-            window.location.reload();
-        }, 5000);
+        // Optionally, you can trigger a full reload if you need to re-render the entire page with the new language
+        // setTimeout(() => {
+        //     window.location.reload(); // Reload after the language switch (if necessary)
+        // }, 500);
     };
 
     return (
