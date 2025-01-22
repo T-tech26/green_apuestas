@@ -16,6 +16,7 @@ import { UserData } from '@/types/globals'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Loader2 } from 'lucide-react'
+import { LanguageSwitcher } from '@/components/LanguageSwitcher'
 
 
 const Activation = () => {
@@ -116,6 +117,8 @@ const Activation = () => {
                   alt='light version logo'
               />
             </Link>
+
+            <LanguageSwitcher />
           </header>
 
           <main className="flex-1 flex flex-col items-center justify-center gap-5">

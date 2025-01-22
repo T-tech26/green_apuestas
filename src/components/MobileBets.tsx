@@ -67,7 +67,7 @@ const MobileBets = ({ selectedLink, setSelectedLink, type }: BetsProps) => {
                     }`}
                 >
                     <div
-                        className='w-[300px] h-[400px] py-5 px-3 bg-color-30 rounded-md overflow-y-scroll'
+                        className='w-4/5 md:w-[400px] h-[400px] py-5 px-3 bg-color-30 rounded-md overflow-y-scroll'
                     >
                         <Image
                             src='/close.svg'
@@ -111,9 +111,9 @@ const MobileBets = ({ selectedLink, setSelectedLink, type }: BetsProps) => {
                         ) : (
                             <div className='flex flex-col gap-6'>
                                 <div 
-                                    className='bg-color-30 rounded-md h-auto overflow-hidden cursor-pointer drop-shadow-md'
+                                    className='bg-color-30 rounded-md h-auto overflow-hidden cursor-pointer drop-shadow-md w-full max-w-[330px] mx-auto'
                                 >
-                                    <div className='bg-light-gradient-135deg px-3 py-1 rounded-t-md flex justify-between'>
+                                    <div className='bg-light-gradient-135deg px-3 py-1 rounded-t-md flex flex-col md:flex-row justify-between'>
                                         <p className='flex flex-col justify-between text-color-30 text-xs font-medium'>
                                             <span>Multiple</span>
                                             <span>Ticket ID: {(ticket as UserGame).$id}</span>

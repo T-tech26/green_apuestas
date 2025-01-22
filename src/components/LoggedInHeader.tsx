@@ -14,6 +14,7 @@ import { DisplayNames, ProfileMenuLinks } from '@/constants';
 import { UserData } from '@/types/globals';
 import { formatAmount } from '@/lib/utils';
 import ProfileImageForm from './ProfileImageForm';
+import { LanguageSwitcher } from './LanguageSwitcher';
   
 
 const LoggedInHeader = () => {
@@ -64,6 +65,8 @@ const LoggedInHeader = () => {
                         </span>
                     </p>
                 </div>
+
+                <LanguageSwitcher />
             </div>
 
             <div className="flex justify-between items-center gap-5">
@@ -89,6 +92,11 @@ const LoggedInHeader = () => {
                 </div>
             
                 <div className="flex justify-between items-center gap-3">
+                    <div className="md:flex justify-between gap-1 items-center hidden">
+                        <LanguageSwitcher />
+                    </div>
+
+
                     <div
                         className='flex gap-3 justify-between items-center max:w-52'
                     >
@@ -117,7 +125,7 @@ const LoggedInHeader = () => {
 
                         <div>
                             <p className='text-color-30 text-sm'>{(user as UserData).firstname} {(user as UserData).lastname}</p>
-                            <p className='text-color-30 text-xs'>{formatAmount((user as UserData).balance)} USD</p>
+                            <p className='text-color-30 text-xs' translate='no'>{formatAmount((user as UserData).balance)} USD</p>
                         </div>
 
                         <div

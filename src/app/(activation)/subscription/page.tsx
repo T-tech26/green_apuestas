@@ -6,6 +6,7 @@ import { useUser } from '@/contexts/child_context/userContext'
 import { UserData } from '@/types/globals'
 import { useRouter } from 'next/navigation'
 import { Loader2 } from 'lucide-react'
+import { LanguageSwitcher } from '@/components/LanguageSwitcher'
 
 const Subscritpion = () => {
 
@@ -56,6 +57,8 @@ const Subscritpion = () => {
                     alt='light version logo'
                 />
               </Link>
+
+              <LanguageSwitcher />
             </header>
 
             <main className="flex-1 flex flex-col items-center justify-center gap-5">

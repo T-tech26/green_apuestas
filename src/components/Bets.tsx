@@ -203,14 +203,14 @@ const Bets = () => {
                                 >
                                     <div className='flex items-center relative gap-2'>
                                         <p className='text-left text-color-60 text-xs text-wrap'>{game.home}</p>
-                                        <span className='text-color-60 text-xs'>vs</span>
+                                        <span className='text-color-60 text-xs'>-</span>
                                         <p className='text-right text-color-60 text-xs text-wrap'>{game.away}</p>
                                     </div>
 
                                     <p className='flex items-center gap-3 text-gray-400 text-xs'>Correct score</p>
 
                                     <p className='text-color-60 text-[10px] font-semibold flex justify-between'>{game.homeGoal} - {game.awayGoal}
-                                        <span>{game.odd}</span>
+                                        <span className='flex-1 text-right'>{game.odd}</span>
                                     </p>
 
                                     <p className='text-green-400 text-[11px] font-semibold'>won</p> 

@@ -45,12 +45,12 @@ const BetHistory = () => {
 
 
     return (
-        <main className='flex-1 pt-14 md:py-14 overflow-x-hidden overflow-y-scroll'>
-            <div className='w-4/5 mx-auto flex flex-col gap-5 overflow-x-scroll md:overflow-x-hidden address pb-14 md:pb-0'>
+        <main className='flex-1 py-14 overflow-x-scroll md:overflow-x-hidden address overflow-y-scroll'>
+            <div className='w-4/5 mx-auto flex flex-col gap-5'>
                 <h1 className='text-lg text-color-60 font-medium mb-5'>BET HISTORY</h1>
 
                 {userWithSlip.length > 0 ? (
-                    <div className='mx-auto'>
+                    <div className='w-full'>
                         {userWithSlip.map((slip, index) => {
 
                             if(!slip.showBet) {
@@ -123,12 +123,12 @@ const BetHistory = () => {
                             return (
                                 <div 
                                     key={slip.$id}
-                                    className={`bg-color-30 rounded-md mb-4 w-[330px] h-[48px] overflow-hidden cursor-pointer ${
+                                    className={`bg-color-30 rounded-md mb-4 mx-auto w-full max-w-[330px] h-[48px] overflow-hidden cursor-pointer ${
                                         showBets === slip.$id ? 'showBets' : 'hideBets'
                                     }`}
                                     onClick={() => handleAnimation((slip.$id as string), index)}
                                 >
-                                    <div className='bg-light-gradient-135deg px-5 py-2 rounded-t-md flex justify-between'>
+                                    <div className='bg-light-gradient-135deg px-5 py-2 rounded-t-md flex flex-col gap-1 md:flex-row justify-between'>
                                         <p className='flex flex-col justify-between text-color-30 text-xs font-medium'>
                                             <span>Multiple</span>
                                             <span>Ticket ID: {slip.$id && slip.$id.slice(0, 8)}</span>
@@ -148,14 +148,14 @@ const BetHistory = () => {
                                             >
                                                 <div className='flex items-center relative gap-2'>
                                                     <p className='text-left text-color-60 text-xs text-wrap'>{game.home}</p>
-                                                    <span className='text-color-60 text-xs'>vs</span>
+                                                    <span className='text-color-60 text-xs'>-</span>
                                                     <p className='text-right text-color-60 text-xs text-wrap'>{game.away}</p>
                                                 </div>
 
                                                 <p className='flex items-center gap-3 text-gray-400 text-xs'>Correct score</p>
 
                                                 <p className='text-color-60 text-[10px] font-semibold flex justify-between'>{game.homeGoal} - {game.awayGoal}
-                                                    <span>{game.odd}</span>
+                                                    <span className='flex-1 text-right'>{game.odd}</span>
                                                 </p>
 
                                                 <p className='text-green-400 text-[11px] font-semibold'>won</p> 

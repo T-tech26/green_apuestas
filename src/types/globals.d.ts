@@ -1,3 +1,24 @@
+// Google language configuration
+export interface LanguageDescriptor {
+  title: string,
+  code: string,
+}
+
+export interface GoogleTranslationConfig {
+  languages: LanguageDescriptor[];
+  defaultLanguage: string;
+}
+
+declare global {
+  namespace globalThis {
+    // eslint-disable-next-line no-var
+    var __GOOGLE_TRANSLATION_CONFIG__: {
+      languages: LanguageDescriptor[];
+      defaultLanguage: string;
+    };
+  }
+}
+
 export interface FormButtonProps {
   loading: boolean,
   text: string

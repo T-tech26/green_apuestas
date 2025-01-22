@@ -60,6 +60,12 @@ body {
 }
 
 
+/* hiding the google translate widget */
+.skiptranslate iframe {
+  display: none !important;
+}
+
+
 .showBets {
   animation-name: showbet;
   animation-duration: 0.5s;
