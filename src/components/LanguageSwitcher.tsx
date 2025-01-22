@@ -69,9 +69,9 @@ const LanguageSwitcher = () => {
         setCurrentLanguage(lang);
 
         //Optionally, you can trigger a full reload if you need to re-render the entire page with the new language
-        //setTimeout(() => {
-            window.location.reload(); // Reload after the language switch (if necessary)
-        //}, 500);
+        setTimeout(() => {
+            window.location.reload();
+        }, 5000);
     };
 
     return (
