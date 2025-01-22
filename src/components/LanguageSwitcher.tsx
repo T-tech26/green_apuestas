@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { parseCookies } from 'nookies';
+import { parseCookies, setCookie } from 'nookies';
 import { GoogleTranslationConfig } from '@/types/globals';
 
 // The following cookie name is important because it's Google-predefined for the translation engine purpose
@@ -50,20 +50,19 @@ const LanguageSwitcher = () => {
 
     // The following function switches the current language
     const switchLanguage = (lang: string) => {
-
-        // 1. Delete the existing googtrans cookie by directly manipulating document.cookie
-        document.cookie = `${COOKIE_NAME}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT;`;
-
-        // 2. Set the new language cookie using document.cookie
-        document.cookie = `${COOKIE_NAME}=/auto/${lang}; path=/; SameSite=None; Secure`;
+        // 1. Set the language in the cookie with the correct domain and path
+        setCookie(null, COOKIE_NAME, '/auto/' + lang, {
+            path: '/', // Ensure the cookie is available site-wide
+            domain: '.greenapuestas.com',
+            sameSite: 'None', // Cross-origin cookie handling
+            secure: true, // Only works over HTTPS
+        });
 
         // 2. Update the language state immediately, avoiding a full page reload
         setCurrentLanguage(lang);
 
-        //Optionally, you can trigger a full reload if you need to re-render the entire page with the new language
-        setTimeout(() => {
-            window.location.reload();
-        }, 5000);
+        
+        window.location.reload(); // Reload after the language switch (if necessary)
     };
 
     return (
