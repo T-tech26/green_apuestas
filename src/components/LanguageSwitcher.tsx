@@ -51,11 +51,7 @@ const LanguageSwitcher = () => {
     // The following function switches the current language
     const switchLanguage = (lang: string) => {
         // 1. Set the language in the cookie with the correct domain and path
-        setCookie(null, COOKIE_NAME, '/auto/' + lang, {
-            path: '/', // Ensure the cookie is available site-wide
-            sameSite: 'None', // Cross-origin cookie handling
-            secure: true, // Only works over HTTPS
-        });
+        setCookie(null, COOKIE_NAME, '/auto/' + lang);
 
         // 2. Update the language state immediately, avoiding a full page reload
         setCurrentLanguage(lang);
