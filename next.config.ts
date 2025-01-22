@@ -13,21 +13,6 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  async redirects() {
-    return [
-      {
-        source: '/',
-        has: [
-          {
-            type: 'host',
-            value: 'greenapuestas.com', // If the domain is mydomain.com
-          },
-        ],
-        destination: 'https://www.greenapuestas.com', // Redirect to www.mydomain.com
-        permanent: true, // Permanent redirect
-      },
-    ];
-  },
 };
 
 export default nextConfig;
