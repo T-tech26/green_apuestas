@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { parseCookies, setCookie } from 'nookies';
+import { parseCookies, setCookie, destroyCookie } from 'nookies';
 import { GoogleTranslationConfig } from '@/types/globals';
 
 // The following cookie name is important because it's Google-predefined for the translation engine purpose
@@ -51,11 +51,19 @@ const LanguageSwitcher = () => {
     // The following function switches the current language
     const switchLanguage = (lang: string) => {
 
-        setCookie(null, COOKIE_NAME, '/auto/' + lang, {
-            path: '/', // Ensure the cookie is available site-wide
-            sameSite: 'None', // Cross-origin cookie handling
-            secure: true, // Only works over HTTPS
-        });
+        // 1. Delete the existing googtrans cookie if it exists
+    destroyCookie(null, COOKIE_NAME, {
+        path: '/', // Ensure the cookie is deleted from the entire domain
+        domain: '.greenapuestas.com', // Make sure it targets both www and non-www domains
+    });
+
+    // 2. Set the new language cookie
+    setCookie(null, COOKIE_NAME, '/auto/' + lang, {
+        path: '/', // Ensure the cookie is available across the entire site
+        domain: '.greenapuestas.com', // Ensures it works across all subdomains
+        sameSite: 'None',
+        secure: true, // Ensure it's sent over HTTPS
+    });
 
         // 2. Update the language state immediately, avoiding a full page reload
         setCurrentLanguage(lang);
