@@ -54,7 +54,7 @@ const LanguageSwitcher = () => {
         setCookie(null, COOKIE_NAME, '/auto/' + lang, {
             path: '/', // Ensure the cookie is available site-wide
             domain: '.greenapuestas.com',
-            sameSite: 'None', // Cross-origin cookie handling
+            sameSite: 'Lax', // Cross-origin cookie handling
             secure: true, // Only works over HTTPS
         });
 
