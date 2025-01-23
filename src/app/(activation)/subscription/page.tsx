@@ -6,7 +6,6 @@ import { useUser } from '@/contexts/child_context/userContext'
 import { UserData } from '@/types/globals'
 import { useRouter } from 'next/navigation'
 import { Loader2 } from 'lucide-react'
-import { LanguageSwitcher } from '@/components/LanguageSwitcher'
 
 const Subscritpion = () => {
 
