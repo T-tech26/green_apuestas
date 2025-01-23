@@ -6,7 +6,6 @@ import { usePathname } from 'next/navigation';
 import LoggedInHeader from './LoggedInHeader';
 import { useUser } from '@/contexts/child_context/userContext';
 import Image from 'next/image';
-import { LanguageSwitcher } from './LanguageSwitcher';
 import TopWinners from './TopWinners';
 
 
