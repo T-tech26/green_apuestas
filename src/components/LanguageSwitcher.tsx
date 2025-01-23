@@ -59,6 +59,12 @@ const LanguageSwitcher = () => {
                 sameSite: 'none',
                 secure: true, // Secure cookie for HTTPS
             });
+            destroyCookie(null, cookieName, {
+                path: '/',
+                domain: 'www.greenapuestas.com',
+                sameSite: 'none',
+                secure: true, // Secure cookie for HTTPS
+            });
         }
     };
 
