@@ -16,7 +16,6 @@ import { UserData } from '@/types/globals'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Loader2 } from 'lucide-react'
-import { LanguageSwitcher } from '@/components/LanguageSwitcher'
 
 
 const Activation = () => {
