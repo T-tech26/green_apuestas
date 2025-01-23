@@ -58,10 +58,6 @@ const Header = () => {
                         </div>
 
                         <div className="flex justify-between items-center gap-3">
-                            <div className="md:flex justify-between gap-1 items-center hidden">
-                                <LanguageSwitcher />
-                            </div>
-
                             <Link href='/signin' className="loginbtn">Login</Link>
                             <Link href='/register' className="registerbtn">Register</Link>
 
