@@ -51,7 +51,7 @@ const LanguageSwitcher = () => {
     const switchLanguage = (lang: string) => {
         setCookie(null, COOKIE_NAME, '/auto/' + lang, {
             path: '/',
-            domain: '/',
+            domain: '.',
             sameSite: 'none',
             secure: true, // Use secure cookies for HTTPS
         });
