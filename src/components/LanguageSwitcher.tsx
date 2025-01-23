@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { parseCookies, setCookie, destroyCookie } from 'nookies';
+import { parseCookies, destroyCookie } from 'nookies';
 import { GoogleTranslationConfig } from '@/types/globals';
 
 // The following cookie name is important because it's Google-predefined for the translation engine purpose
