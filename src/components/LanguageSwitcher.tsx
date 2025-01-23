@@ -55,7 +55,7 @@ const LanguageSwitcher = () => {
         if (cookies[cookieName]) { // Check if the cookie exists
             destroyCookie(null, cookieName, {
                 path: '/',
-                domain: '.greenapuestas.com',
+                domain: 'greenapuestas.com',
                 sameSite: 'none',
                 secure: true, // Secure cookie for HTTPS
             });
@@ -75,7 +75,7 @@ const LanguageSwitcher = () => {
 
         setCookie(null, COOKIE_NAME, '/auto/' + lang, {
             path: '/',
-            domain: '.greenapuestas.com',
+            domain: 'greenapuestas.com',
             sameSite: 'none',
             secure: true, // Use secure cookies for HTTPS
         });
