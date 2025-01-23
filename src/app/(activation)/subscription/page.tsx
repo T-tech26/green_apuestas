@@ -48,7 +48,7 @@ const Subscritpion = () => {
           <div
             className='bg-color-60 bg-opacity-30 w-full h-full flex flex-col'
           >
-            <header className="w-full h-auto px-[15px] md:px-20 pt-7 flex justify-between item-center">
+            <header className="w-full h-auto px-[15px] md:px-20 pt-7">
               <Link href='/'>
                 <Image
                     src='/logo-dark.png'
@@ -57,8 +57,6 @@ const Subscritpion = () => {
                     alt='light version logo'
                 />
               </Link>
-
-              <LanguageSwitcher />
             </header>
 
             <main className="flex-1 flex flex-col items-center justify-center gap-5">

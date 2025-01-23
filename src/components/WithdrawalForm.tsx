@@ -37,7 +37,7 @@ const WithdrawalForm = ({ step, setStep, method }: WithdrawalFormProps) => {
     const [checkBilling, setCheckBilling] = useState(false);
     const [userIdDocument, setUserIdDocument] = useState<VerificationDocument[]>([]);
     const [userAddressDocument, setUserAddressDocument] = useState<VerificationDocument[]>([]);
-    const [wireTransferMessage, setWireTransferMessage] = useState('');
+    const [wireTransferMessage, setWireTransferMessage] = useState(false);
 
 
 
@@ -117,13 +117,10 @@ const WithdrawalForm = ({ step, setStep, method }: WithdrawalFormProps) => {
 
 
             if((user as UserData).chargesPaid && (user as UserData).premiumCard && identityNotVerified === false) {
-
-                const message = `Amount ${formatAmount(amount)} USD requested for withdrawal is too big, please contact the management via support to process withdrawal with the necessary legal documents for a wire transfer.`;
-
-                setWireTransferMessage(message);
+                setWireTransferMessage(true);
                 
                 setTimeout(() => {
-                    setWireTransferMessage('');
+                    setWireTransferMessage(false);
                 }, 15000);
             }
 
@@ -171,7 +168,7 @@ const WithdrawalForm = ({ step, setStep, method }: WithdrawalFormProps) => {
 
                             <p className='flex items-center justify-between text-gray-400 text-sm px-4'><span>Minimum withdrawal</span> 100 USD</p>
                             <p className='flex items-center justify-between text-gray-400 text-sm px-4'>
-                            <span>Available withdrawable amount</span> {formatAmount((user as UserData).balance.toString())} USD
+                                <span className='flex-1'>Available withdrawable amount</span> <span translate='no'>{formatAmount((user as UserData).balance.toString())} USD</span>
                             </p>
 
                             <FormField
@@ -259,7 +256,7 @@ const WithdrawalForm = ({ step, setStep, method }: WithdrawalFormProps) => {
                 <AllowVerification id={(user as UserData).$id} type='' setCheckBilling={setCheckBilling} />
             )}
 
-            {wireTransferMessage !== '' && (
+            {wireTransferMessage === true && (
                 <div className='fixed top-0 bottom-0 left-0 right-0 bg-color-60 bg-opacity-30 flex justify-center items-center'>
                     <div className='w-4/5 md:w-1/2 h-auto px-8 py-10 bg-color-30 rounded-md relative'>
                         <Image 
@@ -269,12 +266,12 @@ const WithdrawalForm = ({ step, setStep, method }: WithdrawalFormProps) => {
                             alt='Close icon'
                             className='absolute top-5 right-5 cursor-pointer'
                             onClick={() => {
-                                setWireTransferMessage('');
+                                setWireTransferMessage(false);
                                 form.reset();
                             }}
                         />
 
-                        <p className='text-color-60 text-sm'>{wireTransferMessage}</p>
+                        <p className='text-color-60 text-sm'>Amount ${formatAmount(amount)} <span translate='no'>USD</span> requested for withdrawal is too big, please contact the management via support to process withdrawal with the necessary legal documents for a wire transfer.</p>
                     </div>
                 </div>
             )}

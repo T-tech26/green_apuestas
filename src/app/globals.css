@@ -60,12 +60,6 @@ body {
 }
 
 
-/* hiding the google translate widget */
-.skiptranslate iframe {
-  display: none !important;
-}
-
-
 .showBets {
   animation-name: showbet;
   animation-duration: 0.5s;
@@ -94,34 +88,6 @@ body {
   10% { height: 300px; }
   100% { height: 48px; }
 }
-
-
-.slideIn {
-  animation-name: slide-in;
-  animation-duration: 0.7s;
-  animation-iteration-count: 1;
-  animation-timing-function: linear;
-  animation-fill-mode: forwards;
-}
-
-.slideOut {
-  animation-name: slide-out;
-  animation-duration: 0.7s;
-  animation-fill-mode: forwards;
-  animation-iteration-count: 1;
-  animation-timing-function: linear;
-}
-
-@keyframes slide-out {
-  0% { left: -1100%; }
-  100% { left: 0%; }
-}
-
-@keyframes slide-in {
-  0% { left: 0%; }
-  100% { left: -1100%; }
-}
-
 
 
 .open-league {

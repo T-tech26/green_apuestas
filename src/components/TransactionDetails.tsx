@@ -75,7 +75,7 @@ const TransactionDetails = ({ trans, setShowDetails, type }: TransactionDetailsP
                         <p translate='no'>{(user as UserData).firstname} {(user as UserData).lastname}</p>
                     )}
 
-                    <p className='text-color-60 text-sm font-semibold' translate='no'>USD {formatAmount(details.amount)}</p>
+                    <p className='text-color-60 text-sm font-semibold' translate='no'>{formatAmount(details.amount)} USD</p>
 
                     <p 
                         className={`text-[10px] flex items-center gap-1 drop-shadow-md rounded-full pl-2 pr-3 ${
