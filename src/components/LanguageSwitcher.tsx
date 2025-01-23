@@ -51,7 +51,12 @@ const LanguageSwitcher = () => {
     // The following function switches the current language
     const switchLanguage = (lang: string) => {
         // 1. Set the language in the cookie with the correct domain and path
-        setCookie(null, COOKIE_NAME, '/auto/' + lang);
+        setCookie(null, COOKIE_NAME, '/auto/' + lang, {
+            path: '/',
+            domain: '.greenapuestas.com',
+            sameSite: 'none',
+            secure: true
+        });
 
         // 2. Update the language state immediately, avoiding a full page reload
         setCurrentLanguage(lang);
