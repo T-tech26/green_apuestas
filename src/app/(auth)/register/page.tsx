@@ -262,11 +262,11 @@ const Register = () => {
                         </FormLabel>
                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                           <FormControl>
-                            <SelectTrigger className='bg-color-30 border-b-4 border-b-color-10 focus:outline-none px-4 py-2 lg:py-[10px] rounded-tr-2xl rounded-bl-2xl placeholder:text-color-60 placeholder:text-sm lg:placeholder:text-base text-color-60 mb-2 flex justify-between items-center'>
-                              <SelectValue placeholder="Select your country" />
+                            <SelectTrigger translate='no' className='bg-color-30 border-b-4 border-b-color-10 focus:outline-none px-4 py-2 lg:py-[10px] rounded-tr-2xl rounded-bl-2xl placeholder:text-color-60 placeholder:text-sm lg:placeholder:text-base text-color-60 mb-2 flex justify-between items-center'>
+                              <SelectValue translate='no' placeholder="Select your country" />
                             </SelectTrigger>
                           </FormControl>
-                          <SelectContent className='overflow-y-scroll h-52 bg-color-30'>
+                          <SelectContent className='overflow-y-scroll h-52 bg-color-30' translate='no'>
                             {countries.map((item) => {
                               return (
                                 <SelectItem className='cursor-pointer' key={item.name} value={item.name}>{item.name}</SelectItem>
