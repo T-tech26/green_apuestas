@@ -66,12 +66,12 @@ const LanguageSwitcher = () => {
     const setLanguageCookie = (lang: string) => {
         deleteCookie(COOKIE_NAME); // Delete old cookie
 
-        setCookie(null, COOKIE_NAME, '/auto/' + lang, {
-            path: '/',
-            domain: '.greenapuestas.com',
-            sameSite: 'none',
-            secure: true, // Use secure cookies for HTTPS
-        });
+        // setCookie(null, COOKIE_NAME, '/auto/' + lang, {
+        //     path: '/',
+        //     domain: '.greenapuestas.com',
+        //     sameSite: 'none',
+        //     secure: true, // Use secure cookies for HTTPS
+        // });
     };
 
 
