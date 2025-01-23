@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { parseCookies, destroyCookie } from 'nookies';
+import { parseCookies, setCookie, destroyCookie } from 'nookies';
 import { GoogleTranslationConfig } from '@/types/globals';
 
 // The following cookie name is important because it's Google-predefined for the translation engine purpose
@@ -59,6 +59,7 @@ const LanguageSwitcher = () => {
                 sameSite: 'none',
                 secure: true, // Secure cookie for HTTPS
             });
+
             destroyCookie(null, cookieName, {
                 path: '/',
                 domain: 'www.greenapuestas.com',
@@ -73,12 +74,12 @@ const LanguageSwitcher = () => {
         deleteCookie(COOKIE_NAME); // Delete old cookie
 
         console.log(lang)
-        // setCookie(null, COOKIE_NAME, '/auto/' + lang, {
-        //     path: '/',
-        //     domain: '.greenapuestas.com',
-        //     sameSite: 'none',
-        //     secure: true, // Use secure cookies for HTTPS
-        // });
+        setCookie(null, COOKIE_NAME, '/auto/' + lang, {
+            path: '/',
+            domain: 'www.greenapuestas.com',
+            sameSite: 'none',
+            secure: true, // Use secure cookies for HTTPS
+        });
     };
 
 
