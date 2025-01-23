@@ -66,6 +66,7 @@ const LanguageSwitcher = () => {
     const setLanguageCookie = (lang: string) => {
         deleteCookie(COOKIE_NAME); // Delete old cookie
 
+        console.log(lang)
         // setCookie(null, COOKIE_NAME, '/auto/' + lang, {
         //     path: '/',
         //     domain: '.greenapuestas.com',
