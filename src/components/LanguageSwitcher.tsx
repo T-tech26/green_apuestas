@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { parseCookies, setCookie, destroyCookie } from 'nookies';
+import { parseCookies, setCookie } from 'nookies';
 import { GoogleTranslationConfig } from '@/types/globals';
 
 // The following cookie name is important because it's Google-predefined for the translation engine purpose
@@ -48,50 +48,13 @@ const LanguageSwitcher = () => {
         return null;
     }
 
-
-
-    const deleteCookie = (cookieName: string) => {
-        const cookies = parseCookies(); // Get current cookies
-        if (cookies[cookieName]) { // Check if the cookie exists
-            destroyCookie(null, cookieName, {
-                path: '/',
-                domain: 'greenapuestas.com',
-                sameSite: 'none',
-                secure: true, // Secure cookie for HTTPS
-            });
-
-            destroyCookie(null, cookieName, {
-                path: '/',
-                domain: 'www.greenapuestas.com',
-                sameSite: 'none',
-                secure: true, // Secure cookie for HTTPS
-            });
-        }
-    };
-
-
-    const setLanguageCookie = (lang: string) => {
-        deleteCookie(COOKIE_NAME); // Delete old cookie
-
-        setCookie(null, COOKIE_NAME, '/auto/' + lang, {
-            path: '/',
-            domain: 'greenapuestas.com',
-            sameSite: 'none',
-            secure: true, // Use secure cookies for HTTPS
-        });
-
-        setCookie(null, COOKIE_NAME, '/auto/' + lang, {
-            path: '/',
-            domain: 'www.greenapuestas.com',
-            sameSite: 'none',
-            secure: true, // Use secure cookies for HTTPS
-        });
-    };
-
-
     const switchLanguage = (lang: string) => {
-        deleteCookie(COOKIE_NAME); // Delete old cookie
-        setLanguageCookie(lang);   // Set the new cookie
+        setCookie(null, COOKIE_NAME, '/auto/' + lang, {
+            path: '/',
+            domain: '/',
+            sameSite: 'none',
+            secure: true, // Use secure cookies for HTTPS
+        });
 
         setCurrentLanguage(lang);
 
