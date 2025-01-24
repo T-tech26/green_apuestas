@@ -1,11 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 import HomeHeader from './HomeHeader'
-import EventMenu from './EventMenu'
 import HomeContent from './HomeContent'
 
 const HomeMain = () => {
-
-    const [selectedEvent, setSelectedEvent] = useState<string>('All');
 
     return (
         <main
