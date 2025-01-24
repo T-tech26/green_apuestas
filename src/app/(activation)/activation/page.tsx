@@ -118,12 +118,12 @@ const Activation = () => {
             </Link>
           </header>
 
-          <main className="flex-1 flex flex-col items-center justify-center gap-5">
-            <h1 className='text-color-30 text-lg md:text-3xl text-wrap'>
+          <main>
+            <h1 className='text-color-30 text-lg md:text-3xl text-wrap mb-5'>
               Green apuestas activation pin
             </h1>
 
-            <div className="flex flex-col justify-between item-center gap-10 w-4/5 md:w-[500px]">
+            <div className="flex flex-col justify-between item-center gap-10 w-4/5 md:w-[500px] mx-auto">
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)}>
                   
