@@ -26,7 +26,7 @@ export default function RootLayout({
       
       if(typeof user === 'object') {
         if(typeof user === 'object' && (user as UserData).subscription === false) {
-          redirect('/subscription');
+          redirect('/activation');
         }
         return;
       }

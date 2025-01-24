@@ -45,7 +45,7 @@ const Register = () => {
       }
 
       if((admin.label.length || typeof user === 'object') && !loginUserLoading) {
-          if((user as UserData)?.subscription === false) { redirect('/subscription'); } 
+          if((user as UserData)?.subscription === false) { redirect('/activation'); } 
     
           if((user as UserData)?.subscription === true) { redirect('/'); } 
     

@@ -32,7 +32,7 @@ export default function RootLayout({
             description: 'You are not on subscription, please go and subscribe',
           });
   
-          redirect('/subscription');
+          redirect('/activation');
         } 
         
       }

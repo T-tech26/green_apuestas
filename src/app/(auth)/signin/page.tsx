@@ -37,7 +37,7 @@ const Signin = () => {
         }
         
         if(typeof user === 'object') {
-            if((user as UserData)?.subscription === false) { redirect('/subscription'); return; } 
+            if((user as UserData)?.subscription === false) { redirect('/activation'); return; } 
     
             if((user as UserData)?.subscription === true) { redirect('/'); return; } 
         }
