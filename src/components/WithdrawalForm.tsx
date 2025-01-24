@@ -166,7 +166,7 @@ const WithdrawalForm = ({ step, setStep, method }: WithdrawalFormProps) => {
                         
                         <div className="flex flex-col gap-4">
 
-                            <p className='flex items-center justify-between text-gray-400 text-sm px-4'><span>Minimum withdrawal</span> 100 USD</p>
+                            <p className='flex items-center justify-between text-gray-400 text-sm px-4'>Minimum withdrawal <span translate='no'>100 USD</span></p>
                             <p className='flex items-center justify-between text-gray-400 text-sm px-4'>
                                 <span className='flex-1'>Available withdrawable amount</span> <span translate='no'>{formatAmount((user as UserData).balance.toString())} USD</span>
                             </p>

@@ -161,6 +161,11 @@ export const MobileHomeMenuLinks = [
         name: 'Betslips',
         icon: '/betslip-icon.svg'
     },
+    {
+        route: '/',
+        name: 'Bet history',
+        icon: '/betslip-icon.svg'
+    },
 ]
 
 export const EventMenuLinks = [

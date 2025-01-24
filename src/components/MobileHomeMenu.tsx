@@ -47,15 +47,15 @@ const MobileHomeMenu = ({selectedLink, setSelectedLink}: MobileMenuProps) => {
                     <Link
                         key={link.name}
                         href={link.route}
-                        className={`w-full text-color-30 flex flex-col justify-center items-center py-2 ${
+                        className={`w-full text-color-30 text-xs flex flex-col justify-center items-center py-2 ${
                             selectedLink === link.name
                             ? 'bg-light-gradient-135deg'
                             : ''
-                        } ${link.name === 'Betslips' ? 'border-none' : 'border-r-2 border-color-10'}`}
+                        } ${link.name === 'Bet history' ? 'border-none' : 'border-r-2 border-color-10'}`}
                         onClick={() => setSelectedLink(link.name)}
                     >
                         {link.icon === '0' ? (
-                            <span className='text-color-30 text-base bg-color-10 px-2 rounded-full relative'>
+                            <span className='text-color-30 text-sm bg-color-10 px-[6px] rounded-full relative'>
                                     {openBet !== undefined ? (
                                         <>
                                             <span>1</span>
@@ -66,8 +66,8 @@ const MobileHomeMenu = ({selectedLink, setSelectedLink}: MobileMenuProps) => {
                         ) : (
                             <Image
                                 src={link.icon}
-                                width={20}
-                                height={20}
+                                width={17}
+                                height={17}
                                 alt='league icons'
                             />
                         )}
