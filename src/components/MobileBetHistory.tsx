@@ -52,7 +52,7 @@ const MobileBetHistory = ({ selectedLink, setSelectedLink }: BetsProps) => {
 
     return (
         <div
-            className={`fixed top-0 bottom-0 w-full h-auto bg-color-30 pt-10 cursor-pointer lg:hidden z-50 overflow-y-scroll ${
+            className={`fixed top-0 bottom-0 w-full h-auto bg-color-30 pt-12 cursor-pointer lg:hidden z-50 overflow-y-scroll ${
                 selectedLink === 'Bet history' ? 'block' : 'hidden'
             }`}
         >
