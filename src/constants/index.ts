@@ -153,11 +153,6 @@ export const MobileHomeMenuLinks = [
     },
     {
         route: '/',
-        name: 'Leagues',
-        icon: '/trophy-icon.svg'
-    },
-    {
-        route: '/',
         name: 'Bets',
         icon: '0'
     },

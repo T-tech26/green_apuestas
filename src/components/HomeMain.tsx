@@ -9,16 +9,10 @@ const HomeMain = () => {
 
     return (
         <main
-            className='flex-1 flex flex-col gap-4 px-[15px] lg:px-0 py-[15px]'
+            className='flex-1 flex flex-col gap-4 px-[15px] py-[15px]'
         >
             <HomeHeader />
-            <EventMenu 
-                selectedEvent={selectedEvent} 
-                setSelectedEvent={setSelectedEvent}
-            />
-            <HomeContent 
-                selectedEvent={selectedEvent} 
-            />
+            <HomeContent />
         </main>
     )
 }

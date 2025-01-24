@@ -1,4 +1,3 @@
-import { LeagueProvider } from "./child_context/leagueContext";
 import { UserProvider } from "./child_context/userContext";
 import { ReactNode } from "react";
 import { UserSlipProvider } from "./child_context/userSlipContext";
@@ -8,16 +7,14 @@ import { TransactionProvider } from "./child_context/transactionContext";
 
 export const GlobalProvider = ({ children }: { children: ReactNode }) => {
     return (
-        <LeagueProvider>
-            <UserSlipProvider>
-                <NotificationProvider>
-                    <TransactionProvider>
-                        <UserProvider>
-                            {children}
-                        </UserProvider>
-                    </TransactionProvider>
-                </NotificationProvider>
-            </UserSlipProvider>
-        </LeagueProvider>
+        <UserSlipProvider>
+            <NotificationProvider>
+                <TransactionProvider>
+                    <UserProvider>
+                        {children}
+                    </UserProvider>
+                </TransactionProvider>
+            </NotificationProvider>
+        </UserSlipProvider>
     );
 };

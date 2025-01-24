@@ -5,10 +5,6 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'images.fotmob.com',
-      },
-      {
-        protocol: 'https',
         hostname: 'cloud.appwrite.io',
       },
     ],
