@@ -119,7 +119,7 @@ const Activation = () => {
           </header>
 
           <main className="flex-1 flex flex-col items-center justify-center gap-5">
-            <h1 className='text-color-30 text-base md:text-3xl text-wrap'>
+            <h1 className='text-color-30 text-lg md:text-3xl text-wrap'>
               Green apuestas activation pin
             </h1>
 
@@ -135,7 +135,7 @@ const Activation = () => {
                       render={({ field }) => (
                           <div className='flex flex-col gap-2 w-full'>
                               <FormLabel
-                                  className='text-color-30 text-base lg:text-base font-normal'
+                                  className='text-color-30 text-sm lg:text-base'
                               >
                                   Activation pin
                               </FormLabel>
