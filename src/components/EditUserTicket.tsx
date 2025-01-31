@@ -7,6 +7,7 @@ import { Loader2 } from 'lucide-react'
 import { getGameTickets, updateGameTicket } from '@/lib/actions/userActions'
 import { toast } from '@/hooks/use-toast'
 import { useUserSlipContext } from '@/contexts/child_context/userSlipContext'
+import { useUser } from '@/contexts/child_context/userContext'
 
 
 interface UserWithSlip {
@@ -22,6 +23,8 @@ interface EditUserTicketProps {
 
 
 const EditUserTicket = ({ ticket, setTicket }: EditUserTicketProps) => {
+
+    const { admin } = useUser();
     
     const ticketData = (ticket as UserWithSlip);
 
@@ -179,7 +182,7 @@ const EditUserTicket = ({ ticket, setTicket }: EditUserTicketProps) => {
                             className={`w-[100px] px-3 py-2 text-color-60 text-sm border border-gray-600 rounded-md focus:outline-none focus:border-color-10`}
                             defaultValue={ticketData.slip.stake}
                             onChange={e => ticketData.slip.stake = e.target.value}
-                            disabled
+                            disabled={admin.label[0] === 'admin' ? true : false}
                         />
                     </div>
 

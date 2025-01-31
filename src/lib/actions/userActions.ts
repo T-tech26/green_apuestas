@@ -801,6 +801,7 @@ export const updateGameTicket = async (data: UserGame) => {
             APPWRITE_USER_BETS_COLLECTION_ID!,
             data.$id!,
             {
+                'date': data.date,
                 'totalOdds': data.totalOdds,
                 'stake': data.stake,
                 'payout': data.payout,
