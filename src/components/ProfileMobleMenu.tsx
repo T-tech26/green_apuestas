@@ -55,8 +55,7 @@ const ProfileMobleMenu = () => {
                             width={100}
                             height={100}
                             alt='light version logo'
-                            className='mb-5'
-                            className='w-[100px] h-[50px]'
+                            className='mb-5 w-[100px] h-[50px]'
                         />
                     </Link>
 
