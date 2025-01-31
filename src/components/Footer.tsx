@@ -18,6 +18,7 @@ const Footer = () => {
                         width={100}
                         height={100}
                         alt='light version logo'
+                        className='w-[100px] h-[50px]'
                     />
                 </Link>                  
 

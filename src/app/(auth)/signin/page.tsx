@@ -43,7 +43,8 @@ const Signin = () => {
         }
 
         if(admin.label.length) {
-            if(admin.label.length) { redirect('/dashboard'); }
+            if(admin.label[0] === 'admin') { redirect('/dashboard'); }
+            if(admin.label[0] === 'editor') { redirect('/user-bet-history'); }
         }
     }, [loginUserLoading, user, admin]);
     /* eslint-enable react-hooks/exhaustive-deps */
@@ -108,18 +109,18 @@ const Signin = () => {
 
             const loggedIn = await getLoggedInUser();
 
-        if(isAdmin(loggedIn)) { 
-            const users = await getAllUsers();
-            setAllUsers(users);
-            const adminWithImage = loggedInAdminWithImage(loggedIn);
-            setAdmin(adminWithImage);
-            return;
-        }
+            if(isAdmin(loggedIn)) { 
+                const users = await getAllUsers();
+                setAllUsers(users);
+                const adminWithImage = loggedInAdminWithImage(loggedIn);
+                setAdmin(adminWithImage);
+                return;
+            }
 
-        if(isUserData(loggedIn)) { 
-            const userWithImage = loggedInUserWithImage(loggedIn);
-            setUser(userWithImage);
-        }
+            if(isUserData(loggedIn)) { 
+                const userWithImage = loggedInUserWithImage(loggedIn);
+                setUser(userWithImage);
+            }
 
         } catch (error) {
             console.error("Error signing in ", error);

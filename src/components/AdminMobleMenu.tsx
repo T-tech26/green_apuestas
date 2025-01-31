@@ -8,10 +8,15 @@ import { Button } from './ui/button';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { AdminMainMenuLinks, AdminSubMenuLinks } from '@/constants';
+import { useUser } from '@/contexts/child_context/userContext';
 
 const AdminMobleMenu = () => {
     
     const pathName = usePathname();
+    const { admin } = useUser();
+
+    const active = pathName === '/user-bet-history' || pathName.startsWith(`&{link.route}/`);
+
 
     const handleLogOut = async () => {
         const response = await logOut();
@@ -47,6 +52,7 @@ const AdminMobleMenu = () => {
                             width={100}
                             height={100}
                             alt='light version logo'
+                            className='w-[100px] h-[50px]'
                         />
                     </Link>
 
@@ -58,63 +64,90 @@ const AdminMobleMenu = () => {
                     </div>
                     
                     <div className='w-full flex-1'>
-                        {AdminMainMenuLinks.map((link) => {
+                        {admin.label.length > 0 && admin.label[0] === 'admin' ? (
+                            <div>
+                                {AdminMainMenuLinks.map((link) => {
+        
+                                    const isActive = pathName === link.route || pathName.startsWith(`&{link.route}/`);
+        
+                                    return (
+                                        <SheetClose asChild key={link.name}>
+                                            <Link
+                                                href={link.route}
+                                                className={cn('admin-link', { 'bg-light-gradient-135deg' : isActive })}
+                                            >
+                                                <Image
+                                                    src={link.icon}
+                                                    width={20}
+                                                    height={20}
+                                                    alt='icons'
+                                                    className='cursor-pointer'
+                                                />
+                                                {link.name}
+                                            </Link>
+                                        </SheetClose>
+                                    )
+                                })}
+        
+                                {AdminSubMenuLinks.map((link) => {
+                                
+                                    return (
+                                        <div  key={link.title} className='py-3'>
+                                            <p
+                                                className='text-gray-400 text-sm font-semibold'
+                                            >
+                                                {link.title}
+                                            </p>
+        
+                                            {link.routes.map((route) => {
+        
+                                                const isActive = pathName === route.route || pathName.startsWith(`&{link.route}/`);
+        
+                                                return (
+                                                    <SheetClose asChild key={route.name}>
+                                                        <Link
+                                                            href={route.route}
+                                                            className={cn('admin-link', { 'bg-light-gradient-135deg' : isActive })}
+                                                        >
+                                                            <Image
+                                                                src={route.icon}
+                                                                width={20}
+                                                                height={20}
+                                                                alt='icons'
+                                                                className='cursor-pointer'
+                                                            />
+                                                            {route.name}
+                                                        </Link>
+                                                    </SheetClose>
+                                                )
+                                            })}
+                                        </div>
+                                    )
+                                })}
+                            </div>
+                        ) : (
+                            <div className='py-3'>
+                                <p
+                                    className='text-gray-400 text-sm font-semibold mb-3'
+                                >
+                                    Manage Bets
+                                </p>
 
-                            const isActive = pathName === link.route || pathName.startsWith(`&{link.route}/`);
-
-                            return (
-                                <SheetClose asChild key={link.name}>
-                                    <Link
-                                        href={link.route}
-                                        className={cn('admin-link', { 'bg-light-gradient-135deg' : isActive })}
-                                    >
-                                        <Image
-                                            src={link.icon}
-                                            width={20}
-                                            height={20}
-                                            alt='icons'
-                                            className='cursor-pointer'
-                                        />
-                                        {link.name}
-                                    </Link>
-                                </SheetClose>
-                            )
-                        })}
-
-                        {AdminSubMenuLinks.map((link) => {
-                            return (
-                                <div  key={link.title} className='py-3'>
-                                    <p
-                                        className='text-gray-400 text-sm font-semibold'
-                                    >
-                                        {link.title}
-                                    </p>
-
-                                    {link.routes.map((route) => {
-
-                                        const isActive = pathName === route.route || pathName.startsWith(`&{link.route}/`);
-
-                                        return (
-                                            <SheetClose asChild key={route.name}>
-                                                <Link
-                                                    href={route.route}
-                                                    className={cn('admin-link', { 'bg-light-gradient-135deg' : isActive })}
-                                                >
-                                                    <Image
-                                                        src={route.icon}
-                                                        width={20}
-                                                        height={20}
-                                                        alt='icons'
-                                                        className='cursor-pointer'
-                                                    />
-                                                    {route.name}
-                                                </Link>
-                                            </SheetClose>
-                                        )
-                                    })}
-                                </div>
-                            )
-                        })}
+                                <Link
+                                    href='/user-bet-history'
+                                    className={cn('admin-link', { 'bg-light-gradient-135deg' : active })}
+                                >
+                                    <Image
+                                        src='/betslip-icon.svg'
+                                        width={20}
+                                        height={20}
+                                        alt='menu icons'
+                                        className='cursor-pointer'
+                                    />
+                                    Bet history
+                                </Link> 
+                            </div>
+                        )}
                     </div>
                 
                     <SheetClose asChild>

@@ -66,7 +66,7 @@ const AdminHeader = () => {
                                 onClick={() => setShowNotification(true)}
                             />
 
-                            {adminNotifications.length > 0 && (
+                            {adminNotifications.length > 0 && admin.label[0] === 'admin' && (
                                 <span className='text-color-30 text-xs absolute top-[-5px] right-0 bg-color-10 px-1 rounded-full z-50'>
                                     <span className='absolute top-0 -right-[3px] bg-color-10 rounded-full size-5 -z-50 animate-ping'></span>
                                     {adminNotifications.length}

@@ -7,11 +7,15 @@ import React from 'react'
 import Image from 'next/image';
 import { Button } from './ui/button';
 import { cn } from '@/lib/utils';
+import { useUser } from '@/contexts/child_context/userContext';
 
 const AdminMenu = () => {
   
   
     const pathName = usePathname();
+    const { admin } = useUser();
+
+    const active = pathName === '/user-bet-history' || pathName.startsWith(`&{link.route}/`);
 
     const handleLogOut = async () => {
         const response = await logOut();
@@ -31,65 +35,91 @@ const AdminMenu = () => {
                     width={100}
                     height={100}
                     alt='light version logo'
-                    className='mb-5'
+                    className='mb-5 w-[100px] h-[50px]'
                 />
             </Link>
 
-            {AdminMainMenuLinks.map((link) => {
+            {admin.label.length > 0 && admin.label[0] === 'admin' ? (
+                <div>
+                    {AdminMainMenuLinks.map((link) => {
+        
+                        const isActive = pathName === link.route || pathName.startsWith(`&{link.route}/`);
+        
+                        return (
+                            <Link
+                                key={link.name}
+                                href={link.route}
+                                className={cn('admin-link', { 'bg-light-gradient-135deg' : isActive })}
+                            >
+                                <Image
+                                    src={link.icon}
+                                    width={20}
+                                    height={20}
+                                    alt='menu icons'
+                                    className='cursor-pointer'
+                                />
+                                {link.name}
+                            </Link>
+                        )
+                    })}
+        
+                    {AdminSubMenuLinks.map((link) => {
+                        return (
+                            <div  key={link.title} className='py-3'>
+                                <p
+                                    className='text-gray-400 text-sm font-semibold'
+                                >
+                                    {link.title}
+                                </p>
+        
+                                {link.routes.map((route) => {
+        
+                                    const isActive = pathName === route.route || pathName.startsWith(`&{link.route}/`);
+        
+                                    return (
+                                        <Link
+                                            key={route.name}
+                                            href={route.route}
+                                            className={cn('admin-link', { 'bg-light-gradient-135deg' : isActive })}
+                                        >
+                                            <Image
+                                                src={route.icon}
+                                                width={20}
+                                                height={20}
+                                                alt='menu icons'
+                                                className='cursor-pointer'
+                                            />
+                                            {route.name}
+                                        </Link> 
+                                    )
+                                })}
+                            </div>
+                        )
+                    })}
+                </div>
+            ) : (
+                <div className='py-3'>
+                    <p
+                        className='text-gray-400 text-sm font-semibold mb-3'
+                    >
+                        Manage Bets
+                    </p>
 
-                const isActive = pathName === link.route || pathName.startsWith(`&{link.route}/`);
-
-                return (
                     <Link
-                        key={link.name}
-                        href={link.route}
-                        className={cn('admin-link', { 'bg-light-gradient-135deg' : isActive })}
+                        href='/user-bet-history'
+                        className={cn('admin-link', { 'bg-light-gradient-135deg' : active })}
                     >
                         <Image
-                            src={link.icon}
+                            src='/betslip-icon.svg'
                             width={20}
                             height={20}
                             alt='menu icons'
                             className='cursor-pointer'
                         />
-                        {link.name}
-                    </Link>
-                )
-            })}
-
-            {AdminSubMenuLinks.map((link) => {
-                return (
-                    <div  key={link.title} className='py-3'>
-                        <p
-                            className='text-gray-400 text-sm font-semibold'
-                        >
-                            {link.title}
-                        </p>
-
-                        {link.routes.map((route) => {
-
-                            const isActive = pathName === route.route || pathName.startsWith(`&{link.route}/`);
-
-                            return (
-                                <Link
-                                    key={route.name}
-                                    href={route.route}
-                                    className={cn('admin-link', { 'bg-light-gradient-135deg' : isActive })}
-                                >
-                                    <Image
-                                        src={route.icon}
-                                        width={20}
-                                        height={20}
-                                        alt='menu icons'
-                                        className='cursor-pointer'
-                                    />
-                                    {route.name}
-                                </Link> 
-                            )
-                        })}
-                    </div>
-                )
-            })}
+                        Bet history
+                    </Link> 
+                </div>
+            )}
 
             <div className='flex-1'>
             </div>

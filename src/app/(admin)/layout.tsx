@@ -3,7 +3,7 @@ import AdminHeader from "@/components/AdminHeader";
 import AdminMenu from "@/components/AdminMenu";
 import { useUser } from "@/contexts/child_context/userContext";
 import { Loader2 } from "lucide-react";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 export default function RootLayout({
@@ -14,6 +14,7 @@ export default function RootLayout({
 
 
     const { user, allUsers, admin, loginUserLoading, loginUser } = useUser();
+    const router = useRouter();
 
 
     /* eslint-disable react-hooks/exhaustive-deps */
@@ -22,9 +23,13 @@ export default function RootLayout({
         loginUser();
       }
 
-        if(typeof user === 'object' && loginUserLoading === false) { redirect('/'); }
+      if(typeof user === 'object' && loginUserLoading === false) { redirect('/'); }
 
-        if(!admin.label.length && typeof user !== 'object' && loginUserLoading === false) { redirect('/'); }
+      if(admin.label.length) {
+        if(admin.label[0] === 'editor') { router.push('/user-bet-history'); }
+      }
+
+      if(!admin.label.length && typeof user !== 'object' && loginUserLoading === false) { redirect('/'); }
     }, [loginUserLoading, user, admin]);
     /* eslint-enable react-hooks/exhaustive-deps */
 

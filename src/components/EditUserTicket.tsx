@@ -78,6 +78,17 @@ const EditUserTicket = ({ ticket, setTicket }: EditUserTicketProps) => {
 
 
                 <div className='flex flex-col gap-2'>
+                    <div className='flex items-center justify-between'>
+                        <p>Ticket date</p>
+                        <Input 
+                            id={ticketData.slip.date}
+                            type='text'
+                            className={`w-[160px] px-3 py-2 text-color-60 text-sm border border-gray-600 rounded-md focus:outline-none focus:border-color-10`}
+                            defaultValue={ticketData.slip.date}
+                            onChange={e => ticketData.slip.date = e.target.value}
+                        />
+                    </div>
+
                     {ticketData.slip.games.map((ticket) => {
                         return (
                             <div 
@@ -130,7 +141,7 @@ const EditUserTicket = ({ ticket, setTicket }: EditUserTicketProps) => {
                                     <Input 
                                         id={ticket.odd}
                                         type='text'
-                                        className={`w-[50px] px-3 py-2 text-color-60 text-sm border border-gray-600 rounded-md focus:outline-none focus:border-color-10`}
+                                        className={`w-[80px] px-3 py-2 text-color-60 text-sm border border-gray-600 rounded-md focus:outline-none focus:border-color-10`}
                                         defaultValue={ticket.odd}
                                         onChange={e => ticket.odd = e.target.value}
                                     />
@@ -168,6 +179,7 @@ const EditUserTicket = ({ ticket, setTicket }: EditUserTicketProps) => {
                             className={`w-[100px] px-3 py-2 text-color-60 text-sm border border-gray-600 rounded-md focus:outline-none focus:border-color-10`}
                             defaultValue={ticketData.slip.stake}
                             onChange={e => ticketData.slip.stake = e.target.value}
+                            disabled
                         />
                     </div>
 

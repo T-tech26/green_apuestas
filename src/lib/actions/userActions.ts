@@ -149,7 +149,7 @@ export const getLoggedInUser = async (): Promise<UserDataWithImage | AdminDataWi
         const loggedInUser = await account.get();  // Get the logged-in user
 
 
-        if(loggedInUser && (loggedInUser as LoggedInUser)?.labels[0] === 'admin') {
+        if(loggedInUser && ((loggedInUser as LoggedInUser)?.labels[0] === 'admin' || (loggedInUser as LoggedInUser)?.labels[0] === 'editor')) {
 
             const adminProfileImg = await database.listDocuments(
                 APPWRITE_DATABASE_ID!,

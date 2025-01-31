@@ -194,7 +194,9 @@ const UserBetHistory = () => {
                                             </p>
 
                                             <p className='flex flex-col justify-between text-color-30 text-xs'>
-                                                <span>won</span>
+                                                {slip.slip.showBet === true && (
+                                                    <span>won</span>
+                                                )}
                                                 <span>{slip.slip.date}</span>
                                             </p>
                                         </div>
