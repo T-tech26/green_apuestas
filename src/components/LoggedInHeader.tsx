@@ -85,7 +85,7 @@ const LoggedInHeader = () => {
                         )}
 
                         <div>
-                            <p className='text-color-30 text-sm'>{(user as UserData).firstname} {(user as UserData).lastname}</p>
+                            <p className='text-color-30 text-sm' translate='no'>{(user as UserData).firstname} {(user as UserData).lastname}</p>
                             <p className='text-color-30 text-xs' translate='no'>{formatAmount((user as UserData).balance)} USD</p>
                         </div>
 
@@ -130,7 +130,7 @@ const LoggedInHeader = () => {
                                         )}
 
                                         <div>
-                                            <p className='text-color-30 text-sm'>{(user as UserData).firstname} {(user as UserData).lastname}</p>
+                                            <p className='text-color-30 text-sm' translate='no'>{(user as UserData).firstname} {(user as UserData).lastname}</p>
                                         </div>
                                     </div>
 

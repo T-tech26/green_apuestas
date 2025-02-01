@@ -76,7 +76,7 @@ const Contact = () => {
         <div
             className='w-full h-full flex flex-co lg:justify-between lg:flex-row py-16 px-[29px] lg:px-[68px] xl:px-[160px] bg-dark-gradient-180deg' 
         >
-            <div className='md:w-[65%] lg:w-1/2 md:mx-auto lg:mx-0'>
+            <div className='md:w-[65%] lg:w-1/2 md:mx-auto lg:mx-0 w-full'>
             <div className="flex flex-col justify-center gap-10 mx-auto">
                 <p className='text-color-60'></p>
 

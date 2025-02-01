@@ -1,3 +1,10 @@
+declare global {
+  interface Window {
+    google: any; // The google object (used for Google Translate API)
+    googleTranslateElementInit: () => void; // The callback function for Google Translate initialization
+  }
+}
+
 export interface FormButtonProps {
   loading: boolean,
   text: string

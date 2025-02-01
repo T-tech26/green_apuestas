@@ -67,7 +67,7 @@ const Bets = () => {
             }`}
             onClick={() => setSelectedButton('Betslip')}
           >
-            Betslip
+            Betslips
           </Button>
 
           <Button

@@ -15,7 +15,7 @@ interface ContactInputProps {
 const ContactForm = ({ control }: ContactInputProps) => {
     return (
         <>
-            <div className="flex flex-col gap-3 md:gap-3 md:flex-row w-full">
+            <div className="flex flex-col gap-3 md:flex-row w-full">
                 <FormField
                     control={control}
                     name='firstname'
@@ -63,7 +63,7 @@ const ContactForm = ({ control }: ContactInputProps) => {
                 />
             </div>
 
-            <div className="flex flex-col gap-3 md:gap-3 md:flex-row w-full">
+            <div className="flex flex-col gap-3 md:flex-row w-full">
                 <FormField
                     control={control}
                     name='email'

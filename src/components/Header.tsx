@@ -7,6 +7,7 @@ import LoggedInHeader from './LoggedInHeader';
 import { useUser } from '@/contexts/child_context/userContext';
 import Image from 'next/image';
 import TopWinners from './TopWinners';
+import Translator from './Translator';
 
 
 
@@ -23,8 +24,10 @@ const Header = () => {
                 <LoggedInHeader />
             ) : (
                 <div className="header">
-                    <div className="md:hidden flex items-center justify-between">
+                    <div className="flex items-center justify-between">
                         <TopWinners />
+
+                        <Translator />
                     </div>
 
                     <div className="flex justify-between items-center">

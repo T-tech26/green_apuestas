@@ -21,6 +21,18 @@ body {
 }
 
 
+.skiptranslate span, 
+.skiptranslate span a, 
+.skiptranslate span a img {
+  display: none;
+}
+
+
+.skiptranslate iframe {
+  display: none;
+}
+
+
 ::-webkit-scrollbar {
   width: 10px;
 }
@@ -126,19 +138,19 @@ body {
   }
 
   .loginbtn {
-    @apply px-4 py-1 bg-transparent border border-color-30 rounded-full flex justify-center items-center text-color-30 text-sm hover:bg-light-gradient-135deg cursor-pointer;
+    @apply px-4 py-1 bg-transparent border border-color-30 rounded-full flex justify-center items-center text-color-30 text-xs hover:bg-light-gradient-135deg cursor-pointer;
   }
 
   .registerbtn {
-    @apply px-4 py-1 bg-light-gradient-135deg border border-color-30 rounded-full flex justify-center items-center text-color-30 text-sm cursor-pointer;
+    @apply px-4 py-1 bg-light-gradient-135deg border border-color-30 rounded-full flex justify-center items-center text-color-30 text-xs cursor-pointer;
   }
 
   .activeMenu {
-    @apply text-color-30 text-base px-5 py-2 border-b-color-10 border-b-4 rounded-full;
+    @apply text-color-30 text-sm px-5 py-2 border-b-color-10 border-b-4 rounded-full;
   }
 
   .menu {
-    @apply text-color-30 text-base px-5 py-2;
+    @apply text-color-30 text-sm px-5 py-2;
   }
 
   .mobileNav {
