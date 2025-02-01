@@ -1,6 +1,8 @@
 declare global {
   interface Window {
+    /* eslint-disable @typescript-eslint/no-explicit-any */
     google: any; // The google object (used for Google Translate API)
+    /* eslint-enable @typescript-eslint/no-explicit-any */
     googleTranslateElementInit: () => void; // The callback function for Google Translate initialization
   }
 }
