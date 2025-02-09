@@ -9,7 +9,7 @@ import { register } from '@/lib/actions/userActions';
 import { authFormSchema } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { redirect, useSearchParams } from 'next/navigation';
@@ -24,9 +24,10 @@ import { FormControl, FormField, FormLabel, FormMessage } from '@/components/ui/
 import { countries } from '@/lib/countries';
 import { useUser } from '@/contexts/child_context/userContext';
 import { useToast } from '@/hooks/use-toast';
+import { Loader2 } from 'lucide-react';
 
 
-const Register = () => {
+const Page = () => {
 
   const formSchema = authFormSchema;
 
@@ -319,6 +320,24 @@ const Register = () => {
       <LiveChat />
     </>
   )
+}
+
+
+const Loading = () => {
+  return (
+      <div className="fixed top-0 bottom-0 right-0 left-0 w-full h-full bg-dark-gradient-135deg flex justify-center items-center">
+        <Loader2 size={60} className="animate-spin text-color-30" />
+      </div>
+  )
+}
+
+
+const Register = () => {
+  return (
+    <Suspense fallback={<Loading />}>
+      <Page />
+    </Suspense>
+  );
 }
 
 export default Register
