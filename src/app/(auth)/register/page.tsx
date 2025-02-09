@@ -12,7 +12,7 @@ import Link from 'next/link';
 import React, { useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { redirect } from 'next/navigation';
+import { redirect, useSearchParams } from 'next/navigation';
 import {
   Select,
   SelectContent,
@@ -24,13 +24,16 @@ import { FormControl, FormField, FormLabel, FormMessage } from '@/components/ui/
 import { countries } from '@/lib/countries';
 import { useUser } from '@/contexts/child_context/userContext';
 import { useToast } from '@/hooks/use-toast';
-import { UserData } from '@/types/globals';
 
 
 const Register = () => {
 
   const formSchema = authFormSchema;
 
+  const params = useSearchParams();
+
+  const isSubscribed = params.get('subscription');
+  
   const [isLoading, setIsLoading] = useState(false);
   const [step, setStep] = useState<number>(1);
 
@@ -40,17 +43,23 @@ const Register = () => {
 
   /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
-      if(!admin.label.length && typeof user !== 'object') {
-          loginUser();
-      }
+    if(isSubscribed === null) { 
+      toast({
+        description: 'Please subscribe to create an account.'
+      });
 
-      if((admin.label.length || typeof user === 'object') && !loginUserLoading) {
-          if((user as UserData)?.subscription === false) { redirect('/activation'); } 
-    
-          if((user as UserData)?.subscription === true) { redirect('/'); } 
-    
-          if(admin.label.length) { redirect('/dashboard') }
-      }
+      setTimeout(() => {
+        redirect('/subscription'); 
+      }, 2000);
+    }
+
+    if(!admin.label.length && typeof user !== 'object') {
+        loginUser();
+    }
+
+    if(typeof user === 'object' && !loginUserLoading) { redirect('/'); } 
+
+    if(admin.label.length && !loginUserLoading) { redirect('/dashboard') }
   }, [loginUserLoading, user, admin]);
   /* eslint-enable react-hooks/exhaustive-deps */
 

@@ -9,7 +9,6 @@ import { useUser } from '@/contexts/child_context/userContext'
 import { useToast } from '@/hooks/use-toast'
 import { getAllUsers, getLoggedInUser, sendPasswordRecoveryEmail, signin } from '@/lib/actions/userActions'
 import { isAdmin, isUserData, loggedInAdminWithImage, loggedInUserWithImage } from '@/lib/utils'
-import { UserData } from '@/types/globals'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
@@ -36,11 +35,7 @@ const Signin = () => {
             return;
         }
         
-        if(typeof user === 'object') {
-            if((user as UserData)?.subscription === false) { redirect('/activation'); return; } 
-    
-            if((user as UserData)?.subscription === true) { redirect('/'); return; } 
-        }
+        if(typeof user === 'object' && !loginUserLoading) { redirect('/'); }
 
         if(admin.label.length) {
             if(admin.label[0] === 'admin') { redirect('/dashboard'); }

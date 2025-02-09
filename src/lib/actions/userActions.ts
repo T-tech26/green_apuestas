@@ -300,16 +300,8 @@ export const activateSubscription = async (userId: string, pin: string, type: st
 
             return parseStringify(updateAllowVerification);
         }
-
-
-        const updateSubscription = await database.updateDocument(
-            APPWRITE_DATABASE_ID!,
-            APPWRITE_USERS_COLLECTION_ID!,
-            userId,
-            { "subscription": true }
-        )
         
-        return parseStringify(updateSubscription);
+        return 'success';
     } catch (error) {
         console.error('Error enabling user subscription ', error);
         /* eslint-disable @typescript-eslint/no-explicit-any */

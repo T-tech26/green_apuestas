@@ -20,21 +20,12 @@ export default function RootLayout({
 
     /* eslint-disable react-hooks/exhaustive-deps */
     useEffect(() => {
-      if(!admin.label.length || typeof user !== 'object') {
+      if(!admin.label.length && typeof user !== 'object') {
         loginUser();
       }
 
-      if(typeof user === 'object' && !loginUserLoading) {
-  
-        if((user as UserData)?.subscription === false) { 
-  
-          toast({
-            description: 'You are not on subscription, please go and subscribe',
-          });
-  
-          redirect('/activation');
-        } 
-        
+      if(!admin.label.length && typeof user !== 'object' && !loginUserLoading) {
+        redirect('/subscription');
       }
 
       if(admin.label.length && !loginUserLoading) { redirect('/dashboard') }

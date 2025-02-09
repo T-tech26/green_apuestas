@@ -17,7 +17,7 @@ const TopWinners = () => {
 
     return (
         <div className="flex items-center gap-2 flex-1">
-            <h3 className="font-medium text-sm text-color-30 border-r tracking-wide pr-2 italic text-wrap w-14 md:w-auto" translate='no'>
+            <h3 className="font-medium text-sm text-color-30 border-r tracking-wide pr-2 italic text-wrap" translate='no'>
                 Top winners
             </h3>
 

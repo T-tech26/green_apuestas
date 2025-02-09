@@ -111,7 +111,7 @@ const User = ({ user, setUser }: User) => {
                     <div className='w-full'>
                         <h3 className='text-color-30 text-base mb-2'>Subscription</h3>
                         <p className='text-color-30 text-sm px-3 py-2 border border-color-10 rounded-md'>
-                            {(user as UserData).subscription === true ? 'User subscribed' : 'User not subscribed'}
+                            User not subscribed
                         </p>
                     </div>
                 </div>

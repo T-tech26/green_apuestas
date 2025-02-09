@@ -23,15 +23,7 @@ export default function RootLayout({
         loginUser();
       }
 
-      
-      if(typeof user === 'object') {
-        if(typeof user === 'object' && (user as UserData).subscription === false) {
-          redirect('/activation');
-        }
-        return;
-      }
-
-      if(typeof user !== 'object' && !loginUserLoading) { redirect('/'); }
+      if(typeof user !== 'object' && !loginUserLoading) { redirect('/subscription'); }
 
       if(admin.label.length) { redirect('/dashboard'); }
     }, [loginUserLoading, user, admin]);

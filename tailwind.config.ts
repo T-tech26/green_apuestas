@@ -18,6 +18,8 @@ const config: Config = {
 
   			'dark-gradient-135deg': 'linear-gradient(135deg, #281A3A 0%, #4E5275 100%)',
   			'light-gradient-135deg': 'linear-gradient(135deg, #1089FF 0%, #A2CDF6 100%)',
+
+			'subscription-bg': `url('/subscription_img.jpg')`,
   		},
   		colors: {
   			background: 'var(--background)',

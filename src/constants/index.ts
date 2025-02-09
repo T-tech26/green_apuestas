@@ -168,28 +168,6 @@ export const MobileHomeMenuLinks = [
     },
 ]
 
-export const EventMenuLinks = [
-    {
-       link: '/',
-       name: 'All' 
-    },
-    {
-       link: '/',
-       name: 'Live' 
-    },
-    {
-       link: '/',
-       name: 'Today' 
-    },
-    {
-       link: '/',
-       name: 'Tomorrow' 
-    },
-    {
-        link: '/',
-        name: 'Upcoming'
-    }
-]
 
 export const ProfileMenuLinks = [
     {

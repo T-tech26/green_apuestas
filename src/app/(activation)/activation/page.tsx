@@ -15,7 +15,6 @@ import { useUser } from '@/contexts/child_context/userContext'
 import { UserData } from '@/types/globals'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Loader2 } from 'lucide-react'
 
 
 const Activation = () => {
@@ -25,7 +24,7 @@ const Activation = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showHelpMessage, setShowHelpMessage] = useState(false);
 
-  const { admin, user, setUser, loginUser, loginUserLoading } = useUser();
+  const { admin, user, loginUser, loginUserLoading } = useUser();
 
   const { toast } = useToast();
 
@@ -33,20 +32,14 @@ const Activation = () => {
   /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
       if(!admin.label.length && typeof user !== 'object') {
-          loginUser();
+        loginUser();
       }
 
       if((admin.label.length || typeof user === 'object') && !loginUserLoading) {
-          if((user as UserData)?.subscription === true) { router.push('/'); } 
+          if(typeof user === 'object') { router.push('/'); } 
     
           if(admin.label.length) { router.push('/dashboard') }
       }
-
-
-      if (typeof user !== 'object' && !loginUserLoading && !admin.label.length) {
-        router.push('/signin'); 
-      }
-      
   }, [loginUserLoading, user]);
   /* eslint-enable react-hooks/exhaustive-deps */
 
@@ -70,22 +63,18 @@ const Activation = () => {
 
   // 2. Define a submit handler.
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-
-    if(user) {
-
-      const id = (user as UserData)?.$id;
-      
       setIsLoading(true)
       try {
-          const response = await activateSubscription(id, values.activation_pin, '');
+          const response = await activateSubscription('', values.activation_pin, '');
 
-          if(typeof response === 'string') {
+          if(typeof response === 'string' && response !== 'success') {
             toast({
               description: response
             })
+          } else {
+            router.push('/register?subscription=true');
           }
         
-          if(typeof response === 'object' && typeof response !== null) setUser(response);
           
       } catch (error) {
         console.error("Error submitting activation code ", error);
@@ -93,97 +82,89 @@ const Activation = () => {
         form.reset();
         setIsLoading(false)
       }
-    }
   }
 
 
 
   return (
     <section className='w-full h-screen bg-dark-gradient-135deg flex flex-col'>
-      
-      {typeof user !== 'object' ? (
-        <div className="fixed top-0 bottom-0 right-0 left-0 w-full h-full bg-dark-gradient-135deg flex justify-center items-center">
-          <Loader2 size={60} className="animate-spin text-color-30" />
-        </div>
-      ) : (
-        <>
-          <header className="w-full h-auto px-[15px] md:px-20 pt-7">
-            <Link href='/'>
-              <Image
-                  src='/logo-light.png'
-                  width={100}
-                  height={100}
-                  alt='light version logo'
-              />
-            </Link>
-          </header>
+      <header className="w-full h-auto px-[15px] md:px-20 pt-7">
+        <Link href='/'>
+          <Image
+              src='/logo-light.png'
+              width={100}
+              height={100}
+              alt='light version logo'
+              className='w-[100px] h-[50px]'
+          />
+        </Link>
+      </header>
 
-          <main className="flex-1 flex flex-col items-center justify-center gap-5">
-            <h1 className='text-color-30 text-lg md:text-3xl text-wrap'>
-              Green apuestas activation pin
-            </h1>
+      <main className="flex-1 flex flex-col items-center justify-center gap-5">
+        <h1 className='text-color-30 text-lg md:text-3xl text-wrap'>
+          Green apuestas activation pin
+        </h1>
 
-            <div className="flex flex-col justify-between item-center gap-10 w-4/5 md:w-[500px]">
-              <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)}>
-                  
-                  <div className="h-auto flex flex-col justify-center item-center gap-3">
+        <div className="flex flex-col justify-between item-center gap-10 w-4/5 md:w-[500px]">
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)}>
+              
+              <div className="h-auto flex flex-col justify-center item-center gap-3">
 
-                    <FormField
-                      control={form.control}
-                      name='activation_pin'
-                      render={({ field }) => (
-                          <div className='flex flex-col gap-2 w-full'>
-                              <FormLabel
-                                  className='text-color-30 text-sm lg:text-base'
-                              >
-                                  Activation pin
-                              </FormLabel>
+                <FormField
+                  control={form.control}
+                  name='activation_pin'
+                  render={({ field }) => (
+                      <div className='flex flex-col gap-2 w-full'>
+                          <FormLabel
+                              className='text-color-30 text-sm lg:text-base'
+                          >
+                              Activation pin
+                          </FormLabel>
 
-                              <FormControl>
-                                  <Input
-                                    id='activation_pin'
-                                    placeholder='Enter your pin'
-                                    type='text'
-                                    {...field}
-                                    className='input'
-                                    onFocus={() => form.trigger('activation_pin')}
-                                  />
-                              </FormControl>
-                              <FormMessage />
-                          </div>
-                      )}
-                    />
+                          <FormControl>
+                              <Input
+                                id='activation_pin'
+                                placeholder='Enter your pin'
+                                type='text'
+                                {...field}
+                                className='input'
+                                onFocus={() => form.trigger('activation_pin')}
+                              />
+                          </FormControl>
+                          <FormMessage />
+                      </div>
+                  )}
+                />
 
-                    <FormButton loading={isLoading} text='Submit' />
+                <FormButton loading={isLoading} text='Submit' />
 
-                  </div>
-                </form>
-              </Form>
-
-              <div className='flex flex-col gap-4'>
-                <p className='text-color-30'>
-                  Don&apos;t know what to do click &nbsp; 
-                  <span 
-                    className='text-color-10 underline cursor-pointer'
-                    onClick={() => showHelpMessage ? setShowHelpMessage(false) : setShowHelpMessage(true)} 
-                  >here</span>
-                </p>
-
-                <p className='text-color-30'>
-                    {showHelpMessage &&
-                      'Contact our live chat to get instructions on how to get your Subscription pin.'
-                    }
-                </p>
               </div>
-            </div>
+            </form>
+          </Form>
 
-          </main>
+          <div className='flex flex-col gap-4'>
+            <p className='text-color-30'>Already have an acccount? <Link href='/signin' className='text-color-10 underline cursor-pointer'>Signin</Link></p>
 
-          <LiveChat />
-        </>
-      )}
+            <p className='text-color-30'>
+              Don&apos;t know what to do click &nbsp; 
+              <span 
+                className='text-color-10 underline cursor-pointer'
+                onClick={() => showHelpMessage ? setShowHelpMessage(false) : setShowHelpMessage(true)} 
+              >here</span>
+            </p>
 
+            <p className='text-color-30'>
+                {showHelpMessage &&
+                  'Contact our live chat to get instructions on how to get your Subscription pin.'
+                }
+            </p>
+          </div>
+        </div>
+
+      </main>
+
+      <LiveChat />
     </section>
   )
 }

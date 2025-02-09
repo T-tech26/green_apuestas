@@ -29,7 +29,7 @@ export default function RootLayout({
         if(admin.label[0] === 'editor') { router.push('/user-bet-history'); }
       }
 
-      if(!admin.label.length && typeof user !== 'object' && loginUserLoading === false) { redirect('/'); }
+      if(!admin.label.length && typeof user !== 'object' && loginUserLoading === false) { redirect('/subscription'); }
     }, [loginUserLoading, user, admin]);
     /* eslint-enable react-hooks/exhaustive-deps */
 
