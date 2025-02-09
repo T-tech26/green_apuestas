@@ -63,12 +63,6 @@ const AllowVerification = ({ id, type, setCheckBilling }: AllowVerificationProps
             <div 
                 className='relative w-[95%] md:w-4/5 md:max-w-[700px] bg-color-30 rounded-md flex flex-col gap-5 justify-between p-5'
             >
-                {type === 'verification' && (
-                    <p className='text-color-60 text-sm'>
-                        Contact support to get pin for <span className='font-semibold'>accout verification.</span>
-                    </p>
-                )}
-
                 {type === '' && !(user as UserData).chargesPaid && (
                     <p className='text-color-60 text-sm'>
                         <span className='font-semibold'>Withdrawal charges pin.</span>

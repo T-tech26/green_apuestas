@@ -5,7 +5,6 @@ import { Button } from '@/components/ui/button'
 import { useUser } from '@/contexts/child_context/userContext'
 import { UserData, VerificationDocument } from '@/types/globals'
 import DocumentVerificationForm from '@/components/DocumentVerificationForm'
-import AllowVerification from '@/components/AllowVerification'
 import { useUserSlipContext } from '@/contexts/child_context/userSlipContext'
 import LiveChat from '@/components/LiveChat'
 
@@ -158,11 +157,6 @@ const IdentityVerification = () => {
                     <DocumentVerificationForm type='address' />
                 )}
             </div>
-
-            {(user as UserData).allowVerification === false && (
-                <AllowVerification id={(user as UserData).$id} type='verification' />
-            )}
-
             <LiveChat />
         </main>
     )

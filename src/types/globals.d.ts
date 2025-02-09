@@ -56,7 +56,6 @@ export interface UserData {
   identity_verified: boolean,
   balance: string,
   userId: string,
-  allowVerification: boolean,
   chargesPaid: boolean,
   premiumCard: boolean,
   profileImg: string | null,
