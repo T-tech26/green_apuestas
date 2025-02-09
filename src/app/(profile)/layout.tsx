@@ -2,7 +2,6 @@
 import ProfileHeader from "@/components/ProfileHeader";
 import ProfileMenu from "@/components/ProfileMenu";
 import { useUser } from "@/contexts/child_context/userContext";
-import { UserData } from "@/types/globals";
 import { Loader2 } from "lucide-react";
 import { redirect } from "next/navigation";
 import { useEffect } from "react";

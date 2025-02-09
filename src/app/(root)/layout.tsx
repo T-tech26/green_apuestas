@@ -4,8 +4,6 @@ import Footer from "@/components/Footer";
 import { Loader2 } from "lucide-react";
 import { useEffect } from "react";
 import { useUser } from "@/contexts/child_context/userContext";
-import { UserData } from "@/types/globals";
-import { toast } from "@/hooks/use-toast";
 import { redirect } from "next/navigation";
 
 export default function RootLayout({

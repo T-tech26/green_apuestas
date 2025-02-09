@@ -12,7 +12,6 @@ import { activateSubscription } from '@/lib/actions/userActions'
 import { useRouter } from 'next/navigation'
 import { useToast } from '@/hooks/use-toast'
 import { useUser } from '@/contexts/child_context/userContext'
-import { UserData } from '@/types/globals'
 import Image from 'next/image'
 import Link from 'next/link'
 
