@@ -45,7 +45,7 @@ const Translator = () => {
           // Trigger a page reload whenever the language changes
           setTimeout(() => {
             window.location.reload();
-          }, 1000);
+          }, 1500);
         });
       }
     };

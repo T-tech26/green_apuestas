@@ -35,7 +35,7 @@ const Subscritpion = () => {
                 <header className="w-full h-auto px-[15px] md:px-20 pt-7 flex justify-between items-center">
                     <Link href='/'>
                         <Image
-                            src='/logo-dark.png'
+                            src='/logo-light.png'
                             width={100}
                             height={100}
                             alt='light version logo'
