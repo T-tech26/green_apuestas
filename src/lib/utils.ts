@@ -159,18 +159,15 @@ export const formatAmount = (amount: string) => {
 
     if(amount !== undefined && amount.includes('.')) {
         // Split the amount into integer and decimal parts
-        let [integerPart, decimalPart] = amount.split('.') 
-    
-        // Handle cases where there's no decimal part
-        let formattedInteger = integerPart;
+        let [integerPart, decimalPart] = amount.split('.');
         
         // Handle integer part formatting
-        if (formattedInteger.length === 4) {
-            formattedInteger = formattedInteger[0] + ',' + formattedInteger.slice(1);
-        } else if (formattedInteger.length === 5) {
-            formattedInteger = formattedInteger.slice(0, 2) + ',' + formattedInteger.slice(2);
-        } else if (formattedInteger.length >= 6) {
-            formattedInteger = formattedInteger.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        if (integerPart.length === 4) {
+           integerPart = integerPart[0] + ',' + integerPart.slice(1);
+        } else if (integerPart.length === 5) {
+            integerPart = integerPart.slice(0, 2) + ',' + integerPart.slice(2);
+        } else if (integerPart.length >= 6) {
+            integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
         }
 
         if(decimalPart.length === 0) {
@@ -179,7 +176,7 @@ export const formatAmount = (amount: string) => {
           decimalPart += '0';
         }
 
-        return `${formattedInteger}.${decimalPart}`;
+        return `${integerPart}.${decimalPart}`;
     }
 
     if (amount !== undefined) {
