@@ -159,7 +159,7 @@ export const formatAmount = (amount: string) => {
 
     if(amount !== undefined && amount.includes('.')) {
         // Split the amount into integer and decimal parts
-        const [integerPart, decimalPart] = amount.split('.') 
+        let [integerPart, decimalPart] = amount.split('.') 
     
         // Handle cases where there's no decimal part
         let formattedInteger = integerPart;
