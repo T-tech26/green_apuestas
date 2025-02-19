@@ -195,6 +195,11 @@ export const ProfileMenuLinks = [
         icon: '/betslip-icon.svg',
         name: 'Bet history'
     },
+    {
+        route: '/accountverification',
+        icon: '/kyc-verification-icon.svg',
+        name: 'Account verification'
+    },
 ]
 
 export const AdminMainMenuLinks = [
