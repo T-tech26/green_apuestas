@@ -171,7 +171,7 @@ export const formatAmount = (amount: string) => {
         }
 
         if(decimalPart.length === 0) {
-          decimalPart == '00';
+          decimalPart = '00';
         } else if(decimalPart.length === 1) {
           decimalPart += '0';
         }
