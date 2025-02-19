@@ -172,14 +172,14 @@ export const formatAmount = (amount: string) => {
         } else if (formattedInteger.length >= 6) {
             formattedInteger = formattedInteger.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
         }
-    
-        // If there's a decimal part, return the integer part with decimal formatting
-        if (decimalPart !== undefined) {
-            return formattedInteger + '.' + decimalPart;
+
+        if(decimalPart.length === 0) {
+          decimalPart == '00';
+        } else if(decimalPart.length === 1) {
+          decimalPart += '0';
         }
-    
-        // If there's no decimal part, return the formatted integer part only
-        return formattedInteger;
+
+        return formattedInteger + '.' + decimalPart;
     }
     
     
@@ -191,7 +191,7 @@ export const formatAmount = (amount: string) => {
         amount = amount.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     }
 
-    return amount;
+    return amount + '.00';
 };
 
 
