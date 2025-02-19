@@ -196,7 +196,7 @@ export const ProfileMenuLinks = [
         name: 'Bet history'
     },
     {
-        route: '/accountverification',
+        route: '/identity-verification',
         icon: '/kyc-verification-icon.svg',
         name: 'Account verification'
     },
