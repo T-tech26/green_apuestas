@@ -179,19 +179,23 @@ export const formatAmount = (amount: string) => {
           decimalPart += '0';
         }
 
-        return formattedInteger + '.' + decimalPart;
-    }
-    
-    
-    if (amount !== undefined && amount.length === 4) {
-        amount = amount[0] + ',' + amount.slice(1);
-    } else if (amount !== undefined && amount.length === 5) {
-        amount = amount.slice(0, 2) + ',' + amount.slice(2);
-    } else if (amount !== undefined && amount.length >= 6) {
-        amount = amount.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        return `${formattedInteger}.${decimalPart}`;
     }
 
-    return amount + '.00';
+    if (amount !== undefined) {
+        let formattedAmount = amount;
+        if (formattedAmount.length === 4) {
+            formattedAmount = formattedAmount[0] + ',' + formattedAmount.slice(1);
+        } else if (formattedAmount.length === 5) {
+            formattedAmount = formattedAmount.slice(0, 2) + ',' + formattedAmount.slice(2);
+        } else if (formattedAmount.length >= 6) {
+            formattedAmount = formattedAmount.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        }
+
+        return `${formattedAmount}.00`;
+    }
+
+    return '0.00'; // Default case
 };
 
 
