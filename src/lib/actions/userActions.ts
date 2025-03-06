@@ -217,16 +217,12 @@ export const getAllUsers = async () => {
         const allUsers = await database.listDocuments(
             APPWRITE_DATABASE_ID!, 
             APPWRITE_USERS_COLLECTION_ID!,
-            queries: [
-            	Query.limit(1000)
-            ]
+            [Query.limit(1000)]
         );
 
         const profileImages = await storage.listFiles(
             APPWRITE_PAYMENT_METHOD_LOGO_BUCKET_ID!,
-            queries: [
-            	Query.limit(1000)
-            ]
+            [Query.limit(1000)]
         );
        
         return parseStringify({ users: allUsers.documents, images: profileImages.files });
