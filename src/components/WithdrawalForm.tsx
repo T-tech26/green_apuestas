@@ -12,7 +12,6 @@ import Image from 'next/image';
 import AllowVerification from './AllowVerification';
 import { toast } from '@/hooks/use-toast';
 import { adminNotification, createTransaction, getTransactions } from '@/lib/actions/userActions';
-import { useUserSlipContext } from '@/contexts/child_context/userSlipContext';
 import { useTransactionContext } from '@/contexts/child_context/transactionContext';
 import LiveChat from './LiveChat';
 
