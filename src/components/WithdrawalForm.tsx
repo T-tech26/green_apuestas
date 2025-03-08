@@ -1,6 +1,6 @@
-import { BankDetails, PaymentMethods, UserData, VerificationDocument } from '@/types/globals'
+import { BankDetails, PaymentMethods, UserData } from '@/types/globals'
 import { zodResolver } from '@hookform/resolvers/zod';
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { Form, FormControl, FormField, FormMessage } from './ui/form';
@@ -27,7 +27,6 @@ interface WithdrawalFormProps {
 const WithdrawalForm = ({ step, setStep, method }: WithdrawalFormProps) => {
 
     const { user } = useUser();
-    const { verificationDocuments } = useUserSlipContext();
     const { setTransactions } = useTransactionContext();
 
     const [isLoading, setIsLoading] = useState(false);
