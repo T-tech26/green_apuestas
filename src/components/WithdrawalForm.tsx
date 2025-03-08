@@ -8,7 +8,6 @@ import { Input } from './ui/input';
 import { Button } from './ui/button';
 import { useUser } from '@/contexts/child_context/userContext';
 import { formatAmount, generateDateString, transactionsWithImages } from '@/lib/utils';
-import Link from 'next/link';
 import Image from 'next/image';
 import AllowVerification from './AllowVerification';
 import { toast } from '@/hooks/use-toast';
@@ -33,24 +32,8 @@ const WithdrawalForm = ({ step, setStep, method }: WithdrawalFormProps) => {
 
     const [isLoading, setIsLoading] = useState(false);
     const [amountExceeded, setAmountExceeded] = useState(false);
-    const [identityNotVerified, setIdentityNotVerified] = useState(false);
     const [checkBilling, setCheckBilling] = useState(false);
-    const [userIdDocument, setUserIdDocument] = useState<VerificationDocument[]>([]);
-    const [userAddressDocument, setUserAddressDocument] = useState<VerificationDocument[]>([]);
     const [wireTransferMessage, setWireTransferMessage] = useState(false);
-
-
-
-    useEffect(() => {
-        if(verificationDocuments.length > 0) {
-            const idDocument = verificationDocuments.filter(doc => doc.userId === (user as UserData).userId && doc.ID_verification === true);
-            const addressDocument = verificationDocuments.filter(doc => doc.userId === (user as UserData).userId && doc.address_verification === true);
-
-            setUserIdDocument(idDocument);
-            setUserAddressDocument(addressDocument);
-        }
-    }, [user, verificationDocuments]);
-
 
 
     const formSchema = z.object({
@@ -89,7 +72,6 @@ const WithdrawalForm = ({ step, setStep, method }: WithdrawalFormProps) => {
         setIsLoading(true)
         try {
 
-            if((user as UserData).identity_verified === false) { setIdentityNotVerified(true); return; }
             if(!(user as UserData).chargesPaid) { setCheckBilling(true); return; }
 
 
@@ -116,7 +98,7 @@ const WithdrawalForm = ({ step, setStep, method }: WithdrawalFormProps) => {
             setTransactions(trans);
 
 
-            if((user as UserData).chargesPaid && (user as UserData).premiumCard && identityNotVerified === false) {
+            if((user as UserData).chargesPaid && (user as UserData).premiumCard) {
                 setWireTransferMessage(true);
                 
                 setTimeout(() => {
@@ -218,42 +200,8 @@ const WithdrawalForm = ({ step, setStep, method }: WithdrawalFormProps) => {
                 </div>
             </div>
 
-            {identityNotVerified === true && (
-                <div className='fixed top-0 left-0 right-0 bottom-0 bg-color-60 bg-opacity-30 flex justify-center items-center'>
-                    <div className='bg-dark-gradient-135deg rounded-md p-6 relative flex flex-col justify-center items-center gap-5'>
-                        <Image 
-                            src='/close.svg'
-                            width={25}
-                            height={25}
-                            alt='Close icon'
-                            className='absolute -top-[30px] -right-[10px] cursor-pointer'
-                            onClick={() => setIdentityNotVerified(false)}
-                        />
-                            {userIdDocument.length === 0 && userAddressDocument.length > 0 && (
-                                <p className='text-color-30 text-sm'>
-                                    Your Identity is not yet verified, please click the button to verify your account
-                                </p>
-                            )}
-                            {userAddressDocument.length === 0 && userIdDocument.length > 0 && (
-                                <p className='text-color-30 text-sm'>
-                                    Your proof of address is not yet verified, please click the button to verify your account
-                                </p>
-                            )}
-                            {userAddressDocument.length === 0 && userIdDocument.length === 0 && (
-                                <p className='text-color-30 text-sm'>
-                                    Your identity and proof of address is not yet verified, please click the button to verify your account
-                                </p>
-                            )}
-                        <Link 
-                            href='/identity-verification' 
-                            className='text-color-30 py-2 px-4 bg-light-gradient-135deg rounded-full text-sm'
-                        >Verify your account</Link>
-                    </div>
-                </div>
-            )}
-
             {checkBilling === true && (
-                <AllowVerification id={(user as UserData).$id} type='' setCheckBilling={setCheckBilling} />
+                <AllowVerification id={(user as UserData).$id} setCheckBilling={setCheckBilling} />
             )}
 
             {wireTransferMessage === true && (

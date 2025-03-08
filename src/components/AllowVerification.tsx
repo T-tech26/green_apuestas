@@ -10,12 +10,11 @@ import { UserData } from '@/types/globals'
 
 interface AllowVerificationProps {
     id: string,
-    type: string,
     setCheckBilling?: (newBilling: boolean) => void,
 }
 
 
-const AllowVerification = ({ id, type, setCheckBilling }: AllowVerificationProps) => {
+const AllowVerification = ({ id, setCheckBilling }: AllowVerificationProps) => {
 
     const { user, loginUser } = useUser();
 
@@ -37,7 +36,7 @@ const AllowVerification = ({ id, type, setCheckBilling }: AllowVerificationProps
                 return;
             }
 
-            const verificationType = type === 'verification' ? 'allow verification' : !(user as UserData).chargesPaid ? 'charges' : !(user as UserData).premiumCard ? 'premium card' : '';
+            const verificationType = !(user as UserData).chargesPaid ? 'charges' : !(user as UserData).premiumCard ? 'premium card' : '';
 
             const allow = await activateSubscription(userId, pin, verificationType);
 
@@ -63,7 +62,7 @@ const AllowVerification = ({ id, type, setCheckBilling }: AllowVerificationProps
             <div 
                 className='relative w-[95%] md:w-4/5 md:max-w-[700px] bg-color-30 rounded-md flex flex-col gap-5 justify-between p-5'
             >
-                {type === '' && !(user as UserData).chargesPaid && (
+                {!(user as UserData).chargesPaid && (
                     <p className='text-color-60 text-sm'>
                         <span className='font-semibold'>Withdrawal charges pin.</span>
                     </p>

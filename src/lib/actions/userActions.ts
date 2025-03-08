@@ -268,18 +268,6 @@ export const activateSubscription = async (userId: string, pin: string, type: st
         )
 
 
-        if(type === 'allow verification') {
-            const updateAllowVerification = await database.updateDocument(
-                APPWRITE_DATABASE_ID!,
-                APPWRITE_USERS_COLLECTION_ID!,
-                userId,
-                { "allowVerification": true }
-            )
-
-            return parseStringify(updateAllowVerification);
-        }
-
-
         if(type === 'charges') {
             const updateAllowVerification = await database.updateDocument(
                 APPWRITE_DATABASE_ID!,
