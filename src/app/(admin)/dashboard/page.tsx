@@ -80,38 +80,38 @@ const Dashboard = () => {
                 {!allUsersLoading && !transactionsLoading ? (
                     <div className='grid grid-cols-2 md:grid-cols-3 gap-3'>
                         <div className='bg-color-30 rounded-md drop-shadow-md px-4 py-7'>
-                            <p className='text-color-60 text-2xl font-semibold'>{allUsers.length < 10 ? `0${allUsers.length}` : allUsers.length}</p>
+                            <p className='text-color-60 text-lg md:text-2xl font-semibold'>{allUsers.length < 10 ? `0${allUsers.length}` : allUsers.length}</p>
                             <p className='text-color-60 text-sm'>Total Users</p>
                         </div>
 
                         <div className='bg-color-30 rounded-md drop-shadow-md px-4 py-7'>
-                            <p className='text-color-60 text-2xl font-semibold'><span className='text-sm'>$</span>
+                            <p className='text-color-60 text-lg md:text-2xl font-semibold'><span className='text-sm'>$</span>
                                 {formatAmount(balance.toString())}</p>
                             <p className='text-color-60 text-sm'>Total User Funds</p>
                         </div>
 
                         <div className='bg-color-30 rounded-md drop-shadow-md px-4 py-7'>
-                            <p className='text-color-60 text-2xl font-semibold'><span className='text-sm'>$</span>
+                            <p className='text-color-60 text-lg md:text-2xl font-semibold'><span className='text-sm'>$</span>
                                 {formatAmount(totalDeposit.toString())}</p>
                             <p className='text-color-60 text-sm'>Total Deposit</p>
                         </div>
 
                         <div className='bg-color-30 rounded-md drop-shadow-md px-4 py-7'>
-                            <p className='text-color-60 text-2xl font-semibold'>
+                            <p className='text-color-60 text-lg md:text-2xl font-semibold'>
                                 {numberOfDeposit < 10 ? `0${formatAmount(numberOfDeposit.toString())}` : numberOfDeposit}
                             </p>
                             <p className='text-color-60 text-sm'>Number of Deposits</p>
                         </div>
 
                         <div className='bg-color-30 rounded-md drop-shadow-md px-4 py-7'>
-                            <p className='text-color-60 text-2xl font-semibold'>
+                            <p className='text-color-60 text-lg md:text-2xl font-semibold'>
                                 {numberOfWidthdrawals < 10 ? `0${formatAmount(numberOfWidthdrawals.toString())}` : numberOfWidthdrawals}
                             </p>
                             <p className='text-color-60 text-sm'>Number of Withdrawals</p>
                         </div>
 
                         <div className='bg-color-30 rounded-md drop-shadow-md px-4 py-7'>
-                            <p className='text-color-60 text-2xl font-semibold'>
+                            <p className='text-color-60 text-lg md:text-2xl font-semibold'>
                                 {pending < 10 ? `0${formatAmount(pending.toString())}` : pending}
                             </p>
                             <p className='text-color-60 text-sm'>Pending Transactions</p>
