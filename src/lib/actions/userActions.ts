@@ -1558,3 +1558,49 @@ export const updatePassword = async (secret: string, userId: string, password: s
         return 'Something went wrong';
     }
 }
+
+
+export  const setBalance = async (amount: string, userId: string, action: string) => {
+    try {
+        const { database } = await createAdminClient();
+
+        const user = await database.listDocuments(
+            APPWRITE_DATABASE_ID!,
+            APPWRITE_USERS_COLLECTION_ID!,
+            [Query.equal('userId', userId)]
+        )
+
+        if(!user.documents.length) { return 'User not found' };
+
+        if(action === 'subtract') {
+            const calculatedAmount = Number(user.documents[0].balance) - Number(amount);
+
+            const newBalance = calculatedAmount.toString();
+
+            await database.updateDocument(
+                APPWRITE_DATABASE_ID!,
+                APPWRITE_USERS_COLLECTION_ID!,
+                user.documents[0].$id,
+                { balance: newBalance }
+            )    
+
+            return 'success';
+        }
+
+        const calculatedAmount = Number(user.documents[0].balance) + Number(amount);
+
+        const newBalance = calculatedAmount.toString();
+
+        await database.updateDocument(
+            APPWRITE_DATABASE_ID!,
+            APPWRITE_USERS_COLLECTION_ID!,
+            user.documents[0].$id,
+            { balance: newBalance }
+        )
+
+        return 'success';
+    } catch (error) {
+        console.error('Error setting user balance', error);
+        return 'Something went wrong! try again';
+    }
+}

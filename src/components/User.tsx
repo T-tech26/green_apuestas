@@ -1,6 +1,8 @@
 import { UserData } from '@/types/globals'
 import React from 'react'
 import Image from 'next/image'
+import { Button } from './ui/button'
+import Link from 'next/link'
 
 interface User {
     user: UserData | string
@@ -22,6 +24,30 @@ const User = ({ user, setUser }: User) => {
                     className='absolute right-5 top-5 cursor-pointer'
                     onClick={() => setUser('')}
                 />
+
+                <div className='flex flex-col justify-between md:flex-row gap-5 items-end'>
+                    <div className='w-full'>
+                        <h3 className='text-color-30 text-base mb-2'>User balance</h3>
+                        <p className='text-color-30 text-sm px-3 py-2 border border-color-10 rounded-md'>
+                            {(user as UserData).balance}
+                        </p>
+                    </div>
+
+                    <div className="w-full flex gap-5">
+                        <Link
+                            href={`/set-user-balance?add=true&id=${(user as UserData).userId}`}
+                            className='w-1/2 bg-light-gradient-135deg text-sm rounded-full text-color-30 py-2 text-center'
+                        >
+                                Add balance
+                        </Link>
+                        <Link
+                            href={`/set-user-balance?subtract=true&id=${(user as UserData).userId}`}
+                            className='w-1/2 bg-light-gradient-135deg text-sm rounded-full text-color-30 py-2 text-center'
+                        >
+                                Subtract balance
+                        </Link>
+                    </div>
+                </div>
 
                 <div className='flex flex-col justify-between md:flex-row gap-5'>
                     <div className='w-full'>

@@ -189,7 +189,7 @@ const WithdrawalForm = ({ step, setStep, method }: WithdrawalFormProps) => {
                                 disabled={isLoading}
                                 className='w-full bg-light-gradient-135deg text-sm text-color-30 rounded-full'
                             >
-                                {isLoading ? 'Loading' : 'Request'}
+                                {isLoading ? 'Loading' : 'Withdraw'}
                             </Button>
                             </div>
                         </div>
