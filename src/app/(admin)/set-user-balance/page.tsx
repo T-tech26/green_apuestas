@@ -34,10 +34,11 @@ const UserBalance = () => {
                     })
                 }
             }
-        } catch () {
+        } catch (error) {
            toast({
                 description: 'Something unexpected happened! try again'
-           })
+           });
+           console.error('Error setting user balance', error);
         } finally {
             if(action === 'add') { setAddAmount('') }
             if(action === 'subtract') { setSubtractAmount('') }
