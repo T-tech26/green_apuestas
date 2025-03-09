@@ -34,10 +34,10 @@ const UserBalance = () => {
                     })
                 }
             }
-        } catch (error) {
+        } catch () {
            toast({
                 description: 'Something unexpected happened! try again'
-           }) 
+           })
         } finally {
             if(action === 'add') { setAddAmount('') }
             if(action === 'subtract') { setSubtractAmount('') }
@@ -74,7 +74,7 @@ const UserBalance = () => {
             </main>
         )
     }
-    
+
 
     return (
         <main className='flex-1 py-14 overflow-x-hidden overflow-y-scroll'>
