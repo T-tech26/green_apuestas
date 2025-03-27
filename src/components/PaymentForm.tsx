@@ -214,7 +214,7 @@ const PaymentForm = ({ methodType, setMethod }: MethodProps) => {
                                                     >
                                                         <Input
                                                             id='amount'
-                                                            placeholder='enter amount'
+                                                            placeholder='Enter amount in USD'
                                                             type='text'
                                                             {...form.register('amount')}
                                                             value={amount}
