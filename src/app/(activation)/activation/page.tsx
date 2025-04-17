@@ -101,7 +101,7 @@ const Activation = () => {
 
       <main className="flex-1 flex flex-col items-center justify-center gap-5">
         <h1 className='text-color-30 text-lg md:text-3xl text-wrap'>
-          Green apuestas activation pin
+          VIP activation pin
         </h1>
 
         <div className="flex flex-col justify-between item-center gap-10 w-4/5 md:w-[500px]">
@@ -146,7 +146,7 @@ const Activation = () => {
             <p className='text-color-30'>Already have an acccount? <Link href='/signin' className='text-color-10 underline cursor-pointer'>Signin</Link></p>
 
             <p className='text-color-30'>
-              Don&apos;t know what to do click &nbsp; 
+              Don&apos;t know what to do? click &nbsp; 
               <span 
                 className='text-color-10 underline cursor-pointer'
                 onClick={() => showHelpMessage ? setShowHelpMessage(false) : setShowHelpMessage(true)} 
@@ -155,7 +155,7 @@ const Activation = () => {
 
             <p className='text-color-30'>
                 {showHelpMessage &&
-                  'Contact our live chat to get instructions on how to get your Subscription pin.'
+                  'Contact our live chat to get instructions on how to get your VIP activation pin.'
                 }
             </p>
           </div>

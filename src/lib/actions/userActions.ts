@@ -154,6 +154,7 @@ export const getLoggedInUser = async (): Promise<UserDataWithImage | AdminDataWi
             const adminProfileImg = await database.listDocuments(
                 APPWRITE_DATABASE_ID!,
                 APPWRITE_ADMIN_PROFILE_IMAGE_COLLECTION_ID!,
+                [Query.limit(1000)]
             )
 
             if(adminProfileImg.documents.length > 0) {
@@ -383,6 +384,7 @@ export const getActivationPins = async () => {
         const pins = await database.listDocuments(
             APPWRITE_DATABASE_ID!, 
             APPWRITE_USED_CODE_COLLECTION_ID!, 
+            [Query.limit(1000)]
         );
 
         return parseStringify(pins.documents);
@@ -420,6 +422,7 @@ export const deleteActivationPin = async (id: string, code: string) => {
         const pins = await database.listDocuments(
             APPWRITE_DATABASE_ID!, 
             APPWRITE_USED_CODE_COLLECTION_ID!, 
+            [Query.limit(1000)]
         );
 
         return parseStringify(pins.documents);
@@ -472,10 +475,12 @@ export const getPaymentMethods = async (): Promise<Payment | string> => {
         const methods = await database.listDocuments(
             APPWRITE_DATABASE_ID!,
             APPWRITE_PAYMENT_METHOD_COLLECTION_ID!,
+            [Query.limit(1000)]
         );
 
         const methodLogos = await storage.listFiles(
-            APPWRITE_PAYMENT_METHOD_LOGO_BUCKET_ID!
+            APPWRITE_PAYMENT_METHOD_LOGO_BUCKET_ID!,
+            [Query.limit(1000)]
         );
 
         return parseStringify({ method: methods.documents, logo: methodLogos.files });
@@ -648,10 +653,12 @@ export const getTransactions = async (): Promise<Transactions | string> => {
         const transactions = await database.listDocuments(
             APPWRITE_DATABASE_ID!,
             APPWRITE_TRANSACTION_COLLECTION_ID!,
+            [Query.limit(1000)]
         );
 
         const reciepts = await storage.listFiles(
-            APPWRITE_PAYMENT_RECIEPT_LOGO_BUCKET_ID!
+            APPWRITE_PAYMENT_RECIEPT_LOGO_BUCKET_ID!,
+            [Query.limit(1000)]
         )
 
         return parseStringify({ transactions: transactions.documents, reciepts: reciepts.files });
@@ -718,6 +725,7 @@ export const getUserNotification = async () => {
         const notifications = await database.listDocuments(
             APPWRITE_DATABASE_ID!,
             APPWRITE_USER_NOTIFICATION_COLLECTION_ID!,
+            [Query.limit(1000)]
         );
 
         return parseStringify(notifications.documents);
@@ -825,6 +833,7 @@ export const getGameTickets = async () => {
         const slips = await database.listDocuments(
             APPWRITE_DATABASE_ID!,
             APPWRITE_USER_BETS_COLLECTION_ID!,
+            [Query.limit(1000)]
         );
 
         return parseStringify(slips.documents);
@@ -912,6 +921,7 @@ export const getAdminNotification = async () => {
         const notifications = await database.listDocuments(
             APPWRITE_DATABASE_ID!,
             APPWRITE_ADMIN_NOTIFICATION_COLLECTION_ID!,
+            [Query.limit(1000)]
         );
 
         return parseStringify(notifications.documents);
@@ -1017,6 +1027,7 @@ export const getBankDetails = async () => {
         const detailsList = await database.listDocuments(
             APPWRITE_DATABASE_ID!,
             APPWRITE_BANK_DETAILS_COLLECTION_ID!,
+            [Query.limit(1000)]
         )
 
         return parseStringify(detailsList.documents);
@@ -1106,10 +1117,12 @@ export const getVerificationDocuments = async (): Promise<VerificationDocuments 
         const documents = await database.listDocuments(
             APPWRITE_DATABASE_ID!,
             APPWRITE_VERIFICATION_DOCUMENT_COLLECTION_ID!,
+            [Query.limit(1000)]
         );
 
         const documentFiles = await storage.listFiles(
-            APPWRITE_VERIFICATION_DOCUMENT_BUCKET_ID!
+            APPWRITE_VERIFICATION_DOCUMENT_BUCKET_ID!,
+            [Query.limit(1000)]
         );
 
         return parseStringify({ documents: documents.documents, files: documentFiles.files });
@@ -1246,7 +1259,8 @@ export const createProfileImage = async (image: File, userId: string, userType: 
         if(userType === 'admin') {
             const adminImg = await database.listDocuments(
                 APPWRITE_DATABASE_ID!,
-                APPWRITE_ADMIN_PROFILE_IMAGE_COLLECTION_ID!
+                APPWRITE_ADMIN_PROFILE_IMAGE_COLLECTION_ID!,
+                [Query.limit(1000)]
             )
 
             if(adminImg.documents.length > 0) {
