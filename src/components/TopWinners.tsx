@@ -12,7 +12,7 @@ const TopWinners = () => {
         }, 5000);
 
         return () => clearInterval(timer);
-    }, []);
+    }, [nameIndex]);
 
 
     return (

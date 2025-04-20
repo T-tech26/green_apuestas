@@ -136,6 +136,80 @@ body {
 }
 
 
+.image {
+  position: absolute;
+  object-fit: cover;
+  opacity: 0;
+  animation: slideIn 15s infinite;
+}
+
+.image1 {
+  animation-delay: 0s;
+}
+
+.image2 {
+  animation-delay: 5s;
+}
+
+.image3 {
+  animation-delay: 10s;
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  10% {
+    transform: translateX(0%);
+    opacity: 1;
+  }
+  30% {
+    transform: translateX(0%);
+    opacity: 1;
+  }
+  40% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+}
+
+
+.heroText {
+  animation-name: showHeroText;
+  animation-duration: 15s;
+  animation-iteration-count: infinite;
+}
+
+
+@keyframes showHeroText {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  10% {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+  30% {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+  40% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+} 
+
+
 
 @layer utilities {
   .header {

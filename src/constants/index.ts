@@ -439,3 +439,36 @@ export const DisplayNames = [
         text: 'Gabriel Dumont won $22,600'
     },
 ]
+
+
+
+export const HeaderImages = [
+    {
+        id: 1,
+        src: '/header_img_3.svg',
+        alt: 'football image',
+        titleText: '100% Accurate',
+        subTitleText: 'Correct Score Bets',
+    },
+    {
+        id: 2,
+        src: '/home-header-img.svg',
+        alt: 'cricket image',
+        titleText: '100% Accurate',
+        subTitleText: 'American Football Predictions',
+    },
+    {
+        id: 3,
+        src: '/header_img_2.svg',
+        alt: 'basketball image',
+        titleText: '100% Accurate',
+        subTitleText: 'Basketball Predictions',
+    },
+    {
+        id: 4,
+        src: '/header_img_2.svg',
+        alt: 'basketball image',
+        titleText: '100% Accurate',
+        subTitleText: 'Basketball Predictions',
+    },
+]
