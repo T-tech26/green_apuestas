@@ -7,7 +7,7 @@ const Footer = () => {
     const currentYear = new Date().getFullYear();
 
     return (
-        <footer
+        <div
             className='bg-color-10 flex flex-col'
         >
             <div className='py-3 px-[29px] xl:px-[160px]'>
@@ -93,7 +93,7 @@ const Footer = () => {
             <div className="py-4 px-[29px] lg:px-[160px]">
                 <h3 className='text-color-30 text-sm text-center'>Copyrights © {currentYear}. All rights reserved.</h3>
             </div>
-        </footer>
+        </div>
     )
 }
 
