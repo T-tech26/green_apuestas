@@ -47,7 +47,7 @@ const Footer = () => {
 
                     <h3 className='text-color-30 text-nowrap text-base font-medium'>Chat us</h3>
                     <Link 
-                        href='https://wa.me/34651024934' 
+                        href='https://wa.me/351967529966 
                         className='text-color-30 text-nowrap text-sm flex gap-1 items-center hover:text-color-10'
                         target='_blank'
                     >
@@ -56,7 +56,7 @@ const Footer = () => {
                             width={24}
                             height={24}
                             alt='mail icon'
-                        /> +34 651 024 934
+                        /> +351 967 529 966
                     </Link>
                 </div>
 
