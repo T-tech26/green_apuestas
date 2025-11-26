@@ -7,7 +7,7 @@ const Footer = () => {
     const currentYear = new Date().getFullYear();
 
     return (
-        <div
+        <footer
             className='bg-color-10 flex flex-col'
         >
             <div className='py-3 px-[29px] xl:px-[160px]'>
@@ -47,7 +47,7 @@ const Footer = () => {
 
                     <h3 className='text-color-30 text-nowrap text-base font-medium'>Chat us</h3>
                     <Link 
-                        href='https://wa.me/351967529966 
+                        href='https://wa.me/351967529966'
                         className='text-color-30 text-nowrap text-sm flex gap-1 items-center hover:text-color-10'
                         target='_blank'
                     >
@@ -93,7 +93,7 @@ const Footer = () => {
             <div className="py-4 px-[29px] lg:px-[160px]">
                 <h3 className='text-color-30 text-sm text-center'>Copyrights © {currentYear}. All rights reserved.</h3>
             </div>
-        </div>
+        </footer>
     )
 }
 
