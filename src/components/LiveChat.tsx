@@ -6,7 +6,7 @@ const LiveChat = () => {
     return (
         <Link
             target='_blank'
-            href='https://wa.me/351967529966'
+            href='https://t.me/Futboladmn'
             className='fixed bottom-8 right-8'
         >
             <Image
