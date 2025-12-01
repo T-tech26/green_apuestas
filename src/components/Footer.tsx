@@ -52,7 +52,7 @@ const Footer = () => {
                         target='_blank'
                     >
                         <Image 
-                            src='/whatsapp-icon-nofill.svg' 
+                            src='/telegram-brands-solid-full.svg' 
                             width={24}
                             height={24}
                             alt='mail icon'
