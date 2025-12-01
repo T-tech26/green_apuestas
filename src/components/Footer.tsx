@@ -53,10 +53,10 @@ const Footer = () => {
                     >
                         <Image 
                             src='/telegram-brands-solid-full.svg' 
-                            width={24}
-                            height={24}
+                            width={26}
+                            height={26}
                             alt='mail icon'
-                        /> +351 967 529 966
+                        />
                     </Link>
                 </div>
 
