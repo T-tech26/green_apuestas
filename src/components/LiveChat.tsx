@@ -11,8 +11,8 @@ const LiveChat = () => {
         >
             <Image
                 src='/telegram-brands-solid-full1.svg'
-                width={50}
-                height={50}
+                width={60}
+                height={60}
                 alt='whatsapp contact'
             />
         </Link>
