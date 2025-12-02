@@ -10,7 +10,7 @@ const LiveChat = () => {
             className='fixed bottom-8 right-8'
         >
             <Image
-                src='/whatsapp.png'
+                src='/telegram-brands-solid-full.svg'
                 width={50}
                 height={50}
                 alt='whatsapp contact'
