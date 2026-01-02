@@ -221,8 +221,6 @@ export const getAllUsers = async () => {
             [Query.limit(1000)]
         );
 
-        console.log(allUsers.documents.length);
-
         const profileImages = await storage.listFiles(
             APPWRITE_PAYMENT_METHOD_LOGO_BUCKET_ID!,
             [Query.limit(1000)]
